@@ -1,0 +1,836 @@
+{
+  "version": "V0.2",
+  "fecha": "2026-08-26",
+  "modulo": "animales",
+  "instruccion_sites": "Incorporar exclusivamente estos datos en los datasets existentes. No investigar por Internet, no completar artículos, calificaciones, cuantías ni criterios. Si existe conflicto con datos actuales del site, informar antes de sustituir. No crear páginas/componentes específicos: usar el motor genérico y CaseSheet.",
+  "categorias": [
+    {
+      "id": "animales_identificacion",
+      "modulo": "animales",
+      "nombre": "Identificación y registro",
+      "orden": 10,
+      "activo": true
+    },
+    {
+      "id": "animales_ppp",
+      "modulo": "animales",
+      "nombre": "Perros potencialmente peligrosos (PPP)",
+      "orden": 20,
+      "activo": true
+    },
+    {
+      "id": "animales_sanidad",
+      "modulo": "animales",
+      "nombre": "Sanidad",
+      "orden": 30,
+      "activo": true
+    },
+    {
+      "id": "animales_abandono",
+      "modulo": "animales",
+      "nombre": "Abandono y recogida",
+      "orden": 40,
+      "activo": true
+    },
+    {
+      "id": "animales_convivencia",
+      "modulo": "animales",
+      "nombre": "Convivencia y tenencia",
+      "orden": 50,
+      "activo": true
+    }
+  ],
+  "reglas": [
+    {
+      "id": "GEN-JUR-001",
+      "nombre": "Preferencia de la vía penal y principio non bis in idem",
+      "tipo": "alerta_penal",
+      "contenido": "Cuando unos mismos hechos puedan tener simultáneamente relevancia administrativa y penal, documentar la infracción administrativa que proceda y valorar la instrucción de diligencias penales. La vía penal tiene preferencia en los términos legalmente establecidos. No puede imponerse doble sanción por los mismos hechos cuando concurra identidad de sujeto, hecho y fundamento. Si la vía penal finaliza sin condena y jurídicamente procede, la vía administrativa podrá iniciarse o reanudarse, respetando los hechos declarados probados judicialmente.",
+      "activo": true
+    }
+  ],
+  "casos": [
+    {
+      "id": "AN-OP-001",
+      "modulo": "animales",
+      "categoria": "animales_identificacion",
+      "titulo": "Perro sin identificación obligatoria",
+      "palabras_clave": [
+        "perro",
+        "microchip",
+        "chip",
+        "identificación",
+        "registro"
+      ],
+      "que_comprobar": [
+        "Comprobar la existencia de microchip mediante lector.",
+        "Comprobar que la identificación está correctamente inscrita en el registro correspondiente.",
+        "Identificar al propietario o responsable.",
+        "Documentar qué comprobaciones se han realizado y cuál ha sido el resultado."
+      ],
+      "resultado": "Existe posible infracción si se confirma el incumplimiento de la obligación de identificación. La identificación física (chip) y la inscripción registral forman parte del sistema de identificación.",
+      "norma": "Ley 2/2023 de la Comunitat Valenciana",
+      "articulo": "42.3.mm",
+      "calificacion": "grave",
+      "rango_min": 3001,
+      "rango_max": 9000,
+      "actuacion": [
+        "Comprobar chip y registro.",
+        "Identificar al propietario o responsable.",
+        "Documentar las comprobaciones realizadas y lo averiguado.",
+        "Formular la correspondiente denuncia si se acredita la infracción.",
+        "Informar al propietario de la obligación de identificar y registrar al animal."
+      ],
+      "competencia_denuncia": "Policía Local",
+      "competencia_resuelve": "Ayuntamiento de Torrent",
+      "advertencias": [
+        "No confundir falta de identificación obligatoria con mero incumplimiento censal municipal."
+      ],
+      "alerta_penal": false,
+      "referencia_penal": null,
+      "regla_transversal": null,
+      "fuentes": [
+        "AN-SRC-018",
+        "AN-SRC-023"
+      ],
+      "fichas_juridicas": [
+        "AN-JUR-008"
+      ],
+      "estado": "validado"
+    },
+    {
+      "id": "AN-OP-002",
+      "modulo": "animales",
+      "categoria": "animales_identificacion",
+      "titulo": "Perro o gato no censado",
+      "palabras_clave": [
+        "perro",
+        "gato",
+        "censo",
+        "censado",
+        "censo municipal"
+      ],
+      "que_comprobar": [
+        "Identificar al animal y a su responsable.",
+        "Comprobar si consta en el Censo Municipal de Animales de Compañía o sistema censal municipal aplicable.",
+        "Diferenciar censo municipal de microchip e inscripción registral."
+      ],
+      "resultado": "Posible infracción municipal por posesión de perro o gato no censado.",
+      "norma": "Ordenanza Municipal sobre Tenencia de Animales de Torrent",
+      "articulo": "65.2",
+      "calificacion": null,
+      "rango_min": null,
+      "rango_max": null,
+      "actuacion": [
+        "Identificar al responsable y al animal.",
+        "Documentar la comprobación censal y su resultado.",
+        "Formular denuncia municipal si se acredita la falta de censo.",
+        "Informar de la obligación de regularizar el censo y mantener los datos actualizados."
+      ],
+      "competencia_denuncia": "Policía Local",
+      "competencia_resuelve": "Ayuntamiento de Torrent",
+      "advertencias": [
+        "Obligación material relacionada con los arts. 28-32 de la OTA.",
+        "No confundir con falta de microchip o falta de inscripción registral."
+      ],
+      "alerta_penal": false,
+      "referencia_penal": null,
+      "regla_transversal": null,
+      "fuentes": [
+        "OTA-TORRENT"
+      ],
+      "fichas_juridicas": [
+        "AN-JUR-009"
+      ],
+      "estado": "validado",
+      "datos_adicionales": {
+        "articulos_relacionados": [
+          "28",
+          "29",
+          "30",
+          "31",
+          "32"
+        ]
+      }
+    },
+    {
+      "id": "AN-OP-003",
+      "modulo": "animales",
+      "categoria": "animales_ppp",
+      "titulo": "PPP sin licencia",
+      "palabras_clave": [
+        "PPP",
+        "licencia",
+        "perro peligroso",
+        "potencialmente peligroso"
+      ],
+      "que_comprobar": [
+        "Confirmar que el animal está sometido al régimen PPP.",
+        "Identificar a la persona que lo posee/conduce/controla.",
+        "Comprobar la existencia y vigencia de licencia PPP.",
+        "Documentar la comprobación y su resultado."
+      ],
+      "resultado": "Tener un animal potencialmente peligroso sin licencia administrativa.",
+      "norma": "Ley 50/1999",
+      "articulo": "13.1.b",
+      "calificacion": "muy grave",
+      "rango_min": 2404.06,
+      "rango_max": 15025.3,
+      "actuacion": [
+        "Identificar a la persona y al animal.",
+        "Comprobar la licencia en los sistemas/documentación disponibles.",
+        "Documentar exactamente la carencia comprobada.",
+        "Formular denuncia por el cauce PPP de Torrent.",
+        "Informar de la obligación de disponer de licencia vigente."
+      ],
+      "competencia_denuncia": "Policía Local",
+      "competencia_resuelve": "Ayuntamiento de Torrent",
+      "advertencias": [
+        "NO PORTAR ≠ CARECER. No afirmar que carece de licencia sin comprobarlo cuando su existencia pueda verificarse.",
+        "La carencia documental no implica por sí sola retirada automática del animal."
+      ],
+      "alerta_penal": false,
+      "referencia_penal": null,
+      "regla_transversal": null,
+      "fuentes": [
+        "AN-SRC-004",
+        "AN-SRC-005",
+        "AN-SRC-027"
+      ],
+      "fichas_juridicas": [
+        "AN-JUR-015"
+      ],
+      "estado": "validado",
+      "datos_adicionales": {
+        "cauce_torrent": "Acta PPP + boletín OCC + art. 7.m + referencia a Ley 50/1999 y artículo infringido."
+      }
+    },
+    {
+      "id": "AN-OP-004",
+      "modulo": "animales",
+      "categoria": "animales_ppp",
+      "titulo": "PPP sin identificación",
+      "palabras_clave": [
+        "PPP",
+        "microchip",
+        "chip",
+        "identificación"
+      ],
+      "que_comprobar": [
+        "Confirmar condición de PPP.",
+        "Comprobar microchip con lector.",
+        "Comprobar inscripción asociada cuando proceda.",
+        "Identificar al responsable y documentar resultados."
+      ],
+      "resultado": "Incumplimiento de la obligación de identificación del animal potencialmente peligroso.",
+      "norma": "Ley 50/1999",
+      "articulo": "13.2.b",
+      "calificacion": "grave",
+      "rango_min": 300.52,
+      "rango_max": 2404.05,
+      "actuacion": [
+        "Comprobar microchip e identificación registral.",
+        "Identificar al responsable.",
+        "Documentar la ausencia o irregularidad constatada.",
+        "Formular denuncia por el cauce PPP.",
+        "Informar de la obligación de identificar al animal."
+      ],
+      "competencia_denuncia": "Policía Local",
+      "competencia_resuelve": "Ayuntamiento de Torrent",
+      "advertencias": [],
+      "alerta_penal": false,
+      "referencia_penal": null,
+      "regla_transversal": null,
+      "fuentes": [
+        "AN-SRC-004",
+        "AN-SRC-005",
+        "AN-SRC-027"
+      ],
+      "fichas_juridicas": [
+        "AN-JUR-016"
+      ],
+      "estado": "validado"
+    },
+    {
+      "id": "AN-OP-005",
+      "modulo": "animales",
+      "categoria": "animales_ppp",
+      "titulo": "PPP no inscrito en el registro correspondiente",
+      "palabras_clave": [
+        "PPP",
+        "registro",
+        "inscripción",
+        "registro PPP"
+      ],
+      "que_comprobar": [
+        "Confirmar condición de PPP.",
+        "Comprobar si el animal consta inscrito en el registro PPP correspondiente.",
+        "Identificar al responsable.",
+        "Documentar la consulta y su resultado."
+      ],
+      "resultado": "Omisión de la inscripción del animal potencialmente peligroso en el registro correspondiente.",
+      "norma": "Ley 50/1999",
+      "articulo": "13.2.c",
+      "calificacion": "grave",
+      "rango_min": 300.52,
+      "rango_max": 2404.05,
+      "actuacion": [
+        "Comprobar inscripción.",
+        "Identificar al responsable.",
+        "Documentar el resultado.",
+        "Formular denuncia por el cauce PPP.",
+        "Informar de la obligación de inscripción."
+      ],
+      "competencia_denuncia": "Policía Local",
+      "competencia_resuelve": "Ayuntamiento de Torrent",
+      "advertencias": [],
+      "alerta_penal": false,
+      "referencia_penal": null,
+      "regla_transversal": null,
+      "fuentes": [
+        "AN-SRC-004",
+        "AN-SRC-005",
+        "AN-SRC-027"
+      ],
+      "fichas_juridicas": [
+        "AN-JUR-017"
+      ],
+      "estado": "validado"
+    },
+    {
+      "id": "AN-OP-006",
+      "modulo": "animales",
+      "categoria": "animales_ppp",
+      "titulo": "PPP sin bozal",
+      "palabras_clave": [
+        "PPP",
+        "bozal",
+        "vía pública",
+        "lugar público"
+      ],
+      "que_comprobar": [
+        "Confirmar condición de PPP.",
+        "Comprobar que se encuentra en lugar o espacio público.",
+        "Constatar la ausencia efectiva de bozal.",
+        "Identificar al conductor y comprobar documentación."
+      ],
+      "resultado": "PPP en lugar público sin bozal reglamentario.",
+      "norma": "Ley 50/1999",
+      "articulo": "13.2.d",
+      "calificacion": "grave",
+      "rango_min": 300.52,
+      "rango_max": 2404.05,
+      "actuacion": [
+        "Identificar al conductor y al animal.",
+        "Documentar lugar, circunstancias y ausencia de bozal.",
+        "Comprobar el resto de requisitos PPP sin generar duplicidades automáticas.",
+        "Formular denuncia por el cauce PPP.",
+        "Informar de la obligación de utilizar bozal adecuado."
+      ],
+      "competencia_denuncia": "Policía Local",
+      "competencia_resuelve": "Ayuntamiento de Torrent",
+      "advertencias": [
+        "Comprobar también la sujeción reglamentaria, describiendo por separado cada hecho."
+      ],
+      "alerta_penal": false,
+      "referencia_penal": null,
+      "regla_transversal": null,
+      "fuentes": [
+        "AN-SRC-004",
+        "AN-SRC-005",
+        "AN-SRC-027"
+      ],
+      "fichas_juridicas": [
+        "AN-JUR-019"
+      ],
+      "estado": "validado"
+    },
+    {
+      "id": "AN-OP-007",
+      "modulo": "animales",
+      "categoria": "animales_ppp",
+      "titulo": "PPP sin sujeción reglamentaria",
+      "palabras_clave": [
+        "PPP",
+        "correa",
+        "sujeción",
+        "correa extensible",
+        "dos metros"
+      ],
+      "que_comprobar": [
+        "Confirmar condición de PPP.",
+        "Comprobar lugar o espacio público.",
+        "Comprobar tipo y longitud de la correa/sistema de sujeción.",
+        "Comprobar el número de PPP conducidos por la misma persona."
+      ],
+      "resultado": "PPP en lugar público sin la sujeción reglamentaria.",
+      "norma": "Ley 50/1999",
+      "articulo": "13.2.d",
+      "calificacion": "grave",
+      "rango_min": 300.52,
+      "rango_max": 2404.05,
+      "actuacion": [
+        "Identificar al conductor y al animal.",
+        "Documentar el sistema de sujeción utilizado y sus características.",
+        "Comprobar que la correa no sea extensible y sea de menos de 2 metros.",
+        "Comprobar que no se conduzca más de un PPP por persona.",
+        "Formular denuncia si se acredita el incumplimiento."
+      ],
+      "competencia_denuncia": "Policía Local",
+      "competencia_resuelve": "Ayuntamiento de Torrent",
+      "advertencias": [
+        "Evitar duplicidades sancionadoras innecesarias; describir hechos separados."
+      ],
+      "alerta_penal": false,
+      "referencia_penal": null,
+      "regla_transversal": null,
+      "fuentes": [
+        "AN-SRC-004",
+        "AN-SRC-005",
+        "AN-SRC-027"
+      ],
+      "fichas_juridicas": [
+        "AN-JUR-020"
+      ],
+      "estado": "validado"
+    },
+    {
+      "id": "AN-OP-008",
+      "modulo": "animales",
+      "categoria": "animales_ppp",
+      "titulo": "PPP suelto o sin medidas para evitar escapada/extravío",
+      "palabras_clave": [
+        "PPP",
+        "suelto",
+        "escapada",
+        "extravío",
+        "fuga"
+      ],
+      "que_comprobar": [
+        "Confirmar condición de PPP.",
+        "Determinar si estaba suelto o existían medidas insuficientes para evitar la escapada/extravío.",
+        "Identificar al responsable.",
+        "Documentar lugar, recinto, cierres, sujeciones y circunstancias."
+      ],
+      "resultado": "Dejar suelto un PPP o no adoptar las medidas necesarias para evitar su escapada o extravío.",
+      "norma": "Ley 50/1999",
+      "articulo": "13.2.a",
+      "calificacion": "grave",
+      "rango_min": 300.52,
+      "rango_max": 2404.05,
+      "actuacion": [
+        "Controlar/proteger el animal y evitar riesgos.",
+        "Identificar al responsable.",
+        "Documentar las medidas existentes y por qué resultaron insuficientes.",
+        "Formular denuncia por el cauce PPP.",
+        "Informar de la obligación de adoptar medidas eficaces de control."
+      ],
+      "competencia_denuncia": "Policía Local",
+      "competencia_resuelve": "Ayuntamiento de Torrent",
+      "advertencias": [],
+      "alerta_penal": false,
+      "referencia_penal": null,
+      "regla_transversal": null,
+      "fuentes": [
+        "AN-SRC-004",
+        "AN-SRC-005",
+        "AN-SRC-027"
+      ],
+      "fichas_juridicas": [
+        "AN-JUR-021"
+      ],
+      "estado": "validado"
+    },
+    {
+      "id": "AN-OP-009",
+      "modulo": "animales",
+      "categoria": "animales_ppp",
+      "titulo": "Negativa o resistencia a facilitar datos/documentación PPP",
+      "palabras_clave": [
+        "PPP",
+        "negativa",
+        "resistencia",
+        "documentación",
+        "datos falsos"
+      ],
+      "que_comprobar": [
+        "Realizar un requerimiento claro de datos o documentación legalmente exigible.",
+        "Identificar qué documento o dato se solicita.",
+        "Documentar la negativa, resistencia o la información inexacta/falsa."
+      ],
+      "resultado": "Negativa o resistencia a suministrar datos o facilitar información requerida por autoridades/agentes, o suministro de información inexacta/documentación falsa en los términos de la Ley 50/1999.",
+      "norma": "Ley 50/1999",
+      "articulo": "13.2.f",
+      "calificacion": "grave",
+      "rango_min": 300.52,
+      "rango_max": 2404.05,
+      "actuacion": [
+        "Documentar el requerimiento efectuado.",
+        "Hacer constar la respuesta concreta de la persona requerida.",
+        "Comprobar por otros medios la información disponible.",
+        "Formular denuncia cuando concurran los elementos del tipo."
+      ],
+      "competencia_denuncia": "Policía Local",
+      "competencia_resuelve": "Ayuntamiento de Torrent",
+      "advertencias": [],
+      "alerta_penal": false,
+      "referencia_penal": null,
+      "regla_transversal": null,
+      "fuentes": [
+        "AN-SRC-004",
+        "AN-SRC-005",
+        "AN-SRC-027"
+      ],
+      "fichas_juridicas": [
+        "AN-JUR-023"
+      ],
+      "estado": "validado"
+    },
+    {
+      "id": "AN-OP-010",
+      "modulo": "animales",
+      "categoria": "animales_sanidad",
+      "titulo": "Vacunación antirrábica obligatoria no realizada",
+      "palabras_clave": [
+        "vacuna",
+        "rabia",
+        "antirrábica",
+        "vacunación",
+        "pasaporte"
+      ],
+      "que_comprobar": [
+        "Identificar al animal y responsable.",
+        "Comprobar microchip.",
+        "Revisar pasaporte/documentación sanitaria.",
+        "Confirmar que la vacunación era obligatoria y que no está vigente/realizada."
+      ],
+      "resultado": "Incumplimiento de un tratamiento preventivo declarado obligatorio, cuando la vacunación antirrábica resulte exigible.",
+      "norma": "Ley 2/2023 de la Comunitat Valenciana",
+      "articulo": "42.3.t",
+      "calificacion": "grave",
+      "rango_min": 3001,
+      "rango_max": 9000,
+      "actuacion": [
+        "Comprobar identificación y documentación sanitaria.",
+        "Documentar fecha de última vacunación, vigencia y resultado de la comprobación.",
+        "Formular denuncia si se confirma el incumplimiento.",
+        "Informar de la obligación de regularizar la vacunación con veterinario autorizado."
+      ],
+      "competencia_denuncia": "Policía Local",
+      "competencia_resuelve": "Ayuntamiento de Torrent",
+      "advertencias": [
+        "La obligación concreta de vacunación antirrábica se determina conforme a la normativa sanitaria valenciana vigente, incluida la Orden 3/2016 en lo compatible."
+      ],
+      "alerta_penal": false,
+      "referencia_penal": null,
+      "regla_transversal": null,
+      "fuentes": [
+        "AN-SRC-018",
+        "AN-SRC-026"
+      ],
+      "fichas_juridicas": [
+        "AN-JUR-025"
+      ],
+      "estado": "validado"
+    },
+    {
+      "id": "AN-OP-011",
+      "modulo": "animales",
+      "categoria": "animales_sanidad",
+      "titulo": "Tratamiento preventivo obligatorio no realizado",
+      "palabras_clave": [
+        "tratamiento",
+        "preventivo",
+        "obligatorio",
+        "sanidad",
+        "veterinario"
+      ],
+      "que_comprobar": [
+        "Identificar animal y responsable.",
+        "Confirmar que el tratamiento estaba declarado obligatorio.",
+        "Comprobar documentación sanitaria disponible.",
+        "Documentar el incumplimiento concreto."
+      ],
+      "resultado": "No proporcionar al animal un tratamiento preventivo declarado obligatorio.",
+      "norma": "Ley 2/2023 de la Comunitat Valenciana",
+      "articulo": "42.3.t",
+      "calificacion": "grave",
+      "rango_min": 3001,
+      "rango_max": 9000,
+      "actuacion": [
+        "Comprobar la obligación concreta aplicable.",
+        "Documentar tratamiento, fechas y documentación revisada.",
+        "Formular denuncia cuando se acredite el incumplimiento.",
+        "Informar de la obligación de regularización veterinaria."
+      ],
+      "competencia_denuncia": "Policía Local",
+      "competencia_resuelve": "Ayuntamiento de Torrent",
+      "advertencias": [],
+      "alerta_penal": false,
+      "referencia_penal": null,
+      "regla_transversal": null,
+      "fuentes": [
+        "AN-SRC-018",
+        "AN-SRC-026"
+      ],
+      "fichas_juridicas": [
+        "AN-JUR-024"
+      ],
+      "estado": "validado"
+    },
+    {
+      "id": "AN-OP-012",
+      "modulo": "animales",
+      "categoria": "animales_abandono",
+      "titulo": "Animal abandonado",
+      "palabras_clave": [
+        "abandono",
+        "abandonado",
+        "340 ter",
+        "animal solo"
+      ],
+      "que_comprobar": [
+        "Identificar al animal mediante microchip/registro cuando sea posible.",
+        "Identificar al responsable.",
+        "Documentar lugar, tiempo, estado, agua/alimento/refugio, temperatura, tráfico y otros riesgos.",
+        "Comprobar testigos, cámaras u otros elementos de prueba.",
+        "Valorar si las condiciones pueden poner en peligro la vida o integridad del animal."
+      ],
+      "resultado": "Abandono de animal de compañía. Si las circunstancias generan peligro para la vida o integridad, debe valorarse además la posible relevancia penal.",
+      "norma": "Ley 2/2023 de la Comunitat Valenciana",
+      "articulo": "42.3.e",
+      "calificacion": "grave",
+      "rango_min": 3001,
+      "rango_max": 9000,
+      "actuacion": [
+        "Proteger al animal y activar recogida/protección cuando proceda.",
+        "Identificar al responsable si es posible.",
+        "Comprobar chip y registro.",
+        "Documentar exhaustivamente las circunstancias.",
+        "Formular/documentar la infracción administrativa.",
+        "Valorar instrucción de diligencias penales si existen indicios."
+      ],
+      "competencia_denuncia": "Policía Local",
+      "competencia_resuelve": "Ayuntamiento de Torrent",
+      "advertencias": [
+        "Si el abandono provoca muerte, daños irreversibles o lesiones invalidantes, valorar la calificación administrativa muy grave y su régimen sancionador específico.",
+        "La vía administrativa debe coordinarse con la penal conforme a GEN-JUR-001."
+      ],
+      "alerta_penal": true,
+      "referencia_penal": "Código Penal, art. 340 ter",
+      "regla_transversal": "GEN-JUR-001",
+      "fuentes": [
+        "AN-SRC-018",
+        "AN-SRC-007"
+      ],
+      "fichas_juridicas": [
+        "AN-JUR-030",
+        "AN-JUR-032"
+      ],
+      "estado": "validado",
+      "datos_adicionales": {
+        "calificacion_condicional": {
+          "si": "muerte, daños irreversibles o lesiones invalidantes",
+          "calificacion": "muy grave",
+          "rango_min": 9001,
+          "rango_max": 45000
+        }
+      }
+    },
+    {
+      "id": "AN-OP-013",
+      "modulo": "animales",
+      "categoria": "animales_convivencia",
+      "titulo": "Excrementos no recogidos",
+      "palabras_clave": [
+        "excrementos",
+        "heces",
+        "caca",
+        "limpieza",
+        "vía pública"
+      ],
+      "que_comprobar": [
+        "Constatar el depósito de excrementos en zona de tránsito/uso público.",
+        "Comprobar que el responsable no los recoge o no limpia adecuadamente.",
+        "Identificar al responsable."
+      ],
+      "resultado": "Incumplimiento de la obligación municipal de impedir o retirar/limpiar los excrementos del animal.",
+      "norma": "Ordenanza de Convivencia Ciudadana de Torrent",
+      "articulo": "14",
+      "calificacion": null,
+      "rango_min": null,
+      "rango_max": null,
+      "actuacion": [
+        "Identificar al responsable.",
+        "Documentar lugar, depósito y falta de recogida/limpieza.",
+        "Formular denuncia por el cauce OCC.",
+        "Requerir/informar que debe recoger y limpiar los restos."
+      ],
+      "competencia_denuncia": "Policía Local",
+      "competencia_resuelve": "Ayuntamiento de Torrent",
+      "advertencias": [
+        "No utilizar el antiguo art. 65.1 OTA, expresamente derogado por la OCC.",
+        "No mostrar cuantía hasta que la cuantía municipal vigente esté confirmada para uso operativo."
+      ],
+      "alerta_penal": false,
+      "referencia_penal": null,
+      "regla_transversal": null,
+      "fuentes": [
+        "OCC-TORRENT"
+      ],
+      "fichas_juridicas": [
+        "AN-JUR-001"
+      ],
+      "estado": "validado"
+    },
+    {
+      "id": "AN-OP-014",
+      "modulo": "animales",
+      "categoria": "animales_convivencia",
+      "titulo": "Perro ordinario suelto o sin control mediante correa",
+      "palabras_clave": [
+        "perro suelto",
+        "sin correa",
+        "correa",
+        "vía pública",
+        "control"
+      ],
+      "que_comprobar": [
+        "Confirmar que no se trata de un PPP.",
+        "Comprobar que el perro está completamente suelto fuera de zona/condición autorizada.",
+        "Identificar al responsable.",
+        "Documentar lugar, distancia, tráfico/personas, obediencia y riesgo."
+      ],
+      "resultado": "Posible infracción municipal por llevar un perro ordinario suelto en vía pública fuera de los supuestos autorizados.",
+      "norma": "Ordenanza Municipal sobre Tenencia de Animales de Torrent",
+      "articulo": "65.4",
+      "calificacion": null,
+      "rango_min": null,
+      "rango_max": null,
+      "actuacion": [
+        "Identificar al responsable.",
+        "Comprobar chip.",
+        "Documentar el grado real de control y las circunstancias.",
+        "Formular denuncia cuando concurra el supuesto.",
+        "Informar de la obligación de conducirlo bajo control mediante correa/sistema equivalente conforme a la normativa vigente."
+      ],
+      "competencia_denuncia": "Policía Local",
+      "competencia_resuelve": "Ayuntamiento de Torrent",
+      "advertencias": [
+        "No utilizar esta ficha para PPP: pasar a la rama PPP.",
+        "La cuestión de longitud de correa debe encajarse en la normativa autonómica vigente; no forzar el art. 65.4 para supuestos distintos de perro completamente suelto."
+      ],
+      "alerta_penal": false,
+      "referencia_penal": null,
+      "regla_transversal": null,
+      "fuentes": [
+        "OTA-TORRENT",
+        "AN-SRC-018"
+      ],
+      "fichas_juridicas": [
+        "AN-JUR-003"
+      ],
+      "estado": "validado"
+    },
+    {
+      "id": "AN-OP-015",
+      "modulo": "animales",
+      "categoria": "animales_convivencia",
+      "titulo": "Animal en espacio con acceso expresamente prohibido",
+      "palabras_clave": [
+        "acceso prohibido",
+        "señal",
+        "animal",
+        "establecimiento",
+        "entrada"
+      ],
+      "que_comprobar": [
+        "Comprobar que existe prohibición expresa aplicable y señalización visible.",
+        "Identificar al responsable y al animal.",
+        "Comprobar si concurre alguna excepción legal, especialmente perros de asistencia."
+      ],
+      "resultado": "Posible infracción municipal por presencia del animal en un espacio donde exista prohibición expresa aplicable.",
+      "norma": "Ordenanza Municipal sobre Tenencia de Animales de Torrent",
+      "articulo": "65.5",
+      "calificacion": null,
+      "rango_min": null,
+      "rango_max": null,
+      "actuacion": [
+        "Comprobar prohibición y señalización.",
+        "Identificar al responsable.",
+        "Documentar lugar, señalización y ausencia de excepción.",
+        "Formular denuncia si procede.",
+        "Informar de que debe retirar al animal y respetar las condiciones de acceso."
+      ],
+      "competencia_denuncia": "Policía Local",
+      "competencia_resuelve": "Ayuntamiento de Torrent",
+      "advertencias": [
+        "No presumir la prohibición únicamente por el tipo de establecimiento.",
+        "Comprobar regímenes especiales y excepciones, especialmente perros de asistencia."
+      ],
+      "alerta_penal": false,
+      "referencia_penal": null,
+      "regla_transversal": null,
+      "fuentes": [
+        "OTA-TORRENT",
+        "AN-SRC-001",
+        "AN-SRC-016"
+      ],
+      "fichas_juridicas": [
+        "AN-JUR-004"
+      ],
+      "estado": "validado"
+    },
+    {
+      "id": "AN-OP-016",
+      "modulo": "animales",
+      "categoria": "animales_convivencia",
+      "titulo": "Malas condiciones higiénicas, olores o molestias vecinales sin afectación grave al animal",
+      "palabras_clave": [
+        "higiene",
+        "olores",
+        "suciedad",
+        "molestias",
+        "vecinos",
+        "heces",
+        "orines"
+      ],
+      "que_comprobar": [
+        "Objetivar suciedad, heces/orines, olores y ventilación.",
+        "Comprobar número de animales y estado del alojamiento.",
+        "Documentar duración/reiteración de las molestias.",
+        "Comprobar si existen signos de afectación grave a la salud o bienestar del animal."
+      ],
+      "resultado": "Posible infracción municipal por mantener al animal/alojamiento en condiciones higiénicas deficientes o generar molestias evitables, siempre que no exista afectación grave al bienestar que requiera otro encaje.",
+      "norma": "Ordenanza Municipal sobre Tenencia de Animales de Torrent",
+      "articulo": "65.6",
+      "calificacion": null,
+      "rango_min": null,
+      "rango_max": null,
+      "actuacion": [
+        "Identificar al responsable.",
+        "Documentar objetivamente las condiciones y molestias.",
+        "Realizar fotografías/informe cuando proceda.",
+        "Formular denuncia municipal si el supuesto encaja en el art. 65.6.",
+        "Informar de la obligación de limpiar, mantener higiénicamente y eliminar focos de molestias."
+      ],
+      "competencia_denuncia": "Policía Local",
+      "competencia_resuelve": "Ayuntamiento de Torrent",
+      "advertencias": [
+        "Si existe afectación grave a salud/bienestar, no usar automáticamente esta ficha: valorar Ley 2/2023, intervención veterinaria, medidas provisionales y posible relevancia penal."
+      ],
+      "alerta_penal": true,
+      "referencia_penal": "Código Penal, art. 340 bis, si la gravedad de los hechos presenta indicios de delito",
+      "regla_transversal": "GEN-JUR-001",
+      "fuentes": [
+        "OTA-TORRENT",
+        "AN-SRC-018",
+        "AN-SRC-007"
+      ],
+      "fichas_juridicas": [
+        "AN-JUR-005"
+      ],
+      "estado": "validado"
+    }
+  ]
+}
