@@ -1,4 +1,16 @@
-# vinext-starter
+# Base Operativa Policía Local
+
+## Norma de mantenimiento jurídico
+
+El contenido operativo de la aplicación procede exclusivamente de datos jurídicos previamente validados y proporcionados para el proyecto.
+
+- No realizar investigación jurídica autónoma ni completar artículos, calificaciones, rangos sancionadores o criterios mediante búsquedas web, salvo solicitud expresa del usuario.
+- No resolver por aproximación campos jurídicos incompletos ni posibles contradicciones.
+- Ante una carencia o contradicción, marcar el dato como pendiente y comunicarlo antes de modificar el dataset.
+- Mantener como función principal el motor común, la estructura de datos y la representación correcta de los casos validados.
+- No crear páginas, rutas, componentes o lógica específicos para casos concretos.
+
+## Base técnica
 
 A clean full-stack starter running on
 [vinext](https://github.com/cloudflare/vinext), with optional Cloudflare D1 and
