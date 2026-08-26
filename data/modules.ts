@@ -1,0 +1,7 @@
+import type { Module } from "./types";
+export const modules: Module[] = [
+  { id: "animales", nombre: "Animales", descripcion: "Actuaciones relacionadas con animales", orden: 10, activo: true },
+  { id: "seguridad_vial", nombre: "Seguridad Vial", descripcion: "Tráfico, vehículos y seguridad vial", orden: 20, activo: true },
+  { id: "establecimientos_publicos", nombre: "Establecimientos Públicos", descripcion: "Actividad y control de establecimientos", orden: 30, activo: true },
+  { id: "seguridad_publica", nombre: "Seguridad Pública", descripcion: "Actuaciones en materia de seguridad pública", orden: 40, activo: true },
+];
