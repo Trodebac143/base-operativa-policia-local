@@ -230,6 +230,39 @@ test("la presentación penal es genérica y no expone IDs internos", async () =>
   const { CaseSheet } = await vite.ssrLoadModule("/app/page.tsx");
   for (const item of cases) {
     const html = renderToStaticMarkup(React.createElement(CaseSheet, { item, copied: false, onCopy() {} }));
-    assert.doesNotMatch(html, /AN-OP-\d+|CP-340-BIS|CP-340-TER|GEN-JUR-001|GEN-JUR-002|GEN-OP-ADV-002|GEN-PEN-002/);
+    assert.doesNotMatch(html, /AN-(?:OP|JUR|SRC)-|GEN-(?:JUR|PEN|OP)-|CP-[A-Z0-9-]+/i);
   }
+});
+
+test("la barrera común impide mostrar identificadores e instrucciones internas", async () => {
+  const { visibleTextList, containsInternalInterfaceLanguage } = await vite.ssrLoadModule("/data/visibility.ts");
+  const internal = [
+    "No mantener AN-OP-016 como encaje principal.",
+    "Cambiar de rama y usar caso X.",
+    "Resolver desde el dataset penalArticles.",
+    "Aplicar CP-340-BIS como ID técnico.",
+    "Aplicar GEN-JUR-001."
+  ];
+  assert.ok(internal.every(containsInternalInterfaceLanguage));
+  assert.deepEqual(visibleTextList(["Documenta los hechos.", ...internal]), ["Documenta los hechos."]);
+});
+
+test("la rama penal de insalubridad muestra exclusivamente la actuación operativa validada", async () => {
+  const { cases } = await vite.ssrLoadModule("/data/cases.ts");
+  const { rules } = await vite.ssrLoadModule("/data/rules.ts");
+  const { resolveValidatedPenalPrecept } = await vite.ssrLoadModule("/data/penal.ts");
+  const { ConditionalPenalActivation } = await vite.ssrLoadModule("/app/page.tsx");
+  const item = cases.find((candidate) => candidate.id === "AN-OP-016");
+  const relevance = item.datos_adicionales.relevancia_penal_condicional;
+  const html = renderToStaticMarkup(React.createElement(ConditionalPenalActivation, {
+    relevance,
+    active: true,
+    onChange() {},
+    precept: resolveValidatedPenalPrecept(relevance.penal_article_id),
+    destination: item.destino_diligencias_penales,
+    rule: rules.find((rule) => rule.id === "GEN-JUR-001")
+  }));
+  assert.match(html, /Documenta detalladamente el estado del animal y las condiciones en las que se encuentra, mediante fotografías, vídeo y descripción de los hechos/);
+  assert.match(html, /Fiscalía Provincial de Valencia — Sección de Medio Ambiente \(protección\/maltrato animal\)/);
+  assert.doesNotMatch(html, /No mantener|AN-OP-|cambiar de rama|pasa(?:r)? a la rama|usar caso|dataset|CP-[A-Z0-9-]+|GEN-(?:JUR|PEN|OP)-/i);
 });

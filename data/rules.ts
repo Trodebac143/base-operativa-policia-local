@@ -3,6 +3,13 @@ import validatedPackage from "./paquete_animales_v0_2_validado.json";
 
 const generalRules: Rule[] = [
   {
+    id: "GEN-OP-VIS-001",
+    nombre: "Separación entre arquitectura interna e interfaz operativa",
+    tipo: "control_presentacion",
+    contenido: "La interfaz destinada al agente solo muestra comprobaciones, circunstancias relevantes, actuaciones, norma y artículo, texto legal validado, competencia administrativa, destino de diligencias penales y advertencias operativas. Los identificadores técnicos, nombres de casos, fuentes o reglas, nombres de datasets e instrucciones para el motor o el desarrollador permanecen exclusivamente en la capa interna.",
+    activo: true
+  },
+  {
     id: "GEN-JUR-002",
     nombre: "Separación de vía administrativa y destino de diligencias penales",
     tipo: "competencias",

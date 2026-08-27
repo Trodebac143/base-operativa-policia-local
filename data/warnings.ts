@@ -1,4 +1,5 @@
 import type { OperationalCase } from "./types";
+import { containsInternalInterfaceLanguage } from "./visibility";
 
 export const warningReplacements: Record<string, string[]> = {
   "AN-OP-002": ["Esta ficha solo se utiliza para la falta de censo municipal. Si el problema es la ausencia de identificación física (chip) o de inscripción registral, utiliza la ficha específica correspondiente."],
@@ -22,7 +23,7 @@ export const warningReplacements: Record<string, string[]> = {
   "AN-OP-016": [
     "Esta ficha se utiliza únicamente cuando las deficiencias higiénicas, olores o molestias no han causado una afectación grave al animal.",
     "Comprueba el estado físico y conductual del animal. Si presenta lesiones, enfermedad, deterioro relevante o signos compatibles con maltrato grave, no cierres la actuación con esta ficha.",
-    "Si existen esos signos, documenta detalladamente el estado del animal, solicita valoración veterinaria cuando proceda y pasa a la rama de protección/maltrato animal para determinar el encaje administrativo y la posible vía penal."
+    "Si existen esos signos, documenta detalladamente el estado del animal, solicita valoración veterinaria cuando sea necesaria para acreditar lesiones, sufrimiento o estado sanitario y activa la actuación por protección o maltrato animal para determinar el encaje administrativo y la posible vía penal."
   ],
   "AN-OP-018": [
     "Animal identificado y extravío no comunicado al registro: art. 42.2.e.",
@@ -68,6 +69,7 @@ export function visibleOperationalWarnings(item: OperationalCase): string[] {
   const conditionalClassification = item.datos_adicionales?.calificacion_condicional;
   return item.advertencias.filter((warning) => {
     const normalized = normalize(warning);
+    if (containsInternalInterfaceLanguage(warning)) return false;
     if (conditionalFit?.some((entry) => normalized.includes(normalize(entry.articulo.split(" ")[0])))) return false;
     if (conditionalClassification && normalized.includes(normalize(conditionalClassification.calificacion))) return false;
     return true;

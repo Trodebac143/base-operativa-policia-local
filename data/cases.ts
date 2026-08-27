@@ -209,11 +209,7 @@ const v033CaseUpdates: Record<string, Partial<OperationalCase>> = {
         articulo_referencia: "Código Penal, art. 340 bis",
         penal_article_id: "CP-340-BIS",
         accion: [
-          "No mantener AN-OP-016 como encaje principal.",
-          "Documentar el estado del animal y las condiciones de alojamiento.",
-          "Recabar valoración veterinaria cuando sea necesaria para acreditar lesiones, sufrimiento o estado sanitario.",
-          "Instruir las diligencias penales que procedan.",
-          "Remitir las diligencias a la Fiscalía Provincial de Valencia — Sección de Medio Ambiente, materia de protección/maltrato animal, conforme al cauce operativo aplicable."
+          "Documenta detalladamente el estado del animal y las condiciones en las que se encuentra, mediante fotografías, vídeo y descripción de los hechos. Identifica al responsable y solicita valoración veterinaria cuando sea necesaria para acreditar lesiones, sufrimiento o estado sanitario. Adopta las medidas necesarias para proteger al animal e instruye las diligencias penales que procedan, remitiéndolas a la Fiscalía Provincial de Valencia — Sección de Medio Ambiente (protección/maltrato animal)."
         ]
       }
     }
