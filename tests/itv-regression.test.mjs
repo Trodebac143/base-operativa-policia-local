@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { access, readFile } from "node:fs/promises";
 import test, { after } from "node:test";
 import { fileURLToPath } from "node:url";
 import React from "react";
@@ -82,8 +82,10 @@ test("Seguro usa títulos operativos y una presentación resumida de medidas", a
   assert.deepEqual(titles, ["Vehículos convencionales — circulando sin seguro", "Vehículos convencionales — carece de seguro", "VMP que requiere SOA — circulando sin seguro", "VMP que requiere SOA — carece de seguro", "VPL que requiere SOA — circulando sin seguro", "VPL que requiere SOA — carece de seguro"]);
   assert.deepEqual(seguroCases.flatMap((item) => item.medidas), ["TR-MED-SOA-OPERATIVE", "TR-MED-SOA-OPERATIVE", "TR-MED-SOA-OPERATIVE", "TR-MED-SOA-OPERATIVE", "TR-MED-SOA-OPERATIVE", "TR-MED-SOA-OPERATIVE"]);
   const operational = seguroMeasures.find((item) => item.id === "TR-MED-SOA-OPERATIVE");
-  assert.match(operational.fundamento, /arts\. 104 y 105/);
-  assert.match(operational.levantamiento, /acredite la existencia de seguro en vigor/);
+  assert.match(operational.fundamento, /104\.1\.e y 105\.1\.d/);
+  assert.match(operational.levantamiento, /acreditarse la existencia de un seguro obligatorio en vigor/);
+  assert.ok(seguroCases.every((item) => item.inmovilizacion === "CONDICIONADA"));
+  assert.ok(seguroCases.every((item) => /art\. 104\.1\.e LSV/.test(item.motivo_inmovilizacion ?? "")));
   const source = await readFile(new URL("../data/seguro.ts", import.meta.url), "utf8");
   assert.doesNotMatch(source, /vehículo convencional sujeto|VPL sujeto|sin seguro y sin circulación efectiva/i);
 });
@@ -122,4 +124,20 @@ test("biblioteca y actualización conservan el modo seguro", async () => {
   assert.doesNotMatch(surface, /reindexar|reindexación|ejecutar.*python|subir documento|eliminar documento|sustituir archivo/i);
   assert.doesNotMatch(surface, /localStorage\.(?:clear|removeItem)/);
   assert.match(files[1], /no-store, no-cache, must-revalidate/);
+});
+
+test("biblioteca documental visible, consultable y sin controles de gestión", async () => {
+  const { libraryDocuments } = await vite.ssrLoadModule("/data/documents.ts");
+  assert.equal(libraryDocuments.length, 7);
+  for (const document of libraryDocuments) await access(new URL(`../public/documentos/${document.archivo}`, import.meta.url));
+  const page = await readFile(new URL("../app/page.tsx", import.meta.url), "utf8");
+  assert.match(page, /Biblioteca documental/); assert.match(page, /Buscar por título o nombre de archivo/); assert.match(page, /Abrir PDF/);
+  assert.doesNotMatch(page, /subir documento|eliminar documento|sustituir archivo|reindexar|ejecutar.*python/i);
+});
+
+test("Seguro muestra los fundamentos concretos de inmovilización, retirada y levantamiento", async () => {
+  const { seguroCases } = await vite.ssrLoadModule("/data/seguro.ts");
+  const { CaseSheet } = await vite.ssrLoadModule("/app/page.tsx");
+  const html = renderToStaticMarkup(React.createElement(CaseSheet, { item: seguroCases[0], copied: false, onCopy() {} }));
+  assert.match(html, /Art\. 104\.1\.e LSV/); assert.match(html, /Art\. 105\.1\.d LSV/); assert.match(html, /acreditarse la existencia de un seguro obligatorio en vigor/);
 });

@@ -19,7 +19,7 @@ interface ExecutionContext {
   passThroughOnException(): void;
 }
 
-export const SITE_VERSION = "0.5.1";
+export const SITE_VERSION = "0.5.2";
 function withFreshNavigation(response: Response): Response {
   const headers = new Headers(response.headers);
   const contentType = headers.get("content-type") ?? "";
