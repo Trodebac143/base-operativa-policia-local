@@ -20,8 +20,9 @@ export const warningReplacements: Record<string, string[]> = {
     "Antes de denunciar, comprueba si existe una excepción legal. Si se trata de un perro de asistencia amparado por su régimen específico, no uses esta ficha por el mero acceso del animal."
   ],
   "AN-OP-016": [
-    "Esta ficha solo se utiliza cuando no existe afectación grave a la salud o al bienestar del animal.",
-    "Si detectas signos de afectación grave, no uses el art. 65.6 como encaje principal. Documenta el estado del animal y pasa el supuesto a la normativa de protección y bienestar animal; si existen indicios de delito, activa la alerta penal."
+    "Esta ficha se utiliza únicamente cuando las deficiencias higiénicas, olores o molestias no han causado una afectación grave al animal.",
+    "Comprueba el estado físico y conductual del animal. Si presenta lesiones, enfermedad, deterioro relevante o signos compatibles con maltrato grave, no cierres la actuación con esta ficha.",
+    "Si existen esos signos, documenta detalladamente el estado del animal, solicita valoración veterinaria cuando proceda y pasa a la rama de protección/maltrato animal para determinar el encaje administrativo y la posible vía penal."
   ],
   "AN-OP-018": [
     "Animal identificado y extravío no comunicado al registro: art. 42.2.e.",

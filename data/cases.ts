@@ -1,6 +1,7 @@
 import type { OperationalCase } from "./types";
 import validatedPackage from "./paquete_animales_v0_2_validado.json";
 import { applyWarningReplacements, auditOperationalWarnings } from "./warnings";
+import { ANIMAL_MALTREATMENT_PENAL_DESTINATION, auditAmbiguousPenalMessages, auditPenalBranches } from "./penal";
 
 const nuevosCasosV03: OperationalCase[] = [
   {
@@ -135,6 +136,93 @@ const nuevosCasosV03: OperationalCase[] = [
   }
 ];
 
-export const cases = applyWarningReplacements([...(validatedPackage.casos as OperationalCase[]), ...nuevosCasosV03]);
+const v033CaseUpdates: Record<string, Partial<OperationalCase>> = {
+  "AN-OP-012": {
+    alerta_penal: false,
+    referencia_penal: null,
+    penal_article_id: null,
+    regla_transversal: null,
+    resultado: "Abandono de animal de compañía. La vía penal solo se activa si el animal vertebrado ha sido abandonado bajo responsabilidad de una persona en condiciones en que pueda peligrar su vida o integridad.",
+    que_comprobar: [
+      "Identificar al animal mediante microchip/registro cuando sea posible.",
+      "Identificar al responsable.",
+      "Documentar lugar, tiempo, estado, agua/alimento/refugio, temperatura, tráfico y otros riesgos.",
+      "Comprobar testigos, cámaras u otros elementos de prueba.",
+      "Comprobar si las condiciones concretas del abandono pueden poner en peligro la vida o integridad del animal."
+    ],
+    actuacion: [
+      "Proteger al animal y activar recogida/protección cuando proceda.",
+      "Identificar al responsable si es posible.",
+      "Comprobar chip y registro.",
+      "Documentar exhaustivamente las circunstancias.",
+      "Formular/documentar la infracción administrativa.",
+      "Si las condiciones del abandono pueden poner en peligro la vida o integridad del animal, activa la rama penal condicional, documenta específicamente esos riesgos e instruye las diligencias penales que procedan."
+    ],
+    advertencias: [
+      "El abandono administrativo no implica automáticamente delito. Para activar el art. 340 ter debe existir además un peligro para la vida o integridad del animal.",
+      "Si se activa la vía penal, documenta de forma concreta los factores de riesgo: estado del animal, falta de agua/alimento/refugio, temperatura, tráfico, tiempo de exposición y cualquier otra circunstancia relevante.",
+      "Si el abandono ha causado muerte, daños irreversibles o lesiones invalidantes, revisa además la calificación administrativa aplicable conforme al escenario condicional ya validado."
+    ],
+    destino_diligencias_penales: ANIMAL_MALTREATMENT_PENAL_DESTINATION,
+    datos_adicionales: {
+      calificacion_condicional: {
+        si: "muerte, daños irreversibles o lesiones invalidantes",
+        calificacion: "muy grave",
+        rango_min: 9001,
+        rango_max: 45000
+      },
+      relevancia_penal_condicional: {
+        activa: true,
+        titulo: "Posible delito de abandono si existe peligro para la vida o integridad",
+        condiciones: [
+          "Animal vertebrado bajo responsabilidad de la persona.",
+          "Existencia de abandono.",
+          "Condiciones concretas capaces de poner en peligro la vida o integridad del animal."
+        ],
+        articulo_referencia: "Código Penal, art. 340 ter",
+        penal_article_id: "CP-340-TER",
+        accion: [
+          "Proteger al animal.",
+          "Documentar exhaustivamente las circunstancias que generan el peligro.",
+          "Identificar al responsable y asegurar los elementos de prueba disponibles.",
+          "Instruir las diligencias penales que procedan.",
+          "Remitir las diligencias a la Fiscalía Provincial de Valencia — Sección de Medio Ambiente (protección/maltrato animal)."
+        ]
+      }
+    }
+  },
+  "AN-OP-016": {
+    alerta_penal: false,
+    referencia_penal: null,
+    penal_article_id: null,
+    regla_transversal: null,
+    destino_diligencias_penales: ANIMAL_MALTREATMENT_PENAL_DESTINATION,
+    datos_adicionales: {
+      relevancia_penal_condicional: {
+        activa: true,
+        titulo: "Escalar a posible maltrato penal si aparecen signos graves",
+        condiciones: [
+          "Lesión que requiera tratamiento veterinario.",
+          "Maltrato grave aun sin lesión.",
+          "Muerte del animal vinculada a los hechos."
+        ],
+        articulo_referencia: "Código Penal, art. 340 bis",
+        penal_article_id: "CP-340-BIS",
+        accion: [
+          "No mantener AN-OP-016 como encaje principal.",
+          "Documentar el estado del animal y las condiciones de alojamiento.",
+          "Recabar valoración veterinaria cuando sea necesaria para acreditar lesiones, sufrimiento o estado sanitario.",
+          "Instruir las diligencias penales que procedan.",
+          "Remitir las diligencias a la Fiscalía Provincial de Valencia — Sección de Medio Ambiente, materia de protección/maltrato animal, conforme al cauce operativo aplicable."
+        ]
+      }
+    }
+  }
+};
+
+const warningsUpdatedCases = applyWarningReplacements([...(validatedPackage.casos as OperationalCase[]), ...nuevosCasosV03]);
+export const cases = warningsUpdatedCases.map((item) => Object.hasOwn(v033CaseUpdates, item.id) ? { ...item, ...v033CaseUpdates[item.id] } : item);
 /** Resultado no destructivo del control común aplicado a cada lote importado. */
 export const warningsPendingReview = auditOperationalWarnings(cases);
+export const penalMessagesPendingReview = auditAmbiguousPenalMessages(cases);
+export const penalBranchStatus = auditPenalBranches(cases);
