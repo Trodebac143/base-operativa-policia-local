@@ -1,4 +1,5 @@
 import type { DecisionTree, OperationalCase, PoliceMeasure, Rule } from "./types";
+import { seguroMeasures } from "./seguro";
 
 const common = {
   modulo: "seguridad_vial",
@@ -88,7 +89,7 @@ export const itvMeasures: PoliceMeasure[] = [
   { id: "TR-MED-REMOVE-105", titulo: "Retirada de la vía", fundamento: "Art. 105 LSV", activacion: "Peligro, grave perturbación, falta de lugar adecuado para una inmovilización legal u otro supuesto tasado", automatica: false, actuaciones: ["Identificar el supuesto legal concreto.", "Permitir la retirada por el obligado cuando sea viable.", "Ordenar retirada administrativa solo si concurren sus requisitos."], levantamiento: "Devolución conforme al artículo 105; no habilita para circular si persiste el estado ITV." },
   { id: "TR-MED-DEPOSIT-105", titulo: "Depósito administrativo", fundamento: "Art. 105 LSV", activacion: "Retirada administrativa legalmente acordada", automatica: false, actuaciones: ["Custodiar en el lugar designado.", "Inventariar y comunicar.", "Separarlo del transporte privado a taller o ITV."], levantamiento: "Entrega conforme al artículo 105; si no puede circular, la salida será mediante transporte legal." },
 ];
-export const resolveMeasures = (ids: string[] = []) => ids.map((id) => itvMeasures.find((measure) => measure.id === id)).filter((measure): measure is PoliceMeasure => Boolean(measure));
+export const resolveMeasures = (ids: string[] = []) => ids.map((id) => [...itvMeasures, ...seguroMeasures].find((measure) => measure.id === id)).filter((measure): measure is PoliceMeasure => Boolean(measure));
 
 export const itvLegalSheets = [
   { id: "TR-ITV-FJ-001", titulo: "Obligación de inspección periódica", regla: "Someter el vehículo a ITV y superar la inspección en los términos reglamentarios." },

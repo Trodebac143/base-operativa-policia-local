@@ -141,10 +141,10 @@ test("el control futuro marca expresiones ambiguas sin modificar el contenido", 
   assert.equal(findings[0].warning, "Valorar la especialidad.");
 });
 
-test("solo añade el bloque ITV a Seguridad Vial", async () => {
+test("mantiene Animales y añade los bloques validados de Seguridad Vial", async () => {
   const { cases } = await vite.ssrLoadModule("/data/cases.ts");
   assert.equal(cases.filter((item) => item.modulo === "animales").length, 19);
-  assert.equal(cases.filter((item) => item.modulo === "seguridad_vial").length, 7);
+  assert.equal(cases.filter((item) => item.modulo === "seguridad_vial").length, 13);
   assert.ok(cases.every((item) => ["animales", "seguridad_vial"].includes(item.modulo)));
 });
 

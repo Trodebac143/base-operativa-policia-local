@@ -17,6 +17,14 @@ export const sources: Source[] = [
   { id: "TR-ITV-SRC-004", nombre: "Nota DGT de 3 de noviembre de 2021 sobre ITV de vehículo estacionado", tipo: "Criterio interpretativo oficial", ambito: "Estatal", estado_vigencia_auditoria: "validado compatible" },
   { id: "TR-ITV-SRC-005", nombre: "DGT — competencia sancionadora en condiciones técnicas", tipo: "Criterio oficial", ambito: "Estatal", estado_vigencia_auditoria: "validado" },
   { id: "TR-ITV-SRC-007", nombre: "Guía codificada de infracciones DGT (ARCI), vigente desde 6 de julio de 2026", tipo: "Codificado oficial", ambito: "Estatal", estado_vigencia_auditoria: "validado" },
+  { id: "TR-SOA-SRC-001", nombre: "RDL 8/2004, Ley sobre responsabilidad civil y seguro en la circulación de vehículos a motor", tipo: "Real decreto legislativo", ambito: "Estatal", estado_vigencia_auditoria: "validado" },
+  { id: "TR-SOA-SRC-002", nombre: "Ley 5/2025, modificación del régimen de seguro obligatorio", tipo: "Ley", ambito: "Estatal", estado_vigencia_auditoria: "validado" },
+  { id: "TR-SOA-SRC-003", nombre: "RD 1507/2008, Reglamento del seguro obligatorio", tipo: "Real decreto", ambito: "Estatal", estado_vigencia_auditoria: "validado" },
+  { id: "TR-SOA-SRC-004", nombre: "RDL 6/2015, Ley sobre Tráfico, texto consolidado", tipo: "Real decreto legislativo", ambito: "Estatal", estado_vigencia_auditoria: "validado" },
+  { id: "TR-SOA-SRC-005", nombre: "RD 52/2026, desarrollo del régimen de vehículos personales ligeros", tipo: "Real decreto", ambito: "Estatal", estado_vigencia_auditoria: "validado" },
+  { id: "TR-SOA-SRC-006", nombre: "Instrucción DGT SANC 2026/13, vehículos de movilidad personal", tipo: "Instrucción DGT", ambito: "Estatal", estado_vigencia_auditoria: "validado" },
+  { id: "TR-SOA-SRC-007", nombre: "DGT, Registro de Vehículos Personales Ligeros", tipo: "Información oficial", ambito: "Estatal", estado_vigencia_auditoria: "validado" },
+  { id: "TR-SOA-SRC-008", nombre: "Guía codificada de infracciones DGT (ARCI), vigente desde 6 de julio de 2026", tipo: "Codificado oficial", ambito: "Estatal", estado_vigencia_auditoria: "validado" },
 ];
 
 /** Resuelve únicamente los identificadores declarados por el propio caso, sin fallbacks. */

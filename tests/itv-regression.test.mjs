@@ -59,9 +59,21 @@ test("el formato común de tráfico separa obligación, tipificación, literal y
   assert.doesNotMatch(source, /tipo técnico específico/);
 });
 
-test("Seguro Obligatorio no se publica sin cotejo oficial 5F–5M", async () => {
-  const { cases } = await vite.ssrLoadModule("/data/cases.ts");
-  assert.equal(cases.filter((item) => /seguro/i.test(`${item.categoria} ${item.titulo}`)).length, 0);
+test("Seguro Obligatorio integra seis casos y las doce variantes ARCI validadas", async () => {
+  const { seguroCases, seguroDecisionTree } = await vite.ssrLoadModule("/data/seguro.ts");
+  const { CaseSheet } = await vite.ssrLoadModule("/app/page.tsx");
+  assert.equal(seguroCases.length, 6);
+  const codes = seguroCases.flatMap((item) => item.datos_adicionales?.encaje_condicional?.map((entry) => entry.codificado) ?? [item.codificado]);
+  assert.deepEqual(codes, ["SOA 2.1 5F", "SOA 2.1 5G", "SOA 2.1 5H", "SOA 2.1 5I", "SOA 2.1 5J", "SOA 2.1 5K", "SOA 2.1 5L", "SOA 2.1 5M", "SOA 2.1 5N", "SOA 2.1 5O", "SDA DA1 5A", "SDA DA1 5B"]);
+  for (const item of seguroCases) {
+    assert.match(item.competencia_denuncia, /Policía Local de Torrent/); assert.equal(item.competencia_instruye, "Jefatura Provincial de Tráfico de Valencia — receptor e instructora"); assert.equal(item.competencia_resuelve, "Jefe Provincial de Tráfico de Valencia");
+    assert.ok(["NO", "CONDICIONADA"].includes(item.inmovilizacion));
+    const html = renderToStaticMarkup(React.createElement(CaseSheet, { item, copied: false, onCopy() {} }));
+    assert.match(html, /TEXTO LITERAL PARA EL BOLETÍN/); assert.doesNotMatch(html, /MUY GRAVE|PENDING_|TR-SOA-/);
+  }
+  assert.ok(Object.keys(seguroDecisionTree.outcomes).includes("SO-NS-04"));
+  const source = await readFile(new URL("../data/seguro.ts", import.meta.url), "utf8");
+  assert.doesNotMatch(source, /PENDIENTE_COTEJO_ARCI|pending_arci_row_check|titular; si no inscrito, conductor/i);
 });
 
 test("medidas y riesgo grave conservan presupuestos separados", async () => {
@@ -93,7 +105,7 @@ test("el árbol resuelve todas sus ramas y enlaza solo casos existentes", async 
 });
 
 test("biblioteca y actualización conservan el modo seguro", async () => {
-  const files = await Promise.all(["app/page.tsx", "worker/index.ts", "data/itv.ts"].map((name) => readFile(new URL(`../${name}`, import.meta.url), "utf8")));
+  const files = await Promise.all(["app/page.tsx", "worker/index.ts", "data/itv.ts", "data/seguro.ts"].map((name) => readFile(new URL(`../${name}`, import.meta.url), "utf8")));
   const surface = files.join("\n");
   assert.doesNotMatch(surface, /reindexar|reindexación|ejecutar.*python|subir documento|eliminar documento|sustituir archivo/i);
   assert.doesNotMatch(surface, /localStorage\.(?:clear|removeItem)/);
