@@ -1,0 +1,25 @@
+.conditional {
+  margin: 22px 28px 0;
+  border: 1px solid #a9c4d7;
+  background: #f1f7fb;
+  border-radius: 8px;
+  padding: 18px;
+  color: #243d4e;
+}
+
+.conditional h3 {
+  margin: 0 0 12px;
+  color: var(--navy);
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+
+.conditional p { margin: 0; line-height: 1.6; }
+.conditional ul { margin: 0; padding-left: 20px; }
+.conditional li { padding: 5px 0; line-height: 1.5; }
+.conditional li span { display: block; color: var(--muted); font-size: 13px; }
+
+@media (max-width: 700px) {
+  .conditional { margin: 16px 20px 0; }
+}

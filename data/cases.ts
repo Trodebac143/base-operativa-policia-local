@@ -1,5 +1,6 @@
 import type { OperationalCase } from "./types";
 import validatedPackage from "./paquete_animales_v0_2_validado.json";
+import { applyWarningReplacements, auditOperationalWarnings } from "./warnings";
 
 const nuevosCasosV03: OperationalCase[] = [
   {
@@ -134,4 +135,6 @@ const nuevosCasosV03: OperationalCase[] = [
   }
 ];
 
-export const cases = [...(validatedPackage.casos as OperationalCase[]), ...nuevosCasosV03];
+export const cases = applyWarningReplacements([...(validatedPackage.casos as OperationalCase[]), ...nuevosCasosV03]);
+/** Resultado no destructivo del control común aplicado a cada lote importado. */
+export const warningsPendingReview = auditOperationalWarnings(cases);
