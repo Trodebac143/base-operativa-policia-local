@@ -76,6 +76,18 @@ test("Seguro Obligatorio integra seis casos y las doce variantes ARCI validadas"
   assert.doesNotMatch(source, /PENDIENTE_COTEJO_ARCI|pending_arci_row_check|titular; si no inscrito, conductor/i);
 });
 
+test("Seguro usa títulos operativos y una presentación resumida de medidas", async () => {
+  const { seguroCases, seguroMeasures } = await vite.ssrLoadModule("/data/seguro.ts");
+  const titles = seguroCases.map((item) => item.titulo);
+  assert.deepEqual(titles, ["Vehículos convencionales — circulando sin seguro", "Vehículos convencionales — carece de seguro", "VMP que requiere SOA — circulando sin seguro", "VMP que requiere SOA — carece de seguro", "VPL que requiere SOA — circulando sin seguro", "VPL que requiere SOA — carece de seguro"]);
+  assert.deepEqual(seguroCases.flatMap((item) => item.medidas), ["TR-MED-SOA-OPERATIVE", "TR-MED-SOA-OPERATIVE", "TR-MED-SOA-OPERATIVE", "TR-MED-SOA-OPERATIVE", "TR-MED-SOA-OPERATIVE", "TR-MED-SOA-OPERATIVE"]);
+  const operational = seguroMeasures.find((item) => item.id === "TR-MED-SOA-OPERATIVE");
+  assert.match(operational.fundamento, /arts\. 104 y 105/);
+  assert.match(operational.levantamiento, /acredite la existencia de seguro en vigor/);
+  const source = await readFile(new URL("../data/seguro.ts", import.meta.url), "utf8");
+  assert.doesNotMatch(source, /vehículo convencional sujeto|VPL sujeto|sin seguro y sin circulación efectiva/i);
+});
+
 test("medidas y riesgo grave conservan presupuestos separados", async () => {
   const { itvCases, itvMeasures } = await vite.ssrLoadModule("/data/itv.ts");
   assert.equal(itvMeasures.length, 6);
