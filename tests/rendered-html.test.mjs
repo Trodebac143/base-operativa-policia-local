@@ -1,10 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-const developmentPreviewMeta =
-  /<meta(?=[^>]*\bname=["']codex-preview["'])(?=[^>]*\bcontent=["']development["'])[^>]*>/i;
-
-test("renders development preview metadata", async () => {
+test("sirve cada navegación HTML sin caché y con versión publicada", async () => {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
   workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
   const { default: worker } = await import(workerUrl.href);
@@ -29,5 +26,9 @@ test("renders development preview metadata", async () => {
     response.headers.get("content-type") ?? "",
     /^text\/html\b/i,
   );
-  assert.match(await response.text(), developmentPreviewMeta);
+  assert.equal(response.headers.get("cache-control"), "no-store, no-cache, must-revalidate, max-age=0");
+  assert.equal(response.headers.get("cdn-cache-control"), "no-store");
+  assert.equal(response.headers.get("cloudflare-cdn-cache-control"), "no-store");
+  assert.equal(response.headers.get("x-base-operativa-version"), "0.4.0");
+  assert.doesNotMatch(await response.text(), /codex-preview/i);
 });

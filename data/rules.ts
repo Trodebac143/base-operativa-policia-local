@@ -1,5 +1,6 @@
 import type { Rule } from "./types";
 import validatedPackage from "./paquete_animales_v0_2_validado.json";
+import { itvRules } from "./itv";
 
 const generalRules: Rule[] = [
   {
@@ -33,4 +34,4 @@ const generalRules: Rule[] = [
   }
 ];
 
-export const rules = [...(validatedPackage.reglas as Rule[]).map((rule) => rule.id === "GEN-JUR-001" ? { ...rule, contenido: "Cuando unos mismos hechos puedan tener simultáneamente relevancia administrativa y penal, documentar la infracción administrativa que proceda e instruir las diligencias penales que correspondan. La vía penal tiene preferencia en los términos legalmente establecidos. No puede imponerse doble sanción por los mismos hechos cuando concurra identidad de sujeto, hecho y fundamento. Si la vía penal finaliza sin condena y jurídicamente procede, la vía administrativa podrá iniciarse o reanudarse, respetando los hechos declarados probados judicialmente." } : rule), ...generalRules];
+export const rules = [...(validatedPackage.reglas as Rule[]).map((rule) => rule.id === "GEN-JUR-001" ? { ...rule, contenido: "Cuando unos mismos hechos puedan tener simultáneamente relevancia administrativa y penal, documentar la infracción administrativa que proceda e instruir las diligencias penales que correspondan. La vía penal tiene preferencia en los términos legalmente establecidos. No puede imponerse doble sanción por los mismos hechos cuando concurra identidad de sujeto, hecho y fundamento. Si la vía penal finaliza sin condena y jurídicamente procede, la vía administrativa podrá iniciarse o reanudarse, respetando los hechos declarados probados judicialmente." } : rule), ...generalRules, ...itvRules];

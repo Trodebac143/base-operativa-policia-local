@@ -53,12 +53,13 @@ test("conserva los 19 casos y solo modifica las advertencias auditadas", async (
   const { warningReplacements } = await vite.ssrLoadModule("/data/warnings.ts");
   const v02 = JSON.parse(await readFile(path.join(root, "data/paquete_animales_v0_2_validado.json"), "utf8"));
   assert.equal(v02.casos.length, 16);
-  assert.equal(cases.length, 19);
-  assert.deepEqual(cases.slice(16).map((item) => item.id), ["AN-OP-017", "AN-OP-018", "AN-OP-019"]);
+  const animalCases = cases.filter((item) => item.modulo === "animales");
+  assert.equal(animalCases.length, 19);
+  assert.deepEqual(animalCases.slice(16).map((item) => item.id), ["AN-OP-017", "AN-OP-018", "AN-OP-019"]);
   const changedIds = Object.keys(warningReplacements);
   assert.deepEqual(changedIds, ["AN-OP-002", "AN-OP-003", "AN-OP-006", "AN-OP-007", "AN-OP-010", "AN-OP-012", "AN-OP-013", "AN-OP-014", "AN-OP-015", "AN-OP-016", "AN-OP-018", "AN-OP-019"]);
-  assert.deepEqual(cases.filter((item) => !changedIds.includes(item.id)).map((item) => item.id), ["AN-OP-001", "AN-OP-004", "AN-OP-005", "AN-OP-008", "AN-OP-009", "AN-OP-011", "AN-OP-017"]);
-  for (const item of cases) {
+  assert.deepEqual(animalCases.filter((item) => !changedIds.includes(item.id)).map((item) => item.id), ["AN-OP-001", "AN-OP-004", "AN-OP-005", "AN-OP-008", "AN-OP-009", "AN-OP-011", "AN-OP-017"]);
+  for (const item of animalCases) {
     if (Object.hasOwn(warningReplacements, item.id) && item.id !== "AN-OP-012") assert.deepEqual(item.advertencias, warningReplacements[item.id], item.id);
   }
   for (const original of v02.casos) {
@@ -72,7 +73,7 @@ test("conserva los 19 casos y solo modifica las advertencias auditadas", async (
 test("audita caso por caso que las fuentes coinciden y se resuelven sin fallback", async () => {
   const { cases } = await vite.ssrLoadModule("/data/cases.ts");
   const { resolveCaseSources } = await vite.ssrLoadModule("/data/sources.ts");
-  for (const item of cases) {
+  for (const item of cases.filter((candidate) => candidate.modulo === "animales")) {
     assert.deepEqual(item.fuentes, expectedSources[item.id], item.id);
     assert.deepEqual(resolveCaseSources(item.fuentes).map((source) => source.id), expectedSources[item.id], item.id);
   }
@@ -140,9 +141,11 @@ test("el control futuro marca expresiones ambiguas sin modificar el contenido", 
   assert.equal(findings[0].warning, "Valorar la especialidad.");
 });
 
-test("no añade contenido a los otros módulos", async () => {
+test("solo añade el bloque ITV a Seguridad Vial", async () => {
   const { cases } = await vite.ssrLoadModule("/data/cases.ts");
-  assert.ok(cases.every((item) => item.modulo === "animales"));
+  assert.equal(cases.filter((item) => item.modulo === "animales").length, 19);
+  assert.equal(cases.filter((item) => item.modulo === "seguridad_vial").length, 7);
+  assert.ok(cases.every((item) => ["animales", "seguridad_vial"].includes(item.modulo)));
 });
 
 test("AN-OP-016 conserva el encaje administrativo y no activa relevancia penal en el supuesto base", async () => {
@@ -186,7 +189,7 @@ test("el dataset penal común existe y contiene los dos preceptos literales vali
 test("audita los 19 casos y deja AN-OP-012 y AN-OP-016 como relevancia condicional", async () => {
   const { cases, penalMessagesPendingReview, penalBranchStatus } = await vite.ssrLoadModule("/data/cases.ts");
   const { rules } = await vite.ssrLoadModule("/data/rules.ts");
-  assert.equal(cases.length, 19);
+  assert.equal(cases.filter((item) => item.modulo === "animales").length, 19);
   assert.deepEqual(cases.filter((item) => item.alerta_penal).map((item) => item.id), []);
   assert.deepEqual(cases.filter((item) => item.datos_adicionales?.relevancia_penal_condicional?.activa).map((item) => item.id), ["AN-OP-012", "AN-OP-016"]);
   const abandonment = cases.find((item) => item.id === "AN-OP-012");

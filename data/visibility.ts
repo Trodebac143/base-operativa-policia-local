@@ -6,6 +6,7 @@ export const internalInterfacePatterns = [
   /\bAN-(?:OP|JUR|SRC)-[A-Z0-9-]+\b/i,
   /\bGEN-(?:JUR|PEN|OP)-[A-Z0-9-]+\b/i,
   /\bCP-[A-Z0-9-]+\b/i,
+  /\bTR-(?:ITV|MED)-(?:OP|FJ|SRC|CO|R|AD|ITV|WARN|EXT|IMMOB|REMOVE|DEPOSIT|CHECK)-[A-Z0-9-]+\b/i,
   /\bdatasets?\b/i,
   /\bcambiar de rama\b/i,
   /\bpasa(?:r)? a la rama\b/i,

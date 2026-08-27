@@ -13,7 +13,7 @@ export type Source = {
   criterio_incorporacion?: string;
   notas_internas?: string[];
 };
-export type ConditionalFit = { supuesto: string; articulo: string; calificacion: string };
+export type ConditionalFit = { supuesto: string; articulo: string; calificacion: string; codificado?: string; importe_fijo?: number; importe_reducido?: number };
 export type ConditionalClassification = { si: string; calificacion: string; rango_min?: number | null; rango_max?: number | null };
 export type ConditionalPenalRelevance = {
   activa: boolean;
@@ -28,7 +28,11 @@ export type AdditionalCaseData = Record<string, unknown> & {
   calificacion_condicional?: ConditionalClassification;
   relevancia_penal_condicional?: ConditionalPenalRelevance;
 };
-export type OperationalCase = { id: string; modulo: string; categoria: string; titulo: string; palabras_clave: string[]; que_comprobar: string[]; resultado: string; norma: string; articulo: string; calificacion?: string | null; rango_min?: number | null; rango_max?: number | null; actuacion: string[]; competencia_denuncia: string; competencia_resuelve: string; destino_diligencias_penales?: string | null; penal_article_id?: string | null; advertencias: string[]; alerta_penal: boolean; referencia_penal?: string | null; regla_transversal?: string | null; fuentes: string[]; fichas_juridicas: string[]; estado: CaseStatus; datos_adicionales?: AdditionalCaseData };
+export type OperationalCase = { id: string; modulo: string; categoria: string; titulo: string; palabras_clave: string[]; que_comprobar: string[]; resultado: string; norma: string; articulo: string; codificado?: string | null; calificacion?: string | null; rango_min?: number | null; rango_max?: number | null; importe_fijo?: number | null; importe_reducido?: number | null; responsable?: string | null; medidas?: string[]; actuacion: string[]; competencia_denuncia: string; competencia_resuelve: string; destino_diligencias_penales?: string | null; penal_article_id?: string | null; advertencias: string[]; alerta_penal: boolean; referencia_penal?: string | null; regla_transversal?: string | null; fuentes: string[]; fichas_juridicas: string[]; estado: CaseStatus; datos_adicionales?: AdditionalCaseData };
+
+export type PoliceMeasure = { id: string; titulo: string; fundamento?: string; activacion: string; automatica: boolean; actuaciones: string[]; levantamiento: string };
+export type DecisionNode = { id: string; pregunta: string; si: string; no: string };
+export type DecisionTree = { id: string; categoria: string; entrada: string; nodes: DecisionNode[]; outcomes: Record<string, { titulo: string; caseId?: string; texto?: string }> };
 
 export type PenalPrecept = {
   id: string;

@@ -19,6 +19,21 @@ interface ExecutionContext {
   passThroughOnException(): void;
 }
 
+export const SITE_VERSION = "0.4.0";
+function withFreshNavigation(response: Response): Response {
+  const headers = new Headers(response.headers);
+  const contentType = headers.get("content-type") ?? "";
+  if (/^text\/html\b/i.test(contentType)) {
+    headers.set("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
+    headers.set("CDN-Cache-Control", "no-store");
+    headers.set("Cloudflare-CDN-Cache-Control", "no-store");
+    headers.set("Pragma", "no-cache");
+    headers.set("Expires", "0");
+    headers.set("X-Base-Operativa-Version", SITE_VERSION);
+  }
+  return new Response(response.body, { status: response.status, statusText: response.statusText, headers });
+}
+
 // Image security config. SVG sources with .svg extension auto-skip the
 // optimization endpoint on the client side (served directly, no proxy).
 // To route SVGs through the optimizer (with security headers), set
@@ -40,7 +55,7 @@ const worker = {
       }, allowedWidths);
     }
 
-    return handler.fetch(request, env, ctx);
+    return withFreshNavigation(await handler.fetch(request, env, ctx));
   },
 };
 

@@ -2,6 +2,7 @@ import type { OperationalCase } from "./types";
 import validatedPackage from "./paquete_animales_v0_2_validado.json";
 import { applyWarningReplacements, auditOperationalWarnings } from "./warnings";
 import { ANIMAL_MALTREATMENT_PENAL_DESTINATION, auditAmbiguousPenalMessages, auditPenalBranches } from "./penal";
+import { itvCases } from "./itv";
 
 const nuevosCasosV03: OperationalCase[] = [
   {
@@ -217,7 +218,7 @@ const v033CaseUpdates: Record<string, Partial<OperationalCase>> = {
 };
 
 const warningsUpdatedCases = applyWarningReplacements([...(validatedPackage.casos as OperationalCase[]), ...nuevosCasosV03]);
-export const cases = warningsUpdatedCases.map((item) => Object.hasOwn(v033CaseUpdates, item.id) ? { ...item, ...v033CaseUpdates[item.id] } : item);
+export const cases = [...warningsUpdatedCases.map((item) => Object.hasOwn(v033CaseUpdates, item.id) ? { ...item, ...v033CaseUpdates[item.id] } : item), ...itvCases];
 /** Resultado no destructivo del control común aplicado a cada lote importado. */
 export const warningsPendingReview = auditOperationalWarnings(cases);
 export const penalMessagesPendingReview = auditAmbiguousPenalMessages(cases);
