@@ -34,6 +34,36 @@ test("ARCI, importes, responsable y competencia son los validados", async () => 
   assert.deepEqual(op4.map((branch) => [branch.codificado, branch.calificacion, branch.importe_fijo, branch.importe_reducido]), [["VEH 10.1 5D", "muy grave", 500, 250], ["VEH 10.1 5E", "grave", 200, 100]]);
 });
 
+test("el formato común de tráfico separa obligación, tipificación, literal y medida principal", async () => {
+  const { itvCases } = await vite.ssrLoadModule("/data/itv.ts");
+  const { CaseSheet } = await vite.ssrLoadModule("/app/page.tsx");
+  const sanctionable = itvCases.filter((item) => item.es_infraccion_autonoma !== false);
+  for (const item of sanctionable) {
+    assert.equal(item.norma_infringida, "Reglamento General de Vehículos");
+    assert.equal(item.articulo_infringido, "10.1");
+    assert.ok(["SÍ", "NO", "CONDICIONADA"].includes(item.inmovilizacion));
+    assert.ok(item.motivo_inmovilizacion);
+    const variants = item.datos_adicionales?.encaje_condicional?.filter((entry) => entry.calificacion !== "sin infracción ITV") ?? [];
+    if (variants.length) for (const entry of variants) {
+      assert.ok(entry.textoDenuncia); assert.ok(entry.codificado); assert.ok(entry.tipificacion_articulo);
+    } else {
+      assert.ok(item.textoDenuncia); assert.ok(item.codificado); assert.ok(item.tipificacion_articulo);
+    }
+    const html = renderToStaticMarkup(React.createElement(CaseSheet, { item, copied: false, onCopy() {} }));
+    assert.match(html, /INFRACCIÓN OBSERVADA/); assert.match(html, /NORMA INFRINGIDA/); assert.match(html, /INMOVILIZACIÓN: (?:SÍ|NO|CONDICIONADA)/);
+  }
+  const safetyMeasure = itvCases.find((item) => item.id.endsWith("007"));
+  assert.equal(safetyMeasure.es_infraccion_autonoma, false);
+  assert.equal(safetyMeasure.articulo, "104.1.b");
+  const source = await readFile(new URL("../data/itv.ts", import.meta.url), "utf8");
+  assert.doesNotMatch(source, /tipo técnico específico/);
+});
+
+test("Seguro Obligatorio no se publica sin cotejo oficial 5F–5M", async () => {
+  const { cases } = await vite.ssrLoadModule("/data/cases.ts");
+  assert.equal(cases.filter((item) => /seguro/i.test(`${item.categoria} ${item.titulo}`)).length, 0);
+});
+
 test("medidas y riesgo grave conservan presupuestos separados", async () => {
   const { itvCases, itvMeasures } = await vite.ssrLoadModule("/data/itv.ts");
   assert.equal(itvMeasures.length, 6);
