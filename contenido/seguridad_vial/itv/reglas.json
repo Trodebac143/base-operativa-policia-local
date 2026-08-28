@@ -1,0 +1,82 @@
+[
+  {
+    "id": "TR-ITV-R-001",
+    "nombre": "ITV vencida",
+    "contenido": "La falta de inspección periódica puede denunciarse también con el vehículo estacionado en vía pública, aplicando proporcionalidad.",
+    "tipo": "criterio_itv",
+    "aplica_a": "seguridad_vial_itv",
+    "activo": true
+  },
+  {
+    "id": "TR-ITV-R-002",
+    "nombre": "Vencimiento sin riesgo grave",
+    "contenido": "El mero vencimiento no permite inmovilizar.",
+    "tipo": "criterio_itv",
+    "aplica_a": "seguridad_vial_itv",
+    "activo": true
+  },
+  {
+    "id": "TR-ITV-R-003",
+    "nombre": "Desfavorable dentro de plazo",
+    "contenido": "Solo se permite el desplazamiento necesario para subsanar deficiencias y volver a ITV; los demás desplazamientos se denuncian con 5C.",
+    "tipo": "criterio_itv",
+    "aplica_a": "seguridad_vial_itv",
+    "activo": true
+  },
+  {
+    "id": "TR-ITV-R-004",
+    "nombre": "Desfavorable fuera de plazo",
+    "contenido": "Distinguir circulación efectiva 5D de estacionamiento o puesta en circulación 5E.",
+    "tipo": "criterio_itv",
+    "aplica_a": "seguridad_vial_itv",
+    "activo": true
+  },
+  {
+    "id": "TR-ITV-R-005",
+    "nombre": "ITV negativa",
+    "contenido": "Impedir la continuación autopropulsada y exigir transporte por medios ajenos.",
+    "tipo": "criterio_itv",
+    "aplica_a": "seguridad_vial_itv",
+    "activo": true
+  },
+  {
+    "id": "TR-ITV-R-006",
+    "nombre": "Riesgo especialmente grave",
+    "contenido": "La inmovilización solo puede acordarse por deficiencias actuales que constituyan riesgo especialmente grave y debe motivarse.",
+    "tipo": "criterio_itv",
+    "aplica_a": "seguridad_vial_itv",
+    "activo": true
+  },
+  {
+    "id": "TR-ITV-R-007",
+    "nombre": "Retirada y depósito",
+    "contenido": "Exigen un supuesto propio del artículo 105 LSV; no son consecuencia automática del estado ITV.",
+    "tipo": "criterio_itv",
+    "aplica_a": "seguridad_vial_itv",
+    "activo": true
+  },
+  {
+    "id": "TR-ITV-R-008",
+    "nombre": "Competencia",
+    "contenido": "La Policía Local formula la denuncia y la Jefatura Provincial de Tráfico de Valencia ejerce la competencia sancionadora.",
+    "tipo": "criterio_itv",
+    "aplica_a": "seguridad_vial_itv",
+    "activo": true
+  },
+  {
+    "id": "TR-ITV-R-009",
+    "nombre": "Responsable",
+    "contenido": "En las infracciones ITV responde el titular o arrendatario a largo plazo inscrito.",
+    "tipo": "criterio_itv",
+    "aplica_a": "seguridad_vial_itv",
+    "activo": true
+  },
+  {
+    "id": "TR-ITV-R-010",
+    "nombre": "Reducción",
+    "contenido": "El pago voluntario dentro de veinte días naturales permite la reducción del 50 por ciento en los tipos ITV incluidos.",
+    "tipo": "criterio_itv",
+    "aplica_a": "seguridad_vial_itv",
+    "activo": true
+  }
+]

@@ -123,3 +123,13 @@ The timeout defaults can be overridden for a controlled canary with `SITES_INSTA
 
 - [vinext Documentation](https://github.com/cloudflare/vinext)
 - [Drizzle D1 Guide](https://orm.drizzle.team/docs/get-started/d1-new)
+
+## Mantenimiento de contenido
+
+Esta copia incorpora una separación explícita entre contenido y motor.
+
+- Para editar datos: **`contenido/`** y `MANTENIMIENTO_DATOS.md`.
+- Para trabajo técnico: `GUIA_TECNICA.md`.
+- Antes de probar/publicar cambios: `npm run validar:contenido`.
+
+Por ahora Sites sigue siendo la referencia publicada; la copia local permite validar modificaciones de datos antes de trasladarlas a producción.

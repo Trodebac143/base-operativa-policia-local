@@ -1,0 +1,93 @@
+{
+  "id": "TR-ITV-AD-001",
+  "categoria": "seguridad_vial_itv",
+  "entrada": "Comprobar estado ITV, movimiento real, informe de defectos y plazo",
+  "outcomes": {
+    "TR-ITV-OP-001": {
+      "titulo": "Abrir: ITV vencida circulando",
+      "caseId": "TR-ITV-OP-001"
+    },
+    "TR-ITV-OP-002": {
+      "titulo": "Abrir: ITV vencida estacionado",
+      "caseId": "TR-ITV-OP-002"
+    },
+    "TR-ITV-OP-003": {
+      "titulo": "Abrir: ITV desfavorable dentro de plazo",
+      "caseId": "TR-ITV-OP-003"
+    },
+    "TR-ITV-OP-004": {
+      "titulo": "Abrir: ITV desfavorable fuera de plazo",
+      "caseId": "TR-ITV-OP-004"
+    },
+    "TR-ITV-OP-005": {
+      "titulo": "Abrir: ITV negativa circulando",
+      "caseId": "TR-ITV-OP-005"
+    },
+    "TR-ITV-OP-006": {
+      "titulo": "Abrir: ITV negativa estacionado",
+      "caseId": "TR-ITV-OP-006"
+    },
+    "TR-ITV-OP-007": {
+      "titulo": "Abrir: riesgo especialmente grave",
+      "caseId": "TR-ITV-OP-007"
+    },
+    "NO_ITV_INFRINGEMENT": {
+      "titulo": "Sin infracción ITV por el desplazamiento",
+      "texto": "Documenta que el trayecto es necesario y coherente para subsanar deficiencias o volver a ITV. Comprueba aparte las deficiencias actuales."
+    },
+    "NO_ITV_CASE": {
+      "titulo": "No se identifica uno de los casos ITV del bloque",
+      "texto": "Revisa la documentación y, si existen defectos, identifica la deficiencia concreta, su norma y el texto oficial aplicable antes de denunciar."
+    }
+  },
+  "nodes": [
+    {
+      "id": "N1",
+      "pregunta": "¿La ITV periódica está vencida sin resultado desfavorable o negativo?",
+      "si": "N2",
+      "no": "N3"
+    },
+    {
+      "id": "N2",
+      "pregunta": "¿El vehículo está circulando?",
+      "si": "TR-ITV-OP-001",
+      "no": "TR-ITV-OP-002"
+    },
+    {
+      "id": "N3",
+      "pregunta": "¿El último resultado es desfavorable?",
+      "si": "N4",
+      "no": "N6"
+    },
+    {
+      "id": "N4",
+      "pregunta": "¿Se ha superado el plazo máximo?",
+      "si": "TR-ITV-OP-004",
+      "no": "N5"
+    },
+    {
+      "id": "N5",
+      "pregunta": "¿Es un trayecto necesario y coherente para subsanar deficiencias o volver a ITV?",
+      "si": "NO_ITV_INFRINGEMENT",
+      "no": "TR-ITV-OP-003"
+    },
+    {
+      "id": "N6",
+      "pregunta": "¿El último resultado es negativo?",
+      "si": "N7",
+      "no": "N8"
+    },
+    {
+      "id": "N7",
+      "pregunta": "¿Está circulando por sus propios medios?",
+      "si": "TR-ITV-OP-005",
+      "no": "TR-ITV-OP-006"
+    },
+    {
+      "id": "N8",
+      "pregunta": "¿Existen deficiencias actuales con riesgo especialmente grave?",
+      "si": "TR-ITV-OP-007",
+      "no": "NO_ITV_CASE"
+    }
+  ]
+}

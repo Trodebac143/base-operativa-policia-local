@@ -1,0 +1,32 @@
+[
+  {
+    "id": "TR-ITV-FJ-001",
+    "titulo": "Obligación de inspección periódica",
+    "regla": "Someter el vehículo a ITV y superar la inspección en los términos reglamentarios."
+  },
+  {
+    "id": "TR-ITV-FJ-002",
+    "titulo": "Resultado desfavorable o negativo",
+    "regla": "Defecto grave determina resultado desfavorable; defecto muy grave, resultado negativo."
+  },
+  {
+    "id": "TR-ITV-FJ-003",
+    "titulo": "Segunda inspección",
+    "regla": "Plazo máximo de dos meses; desfavorable con desplazamientos tasados y negativa con transporte por medios ajenos."
+  },
+  {
+    "id": "TR-ITV-FJ-004",
+    "titulo": "Tipificación, cuantía, responsable y reducción",
+    "regla": "Aplicar tipo ARCI validado, titular o arrendatario inscrito y reducción del 50 por ciento."
+  },
+  {
+    "id": "TR-ITV-FJ-005",
+    "titulo": "Competencia sancionadora",
+    "regla": "Jefatura Provincial de Tráfico de Valencia; Policía Local como formuladora."
+  },
+  {
+    "id": "TR-ITV-FJ-006",
+    "titulo": "Medidas policiales",
+    "regla": "Inmovilización, retirada, traslado y depósito conservan presupuestos y efectos propios."
+  }
+]

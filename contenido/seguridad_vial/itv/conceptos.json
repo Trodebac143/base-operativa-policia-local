@@ -1,0 +1,42 @@
+[
+  {
+    "id": "TR-ITV-CO-001",
+    "termino": "ITV caducada"
+  },
+  {
+    "id": "TR-ITV-CO-002",
+    "termino": "ITV desfavorable"
+  },
+  {
+    "id": "TR-ITV-CO-003",
+    "termino": "ITV negativa"
+  },
+  {
+    "id": "TR-ITV-CO-004",
+    "termino": "Circulando"
+  },
+  {
+    "id": "TR-ITV-CO-005",
+    "termino": "Estacionado o puesto en circulación"
+  },
+  {
+    "id": "TR-ITV-CO-006",
+    "termino": "Plazo de segunda inspección"
+  },
+  {
+    "id": "TR-ITV-CO-007",
+    "termino": "Riesgo especialmente grave"
+  },
+  {
+    "id": "TR-ITV-CO-008",
+    "termino": "Transporte por medios ajenos"
+  },
+  {
+    "id": "TR-ITV-CO-009",
+    "termino": "Retirada"
+  },
+  {
+    "id": "TR-ITV-CO-010",
+    "termino": "Depósito"
+  }
+]
