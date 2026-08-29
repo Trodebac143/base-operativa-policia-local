@@ -4,6 +4,7 @@ import test from "node:test";
 
 test("GitHub Pages usa exportación estática y un basePath calculado", async () => {
   const config = await readFile(new URL("../next.config.ts", import.meta.url), "utf8");
+  assert.match(config, /PAGES_BUILD/);
   assert.match(config, /output:\s*["']export["']/);
   assert.match(config, /GITHUB_REPOSITORY/);
   assert.match(config, /basePath:\s*pagesBasePath/);
@@ -26,6 +27,7 @@ test("el workflow utiliza las acciones oficiales de GitHub Pages", async () => {
   assert.match(workflow, /actions\/configure-pages@v5/);
   assert.match(workflow, /actions\/upload-pages-artifact@v3/);
   assert.match(workflow, /actions\/deploy-pages@v4/);
+  assert.match(workflow, /PAGES_BUILD:\s*["']true["']/);
   assert.match(workflow, /pages:\s*write/);
   assert.match(workflow, /id-token:\s*write/);
 });
