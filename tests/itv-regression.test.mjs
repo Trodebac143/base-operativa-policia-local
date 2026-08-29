@@ -79,7 +79,7 @@ test("Seguro Obligatorio integra seis casos y las doce variantes ARCI validadas"
 test("Seguro usa títulos operativos y la matriz común de medidas", async () => {
   const { seguroCases, seguroMeasures } = await vite.ssrLoadModule("/data/seguro.ts");
   const titles = seguroCases.map((item) => item.titulo);
-  assert.deepEqual(titles, ["Vehículos convencionales — circulando sin seguro", "Vehículos convencionales — carece de seguro", "VMP que requiere SOA — circulando sin seguro", "VMP que requiere SOA — carece de seguro", "VPL que requiere SOA — circulando sin seguro", "VPL que requiere SOA — carece de seguro"]);
+  assert.deepEqual(titles, ["Vehículos convencionales — circulando sin seguro", "Vehículos convencionales — carece de seguro", "VMP que requiere SOA (VMP >25 Kg y Velocidad hasta 25 km/h) — circulando sin seguro", "VMP que requiere SOA (VMP >25 Kg y Velocidad hasta 25 km/h) — carece de seguro", "VPL que requiere SOA (Peso < 25 kg y velocidad hasta 25 km/h O peso > de 25 kg y velocidad hasta 14 km/h) — circulando sin seguro", "VPL que requiere SOA (Peso < 25 kg y velocidad hasta 25 km/h O peso > de 25 kg y velocidad hasta 14 km/h) — carece de seguro"]);
   assert.deepEqual(seguroCases.flatMap((item) => item.medidas), ["TR-MED-SOA-OPERATIVE", "TR-MED-SOA-OPERATIVE", "TR-MED-SOA-OPERATIVE", "TR-MED-SOA-OPERATIVE", "TR-MED-SOA-OPERATIVE", "TR-MED-SOA-OPERATIVE"]);
   const operational = seguroMeasures.find((item) => item.id === "TR-MED-SOA-OPERATIVE");
   assert.match(operational.fundamento, /104\.1\.e/);
