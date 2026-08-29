@@ -35,7 +35,7 @@
       "Clase del vehículo: ciclomotor, motocicleta, turismo o tercera categoría.",
       "Uso o conducción efectiva como medio de transporte."
     ],
-    "resultado": "Vehículo convencional que requiere SOA, circulando sin seguro en vigor.",
+    "resultado": "Ciclomotor, Motocicleta, Turismo, 3ª Categoría que requiere SOA, circulando sin seguro en vigor.",
     "responsable": "Propietario; en vehículo inscrito, se presume propietario a quien figure en el registro.",
     "inmovilizacion": "CONDICIONADA",
     "motivo_inmovilizacion": "Causa prevista en el art. 104.1.e LSV; aplicar conforme al régimen sectorial específico de seguro.",
@@ -271,7 +271,7 @@
     "referencia_penal": null,
     "estado": "validado",
     "id": "TR-SOA-OP-003",
-    "titulo": "VMP que requiere SOA — circulando sin seguro",
+    "titulo": "VMP que requiere SOA (VMP >25 Kg y Velocidad hasta 25 km/h) — circulando sin seguro",
     "palabras_clave": [
       "VMP",
       "seguro",
@@ -338,7 +338,7 @@
     "referencia_penal": null,
     "estado": "validado",
     "id": "TR-SOA-OP-004",
-    "titulo": "VMP que requiere SOA — carece de seguro",
+    "titulo": "VMP que requiere SOA (VMP >25 Kg y Velocidad hasta 25 km/h) — carece de seguro",
     "palabras_clave": [
       "VMP",
       "seguro",
@@ -405,7 +405,7 @@
     "referencia_penal": null,
     "estado": "validado",
     "id": "TR-SOA-OP-005",
-    "titulo": "VPL que requiere SOA — circulando sin seguro",
+    "titulo": "VPL que requiere SOA (Peso < 25 kg y velocidad hasta 25 km/h O peso > de 25 kg y velocidad hasta 14 km/h) — circulando sin seguro",
     "palabras_clave": [
       "VPL",
       "seguro",
@@ -473,7 +473,7 @@
     "referencia_penal": null,
     "estado": "validado",
     "id": "TR-SOA-OP-006",
-    "titulo": "VPL que requiere SOA — carece de seguro",
+    "titulo": "VPL que requiere SOA (Peso < 25 kg y velocidad hasta 25 km/h O peso > de 25 kg y velocidad hasta 14 km/h) — carece de seguro",
     "palabras_clave": [
       "VPL",
       "seguro",

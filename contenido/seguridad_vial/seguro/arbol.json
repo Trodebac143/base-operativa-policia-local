@@ -12,19 +12,19 @@
       "caseId": "TR-SOA-OP-002"
     },
     "TR-SOA-OP-003": {
-      "titulo": "Abrir: VMP que requiere SOA — circulando sin seguro",
+      "titulo": "Abrir: VMP que requiere SOA (VMP >25 Kg y Velocidad hasta 25 km/h) — circulando sin seguro",
       "caseId": "TR-SOA-OP-003"
     },
     "TR-SOA-OP-004": {
-      "titulo": "Abrir: VMP que requiere SOA — carece de seguro",
+      "titulo": "Abrir: VMP que requiere SOA (VMP >25 Kg y Velocidad hasta 25 km/h) — carece de seguro",
       "caseId": "TR-SOA-OP-004"
     },
     "TR-SOA-OP-005": {
-      "titulo": "Abrir: VPL que requiere SOA — circulando sin seguro",
+      "titulo": "Abrir: VPL que requiere SOA (Peso < 25 kg y velocidad hasta 25 km/h O peso > de 25 kg y velocidad hasta 14 km/h) — circulando sin seguro",
       "caseId": "TR-SOA-OP-005"
     },
     "TR-SOA-OP-006": {
-      "titulo": "Abrir: VPL que requiere SOA — carece de seguro",
+      "titulo": "Abrir: VPL que requiere SOA (Peso < 25 kg y velocidad hasta 25 km/h O peso > de 25 kg y velocidad hasta 14 km/h) — carece de seguro",
       "caseId": "TR-SOA-OP-006"
     },
     "SO-NS-01": {
