@@ -1,0 +1,34 @@
+[
+  {
+    "id": "TR-SOA-R-001",
+    "nombre": "Obligación",
+    "contenido": "El propietario debe mantener el seguro aunque el vehículo no circule.",
+    "tipo": "criterio_seguro",
+    "aplica_a": "seguridad_vial_seguro",
+    "activo": true
+  },
+  {
+    "id": "TR-SOA-R-002",
+    "nombre": "Clasificación VMP/VPL",
+    "contenido": "Un valor exactamente de 25 kg exige comprobación adicional; no automatizar la conclusión.",
+    "tipo": "criterio_seguro",
+    "aplica_a": "seguridad_vial_seguro",
+    "activo": true
+  },
+  {
+    "id": "TR-SOA-R-003",
+    "nombre": "Transitorio",
+    "contenido": "VMP sin certificado comercializado antes de 22/01/2024 puede circular e inscribirse hasta 22/01/2027.",
+    "tipo": "criterio_seguro",
+    "aplica_a": "seguridad_vial_seguro",
+    "activo": true
+  },
+  {
+    "id": "TR-SOA-R-004",
+    "nombre": "Medidas",
+    "contenido": "Inmovilización, retirada, traslado y depósito tienen presupuestos propios.",
+    "tipo": "criterio_seguro",
+    "aplica_a": "seguridad_vial_seguro",
+    "activo": true
+  }
+]

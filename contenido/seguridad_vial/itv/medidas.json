@@ -1,0 +1,77 @@
+[
+  {
+    "id": "TR-MED-ITV-CHECK",
+    "titulo": "Comprobación documental ITV",
+    "activacion": "Cualquier control ITV",
+    "automatica": false,
+    "actuaciones": [
+      "Consultar el Registro de Vehículos y la documentación ITV.",
+      "Identificar fecha, resultado, defectos, plazo y estación.",
+      "Distinguir circulación efectiva de estacionamiento."
+    ],
+    "levantamiento": "No es una medida restrictiva; finaliza con la comprobación."
+  },
+  {
+    "id": "TR-MED-WARN-NOCIRC",
+    "titulo": "Advertencia de prohibición o limitación de circulación",
+    "activacion": "ITV desfavorable o negativa",
+    "automatica": false,
+    "actuaciones": [
+      "Informar del alcance exacto de la limitación.",
+      "Dejar constancia de la advertencia.",
+      "No se trata de una inmovilización."
+    ],
+    "levantamiento": "Cesa al obtener un resultado ITV que habilite la circulación; en la desfavorable subsiste la excepción reglamentaria de desplazamiento."
+  },
+  {
+    "id": "TR-MED-EXT-TRANSPORT",
+    "titulo": "Transporte por medios ajenos",
+    "activacion": "ITV negativa o imposibilidad legal de continuar autopropulsado",
+    "automatica": false,
+    "actuaciones": [
+      "Impedir la continuación por sus propios medios.",
+      "Permitir que el responsable organice grúa o plataforma.",
+      "Documentar medio y destino."
+    ],
+    "levantamiento": "Concluye con el transportarse del vehículo sin autopropulsión; no es retirada administrativa ni depósito."
+  },
+  {
+    "id": "TR-MED-IMMOB-104B",
+    "titulo": "Inmovilización por riesgo especialmente grave",
+    "fundamento": "Art. 104.1.b LSV",
+    "activacion": "Deficiencias actuales que constituyen riesgo especialmente grave",
+    "automatica": false,
+    "actuaciones": [
+      "Describir las deficiencias y el riesgo concreto.",
+      "Motivar necesidad y proporcionalidad.",
+      "Fijar el lugar indicado por los agentes."
+    ],
+    "levantamiento": "Cuando cese la causa. Si persiste la inhabilitación ITV, el levantamiento solo permite transporte legal, no circulación autopropulsada."
+  },
+  {
+    "id": "TR-MED-REMOVE-105",
+    "titulo": "Retirada de la vía",
+    "fundamento": "Art. 105 LSV",
+    "activacion": "Peligro, grave perturbación, falta de lugar adecuado para una inmovilización legal u otro supuesto tasado",
+    "automatica": false,
+    "actuaciones": [
+      "Identificar el supuesto legal concreto.",
+      "Permitir la retirada por el obligado cuando sea viable.",
+      "Ordenar retirada administrativa solo si concurren sus requisitos."
+    ],
+    "levantamiento": "Devolución conforme al artículo 105; no habilita para circular si persiste el estado ITV."
+  },
+  {
+    "id": "TR-MED-DEPOSIT-105",
+    "titulo": "Depósito administrativo",
+    "fundamento": "Art. 105 LSV",
+    "activacion": "Retirada administrativa legalmente acordada",
+    "automatica": false,
+    "actuaciones": [
+      "Custodiar en el lugar designado.",
+      "Inventariar y comunicar.",
+      "Separarlo del transporte privado a taller o ITV."
+    ],
+    "levantamiento": "Entrega conforme al artículo 105; si no puede circular, la salida será mediante transporte legal."
+  }
+]

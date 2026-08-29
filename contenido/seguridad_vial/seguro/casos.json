@@ -1,0 +1,527 @@
+[
+  {
+    "modulo": "seguridad_vial",
+    "categoria": "seguridad_vial_seguro",
+    "norma": "Real Decreto Legislativo 8/2004",
+    "articulo": "2.1",
+    "norma_infringida": "Real Decreto Legislativo 8/2004, texto refundido de la Ley sobre responsabilidad civil y seguro en la circulación de vehículos a motor",
+    "articulo_infringido": "2.1",
+    "tipificacion_norma": "Real Decreto Legislativo 8/2004",
+    "tipificacion_articulo": "3",
+    "tipificacion_etiqueta": "Régimen sancionador",
+    "competencia_denuncia": "Policía Local de Torrent — órgano actuante y formulador",
+    "competencia_instruye": "Jefatura Provincial de Tráfico de Valencia — receptor e instructora",
+    "competencia_resuelve": "Jefe Provincial de Tráfico de Valencia",
+    "alerta_penal": false,
+    "referencia_penal": null,
+    "estado": "validado",
+    "id": "TR-SOA-OP-001",
+    "titulo": "Vehículos convencionales — circulando sin seguro",
+    "palabras_clave": [
+      "seguro",
+      "SOA",
+      "ciclomotor",
+      "motocicleta",
+      "turismo",
+      "tercera categoría",
+      "5F",
+      "5G",
+      "5H",
+      "5I"
+    ],
+    "que_comprobar": [
+      "Que el vehículo está sujeto a seguro obligatorio y no concurre una excepción legal.",
+      "Consulta oficial de seguro en vigor.",
+      "Clase del vehículo: ciclomotor, motocicleta, turismo o tercera categoría.",
+      "Uso o conducción efectiva como medio de transporte."
+    ],
+    "resultado": "Vehículo convencional que requiere SOA, circulando sin seguro en vigor.",
+    "responsable": "Propietario; en vehículo inscrito, se presume propietario a quien figure en el registro.",
+    "inmovilizacion": "CONDICIONADA",
+    "motivo_inmovilizacion": "Causa prevista en el art. 104.1.e LSV; aplicar conforme al régimen sectorial específico de seguro.",
+    "actuacion_breve": [
+      "Formular la variante ARCI aplicable, impedir la continuación ordinaria y aplicar la medida sobre el vehículo conforme al régimen sectorial específico."
+    ],
+    "actuacion": [
+      "Comprobar la sujeción y la inexistencia de seguro vigente.",
+      "Identificar la clase de vehículo y seleccionar la variante ARCI exacta.",
+      "Formular denuncia y remitirla a la Jefatura Provincial de Tráfico de Valencia.",
+      "Impedir la continuación ordinaria y aplicar la medida sobre el vehículo conforme al régimen sectorial específico."
+    ],
+    "medidas": [
+      "TR-MED-SOA-OPERATIVE"
+    ],
+    "advertencias": [
+      "La inmovilización no es automática ni equivale a retirada, traslado o depósito.",
+      "No se muestra calificación leve, grave o muy grave: el régimen específico no usa esa etiqueta universal."
+    ],
+    "datos_adicionales": {
+      "encaje_condicional": [
+        {
+          "supuesto": "Ciclomotor — circulando sin seguro",
+          "articulo": "2.1",
+          "norma_infringida": "Real Decreto Legislativo 8/2004, texto refundido de la Ley sobre responsabilidad civil y seguro en la circulación de vehículos a motor",
+          "articulo_infringido": "2.1",
+          "tipificacion_norma": "Real Decreto Legislativo 8/2004",
+          "tipificacion_articulo": "3",
+          "tipificacion_etiqueta": "Régimen sancionador",
+          "textoDenuncia": "CIRCULAR EL VEHÍCULO RESEÑADO SIN QUE CONSTE QUE SU PROPIETARIO TENGA SUSCRITO Y MANTENGA EN VIGOR UN CONTRATO DE SEGURO QUE CUBRA LA RESPONSABILIDAD CIVIL DERIVADA DE SU CIRCULACIÓN. (CICLOMOTORES.)",
+          "calificacion": "",
+          "codificado": "SOA 2.1 5F",
+          "importe_fijo": 1000,
+          "importe_reducido": 500
+        },
+        {
+          "supuesto": "Motocicleta — circulando sin seguro",
+          "articulo": "2.1",
+          "norma_infringida": "Real Decreto Legislativo 8/2004, texto refundido de la Ley sobre responsabilidad civil y seguro en la circulación de vehículos a motor",
+          "articulo_infringido": "2.1",
+          "tipificacion_norma": "Real Decreto Legislativo 8/2004",
+          "tipificacion_articulo": "3",
+          "tipificacion_etiqueta": "Régimen sancionador",
+          "textoDenuncia": "CIRCULAR EL VEHÍCULO RESEÑADO SIN QUE CONSTE QUE SU PROPIETARIO TENGA SUSCRITO Y MANTENGA EN VIGOR UN CONTRATO DE SEGURO QUE CUBRA LA RESPONSABILIDAD CIVIL DERIVADA DE SU CIRCULACIÓN. (MOTOCICLETAS.)",
+          "calificacion": "",
+          "codificado": "SOA 2.1 5G",
+          "importe_fijo": 1250,
+          "importe_reducido": 625
+        },
+        {
+          "supuesto": "Turismo — circulando sin seguro",
+          "articulo": "2.1",
+          "norma_infringida": "Real Decreto Legislativo 8/2004, texto refundido de la Ley sobre responsabilidad civil y seguro en la circulación de vehículos a motor",
+          "articulo_infringido": "2.1",
+          "tipificacion_norma": "Real Decreto Legislativo 8/2004",
+          "tipificacion_articulo": "3",
+          "tipificacion_etiqueta": "Régimen sancionador",
+          "textoDenuncia": "CIRCULAR EL VEHÍCULO RESEÑADO SIN QUE CONSTE QUE SU PROPIETARIO TENGA SUSCRITO Y MANTENGA EN VIGOR UN CONTRATO DE SEGURO QUE CUBRA LA RESPONSABILIDAD CIVIL DERIVADA DE SU CIRCULACIÓN. (TURISMOS.)",
+          "calificacion": "",
+          "codificado": "SOA 2.1 5H",
+          "importe_fijo": 1500,
+          "importe_reducido": 750
+        },
+        {
+          "supuesto": "Vehículo de tercera categoría — circulando sin seguro",
+          "articulo": "2.1",
+          "norma_infringida": "Real Decreto Legislativo 8/2004, texto refundido de la Ley sobre responsabilidad civil y seguro en la circulación de vehículos a motor",
+          "articulo_infringido": "2.1",
+          "tipificacion_norma": "Real Decreto Legislativo 8/2004",
+          "tipificacion_articulo": "3",
+          "tipificacion_etiqueta": "Régimen sancionador",
+          "textoDenuncia": "CIRCULAR EL VEHÍCULO RESEÑADO SIN QUE CONSTE QUE SU PROPIETARIO TENGA SUSCRITO Y MANTENGA EN VIGOR UN CONTRATO DE SEGURO QUE CUBRA LA RESPONSABILIDAD CIVIL DERIVADA DE SU CIRCULACIÓN. (VEHÍCULOS DE TERCERA CATEGORÍA.)",
+          "calificacion": "",
+          "codificado": "SOA 2.1 5I",
+          "importe_fijo": 2800,
+          "importe_reducido": 1400
+        }
+      ]
+    },
+    "fuentes": [
+      "TR-SOA-SRC-001",
+      "TR-SOA-SRC-003",
+      "TR-SOA-SRC-004",
+      "TR-SOA-SRC-008"
+    ],
+    "fichas_juridicas": [
+      "TR-SOA-FJ-001",
+      "TR-SOA-FJ-002",
+      "TR-SOA-FJ-003",
+      "TR-SOA-FJ-005"
+    ]
+  },
+  {
+    "modulo": "seguridad_vial",
+    "categoria": "seguridad_vial_seguro",
+    "norma": "Real Decreto Legislativo 8/2004",
+    "articulo": "2.1",
+    "norma_infringida": "Real Decreto Legislativo 8/2004, texto refundido de la Ley sobre responsabilidad civil y seguro en la circulación de vehículos a motor",
+    "articulo_infringido": "2.1",
+    "tipificacion_norma": "Real Decreto Legislativo 8/2004",
+    "tipificacion_articulo": "3",
+    "tipificacion_etiqueta": "Régimen sancionador",
+    "competencia_denuncia": "Policía Local de Torrent — órgano actuante y formulador",
+    "competencia_instruye": "Jefatura Provincial de Tráfico de Valencia — receptor e instructora",
+    "competencia_resuelve": "Jefe Provincial de Tráfico de Valencia",
+    "alerta_penal": false,
+    "referencia_penal": null,
+    "estado": "validado",
+    "id": "TR-SOA-OP-002",
+    "titulo": "Vehículos convencionales — carece de seguro",
+    "palabras_clave": [
+      "seguro",
+      "SOA",
+      "estacionado",
+      "carecer",
+      "5J",
+      "5K",
+      "5L",
+      "5M"
+    ],
+    "que_comprobar": [
+      "Que el vehículo está sujeto a seguro obligatorio y no concurre excepción legal.",
+      "Consulta oficial de seguro en vigor.",
+      "Clase del vehículo.",
+      "Ausencia de uso o conducción efectiva; el estacionamiento basta para esta modalidad."
+    ],
+    "resultado": "Vehículo convencional que requiere SOA y carece de seguro.",
+    "responsable": "Propietario; en vehículo inscrito, se presume propietario a quien figure en el registro.",
+    "inmovilizacion": "CONDICIONADA",
+    "motivo_inmovilizacion": "Causa prevista en el art. 104.1.e LSV; aplicar conforme al régimen sectorial específico de seguro.",
+    "actuacion_breve": [
+      "Formular la variante ARCI aplicable y advertir que no puede ponerse en circulación sin seguro."
+    ],
+    "actuacion": [
+      "Comprobar la sujeción, la clase de vehículo y la inexistencia de seguro.",
+      "Documentar que no existe uso o conducción efectiva.",
+      "Formular denuncia y remitirla a la Jefatura Provincial de Tráfico de Valencia.",
+      "Aplicar la medida sobre el vehículo conforme al régimen sectorial específico."
+    ],
+    "medidas": [
+      "TR-MED-SOA-OPERATIVE"
+    ],
+    "advertencias": [
+      "Estacionado, inmovilizado o no utilizado no equivale a vehículo exento de asegurar.",
+      "La baja solo exime si además no se usa como medio de transporte."
+    ],
+    "datos_adicionales": {
+      "encaje_condicional": [
+        {
+          "supuesto": "Ciclomotor — carece de seguro",
+          "articulo": "2.1",
+          "norma_infringida": "Real Decreto Legislativo 8/2004, texto refundido de la Ley sobre responsabilidad civil y seguro en la circulación de vehículos a motor",
+          "articulo_infringido": "2.1",
+          "tipificacion_norma": "Real Decreto Legislativo 8/2004",
+          "tipificacion_articulo": "3",
+          "tipificacion_etiqueta": "Régimen sancionador",
+          "textoDenuncia": "INCUMPLIR EL PROPIETARIO DEL VEHÍCULO RESEÑADO LA OBLIGACIÓN DE SUSCRIBIR Y MANTENER EN VIGOR UN CONTRATO DE SEGURO QUE CUBRA LA RESPONSABILIDAD CIVIL DERIVADA DE SU CIRCULACIÓN. (CICLOMOTORES.)",
+          "calificacion": "",
+          "codificado": "SOA 2.1 5J",
+          "importe_fijo": 650,
+          "importe_reducido": 325
+        },
+        {
+          "supuesto": "Motocicleta — carece de seguro",
+          "articulo": "2.1",
+          "norma_infringida": "Real Decreto Legislativo 8/2004, texto refundido de la Ley sobre responsabilidad civil y seguro en la circulación de vehículos a motor",
+          "articulo_infringido": "2.1",
+          "tipificacion_norma": "Real Decreto Legislativo 8/2004",
+          "tipificacion_articulo": "3",
+          "tipificacion_etiqueta": "Régimen sancionador",
+          "textoDenuncia": "INCUMPLIR EL PROPIETARIO DEL VEHÍCULO RESEÑADO LA OBLIGACIÓN DE SUSCRIBIR Y MANTENER EN VIGOR UN CONTRATO DE SEGURO QUE CUBRA LA RESPONSABILIDAD CIVIL DERIVADA DE SU CIRCULACIÓN. (MOTOCICLETAS.)",
+          "calificacion": "",
+          "codificado": "SOA 2.1 5K",
+          "importe_fijo": 700,
+          "importe_reducido": 350
+        },
+        {
+          "supuesto": "Turismo — carece de seguro",
+          "articulo": "2.1",
+          "norma_infringida": "Real Decreto Legislativo 8/2004, texto refundido de la Ley sobre responsabilidad civil y seguro en la circulación de vehículos a motor",
+          "articulo_infringido": "2.1",
+          "tipificacion_norma": "Real Decreto Legislativo 8/2004",
+          "tipificacion_articulo": "3",
+          "tipificacion_etiqueta": "Régimen sancionador",
+          "textoDenuncia": "INCUMPLIR EL PROPIETARIO DEL VEHÍCULO RESEÑADO LA OBLIGACIÓN DE SUSCRIBIR Y MANTENER EN VIGOR UN CONTRATO DE SEGURO QUE CUBRA LA RESPONSABILIDAD CIVIL DERIVADA DE SU CIRCULACIÓN. (TURISMOS.)",
+          "calificacion": "",
+          "codificado": "SOA 2.1 5L",
+          "importe_fijo": 800,
+          "importe_reducido": 400
+        },
+        {
+          "supuesto": "Vehículo de tercera categoría — carece de seguro",
+          "articulo": "2.1",
+          "norma_infringida": "Real Decreto Legislativo 8/2004, texto refundido de la Ley sobre responsabilidad civil y seguro en la circulación de vehículos a motor",
+          "articulo_infringido": "2.1",
+          "tipificacion_norma": "Real Decreto Legislativo 8/2004",
+          "tipificacion_articulo": "3",
+          "tipificacion_etiqueta": "Régimen sancionador",
+          "textoDenuncia": "INCUMPLIR EL PROPIETARIO DEL VEHÍCULO RESEÑADO LA OBLIGACIÓN DE SUSCRIBIR Y MANTENER EN VIGOR UN CONTRATO DE SEGURO QUE CUBRA LA RESPONSABILIDAD CIVIL DERIVADA DE SU CIRCULACIÓN. (VEHÍCULOS DE TERCERA CATEGORÍA.)",
+          "calificacion": "",
+          "codificado": "SOA 2.1 5M",
+          "importe_fijo": 1500,
+          "importe_reducido": 750
+        }
+      ]
+    },
+    "fuentes": [
+      "TR-SOA-SRC-001",
+      "TR-SOA-SRC-004",
+      "TR-SOA-SRC-008"
+    ],
+    "fichas_juridicas": [
+      "TR-SOA-FJ-001",
+      "TR-SOA-FJ-002",
+      "TR-SOA-FJ-003",
+      "TR-SOA-FJ-005"
+    ]
+  },
+  {
+    "modulo": "seguridad_vial",
+    "categoria": "seguridad_vial_seguro",
+    "norma": "Real Decreto Legislativo 8/2004",
+    "articulo": "2.1",
+    "norma_infringida": "Real Decreto Legislativo 8/2004, texto refundido de la Ley sobre responsabilidad civil y seguro en la circulación de vehículos a motor",
+    "articulo_infringido": "2.1",
+    "tipificacion_norma": "Real Decreto Legislativo 8/2004",
+    "tipificacion_articulo": "3",
+    "tipificacion_etiqueta": "Régimen sancionador",
+    "competencia_denuncia": "Policía Local de Torrent — órgano actuante y formulador",
+    "competencia_instruye": "Jefatura Provincial de Tráfico de Valencia — receptor e instructora",
+    "competencia_resuelve": "Jefe Provincial de Tráfico de Valencia",
+    "alerta_penal": false,
+    "referencia_penal": null,
+    "estado": "validado",
+    "id": "TR-SOA-OP-003",
+    "titulo": "VMP que requiere SOA — circulando sin seguro",
+    "palabras_clave": [
+      "VMP",
+      "seguro",
+      "masa",
+      "velocidad",
+      "5N"
+    ],
+    "que_comprobar": [
+      "Velocidad máxima de fabricación y masa máxima en orden de marcha.",
+      "Que supera 25 kg y 14 km/h, o que supera 25 km/h, conforme al régimen aplicable.",
+      "Consulta oficial de seguro.",
+      "Uso o conducción efectiva."
+    ],
+    "resultado": "VMP que requiere SOA, circulando sin seguro en vigor.",
+    "responsable": "Propietario. Si el VMP a motor no está inscrito, consignar además el conductor para el procedimiento DGT, sin sustituir al propietario como obligado material.",
+    "textoDenuncia": "CIRCULAR EL VEHÍCULO RESEÑADO SIN QUE CONSTE QUE SU PROPIETARIO TENGA SUSCRITO Y MANTENGA EN VIGOR UN CONTRATO DE SEGURO QUE CUBRA LA RESPONSABILIDAD CIVIL DERIVADA DE SU CIRCULACIÓN. VELOCIDAD SUPERIOR A 14 KM/H HASTA 25 KM/H Y PESO SUPERIOR A 25 KG.",
+    "codificado": "SOA 2.1 5N",
+    "importe_fijo": 800,
+    "importe_reducido": 400,
+    "inmovilizacion": "CONDICIONADA",
+    "motivo_inmovilizacion": "Causa prevista en el art. 104.1.e LSV; aplicar conforme al régimen sectorial específico de seguro.",
+    "actuacion_breve": [
+      "Formular 5N, impedir la continuación ordinaria y aplicar la medida sobre el vehículo conforme al régimen sectorial específico."
+    ],
+    "actuacion": [
+      "Clasificar el vehículo con datos técnicos acreditados.",
+      "Comprobar el seguro y formular 5N.",
+      "Impedir la continuación ordinaria.",
+      "Si no está inscrito, identificar y consignar además al conductor conforme al criterio operativo DGT."
+    ],
+    "medidas": [
+      "TR-MED-SOA-OPERATIVE"
+    ],
+    "advertencias": [
+      "Un valor exactamente de 25 kg exige completar la clasificación; no automatizar la denuncia.",
+      "La obligación no depende de certificado o inscripción cuando se trata de vehículo a motor."
+    ],
+    "fuentes": [
+      "TR-SOA-SRC-001",
+      "TR-SOA-SRC-002",
+      "TR-SOA-SRC-006",
+      "TR-SOA-SRC-004"
+    ],
+    "fichas_juridicas": [
+      "TR-SOA-FJ-003",
+      "TR-SOA-FJ-004",
+      "TR-SOA-FJ-005"
+    ]
+  },
+  {
+    "modulo": "seguridad_vial",
+    "categoria": "seguridad_vial_seguro",
+    "norma": "Real Decreto Legislativo 8/2004",
+    "articulo": "2.1",
+    "norma_infringida": "Real Decreto Legislativo 8/2004, texto refundido de la Ley sobre responsabilidad civil y seguro en la circulación de vehículos a motor",
+    "articulo_infringido": "2.1",
+    "tipificacion_norma": "Real Decreto Legislativo 8/2004",
+    "tipificacion_articulo": "3",
+    "tipificacion_etiqueta": "Régimen sancionador",
+    "competencia_denuncia": "Policía Local de Torrent — órgano actuante y formulador",
+    "competencia_instruye": "Jefatura Provincial de Tráfico de Valencia — receptor e instructora",
+    "competencia_resuelve": "Jefe Provincial de Tráfico de Valencia",
+    "alerta_penal": false,
+    "referencia_penal": null,
+    "estado": "validado",
+    "id": "TR-SOA-OP-004",
+    "titulo": "VMP que requiere SOA — carece de seguro",
+    "palabras_clave": [
+      "VMP",
+      "seguro",
+      "estacionado",
+      "masa",
+      "velocidad",
+      "5O"
+    ],
+    "que_comprobar": [
+      "Clasificación técnica de vehículo a motor.",
+      "Consulta oficial de seguro.",
+      "Ausencia de uso o conducción efectiva."
+    ],
+    "resultado": "VMP que requiere SOA y carece de seguro.",
+    "responsable": "Propietario. Si el VMP a motor no está inscrito, consignar además el conductor para el procedimiento DGT, sin sustituir al propietario como obligado material.",
+    "textoDenuncia": "INCUMPLIR EL PROPIETARIO DEL VEHÍCULO RESEÑADO LA OBLIGACIÓN DE SUSCRIBIR Y MANTENER EN VIGOR UN CONTRATO DE SEGURO QUE CUBRA LA RESPONSABILIDAD CIVIL DERIVADA DE SU CIRCULACIÓN. VELOCIDAD SUPERIOR A 14 KM/H HASTA 25 KM/H Y PESO SUPERIOR A 25 KG.",
+    "codificado": "SOA 2.1 5O",
+    "importe_fijo": 610,
+    "importe_reducido": 305,
+    "inmovilizacion": "CONDICIONADA",
+    "motivo_inmovilizacion": "Causa prevista en el art. 104.1.e LSV; aplicar conforme al régimen sectorial específico de seguro.",
+    "actuacion_breve": [
+      "Formular 5O y advertir que no puede ponerse en circulación sin seguro."
+    ],
+    "actuacion": [
+      "Clasificar el vehículo con datos técnicos acreditados.",
+      "Comprobar el seguro y formular 5O.",
+      "Impedir una posterior puesta en circulación sin seguro.",
+      "Aplicar la medida sobre el vehículo conforme al régimen sectorial específico."
+    ],
+    "medidas": [
+      "TR-MED-SOA-OPERATIVE"
+    ],
+    "advertencias": [
+      "Un valor exactamente de 25 kg exige completar la clasificación.",
+      "VMP no certificado comercializado antes de 22/01/2024: régimen transitorio de circulación e inscripción hasta 22/01/2027, sin alterar esta obligación si es vehículo a motor."
+    ],
+    "fuentes": [
+      "TR-SOA-SRC-001",
+      "TR-SOA-SRC-002",
+      "TR-SOA-SRC-006",
+      "TR-SOA-SRC-004"
+    ],
+    "fichas_juridicas": [
+      "TR-SOA-FJ-003",
+      "TR-SOA-FJ-004",
+      "TR-SOA-FJ-005"
+    ]
+  },
+  {
+    "modulo": "seguridad_vial",
+    "categoria": "seguridad_vial_seguro",
+    "norma": "Real Decreto Legislativo 8/2004",
+    "articulo": "2.1",
+    "norma_infringida": "Real Decreto Legislativo 8/2004, texto refundido de la Ley sobre responsabilidad civil y seguro en la circulación de vehículos a motor",
+    "articulo_infringido": "2.1",
+    "tipificacion_norma": "Real Decreto Legislativo 8/2004",
+    "tipificacion_articulo": "3",
+    "tipificacion_etiqueta": "Régimen sancionador",
+    "competencia_denuncia": "Policía Local de Torrent — órgano actuante y formulador",
+    "competencia_instruye": "Jefatura Provincial de Tráfico de Valencia — receptor e instructora",
+    "competencia_resuelve": "Jefe Provincial de Tráfico de Valencia",
+    "alerta_penal": false,
+    "referencia_penal": null,
+    "estado": "validado",
+    "id": "TR-SOA-OP-005",
+    "titulo": "VPL que requiere SOA — circulando sin seguro",
+    "palabras_clave": [
+      "VPL",
+      "seguro",
+      "certificado",
+      "inscripción",
+      "etiqueta",
+      "SDA",
+      "5A"
+    ],
+    "que_comprobar": [
+      "Que es VPL: masa y velocidad dentro de la definición aplicable.",
+      "Certificado de circulación, inscripción y etiqueta identificativa.",
+      "Consulta oficial de seguro.",
+      "Uso o conducción efectiva."
+    ],
+    "resultado": "VPL que requiere SOA —con certificado, inscripción y etiqueta— circulando sin seguro en vigor.",
+    "responsable": "Propietario.",
+    "textoDenuncia": "CIRCULAR EL VEHÍCULO PERSONAL LIGERO SIN QUE CONSTE QUE SU PROPIETARIO TENGA SUSCRITO Y MANTENGA EN VIGOR UN CONTRATO DE SEGURO QUE CUBRA LA RESPONSABILIDAD CIVIL DERIVADA DE SU CIRCULACIÓN.",
+    "codificado": "SDA DA1 5A",
+    "importe_fijo": 300,
+    "importe_reducido": 150,
+    "inmovilizacion": "CONDICIONADA",
+    "motivo_inmovilizacion": "Causa prevista en el art. 104.1.e LSV; aplicar conforme al régimen sectorial específico de seguro.",
+    "actuacion_breve": [
+      "Formular SDA DA1 5A, impedir la continuación ordinaria y aplicar la medida sobre el vehículo conforme al régimen sectorial específico."
+    ],
+    "actuacion": [
+      "Acreditar la clasificación VPL y los tres requisitos documentales.",
+      "Comprobar el seguro y formular SDA DA1 5A.",
+      "Impedir la continuación ordinaria."
+    ],
+    "medidas": [
+      "TR-MED-SOA-OPERATIVE"
+    ],
+    "advertencias": [
+      "Si falta certificado, inscripción o etiqueta, no formular esta denuncia específica de seguro; completar la comprobación documental separada.",
+      "No confundir VPL con vehículo a motor a efectos del seguro."
+    ],
+    "fuentes": [
+      "TR-SOA-SRC-002",
+      "TR-SOA-SRC-005",
+      "TR-SOA-SRC-006",
+      "TR-SOA-SRC-007",
+      "TR-SOA-SRC-004"
+    ],
+    "fichas_juridicas": [
+      "TR-SOA-FJ-004",
+      "TR-SOA-FJ-005"
+    ]
+  },
+  {
+    "modulo": "seguridad_vial",
+    "categoria": "seguridad_vial_seguro",
+    "norma": "Real Decreto Legislativo 8/2004",
+    "articulo": "2.1",
+    "norma_infringida": "Real Decreto Legislativo 8/2004, texto refundido de la Ley sobre responsabilidad civil y seguro en la circulación de vehículos a motor",
+    "articulo_infringido": "2.1",
+    "tipificacion_norma": "Real Decreto Legislativo 8/2004",
+    "tipificacion_articulo": "3",
+    "tipificacion_etiqueta": "Régimen sancionador",
+    "competencia_denuncia": "Policía Local de Torrent — órgano actuante y formulador",
+    "competencia_instruye": "Jefatura Provincial de Tráfico de Valencia — receptor e instructora",
+    "competencia_resuelve": "Jefe Provincial de Tráfico de Valencia",
+    "alerta_penal": false,
+    "referencia_penal": null,
+    "estado": "validado",
+    "id": "TR-SOA-OP-006",
+    "titulo": "VPL que requiere SOA — carece de seguro",
+    "palabras_clave": [
+      "VPL",
+      "seguro",
+      "estacionado",
+      "certificado",
+      "inscripción",
+      "etiqueta",
+      "SDA",
+      "5B"
+    ],
+    "que_comprobar": [
+      "Clasificación VPL y requisitos de certificado, inscripción y etiqueta.",
+      "Consulta oficial de seguro.",
+      "Ausencia de uso o conducción efectiva."
+    ],
+    "resultado": "VPL que requiere SOA —con certificado, inscripción y etiqueta— y carece de seguro.",
+    "responsable": "Propietario.",
+    "textoDenuncia": "INCUMPLIR EL PROPIETARIO DE UN VEHÍCULO PERSONAL LIGERO LA OBLIGACIÓN DE SUSCRIBIR Y MANTENER EN VIGOR UN CONTRATO DE SEGURO QUE CUBRA LA RESPONSABILIDAD CIVIL DERIVADA DE SU CIRCULACIÓN.",
+    "codificado": "SDA DA1 5B",
+    "importe_fijo": 200,
+    "importe_reducido": 100,
+    "inmovilizacion": "CONDICIONADA",
+    "motivo_inmovilizacion": "Causa prevista en el art. 104.1.e LSV; aplicar conforme al régimen sectorial específico de seguro.",
+    "actuacion_breve": [
+      "Formular SDA DA1 5B y advertir que no puede ponerse en circulación sin seguro."
+    ],
+    "actuacion": [
+      "Acreditar clasificación y requisitos VPL.",
+      "Comprobar el seguro y formular SDA DA1 5B.",
+      "Aplicar la medida sobre el vehículo conforme al régimen sectorial específico."
+    ],
+    "medidas": [
+      "TR-MED-SOA-OPERATIVE"
+    ],
+    "advertencias": [
+      "Si falta certificado, inscripción o etiqueta, no formular esta denuncia específica de seguro.",
+      "La normativa documental se comprueba y trata por su vía específica."
+    ],
+    "fuentes": [
+      "TR-SOA-SRC-002",
+      "TR-SOA-SRC-005",
+      "TR-SOA-SRC-006",
+      "TR-SOA-SRC-007",
+      "TR-SOA-SRC-004"
+    ],
+    "fichas_juridicas": [
+      "TR-SOA-FJ-004",
+      "TR-SOA-FJ-005"
+    ]
+  }
+]

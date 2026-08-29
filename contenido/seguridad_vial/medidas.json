@@ -1,0 +1,37 @@
+[
+  {
+    "id": "TR-GEN-MED-104-LUGAR",
+    "titulo": "Lugar de la inmovilización",
+    "fundamento": "Arts. 104.5 LSV y 72.4 Ordenanza de Torrent",
+    "activacion": "Cuando se acuerde formalmente una inmovilización.",
+    "automatica": false,
+    "actuaciones": [
+      "Practicar la inmovilización en el lugar señalado por los agentes.",
+      "No utilizar esta regla de lugar como fundamento autónomo de retirada o depósito."
+    ],
+    "levantamiento": "Se aplica la regla común de cese de la causa."
+  },
+  {
+    "id": "TR-GEN-MED-105-1C",
+    "titulo": "Retirada por falta de lugar adecuado",
+    "fundamento": "Arts. 105.1.c LSV y 73.1.c Ordenanza de Torrent",
+    "activacion": "No existe lugar adecuado para practicar la inmovilización sin obstaculizar la circulación de vehículos o personas.",
+    "automatica": false,
+    "actuaciones": [
+      "Retirar el vehículo de la vía y trasladarlo al depósito correspondiente."
+    ],
+    "levantamiento": "No depende de la persistencia de la causa, sino exclusivamente de la falta de lugar adecuado."
+  },
+  {
+    "id": "TR-GEN-MED-105-1D",
+    "titulo": "Retirada por persistencia de la causa",
+    "fundamento": "Arts. 105.1.d LSV y 73.1.d Ordenanza de Torrent",
+    "activacion": "Existe una inmovilización y su causa no cesa, aunque haya lugar adecuado para mantenerla inicialmente.",
+    "automatica": false,
+    "actuaciones": [
+      "Ordenar la retirada y el traslado al depósito correspondiente cuando proceda ejecutar la medida.",
+      "Permitir que el responsable materialice una solución válida, segura y compatible con la causa, sin circulación prohibida y siguiendo las indicaciones de los agentes."
+    ],
+    "levantamiento": "No se establece un tiempo de espera general para una grúa particular."
+  }
+]

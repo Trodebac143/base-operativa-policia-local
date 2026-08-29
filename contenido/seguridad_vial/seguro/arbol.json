@@ -1,0 +1,121 @@
+{
+  "id": "TR-SOA-AD-001",
+  "categoria": "seguridad_vial_seguro",
+  "entrada": "Identificar vehículo, clasificación técnica, excepciones, seguro y uso efectivo.",
+  "outcomes": {
+    "TR-SOA-OP-001": {
+      "titulo": "Abrir: vehículos convencionales — circulando sin seguro",
+      "caseId": "TR-SOA-OP-001"
+    },
+    "TR-SOA-OP-002": {
+      "titulo": "Abrir: vehículos convencionales — carece de seguro",
+      "caseId": "TR-SOA-OP-002"
+    },
+    "TR-SOA-OP-003": {
+      "titulo": "Abrir: VMP que requiere SOA — circulando sin seguro",
+      "caseId": "TR-SOA-OP-003"
+    },
+    "TR-SOA-OP-004": {
+      "titulo": "Abrir: VMP que requiere SOA — carece de seguro",
+      "caseId": "TR-SOA-OP-004"
+    },
+    "TR-SOA-OP-005": {
+      "titulo": "Abrir: VPL que requiere SOA — circulando sin seguro",
+      "caseId": "TR-SOA-OP-005"
+    },
+    "TR-SOA-OP-006": {
+      "titulo": "Abrir: VPL que requiere SOA — carece de seguro",
+      "caseId": "TR-SOA-OP-006"
+    },
+    "SO-NS-01": {
+      "titulo": "Seguro vigente",
+      "texto": "Sin infracción por seguro obligatorio."
+    },
+    "SO-NS-02": {
+      "titulo": "Vehículo excluido o no sujeto",
+      "texto": "Sin infracción por seguro; documentar el fundamento de la exclusión."
+    },
+    "SO-NS-03": {
+      "titulo": "VPL sin requisitos documentales",
+      "texto": "No formular denuncia específica SDA de seguro. Completar las comprobaciones documentales por su vía propia."
+    },
+    "SO-NS-04": {
+      "titulo": "Obligación no determinada",
+      "texto": "Completar masa, velocidad, certificado, inscripción, etiqueta y categoría antes de adoptar una conclusión."
+    }
+  },
+  "nodes": [
+    {
+      "id": "N1",
+      "pregunta": "¿Está determinada la categoría técnica y jurídica del vehículo?",
+      "si": "N2",
+      "no": "SO-NS-04"
+    },
+    {
+      "id": "N2",
+      "pregunta": "¿Concurre una excepción legal de aseguramiento?",
+      "si": "SO-NS-02",
+      "no": "N3"
+    },
+    {
+      "id": "N3",
+      "pregunta": "¿Es un vehículo convencional que requiere SOA?",
+      "si": "N7",
+      "no": "N4"
+    },
+    {
+      "id": "N4",
+      "pregunta": "¿Es VMP u otro vehículo ligero considerado vehículo a motor?",
+      "si": "N9",
+      "no": "N5"
+    },
+    {
+      "id": "N5",
+      "pregunta": "¿Es un vehículo personal ligero (VPL)?",
+      "si": "N6",
+      "no": "SO-NS-02"
+    },
+    {
+      "id": "N6",
+      "pregunta": "¿Tiene certificado, inscripción y etiqueta?",
+      "si": "N11",
+      "no": "SO-NS-03"
+    },
+    {
+      "id": "N7",
+      "pregunta": "¿Existe seguro en vigor?",
+      "si": "SO-NS-01",
+      "no": "N8"
+    },
+    {
+      "id": "N8",
+      "pregunta": "¿Hubo uso o conducción efectiva?",
+      "si": "TR-SOA-OP-001",
+      "no": "TR-SOA-OP-002"
+    },
+    {
+      "id": "N9",
+      "pregunta": "¿Existe seguro en vigor?",
+      "si": "SO-NS-01",
+      "no": "N10"
+    },
+    {
+      "id": "N10",
+      "pregunta": "¿Hubo uso o conducción efectiva?",
+      "si": "TR-SOA-OP-003",
+      "no": "TR-SOA-OP-004"
+    },
+    {
+      "id": "N11",
+      "pregunta": "¿Existe seguro en vigor?",
+      "si": "SO-NS-01",
+      "no": "N12"
+    },
+    {
+      "id": "N12",
+      "pregunta": "¿Hubo uso o conducción efectiva?",
+      "si": "TR-SOA-OP-005",
+      "no": "TR-SOA-OP-006"
+    }
+  ]
+}

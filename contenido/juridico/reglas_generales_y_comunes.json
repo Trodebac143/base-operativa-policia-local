@@ -1,0 +1,47 @@
+[
+  {
+    "id": "GEN-JUR-001",
+    "nombre": "Preferencia de la vía penal y principio non bis in idem",
+    "tipo": "alerta_penal",
+    "contenido": "Cuando unos mismos hechos puedan tener simultáneamente relevancia administrativa y penal, documentar la infracción administrativa que proceda e instruir las diligencias penales que correspondan. La vía penal tiene preferencia en los términos legalmente establecidos. No puede imponerse doble sanción por los mismos hechos cuando concurra identidad de sujeto, hecho y fundamento. Si la vía penal finaliza sin condena y jurídicamente procede, la vía administrativa podrá iniciarse o reanudarse, respetando los hechos declarados probados judicialmente.",
+    "activo": true
+  },
+  {
+    "id": "GEN-OP-VIS-001",
+    "nombre": "Separación entre arquitectura interna e interfaz operativa",
+    "tipo": "control_presentacion",
+    "contenido": "La interfaz destinada al agente solo muestra comprobaciones, circunstancias relevantes, actuaciones, norma y artículo, texto legal validado, competencia administrativa, destino de diligencias penales y advertencias operativas. Los identificadores técnicos, nombres de casos, fuentes o reglas, nombres de datasets e instrucciones para el motor o el desarrollador permanecen exclusivamente en la capa interna.",
+    "activo": true
+  },
+  {
+    "id": "GEN-JUR-002",
+    "nombre": "Separación de vía administrativa y destino de diligencias penales",
+    "tipo": "competencias",
+    "contenido": "La competencia sancionadora administrativa y el destino de las diligencias penales son campos distintos. El destino penal debe almacenarse como dato validado y no inferirse automáticamente.",
+    "activo": true
+  },
+  {
+    "id": "GEN-OP-ADV-002",
+    "nombre": "Umbral y actuación en advertencias penales",
+    "tipo": "control_advertencias",
+    "contenido": "Toda advertencia penal debe indicar la condición o umbral, la exclusión del encaje base cuando corresponda, la actuación concreta, el destino validado y el precepto con su texto literal validado.",
+    "activo": true
+  },
+  {
+    "id": "GEN-PEN-002",
+    "nombre": "Integridad de la rama penal",
+    "tipo": "regla_penal_general",
+    "aplica_a": "todos los módulos",
+    "contenido": "Un caso administrativo con posible delito adicional debe utilizar relevancia penal condicional, no directa. La relevancia penal directa solo se utiliza cuando el propio caso ya incluye todos los elementos básicos del supuesto penal validado. Toda rama penal debe expresar condición, actuación, destino y precepto; separar la competencia administrativa del destino de diligencias; mostrar el texto literal desde el dataset penal común; y mantener separado el bloque sobre preferencia de la vía penal y non bis in idem.",
+    "activo": true
+  },
+  {
+    "id": "TR-GEN-R-104-105-001",
+    "nombre": "Regla transversal de inmovilización, retirada y depósito",
+    "tipo": "medidas_trafico",
+    "aplica_a": "todos los casos presentes y futuros del módulo Tráfico y Seguridad Vial",
+    "contenido": "La inmovilización exige una causa concreta del artículo 104 LSV y se adopta de forma motivada, proporcional, efectiva y con la menor onerosidad posible. Se mantiene hasta que cese su causa y se levanta cuando esta desaparece, salvo otra causa independiente o una limitación sectorial. Los artículos 104.5 LSV y 72.4 de la Ordenanza de Torrent regulan únicamente el lugar señalado por los agentes y no fundamentan por sí solos la retirada. Si no existe lugar adecuado para inmovilizar sin obstaculizar, la retirada y depósito se fundan en los artículos 105.1.c LSV y 73.1.c de la Ordenanza. Si la causa no cesa, la retirada y depósito pueden ordenarse conforme a los artículos 105.1.d LSV y 73.1.d de la Ordenanza, aunque exista lugar adecuado. Ambos supuestos son independientes. El responsable puede materializar una solución compatible, segura y efectiva mediante grúa particular, plataforma u otro medio admisible, siguiendo las indicaciones de los agentes y sin circulación prohibida; no existe un tiempo de espera general prefijado. Las reglas generales se aplican sin perjuicio de la normativa sectorial especial.",
+    "fuentes": ["TR-ITV-SRC-001", "TR-MOV-SRC-001"],
+    "activo": true
+  }
+]

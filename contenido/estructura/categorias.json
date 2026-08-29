@@ -1,0 +1,53 @@
+[
+  {
+    "id": "animales_identificacion",
+    "modulo": "animales",
+    "nombre": "Identificación y registro",
+    "orden": 10,
+    "activo": true
+  },
+  {
+    "id": "animales_ppp",
+    "modulo": "animales",
+    "nombre": "Perros potencialmente peligrosos (PPP)",
+    "orden": 20,
+    "activo": true
+  },
+  {
+    "id": "animales_sanidad",
+    "modulo": "animales",
+    "nombre": "Sanidad",
+    "orden": 30,
+    "activo": true
+  },
+  {
+    "id": "animales_abandono",
+    "modulo": "animales",
+    "nombre": "Abandono y recogida",
+    "orden": 40,
+    "activo": true
+  },
+  {
+    "id": "animales_convivencia",
+    "modulo": "animales",
+    "nombre": "Convivencia y tenencia",
+    "orden": 50,
+    "activo": true
+  },
+  {
+    "id": "seguridad_vial_itv",
+    "modulo": "seguridad_vial",
+    "nombre": "Inspección técnica de vehículos (ITV)",
+    "descripcion": "Estado ITV, segunda inspección, circulación y medidas policiales",
+    "orden": 10,
+    "activo": true
+  },
+  {
+    "id": "seguridad_vial_seguro",
+    "modulo": "seguridad_vial",
+    "nombre": "Seguro obligatorio",
+    "descripcion": "Sujeción, seguro en vigor, VMP/VPL y medidas policiales",
+    "orden": 20,
+    "activo": true
+  }
+]
