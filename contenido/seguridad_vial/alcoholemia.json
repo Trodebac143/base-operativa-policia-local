@@ -28,7 +28,7 @@
       "tipo": "Umbral penal objetivo",
       "limite_mg_l": "0.60",
       "comparador": ">",
-      "texto": "Art. 379.2 CP: tasa de aire espirado superior a 0,60 mg/L, una vez aplicado el EMP y el criterio penal de dos decimales."
+      "texto": "Art. 379.2 CP: tasa de aire espirado superior a 0,60 mg/L, una vez aplicado el EMP y truncado el resultado a dos decimales, sin redondeo."
     },
     {
       "tipo": "Negativa a las pruebas",
@@ -90,12 +90,12 @@
     { "lectura": "0.24", "corregido": "0.21", "zona": "Bajo 0,25", "color": "verde", "uso": "No alcanza 0,25" },
     { "lectura": "0.28", "corregido": "0.25", "zona": "En 0,25", "color": "verde", "uso": "No supera 0,25 tras EMP" },
     { "lectura": "0.29", "corregido": "0.26", "zona": ">0,25", "color": "ambar", "uso": "Supera 0,25 tras EMP" },
-    { "lectura": "0.54", "corregido": "0.50", "zona": "Hasta 0,50", "color": "ambar", "uso": "No supera 0,50 tras EMP" },
-    { "lectura": "0.55", "corregido": "0.51", "zona": ">0,50", "color": "naranja", "uso": "Supera 0,50 tras EMP" },
-    { "lectura": "0.65", "corregido_exact": "0.60125", "corregido_penal_2_dec": "0.60", "zona": "Límite penal", "color": "rojo_suave", "uso": "No supera 0,60 a efectos del tipo penal objetivo por tasa; valorar influencia" },
-    { "lectura": "0.66", "corregido_exact": "0.6105", "corregido_penal_2_dec": "0.61", "zona": ">0,60", "color": "rojo", "uso": "Supera 0,60 tras EMP: vía penal preferente por tasa objetiva" }
+    { "lectura": "0.54", "corregido": "0.49", "zona": "Hasta 0,50", "color": "ambar", "uso": "No supera 0,50 tras EMP" },
+    { "lectura": "0.55", "corregido": "0.50", "zona": "Hasta 0,50", "color": "ambar", "uso": "No supera 0,50 tras EMP" },
+    { "lectura": "0.65", "corregido": "0.60", "zona": "Límite penal", "color": "rojo_suave", "uso": "No supera 0,60 a efectos del tipo penal objetivo por tasa; valorar influencia" },
+    { "lectura": "0.66", "corregido": "0.61", "zona": ">0,60", "color": "rojo", "uso": "Supera 0,60 tras EMP: vía penal preferente por tasa objetiva" }
   ],
-  "nota_correccion_tabla_visual": "No tratar 0,18→0,15 ni 0,28→0,25 como 'primer valor sancionable': los límites legales se expresan como tasas superiores a 0,15/0,25. Se añaden 0,19→0,16 y 0,29→0,26 como primeros ejemplos inequívocos de superación en el modo habitual de EMP 0,03.",
+  "nota_correccion_tabla_visual": "Los valores corregidos se truncan a dos decimales después de restar el EMP, sin aplicar redondeo. No tratar 0,18→0,15 ni 0,28→0,25 como 'primer valor sancionable': los límites legales se expresan como tasas superiores a 0,15/0,25. Los primeros ejemplos inequívocos de superación en el modo habitual de EMP 0,03 son 0,19→0,16 y 0,29→0,26.",
   "resultado_operativo_agrupado": [
     {
       "id": "ALC-RES-001",
@@ -150,16 +150,11 @@
   ],
   "practica_pruebas": {
     "segunda_prueba": "Segunda prueba conforme al art. 23.1 RGC.",
-    "intervalo": "Entre primera y segunda prueba debe mediar un tiempo mínimo de 10 minutos.",
+    "intervalo": "Entre la primera y la segunda prueba deberá mediar un tiempo mínimo de 10 minutos. La persona no puede fumar, comer ni beber entre prueba y prueba.",
     "derechos": [
       "Informar del derecho a controlar el intervalo mínimo.",
       "Informar del derecho a formular alegaciones u observaciones.",
       "Informar del derecho a contrastar resultados mediante análisis adecuados."
-    ],
-    "diligencias": [
-      "Identificar el instrumento y describir el procedimiento seguido.",
-      "Consignar las advertencias realizadas.",
-      "En hechos con caracteres delictivos, actuar conforme a LECrim y vía penal."
     ]
   },
   "medidas_vehiculo": {

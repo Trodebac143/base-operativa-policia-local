@@ -22,10 +22,11 @@ test("la calculadora EMP aplica los bordes y los ejemplos operativos validados",
   assert.equal(service("0,19").valor_corregido_exact, "0.16");
   assert.equal(service("0,28").valor_corregido_exact, "0.25");
   assert.equal(service("0,29").valor_corregido_exact, "0.26");
-  assert.deepEqual([service("0,54").emp_exacto, service("0,54").valor_corregido_exact, service("0,54").valor_corregido_mostrado], ["0.0405", "0.4995", "0.50"]);
-  assert.deepEqual([service("0,55").emp_exacto, service("0,55").valor_corregido_exact, service("0,55").valor_corregido_mostrado], ["0.04125", "0.50875", "0.51"]);
-  assert.deepEqual([service("0,65").valor_corregido_exact, service("0,65").valor_penal_2_dec, service("0,65").supera_umbral_penal], ["0.60125", "0.60", false]);
-  assert.deepEqual([service("0,66").valor_corregido_exact, service("0,66").valor_penal_2_dec, service("0,66").supera_umbral_penal], ["0.6105", "0.61", true]);
+  assert.deepEqual([service("0,54").emp_exacto, service("0,54").valor_corregido_exact], ["0.0405", "0.49"]);
+  assert.deepEqual([service("0,55").emp_exacto, service("0,55").valor_corregido_exact], ["0.04125", "0.50"]);
+  assert.equal(service("0,56").valor_corregido_exact, "0.51");
+  assert.deepEqual([service("0,65").valor_corregido_exact, service("0,65").supera_umbral_penal], ["0.60", false]);
+  assert.deepEqual([service("0,66").valor_corregido_exact, service("0,66").supera_umbral_penal], ["0.61", true]);
   assert.equal(calculateAlcoholemia("0,40", "puesta_servicio_o_post_reparacion").emp_exacto, "0.02");
   assert.equal(calculateAlcoholemia("0,50", "puesta_servicio_o_post_reparacion").emp_exacto, "0.025");
 });
@@ -41,6 +42,10 @@ test("la vista de Alcoholemia es agrupada, no expone árbol ni sangre y conserva
   assert.match(html, /0,29/);
   assert.match(html, /Negativa a la segunda medición legalmente exigida/i);
   assert.doesNotMatch(html, /árbol de decisiones|alcohol en sangre|tasa real|0,40 mg\/L/i);
+  assert.doesNotMatch(html, /Tasa corregida a 2 decimales|Penal:/i);
+  assert.doesNotMatch(html, /DILIGENCIAS/);
+  assert.match(html, /<details class="alcohol-card sources-card"><summary[^>]*>.*Fuentes jurídicas/);
+  assert.match(html, /fumar, comer ni beber entre prueba y prueba/i);
   assert.doesNotMatch(html, /Reglas aplicables|Aplicar la infracción administrativa correspondiente|Mostrar cuantía\/puntos solo|Aplicar medidas .*regla transversal|TR-GEN-R|si procede/i);
   assert.match(html, /No supera 0,15 tras EMP/);
   assert.match(html, /No supera 0,25 tras EMP/);

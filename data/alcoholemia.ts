@@ -13,7 +13,7 @@ type AlcoholemiaContent = {
   emp: { nombre_ui: string; unidad: string; modo_por_defecto: AlcoholemiaMode; modos: Record<AlcoholemiaMode, { etiqueta: string; reglas: EmpRule[] }>; aviso: string };
   tabla_rapida_servicio_periodica: Array<{ lectura: string; corregido?: string; corregido_exact?: string; corregido_penal_2_dec?: string; zona: string; color: string; uso: string }>;
   resultado_operativo_agrupado: Array<{ id: string; titulo: string; color: string; regla: string; advertencia?: string; incluye?: string; actuacion?: string[] }>;
-  practica_pruebas: { segunda_prueba: string; intervalo: string; derechos: string[]; diligencias: string[] };
+  practica_pruebas: { segunda_prueba: string; intervalo: string; derechos: string[] };
   medidas_vehiculo: { regla: string; referencia: string; especifica_rgc_25: string[] };
   fuentes_juridicas_validadas: Array<{ id: string; nombre: string; preceptos: string[]; uso: string }>;
   tabla_sancion_administrativa: { regla_general: string; multa_base_euros: number; multa_agravada_euros: number; multa_agravada_cuando: string[]; puntos: { general: Array<{ rango: string; puntos: number }>; profesional_novel: Array<{ rango: string; puntos: number }>; menor: { regla: string; implementacion_v1: string } } };
@@ -47,10 +47,14 @@ function multiply(left: DecimalValue, right: DecimalValue): DecimalValue { retur
 function compare(left: DecimalValue, right: DecimalValue): number { const result = left.num * right.den - right.num * left.den; return result < 0n ? -1 : result > 0n ? 1 : 0; }
 function maxZero(value: DecimalValue): DecimalValue { return value.num < 0n ? { num: 0n, den: 1n } : value; }
 
-function roundTo(value: DecimalValue, places: number): string {
-  const factor = 10n ** BigInt(places); const scaled = value.num * factor; const whole = scaled / value.den; const remainder = scaled % value.den;
-  const rounded = remainder * 2n >= value.den ? whole + 1n : whole;
-  const raw = rounded.toString().padStart(places + 1, "0");
+function truncateTo(value: DecimalValue, places: number): DecimalValue {
+  const factor = 10n ** BigInt(places);
+  return simplify({ num: (value.num * factor) / value.den, den: factor });
+}
+
+function fixedString(value: DecimalValue, places: number): string {
+  const truncated = truncateTo(value, places);
+  const raw = (truncated.num * (10n ** BigInt(places)) / truncated.den).toString().padStart(places + 1, "0");
   return `${raw.slice(0, -places)}.${raw.slice(-places)}`;
 }
 
@@ -87,10 +91,7 @@ function empFor(reading: DecimalValue, rule: EmpRule): DecimalValue {
 export type AlcoholemiaCalculation = {
   lectura_exacta: string;
   emp_exacto: string;
-  emp_mostrado: string;
   valor_corregido_exact: string;
-  valor_corregido_mostrado: string;
-  valor_penal_2_dec: string;
   supera_umbral_penal: boolean;
   modo: AlcoholemiaMode;
   etiqueta_modo: string;
@@ -100,13 +101,13 @@ export type AlcoholemiaCalculation = {
 
 export function calculateAlcoholemia(input: string | number, mode: AlcoholemiaMode = alcoholemia.emp.modo_por_defecto): AlcoholemiaCalculation {
   const reading = decimal(input); const rule = ruleFor(reading, mode); const emp = empFor(reading, rule); const corrected = maxZero(subtract(reading, emp));
-  const penalTwoDecimals = roundTo(corrected, 2); const supera = compare(decimal(penalTwoDecimals), decimal("0.60")) > 0;
+  const correctedOperational = truncateTo(corrected, 2); const correctedOperationalText = fixedString(corrected, 2); const supera = compare(correctedOperational, decimal("0.60")) > 0;
   let resultado_operativo = "Comparar el valor corregido con el límite del tipo de conductor."; let tono: AlcoholemiaCalculation["tono"] = "verde";
   if (supera) { resultado_operativo = "Vía penal preferente por tasa objetiva: supera 0,60 mg/L tras EMP."; tono = "rojo"; }
-  else if (compare(decimal(penalTwoDecimals), decimal("0.60")) === 0) { resultado_operativo = "No supera 0,60 mg/L a efectos del tipo penal objetivo por tasa; valorar influencia."; tono = "rojo_suave"; }
-  else if (compare(corrected, decimal("0.50")) > 0) { resultado_operativo = "Tramo administrativo agravado / especial atención; valorar también signos y contexto."; tono = "naranja"; }
-  else if (compare(corrected, decimal("0.15")) > 0) { resultado_operativo = "Puede superar el límite profesional/novel; comprobar el tipo de conductor."; tono = "ambar"; }
-  return { lectura_exacta: exactString(reading), emp_exacto: exactString(emp), emp_mostrado: roundTo(emp, 2), valor_corregido_exact: exactString(corrected), valor_corregido_mostrado: roundTo(corrected, 2), valor_penal_2_dec: penalTwoDecimals, supera_umbral_penal: supera, modo: mode, etiqueta_modo: alcoholemia.emp.modos[mode].etiqueta, resultado_operativo, tono };
+  else if (compare(correctedOperational, decimal("0.60")) === 0) { resultado_operativo = "No supera 0,60 mg/L a efectos del tipo penal objetivo por tasa; valorar influencia."; tono = "rojo_suave"; }
+  else if (compare(correctedOperational, decimal("0.50")) > 0) { resultado_operativo = "Tramo administrativo agravado / especial atención; valorar también signos y contexto."; tono = "naranja"; }
+  else if (compare(correctedOperational, decimal("0.15")) > 0) { resultado_operativo = "Puede superar el límite profesional/novel; comprobar el tipo de conductor."; tono = "ambar"; }
+  return { lectura_exacta: exactString(reading), emp_exacto: exactString(emp), valor_corregido_exact: correctedOperationalText, supera_umbral_penal: supera, modo: mode, etiqueta_modo: alcoholemia.emp.modos[mode].etiqueta, resultado_operativo, tono };
 }
 
 export function formatMg(value: string): string { return value.replace(".", ","); }
@@ -161,7 +162,7 @@ function administrativeFinding(calculation: AlcoholemiaCalculation, vehicle: Veh
     rule = compare(corrected, decimal("0.30")) > 0 ? findRule(config.profesional_novel, (entry) => entry.opcion.endsWith("5K")) : findRule(config.profesional_novel, (entry) => entry.opcion.endsWith(previousSanction ? "5Ñ" : "5G"));
   } else rule = compare(corrected, half) > 0 ? findRule(config.general, (entry) => entry.opcion.endsWith("5I")) : findRule(config.general, (entry) => entry.opcion.endsWith(previousSanction ? "5M" : "5E"));
   const points = isNonMotor(vehicle) ? 0 : rule.puntos_si_vehiculo_exige_permiso ?? rule.puntos ?? 0;
-  return { precepto, tipificacion, codificado: rule.opcion, hecho: minorZeroBand ? `Conducir el vehículo reseñado con una tasa corregida de ${formatMg(calculation.valor_corregido_mostrado)} mg/L, superior al límite de 0,00 mg/L.` : `Conducir el vehículo reseñado con una tasa corregida de ${formatMg(calculation.valor_corregido_mostrado)} mg/L, superior al límite permitido de ${formatMg(getAlcoholemiaLimit(vehicle, driver) ?? "0.25")} mg/L.`, importe: rule.importe, reducido: rule.reducido, puntos: points, puntos_nota: isNonMotor(vehicle) ? alcoholemia.regla_puntos.ui : undefined, responsable: "Conductor", suspendida: false };
+  return { precepto, tipificacion, codificado: rule.opcion, hecho: minorZeroBand ? `Conducir el vehículo reseñado con una tasa corregida de ${formatMg(calculation.valor_corregido_exact)} mg/L, superior al límite de 0,00 mg/L.` : `Conducir el vehículo reseñado con una tasa corregida de ${formatMg(calculation.valor_corregido_exact)} mg/L, superior al límite permitido de ${formatMg(getAlcoholemiaLimit(vehicle, driver) ?? "0.25")} mg/L.`, importe: rule.importe, reducido: rule.reducido, puntos: points, puntos_nota: isNonMotor(vehicle) ? alcoholemia.regla_puntos.ui : undefined, responsable: "Conductor", suspendida: false };
 }
 
 export function resolveAlcoholemiaOutcome({ calculation, vehicle, driver, previousSanction, negative }: { calculation: AlcoholemiaCalculation | null; vehicle: VehicleType; driver: DriverType; previousSanction: boolean; negative: boolean }): AlcoholemiaOutcome {
@@ -174,8 +175,8 @@ export function resolveAlcoholemiaOutcome({ calculation, vehicle, driver, previo
   if (!calculation) return { kind: "sin_lectura", titulo: "RESULTADO OPERATIVO", via: "Pendiente de lectura", tono: "verde", mensaje: "Introduce una lectura válida para resolver el resultado." };
   const limit = getAlcoholemiaLimit(vehicle, driver); if (!limit) return { kind: "clasificacion_pendiente", titulo: "CLASIFICACIÓN DEL VEHÍCULO NECESARIA", via: "Clasificación pendiente", tono: "ambar", mensaje: "Determina primero la clasificación técnica del aparato." };
   const corrected = decimal(calculation.valor_corregido_exact); const exceeds = compare(corrected, decimal(limit)) > 0; const admin = exceeds ? administrativeFinding(calculation, vehicle, driver, previousSanction) : undefined;
-  if (!exceeds) return { kind: "sin_superacion", titulo: "SIN SUPERACIÓN DE TASA", via: "Dentro del límite", tono: "verde", limite_mg_l: limit, mensaje: `La tasa corregida de ${formatMg(calculation.valor_corregido_mostrado)} mg/L no supera el límite aplicable de ${formatMg(limit)} mg/L.`, influencia_nota: vehicle === "motor_ciclomotor" ? "La tasa no excluye por sí sola la valoración de signos de influencia." : undefined };
+  if (!exceeds) return { kind: "sin_superacion", titulo: "SIN SUPERACIÓN DE TASA", via: "Dentro del límite", tono: "verde", limite_mg_l: limit, mensaje: `La tasa corregida de ${formatMg(calculation.valor_corregido_exact)} mg/L no supera el límite aplicable de ${formatMg(limit)} mg/L.`, influencia_nota: vehicle === "motor_ciclomotor" ? "La tasa no excluye por sí sola la valoración de signos de influencia." : undefined };
   const tone = compare(corrected, decimal("0.50")) > 0 ? "naranja" : "ambar";
-  if (vehicle === "motor_ciclomotor" && calculation.supera_umbral_penal) return { kind: "penal_tasa", titulo: "VÍA PENAL PREFERENTE", via: "Art. 379.2 CP · tasa objetiva", tono: "rojo", limite_mg_l: limit, mensaje: `El valor penal corregido de ${formatMg(calculation.valor_penal_2_dec)} mg/L supera 0,60 mg/L.`, articulo_penal: "Art. 379.2 CP", administracion: { ...admin!, suspendida: true }, influencia_nota: "La conducción bajo la influencia se valora además por signos y demás elementos probatorios." };
-  return { kind: "administrativa", titulo: alcoholemia.salida_administrativa_v2_consolidada.titulo, via: "Vía administrativa", tono: tone, limite_mg_l: limit, mensaje: `La tasa corregida de ${formatMg(calculation.valor_corregido_mostrado)} mg/L supera el límite aplicable de ${formatMg(limit)} mg/L.`, administracion: admin, influencia_nota: vehicle === "motor_ciclomotor" ? "La cifra no decide por sí sola la influencia: documenta signos y demás elementos objetivos." : undefined };
+  if (vehicle === "motor_ciclomotor" && calculation.supera_umbral_penal) return { kind: "penal_tasa", titulo: "VÍA PENAL PREFERENTE", via: "Art. 379.2 CP · tasa objetiva", tono: "rojo", limite_mg_l: limit, mensaje: `El valor penal corregido de ${formatMg(calculation.valor_corregido_exact)} mg/L supera 0,60 mg/L.`, articulo_penal: "Art. 379.2 CP", administracion: { ...admin!, suspendida: true }, influencia_nota: "La conducción bajo la influencia se valora además por signos y demás elementos probatorios." };
+  return { kind: "administrativa", titulo: alcoholemia.salida_administrativa_v2_consolidada.titulo, via: "Vía administrativa", tono: tone, limite_mg_l: limit, mensaje: `La tasa corregida de ${formatMg(calculation.valor_corregido_exact)} mg/L supera el límite aplicable de ${formatMg(limit)} mg/L.`, administracion: admin, influencia_nota: vehicle === "motor_ciclomotor" ? "La cifra no decide por sí sola la influencia: documenta signos y demás elementos objetivos." : undefined };
 }
