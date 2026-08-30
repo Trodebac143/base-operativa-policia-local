@@ -39,6 +39,7 @@ const permisos = reqArray("contenido/seguridad_vial/permisos/casos.json");
 const permisosRules = reqArray("contenido/seguridad_vial/permisos/reglas.json");
 const permisosSheets = reqArray("contenido/seguridad_vial/permisos/fichas_juridicas.json");
 const permisosHelps = reqArray("contenido/seguridad_vial/permisos/ayudas.json");
+const permisosGroups = reqArray("contenido/seguridad_vial/permisos/subgrupos.json");
 const itvMeasures = reqArray("contenido/seguridad_vial/itv/medidas.json");
 const seguroMeasures = reqArray("contenido/seguridad_vial/seguro/medidas.json");
 const trafficMeasures = reqArray("contenido/seguridad_vial/medidas.json");
@@ -52,6 +53,7 @@ const sourceIds = duplicateIds(sources, "Fuentes");
 duplicateIds([...rules, ...permisosRules], "Reglas");
 duplicateIds(permisosSheets, "Fichas jurídicas Permisos");
 const permitHelpIds = duplicateIds(permisosHelps, "Ayudas Permisos");
+const permitGroupIds = duplicateIds(permisosGroups, "Subgrupos Permisos");
 const penalIds = duplicateIds(penal, "Preceptos penales");
 const measureIds = duplicateIds([...trafficMeasures, ...itvMeasures, ...seguroMeasures], "Medidas");
 const cases = [...animals, ...itv, ...seguro, ...permisos];
@@ -75,6 +77,21 @@ for (const item of cases) {
   const conditionalPenalId = item.datos_adicionales?.relevancia_penal_condicional?.penal_article_id;
   if (conditionalPenalId && !penalIds.has(conditionalPenalId)) errors.push(`${item.id}: precepto penal condicional inexistente ${conditionalPenalId}`);
 }
+
+for (const group of permisosGroups) {
+  if (!group.nombre || !group.descripcion || !Number.isFinite(group.orden)) errors.push(`${group.id}: subgrupo incompleto`);
+  if (!Array.isArray(group.casos) || !group.casos.length) errors.push(`${group.id}: debe contener casos`);
+  else for (const id of group.casos) {
+    const item = permisos.find((candidate) => candidate.id === id);
+    if (!item) errors.push(`${group.id}: caso inexistente ${id}`);
+    else if (item.subgrupo !== group.id) errors.push(`${id}: no declara el subgrupo ${group.id}`);
+  }
+  if (group.ayudas) for (const id of group.ayudas) if (!permitHelpIds.has(id)) errors.push(`${group.id}: ayuda inexistente ${id}`);
+}
+for (const item of permisos) if (item.subgrupo && !permitGroupIds.has(item.subgrupo)) errors.push(`${item.id}: subgrupo inexistente ${item.subgrupo}`);
+const foreignCases = permisos.filter((item) => item.subgrupo === "permisos_extranjeros");
+if (foreignCases.length !== 6) errors.push(`Permisos extranjeros: se esperaban 6 casos y hay ${foreignCases.length}`);
+for (const item of foreignCases) if (item.ayudas || item.enlaces_operativos) errors.push(`${item.id}: enlaces o ayudas deben estar en el subgrupo, no en el caso`);
 
 if (!trafficMeasurePlans || Array.isArray(trafficMeasurePlans) || typeof trafficMeasurePlans !== "object") errors.push("medidas_por_caso: debe contener un objeto JSON");
 else {

@@ -1,0 +1,28 @@
+[
+  {
+    "id": "permisos_perdida_vigencia",
+    "nombre": "Pérdida de Vigencia",
+    "descripcion": "Pérdida de vigencia por puntos, notificación, recursos y recuperación.",
+    "orden": 5,
+    "casos": ["TR-PERM-OP-005", "TR-PERM-OP-006", "TR-PERM-OP-007", "TR-PERM-OP-008"]
+  },
+  {
+    "id": "permisos_suspension_judicial",
+    "nombre": "Suspensión Judicial",
+    "descripcion": "Conducción durante y después de una suspensión judicial.",
+    "orden": 9,
+    "casos": ["TR-PERM-OP-009", "TR-PERM-OP-010", "TR-PERM-OP-011"]
+  },
+  {
+    "id": "permisos_extranjeros",
+    "nombre": "Permisos extranjeros",
+    "descripcion": "Permisos UE/EEE, terceros países, canjes y permiso internacional.",
+    "orden": 13,
+    "casos": ["TR-PERM-OP-013", "TR-PERM-OP-014", "TR-PERM-OP-015", "TR-PERM-OP-016", "TR-PERM-OP-017", "TR-PERM-OP-018"],
+    "ayudas": ["TR-PERM-HELP-ART21"],
+    "enlaces_operativos": [
+      {"etiqueta": "CONSULTAR PAÍSES CON CONVENIO — DGT", "url": "https://www.dgt.es/nuestros-servicios/permisos-de-conducir/permisos-extranjeros-y-de-fuerzas-y-cuerpos-de-seguridad/canjes-de-permisos/paises-con-convenio-de-canjes/", "principal": true},
+      {"etiqueta": "DGT — PERMISOS EXTRANJEROS", "url": "https://www.dgt.es/nuestros-servicios/permisos-de-conducir/permisos-extranjeros-y-de-fuerzas-y-cuerpos-de-seguridad/", "principal": false}
+    ]
+  }
+]
