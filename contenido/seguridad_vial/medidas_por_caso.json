@@ -22,6 +22,10 @@
   "TR-ITV-OP-005": {
     "inmovilizacion": { "estado": "CONDICIONADA", "fundamento": "Arts. 104.1.b LSV y 72.2.b Ordenanza de Torrent", "detalle": "Solo si las deficiencias actuales constituyen un riesgo especialmente grave para la seguridad vial." },
     "regla_sectorial": "ITV negativa: prohibida la circulación autopropulsada; transporte mediante medios ajenos. Ese transporte no es por sí solo retirada administrativa.",
+    "alternativas_inmovilizacion": [
+      {"fundamento":"Arts. 104.1.b LSV y 72.2.b Ordenanza de Torrent","detalle":"Si el defecto acreditado constituye riesgo especialmente grave para la seguridad vial."},
+      {"fundamento":"Arts. 104.1.h LSV y 72.2.h Ordenanza de Torrent","detalle":"Si se superan los niveles reglamentariamente permitidos de gases, humos o ruido."}
+    ],
     "retirada_sin_lugar": { "fundamento": "Arts. 105.1.c LSV y 73.1.c Ordenanza de Torrent", "detalle": "Sin lugar adecuado para practicar la inmovilización sin obstaculizar: retirada y depósito." },
     "retirada_persistencia": { "fundamento": "Arts. 105.1.d LSV y 73.1.d Ordenanza de Torrent", "detalle": "Si la causa no cesa: retirada y depósito, aunque exista lugar adecuado." },
     "levantamiento": "Al cesar el riesgo especialmente grave; la ITV negativa mantiene la prohibición de circulación autopropulsada."
@@ -29,6 +33,10 @@
   "TR-ITV-OP-006": {
     "inmovilizacion": { "estado": "CONDICIONADA", "fundamento": "Arts. 104.1.b LSV y 72.2.b Ordenanza de Torrent", "detalle": "Solo si las deficiencias actuales constituyen un riesgo especialmente grave para la seguridad vial." },
     "regla_sectorial": "ITV negativa: prohibida la circulación autopropulsada; transporte mediante medios ajenos. Ese transporte no es por sí solo retirada administrativa.",
+    "alternativas_inmovilizacion": [
+      {"fundamento":"Arts. 104.1.b LSV y 72.2.b Ordenanza de Torrent","detalle":"Si el defecto acreditado constituye riesgo especialmente grave para la seguridad vial."},
+      {"fundamento":"Arts. 104.1.h LSV y 72.2.h Ordenanza de Torrent","detalle":"Si se superan los niveles reglamentariamente permitidos de gases, humos o ruido."}
+    ],
     "retirada_sin_lugar": { "fundamento": "Arts. 105.1.c LSV y 73.1.c Ordenanza de Torrent", "detalle": "Sin lugar adecuado para practicar la inmovilización sin obstaculizar: retirada y depósito." },
     "retirada_persistencia": { "fundamento": "Arts. 105.1.d LSV y 73.1.d Ordenanza de Torrent", "detalle": "Si la causa no cesa: retirada y depósito, aunque exista lugar adecuado." },
     "levantamiento": "Al cesar el riesgo especialmente grave; la ITV negativa mantiene la prohibición de circulación autopropulsada."
@@ -81,5 +89,12 @@
     "retirada_sin_lugar": { "fundamento": "Arts. 105.1.c LSV y 73.1.c Ordenanza de Torrent", "detalle": "Si se inmoviliza, sin lugar adecuado para practicarla sin obstaculizar: retirada y depósito." },
     "retirada_persistencia": { "fundamento": "Arts. 105.1.d LSV y 73.1.d Ordenanza de Torrent", "detalle": "Si se inmoviliza y la causa no cesa: retirada y depósito, aunque exista lugar adecuado." },
     "levantamiento": "Al acreditarse seguro obligatorio en vigor y cesar la causa, sin perjuicio del régimen sectorial."
+  },
+  "TR-PERM-OP-003": {
+    "inmovilizacion": {"estado":"SÍ","fundamento":"Arts. 104.1.k LSV y 72.2.k Ordenanza de Torrent","detalle":"Vehículo que requiere permiso C o D conducido sin la autorización correspondiente."},
+    "regla_sectorial":"La falta de autorización en otros vehículos no activa esta letra por analogía.",
+    "retirada_sin_lugar":{"fundamento":"Arts. 105.1.c LSV y 73.1.c Ordenanza de Torrent","detalle":"Sin lugar adecuado para practicar la inmovilización sin obstaculizar: retirada y depósito."},
+    "retirada_persistencia":{"fundamento":"Arts. 105.1.d LSV y 73.1.d Ordenanza de Torrent","detalle":"Si la causa no cesa: retirada y depósito, aunque exista lugar adecuado."},
+    "levantamiento":"Cuando un conductor con autorización C/D válida y correcta se haga cargo o cese la causa, salvo otra causa independiente."
   }
 }

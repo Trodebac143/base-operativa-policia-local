@@ -35,6 +35,10 @@ const documents = reqArray("contenido/biblioteca/documentos.json");
 const animals = reqArray("contenido/animales/casos.json");
 const itv = reqArray("contenido/seguridad_vial/itv/casos.json");
 const seguro = reqArray("contenido/seguridad_vial/seguro/casos.json");
+const permisos = reqArray("contenido/seguridad_vial/permisos/casos.json");
+const permisosRules = reqArray("contenido/seguridad_vial/permisos/reglas.json");
+const permisosSheets = reqArray("contenido/seguridad_vial/permisos/fichas_juridicas.json");
+const permisosHelps = reqArray("contenido/seguridad_vial/permisos/ayudas.json");
 const itvMeasures = reqArray("contenido/seguridad_vial/itv/medidas.json");
 const seguroMeasures = reqArray("contenido/seguridad_vial/seguro/medidas.json");
 const trafficMeasures = reqArray("contenido/seguridad_vial/medidas.json");
@@ -45,10 +49,12 @@ const seguroTree = load("contenido/seguridad_vial/seguro/arbol.json");
 const moduleIds = duplicateIds(modules, "Módulos");
 const categoryIds = duplicateIds(categories, "Categorías");
 const sourceIds = duplicateIds(sources, "Fuentes");
-duplicateIds(rules, "Reglas");
+duplicateIds([...rules, ...permisosRules], "Reglas");
+duplicateIds(permisosSheets, "Fichas jurídicas Permisos");
+const permitHelpIds = duplicateIds(permisosHelps, "Ayudas Permisos");
 const penalIds = duplicateIds(penal, "Preceptos penales");
 const measureIds = duplicateIds([...trafficMeasures, ...itvMeasures, ...seguroMeasures], "Medidas");
-const cases = [...animals, ...itv, ...seguro];
+const cases = [...animals, ...itv, ...seguro, ...permisos];
 const caseIds = duplicateIds(cases, "Casos");
 
 for (const category of categories) if (!moduleIds.has(category.modulo)) errors.push(`Categoría ${category.id}: módulo desconocido ${category.modulo}`);
@@ -63,6 +69,7 @@ for (const item of cases) {
   if (!Array.isArray(item.fuentes)) errors.push(`${item.id}: fuentes debe ser una lista`);
   else for (const id of item.fuentes) if (!sourceIds.has(id)) errors.push(`${item.id}: fuente inexistente ${id}`);
   if (item.medidas) for (const id of item.medidas) if (!measureIds.has(id)) errors.push(`${item.id}: medida inexistente ${id}`);
+  if (item.ayudas) for (const id of item.ayudas) if (!permitHelpIds.has(id)) errors.push(`${item.id}: ayuda inexistente ${id}`);
   const penalId = item.penal_article_id;
   if (penalId && !penalIds.has(penalId)) errors.push(`${item.id}: precepto penal inexistente ${penalId}`);
   const conditionalPenalId = item.datos_adicionales?.relevancia_penal_condicional?.penal_article_id;
@@ -114,7 +121,7 @@ for (const doc of documents) {
   else if (!fs.existsSync(path.join(root, "public", "documentos", doc.archivo))) errors.push(`Biblioteca: no existe public/documentos/${doc.archivo}`);
 }
 
-notes.push(`${cases.length} casos: ${animals.length} Animales + ${itv.length} ITV + ${seguro.length} Seguro`);
+notes.push(`${cases.length} casos: ${animals.length} Animales + ${itv.length} ITV + ${seguro.length} Seguro + ${permisos.length} Permisos`);
 notes.push(`${sources.length} fuentes jurídicas · ${documents.length} documentos de biblioteca`);
 
 if (errors.length) {

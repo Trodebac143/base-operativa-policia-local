@@ -49,5 +49,13 @@
     "descripcion": "Sujeción, seguro en vigor, VMP/VPL y medidas policiales",
     "orden": 20,
     "activo": true
+  },
+  {
+    "id": "seguridad_vial_permisos",
+    "modulo": "seguridad_vial",
+    "nombre": "Permisos de conducir",
+    "descripcion": "Vigencia, habilitación, pérdida de puntos, privación judicial y permisos extranjeros",
+    "orden": 30,
+    "activo": true
   }
 ]

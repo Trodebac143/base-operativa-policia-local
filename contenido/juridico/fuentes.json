@@ -173,5 +173,47 @@
     "tipo": "Ordenanza municipal",
     "ambito": "Torrent",
     "estado_vigencia_auditoria": "validado"
+  },
+  {
+    "id": "TR-PERM-SRC-001",
+    "nombre": "RD 818/2009, Reglamento General de Conductores, texto consolidado",
+    "tipo": "Real decreto",
+    "ambito": "Estatal",
+    "estado_vigencia_auditoria": "validado"
+  },
+  {
+    "id": "TR-PERM-SRC-002",
+    "nombre": "Ley Orgánica 10/1995, Código Penal — artículo 384",
+    "tipo": "Ley orgánica",
+    "ambito": "Estatal",
+    "estado_vigencia_auditoria": "validado"
+  },
+  {
+    "id": "TR-PERM-SRC-003",
+    "nombre": "Consulta Fiscalía General del Estado 1/2026 sobre conducción tras privación judicial cumplida",
+    "tipo": "Criterio interpretativo oficial",
+    "ambito": "Estatal",
+    "estado_vigencia_auditoria": "validado"
+  },
+  {
+    "id": "TR-PERM-SRC-004",
+    "nombre": "Instrucción DGT 12/C-105 sobre pérdida de vigencia notificada edictalmente",
+    "tipo": "Instrucción DGT",
+    "ambito": "Estatal",
+    "estado_vigencia_auditoria": "validado"
+  },
+  {
+    "id": "TR-PERM-SRC-005",
+    "nombre": "DGT — países con convenio de canje",
+    "tipo": "Información oficial dinámica",
+    "ambito": "Estatal",
+    "estado_vigencia_auditoria": "validado"
+  },
+  {
+    "id": "TR-PERM-SRC-006",
+    "nombre": "DGT — permisos de conducir extranjeros",
+    "tipo": "Información oficial dinámica",
+    "ambito": "Estatal",
+    "estado_vigencia_auditoria": "validado"
   }
 ]

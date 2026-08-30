@@ -1,0 +1,10 @@
+[
+  {"id":"TR-PERM-FJ-001","titulo":"Vigencia y prórroga","regla":"El permiso caducado no autoriza a conducir hasta su prórroga."},
+  {"id":"TR-PERM-FJ-002","titulo":"Clase de autorización","regla":"La autorización debe habilitar para la categoría concreta del vehículo."},
+  {"id":"TR-PERM-FJ-003","titulo":"Artículo 384 del Código Penal","regla":"Comprende pérdida total de puntos conocida y ejecutiva, privación judicial vigente y conducción sin haber obtenido nunca permiso o licencia."},
+  {"id":"TR-PERM-FJ-004","titulo":"Pérdida de vigencia notificada edictalmente","regla":"Sin conocimiento personal previo no se imputa el artículo 384 en la primera intervención; se denuncia, notifica y documenta."},
+  {"id":"TR-PERM-FJ-005","titulo":"Privación judicial cumplida","regla":"Cumplida la privación, la falta de recuperación se trata administrativamente; exactamente dos años pertenece a la rama igual o inferior a dos años."},
+  {"id":"TR-PERM-FJ-006","titulo":"Permisos UE/EEE","regla":"Un permiso UE/EEE válido y en vigor no queda sujeto al plazo general de seis meses del artículo 21."},
+  {"id":"TR-PERM-FJ-007","titulo":"Permisos de terceros países","regla":"Comprobar vía documental reconocida, vigencia, edad, residencia o entrada regular, plazo general de seis meses y especialidades del convenio."},
+  {"id":"TR-PERM-FJ-008","titulo":"Permiso internacional","regla":"Es complementario y debe acompañarse del permiso nacional extranjero de base, identidad y categorías vigentes."}
+]

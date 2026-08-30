@@ -78,5 +78,10 @@
     "tipo": "criterio_itv",
     "aplica_a": "seguridad_vial_itv",
     "activo": true
-  }
+  },
+  {"id":"TR-ITV-R-013","nombre":"Requerimiento art. 6.9","contenido":"Ante incumplimientos de inspección de los arts. 4 y 6, denunciar, conceder 10 días al titular o arrendatario a largo plazo para someter el vehículo a ITV y dejar constancia. Sin acreditación, la Jefatura de Tráfico inicia el procedimiento de baja de oficio. No aplicar a la segunda inspección del art. 11.","tipo":"criterio_itv","aplica_a":"seguridad_vial_itv","activo":true},
+  {"id":"TR-ITV-R-014","nombre":"ITV negativa: circulación","contenido":"El vehículo está inhabilitado para circular por vías públicas y su traslado debe efectuarse por medios ajenos.","tipo":"criterio_itv","aplica_a":"seguridad_vial_itv","activo":true},
+  {"id":"TR-ITV-R-015","nombre":"ITV negativa: causa concreta de inmovilización","contenido":"Consultar el defecto: 104.1.b solo ante riesgo especialmente grave para la seguridad vial; 104.1.h ante exceso reglamentario de gases, humos o ruido. La etiqueta ITV negativa no es causa autónoma.","tipo":"criterio_itv","aplica_a":"seguridad_vial_itv","activo":true},
+  {"id":"TR-ITV-R-016","nombre":"Desfavorable dentro de plazo","contenido":"Solo se permite traslado al taller o regularización y vuelta a ITV dentro del plazo; comprobar la finalidad real.","tipo":"criterio_itv","aplica_a":"seguridad_vial_itv","activo":true},
+  {"id":"TR-ITV-R-017","nombre":"Desfavorable fuera de plazo","contenido":"Finalizado el plazo no ampara la excepción del art. 11.2; si se presenta a ITV procede inspección completa y no se aplica automáticamente el art. 6.9.","tipo":"criterio_itv","aplica_a":"seguridad_vial_itv","activo":true}
 ]

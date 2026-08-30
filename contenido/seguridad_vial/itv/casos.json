@@ -43,6 +43,7 @@
       "Comprobar y documentar el estado ITV.",
       "Formular denuncia con el codificado indicado y remitirla a la Jefatura Provincial de Tráfico de Valencia.",
       "Informar de la obligación de someter el vehículo a inspección.",
+      "Conceder al titular o arrendatario a largo plazo el plazo de 10 días previsto en el art. 6.9 RD 920/2017 para someter el vehículo a ITV y dejar constancia del requerimiento.",
       "Comprobar por separado si existen deficiencias técnicas actuales."
     ],
     "medidas": [
@@ -51,6 +52,7 @@
     "advertencias": [
       "La ITV vencida no acredita por sí sola una deficiencia técnica ni justifica la inmovilización.",
       "La retirada y el depósito exigen un supuesto autónomo del artículo 105 LSV."
+      ,"La baja de oficio no la acuerda el agente: si no se acredita la presentación a ITV dentro de los 10 días, la Jefatura de Tráfico inicia el procedimiento."
     ],
     "fuentes": [
       "TR-ITV-SRC-001",
@@ -110,6 +112,7 @@
       "Comprobar y documentar el estado ITV y la situación del vehículo.",
       "Aplicar el criterio de proporcionalidad.",
       "Formular denuncia con el codificado indicado y remitirla a la Jefatura Provincial de Tráfico de Valencia."
+      ,"Conceder al titular o arrendatario a largo plazo el plazo de 10 días previsto en el art. 6.9 RD 920/2017 para someter el vehículo a ITV y dejar constancia del requerimiento."
     ],
     "medidas": [
       "TR-MED-ITV-CHECK"
@@ -117,6 +120,7 @@
     "advertencias": [
       "El mero vencimiento no permite presumir defectos técnicos actuales.",
       "No procede inmovilización, retirada ni depósito por el solo vencimiento; cada medida requiere su propia causa legal."
+      ,"La baja de oficio no la acuerda el agente: si no se acredita la presentación a ITV dentro de los 10 días, la Jefatura de Tráfico inicia el procedimiento."
     ],
     "fuentes": [
       "TR-ITV-SRC-001",
@@ -157,6 +161,7 @@
       "Coherencia de la ruta y ausencia de usos intermedios."
     ],
     "resultado": "Dentro del plazo, solo están permitidos los desplazamientos necesarios para subsanar las deficiencias y volver a la inspección. Cualquier otro desplazamiento constituye infracción.",
+    "estado_circulacion": "INHABILITADO, salvo los desplazamientos expresamente permitidos por el art. 11.2.",
     "norma": "Reglamento General de Vehículos",
     "articulo": "10.1",
     "norma_infringida": "Reglamento General de Vehículos",
@@ -170,10 +175,11 @@
       "Verificar que el trayecto sea necesario para reparar o volver a ITV; si no lo es, formular denuncia 5C."
     ],
     "actuacion": [
-      "Verificar y documentar la finalidad y coherencia del trayecto.",
-      "Si el desplazamiento está permitido, dejar constancia de la comprobación sin formular denuncia 5C.",
-      "Si no está amparado, formular denuncia 5C y remitirla a la Jefatura Provincial de Tráfico de Valencia.",
-      "Advertir de la limitación de circulación hasta superar la inspección."
+      "Comprobar el informe ITV y la fecha límite.",
+      "Comprobar destino y finalidad del desplazamiento.",
+      "Si se dirige al taller o regularización, o vuelve a una estación ITV para nueva inspección dentro del plazo, el desplazamiento está amparado por el art. 11.2.",
+      "Si realiza cualquier otro desplazamiento, aplicar la denuncia correspondiente.",
+      "No acordar inmovilización por el mero resultado desfavorable; aplicar art. 104 solo si concurre una causa concreta."
     ],
     "medidas": [
       "TR-MED-ITV-CHECK",
@@ -229,7 +235,7 @@
     "referencia_penal": null,
     "estado": "validado",
     "id": "TR-ITV-OP-004",
-    "titulo": "ITV desfavorable — plazo máximo superado",
+    "titulo": "ITV desfavorable — plazo de segunda inspección superado",
     "palabras_clave": [
       "ITV",
       "desfavorable",
@@ -244,6 +250,7 @@
       "Deficiencias técnicas actuales, separadamente."
     ],
     "resultado": "No se ha superado la segunda inspección dentro del plazo máximo; debe seleccionarse la salida según la situación real del vehículo.",
+    "estado_circulacion": "INHABILITADO para los desplazamientos del art. 11.2 una vez superado el plazo.",
     "norma": "Reglamento General de Vehículos",
     "articulo": "10.1",
     "norma_infringida": "Reglamento General de Vehículos",
@@ -255,10 +262,11 @@
       "Acreditar el vencimiento del plazo y seleccionar 5D si circula o 5E si está estacionado o puesto en circulación."
     ],
     "actuacion": [
-      "Acreditar que el plazo está superado.",
-      "Seleccionar la salida según circulación efectiva o estacionamiento/puesta en circulación.",
-      "Formular denuncia y remitirla a la Jefatura Provincial de Tráfico de Valencia.",
-      "Informar de que, fuera de plazo, procede una inspección completa."
+      "Comprobar la fecha de la primera inspección desfavorable y la fecha límite.",
+      "Distinguir circulación efectiva de puesta en circulación/estacionamiento y aplicar la salida sancionadora ya validada.",
+      "No autorizar circulación por medios propios al amparo de la excepción del art. 11.2, porque el plazo concedido ha finalizado.",
+      "Informar de que, si se presenta a ITV fuera de plazo, se realizará una inspección técnica completa.",
+      "No aplicar automáticamente el art. 6.9 RD 920/2017 a este supuesto."
     ],
     "medidas": [
       "TR-MED-ITV-CHECK",
@@ -337,6 +345,7 @@
       "Forma en que el vehículo llegó al lugar."
     ],
     "resultado": "Vehículo con resultado ITV negativo circulando por sus propios medios.",
+    "estado_circulacion": "CIRCULACIÓN PROHIBIDA POR MEDIOS PROPIOS; traslado por medios ajenos.",
     "norma": "Reglamento General de Vehículos",
     "articulo": "10.1",
     "norma_infringida": "Reglamento General de Vehículos",
@@ -354,10 +363,13 @@
       "Formular denuncia 5B, impedir la continuación autopropulsada y exigir transporte por medios ajenos."
     ],
     "actuacion": [
-      "Formular denuncia y remitirla a la Jefatura Provincial de Tráfico de Valencia.",
-      "Impedir la continuación autopropulsada.",
-      "Exigir el transporte mediante medios ajenos, como grúa o plataforma.",
-      "Acordar inmovilización únicamente si las deficiencias actuales constituyen riesgo especialmente grave y motivar ese presupuesto."
+      "Formular la denuncia correspondiente y remitirla a la Jefatura Provincial de Tráfico de Valencia.",
+      "Impedir la continuación de la circulación por medios propios: el art. 11.3 RD 920/2017 inhabilita al vehículo para circular.",
+      "Exigir que el traslado se realice por medios ajenos al propio vehículo.",
+      "Consultar el informe ITV para identificar el defecto muy grave que produjo el resultado negativo.",
+      "Si el defecto constituye riesgo especialmente grave para la seguridad vial, aplicar inmovilización del art. 104.1.b LSV.",
+      "Si se superan los niveles reglamentarios de gases, humos o ruido, aplicar inmovilización del art. 104.1.h LSV.",
+      "No presentar la retirada o depósito del art. 105 como consecuencia automática; solo si concurre su supuesto propio."
     ],
     "medidas": [
       "TR-MED-ITV-CHECK",
@@ -393,7 +405,7 @@
     "referencia_penal": null,
     "estado": "validado",
     "id": "TR-ITV-OP-006",
-    "titulo": "ITV negativa — estacionado o puesto en circulación",
+    "titulo": "ITV negativa — puesto en circulación / estacionado",
     "palabras_clave": [
       "ITV",
       "negativa",
@@ -408,6 +420,7 @@
       "Existencia independiente de peligro, obstáculo u otro presupuesto de retirada."
     ],
     "resultado": "Vehículo con última ITV negativa estacionado o puesto en circulación en vía pública.",
+    "estado_circulacion": "CIRCULACIÓN PROHIBIDA POR MEDIOS PROPIOS mientras persista la inhabilitación.",
     "norma": "Reglamento General de Vehículos",
     "articulo": "10.1",
     "norma_infringida": "Reglamento General de Vehículos",
@@ -425,10 +438,11 @@
       "Formular denuncia 5F y advertir que el vehículo solo puede retirarse mediante transporte por medios ajenos."
     ],
     "actuacion": [
-      "Precisar en la denuncia el hecho observado.",
-      "Formular denuncia y remitirla a la Jefatura Provincial de Tráfico de Valencia.",
-      "Advertir que el vehículo no puede retirarse por sus propios medios.",
-      "Permitir que el responsable organice transporte privado mediante medios ajenos."
+      "Formular la denuncia correspondiente cuando concurran los elementos de la salida sancionadora ya validada.",
+      "Advertir expresamente que el vehículo no puede ser retirado circulando por sus propios medios.",
+      "Si debe trasladarse, utilizar medios ajenos al propio vehículo.",
+      "Aplicar inmovilización del art. 104 únicamente si el defecto acreditado encaja en una causa concreta, especialmente 104.1.b o 104.1.h.",
+      "Aplicar retirada y depósito solo si concurre un supuesto propio del art. 105 LSV."
     ],
     "medidas": [
       "TR-MED-ITV-CHECK",

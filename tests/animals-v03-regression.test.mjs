@@ -144,7 +144,7 @@ test("el control futuro marca expresiones ambiguas sin modificar el contenido", 
 test("mantiene Animales y añade los bloques validados de Seguridad Vial", async () => {
   const { cases } = await vite.ssrLoadModule("/data/cases.ts");
   assert.equal(cases.filter((item) => item.modulo === "animales").length, 19);
-  assert.equal(cases.filter((item) => item.modulo === "seguridad_vial").length, 13);
+  assert.equal(cases.filter((item) => item.modulo === "seguridad_vial").length, 31);
   assert.ok(cases.every((item) => ["animales", "seguridad_vial"].includes(item.modulo)));
 });
 
@@ -170,9 +170,10 @@ test("el dataset penal común existe y contiene los dos preceptos literales vali
   const conditional = item.datos_adicionales.relevancia_penal_condicional;
   assert.equal(conditional.penal_article_id, "CP-340-BIS");
   assert.equal(item.destino_diligencias_penales, ANIMAL_MALTREATMENT_PENAL_DESTINATION);
-  assert.equal(penalArticles.length, 2);
-  assert.deepEqual(penalArticles.map((precept) => precept.id).sort(), ["CP-340-BIS", "CP-340-TER"]);
-  for (const precept of penalArticles) {
+  const animalPrecepts = penalArticles.filter((precept) => precept.id.startsWith("CP-340"));
+  assert.equal(animalPrecepts.length, 2);
+  assert.deepEqual(animalPrecepts.map((precept) => precept.id).sort(), ["CP-340-BIS", "CP-340-TER"]);
+  for (const precept of animalPrecepts) {
     assert.equal(precept.estado, "validado");
     assert.equal(precept.fuente_id, "AN-SRC-007");
     assert.ok(precept.texto_literal.trim().length > 0);
@@ -190,8 +191,9 @@ test("audita los 19 casos y deja AN-OP-012 y AN-OP-016 como relevancia condicion
   const { cases, penalMessagesPendingReview, penalBranchStatus } = await vite.ssrLoadModule("/data/cases.ts");
   const { rules } = await vite.ssrLoadModule("/data/rules.ts");
   assert.equal(cases.filter((item) => item.modulo === "animales").length, 19);
-  assert.deepEqual(cases.filter((item) => item.alerta_penal).map((item) => item.id), []);
-  assert.deepEqual(cases.filter((item) => item.datos_adicionales?.relevancia_penal_condicional?.activa).map((item) => item.id), ["AN-OP-012", "AN-OP-016"]);
+  const animalCases = cases.filter((item) => item.modulo === "animales");
+  assert.deepEqual(animalCases.filter((item) => item.alerta_penal).map((item) => item.id), []);
+  assert.deepEqual(animalCases.filter((item) => item.datos_adicionales?.relevancia_penal_condicional?.activa).map((item) => item.id), ["AN-OP-012", "AN-OP-016"]);
   const abandonment = cases.find((item) => item.id === "AN-OP-012");
   assert.equal(abandonment.penal_article_id, null);
   assert.equal(abandonment.alerta_penal, false);

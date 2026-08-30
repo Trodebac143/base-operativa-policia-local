@@ -7,12 +7,12 @@
   {
     "id": "TR-ITV-FJ-002",
     "titulo": "Resultado desfavorable o negativo",
-    "regla": "Defecto grave determina resultado desfavorable; defecto muy grave, resultado negativo."
+    "regla": "Defecto grave: disminuye las condiciones de seguridad del vehículo, pone en riesgo a otros usuarios de las vías públicas o puede tener impacto sobre el medio ambiente; determina resultado desfavorable. Defecto muy grave: constituye un riesgo directo e inmediato para la seguridad vial o tiene un impacto sobre el medio ambiente; determina resultado negativo."
   },
   {
     "id": "TR-ITV-FJ-003",
     "titulo": "Segunda inspección",
-    "regla": "Plazo máximo de dos meses; desfavorable con desplazamientos tasados y negativa con transporte por medios ajenos."
+    "regla": "ITV desfavorable: el vehículo queda inhabilitado para circular salvo para su traslado al taller o, en su caso, regularización y vuelta a una estación ITV para nueva inspección dentro del plazo concedido, que no puede superar dos meses desde la primera inspección desfavorable. ITV negativa: el vehículo queda inhabilitado para circular por las vías públicas; el traslado desde la estación hasta su destino se realiza por medios ajenos al propio vehículo y debe presentarse a inspección dentro del plazo máximo de dos meses. Si se presenta fuera del plazo concedido, se realiza una inspección técnica completa."
   },
   {
     "id": "TR-ITV-FJ-004",
@@ -27,6 +27,11 @@
   {
     "id": "TR-ITV-FJ-006",
     "titulo": "Medidas policiales",
-    "regla": "Inmovilización, retirada, traslado y depósito conservan presupuestos y efectos propios."
+    "regla": "La inhabilitación para circular derivada de una ITV desfavorable o negativa es un efecto propio del RD 920/2017 y no debe confundirse con la inmovilización policial del art. 104 LSV. La ITV negativa impide siempre la continuación por medios propios. La inmovilización policial se fundamentará en la letra concreta del art. 104 que corresponda al defecto acreditado: especialmente 104.1.b para deficiencias que constituyan riesgo especialmente grave para la seguridad vial y 104.1.h cuando se superen los niveles reglamentarios de gases, humos o ruido. La retirada y depósito solo se aplicarán cuando concurra un supuesto propio del art. 105 LSV."
+  },
+  {
+    "id": "TR-ITV-FJ-008",
+    "titulo": "Requerimiento policial de inspección técnica — art. 6.9 RD 920/2017",
+    "regla": "Cuando los agentes detecten incumplimiento de las obligaciones de inspección establecidas en los arts. 4 y 6 RD 920/2017, formularán la denuncia correspondiente y concederán al titular o arrendatario a largo plazo un plazo de 10 días para someter el vehículo a inspección técnica. Si transcurre ese plazo sin acreditarse la presentación del vehículo a ITV, la Jefatura de Tráfico iniciará el procedimiento para acordar la baja de oficio. Solo se aplica a incumplimientos de los arts. 4 y 6; no a la segunda inspección del art. 11."
   }
 ]

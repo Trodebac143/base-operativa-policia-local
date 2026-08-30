@@ -1,0 +1,13 @@
+[
+  {
+    "id":"TR-PERM-HELP-ART21",
+    "titulo":"REQUISITOS ART. 21",
+    "introduccion":"El permiso de un tercer país solo es válido actualmente en España si encaja en una vía documental reconocida y cumple además todos los requisitos comunes.",
+    "secciones":[
+      {"titulo":"Vías documentales reconocidas","contenido":["Permiso conforme al modelo del Convenio de Ginebra de 1949 o del Convenio de Viena de 1968.","Permiso nacional redactado en castellano o acompañado de traducción oficial por intérprete jurado, consulado competente u organismo autorizado.","Permiso internacional acompañado del permiso nacional extranjero de base.","Permiso reconocido por convenio bilateral o multilateral en el que España sea parte."],"advertencia":"Una traducción particular, automática o no acreditada no es traducción oficial."},
+      {"titulo":"Requisitos comunes","contenido":["Permiso en vigor.","Edad exigida en España para el permiso equivalente.","Residente: no más de seis meses desde la residencia normal.","Sin residencia normal acreditada: no más de seis meses desde la entrada regular.","Especialidades del convenio aplicable."],"advertencia":"No confundir fecha de residencia con fecha de obtención del permiso."},
+      {"titulo":"PERMISO INTERNACIONAL","contenido":["Documento complementario: debe acompañarse del permiso nacional extranjero de base y del documento de identidad o pasaporte.","Comprobar vigencia de ambos documentos y categorías para el vehículo concreto.","Formato habitual orientativo: cartulina gris o tríptico con páginas interiores en varios idiomas."],"advertencia":"EL PERMISO INTERNACIONAL NO ES VÁLIDO POR SÍ SOLO. La apariencia visual no acredita su validez."}
+    ],
+    "enlaces":[{"etiqueta":"CONSULTAR PAÍSES CON CONVENIO — DGT","url":"https://www.dgt.es/nuestros-servicios/permisos-de-conducir/permisos-extranjeros-y-de-fuerzas-y-cuerpos-de-seguridad/canjes-de-permisos/paises-con-convenio-de-canjes/","principal":true},{"etiqueta":"DGT — PERMISOS EXTRANJEROS","url":"https://www.dgt.es/nuestros-servicios/permisos-de-conducir/permisos-extranjeros-y-de-fuerzas-y-cuerpos-de-seguridad/","principal":false}]
+  }
+]

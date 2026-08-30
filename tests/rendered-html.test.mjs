@@ -29,6 +29,6 @@ test("sirve cada navegación HTML sin caché y con versión publicada", async ()
   assert.equal(response.headers.get("cache-control"), "no-store, no-cache, must-revalidate, max-age=0");
   assert.equal(response.headers.get("cdn-cache-control"), "no-store");
   assert.equal(response.headers.get("cloudflare-cdn-cache-control"), "no-store");
-  assert.equal(response.headers.get("x-base-operativa-version"), "0.5.2");
+  assert.equal(response.headers.get("x-base-operativa-version"), "0.6.0");
   assert.doesNotMatch(await response.text(), /codex-preview/i);
 });
