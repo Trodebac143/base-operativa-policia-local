@@ -57,5 +57,13 @@
     "descripcion": "Vigencia, habilitación, pérdida de puntos, privación judicial y permisos extranjeros",
     "orden": 30,
     "activo": true
+  },
+  {
+    "id": "seguridad_vial_alcoholemia",
+    "modulo": "seguridad_vial",
+    "nombre": "Alcoholemia",
+    "descripcion": "Referencia operativa de aire espirado, EMP, pruebas y medidas",
+    "orden": 40,
+    "activo": true
   }
 ]

@@ -1,0 +1,239 @@
+{
+  "id": "TR-ALC-V1",
+  "titulo": "Alcoholemia",
+  "subtitulo": "Referencia operativa — aire espirado",
+  "tabla_limites": [
+    {
+      "tipo": "General",
+      "limite_mg_l": "0.25",
+      "texto": "No puede superar 0,25 mg/L."
+    },
+    {
+      "tipo": "Profesional",
+      "limite_mg_l": "0.15",
+      "texto": "Tasa reducida de 0,15 mg/L únicamente en los supuestos de vehículos/servicios del art. 20 RGC.",
+      "detalle": "Mercancías MMA >3.500 kg; viajeros >9 plazas; servicio público; transporte escolar y de menores; mercancías peligrosas; servicio de urgencia; transportes especiales."
+    },
+    {
+      "tipo": "Novel",
+      "limite_mg_l": "0.15",
+      "texto": "Durante los dos años siguientes a la obtención del permiso o licencia habilitante."
+    },
+    {
+      "tipo": "Menor de edad",
+      "limite_mg_l": "0.00",
+      "texto": "Tasa 0,00 mg/L."
+    },
+    {
+      "tipo": "Umbral penal objetivo",
+      "limite_mg_l": "0.60",
+      "comparador": ">",
+      "texto": "Art. 379.2 CP: tasa de aire espirado superior a 0,60 mg/L, una vez aplicado el EMP y el criterio penal de dos decimales."
+    },
+    {
+      "tipo": "Negativa a las pruebas",
+      "limite_mg_l": null,
+      "texto": "Art. 383 CP. Incluye la negativa a la segunda medición legalmente exigida conforme a la jurisprudencia del Tribunal Supremo."
+    }
+  ],
+  "tabla_sancion_administrativa": {
+    "regla_general": "Infracción muy grave por conducir con tasa superior a la permitida.",
+    "multa_base_euros": 500,
+    "multa_agravada_euros": 1000,
+    "multa_agravada_cuando": [
+      "El conductor ya hubiera sido sancionado en el año inmediatamente anterior por exceder la tasa permitida.",
+      "La tasa supera el doble de la permitida."
+    ],
+    "puntos": {
+      "general": [
+        { "rango": ">0,25 y <=0,50 mg/L", "puntos": 4 },
+        { "rango": ">0,50 mg/L", "puntos": 6 }
+      ],
+      "profesional_novel": [
+        { "rango": ">0,15 y <=0,30 mg/L", "puntos": 4 },
+        { "rango": ">0,30 mg/L", "puntos": 6 }
+      ],
+      "menor": {
+        "regla": "No inferir puntos automáticamente para todos los positivos de menores. Aplicar el codificado ARCI vigente según tramo y condición; el tramo específico de tasa 0,00 puede tener 0 puntos.",
+        "implementacion_v1": "Mostrar tasa 0,00 y resultado administrativo. No automatizar puntos de menores salvo que el dataset ARCI actual del proyecto ya contenga el codificado validado."
+      }
+    }
+  },
+  "emp": {
+    "nombre_ui": "Calculadora de tasa corregida — EMP",
+    "unidad": "mg/L",
+    "modo_por_defecto": "servicio_periodica",
+    "modos": {
+      "servicio_periodica": {
+        "etiqueta": "Etilómetro en servicio / verificación periódica (habitual)",
+        "reglas": [
+          { "desde": "0.0", "hasta_inclusive": "0.4", "tipo": "absoluto", "valor": "0.03" },
+          { "desde_exclusive": "0.4", "hasta_inclusive": "2.0", "tipo": "porcentaje", "valor": "7.5" },
+          { "desde_exclusive": "2.0", "tipo": "formula", "formula": "3*lectura/4 - 1.35" }
+        ]
+      },
+      "puesta_servicio_o_post_reparacion": {
+        "etiqueta": "Puesta en servicio / verificación tras reparación o modificación",
+        "reglas": [
+          { "desde": "0.0", "hasta_inclusive": "0.4", "tipo": "absoluto", "valor": "0.02" },
+          { "desde_exclusive": "0.4", "hasta_inclusive": "2.0", "tipo": "porcentaje", "valor": "5.0" },
+          { "desde_exclusive": "2.0", "tipo": "formula", "formula": "lectura/2 - 0.9" }
+        ]
+      }
+    },
+    "aviso": "Cálculo orientativo operativo basado en el EMP aplicable. Debe conservarse la identificación y situación metrológica del etilómetro utilizado."
+  },
+  "tabla_rapida_servicio_periodica": [
+    { "lectura": "0.14", "corregido": "0.11", "zona": "Bajo 0,15", "color": "verde", "uso": "Por debajo de 0,15" },
+    { "lectura": "0.18", "corregido": "0.15", "zona": "En 0,15", "color": "verde", "uso": "No supera 0,15 tras EMP" },
+    { "lectura": "0.19", "corregido": "0.16", "zona": ">0,15", "color": "ambar", "uso": "Supera 0,15 tras EMP" },
+    { "lectura": "0.24", "corregido": "0.21", "zona": "Bajo 0,25", "color": "verde", "uso": "No alcanza 0,25" },
+    { "lectura": "0.28", "corregido": "0.25", "zona": "En 0,25", "color": "verde", "uso": "No supera 0,25 tras EMP" },
+    { "lectura": "0.29", "corregido": "0.26", "zona": ">0,25", "color": "ambar", "uso": "Supera 0,25 tras EMP" },
+    { "lectura": "0.54", "corregido": "0.50", "zona": "Hasta 0,50", "color": "ambar", "uso": "No supera 0,50 tras EMP" },
+    { "lectura": "0.55", "corregido": "0.51", "zona": ">0,50", "color": "naranja", "uso": "Supera 0,50 tras EMP" },
+    { "lectura": "0.65", "corregido_exact": "0.60125", "corregido_penal_2_dec": "0.60", "zona": "Límite penal", "color": "rojo_suave", "uso": "No supera 0,60 a efectos del tipo penal objetivo por tasa; valorar influencia" },
+    { "lectura": "0.66", "corregido_exact": "0.6105", "corregido_penal_2_dec": "0.61", "zona": ">0,60", "color": "rojo", "uso": "Supera 0,60 tras EMP: vía penal preferente por tasa objetiva" }
+  ],
+  "nota_correccion_tabla_visual": "No tratar 0,18→0,15 ni 0,28→0,25 como 'primer valor sancionable': los límites legales se expresan como tasas superiores a 0,15/0,25. Se añaden 0,19→0,16 y 0,29→0,26 como primeros ejemplos inequívocos de superación en el modo habitual de EMP 0,03.",
+  "resultado_operativo_agrupado": [
+    {
+      "id": "ALC-RES-001",
+      "titulo": "Sin superación de tasa",
+      "color": "verde",
+      "regla": "El valor corregido no supera el límite aplicable.",
+      "advertencia": "Una tasa por debajo del límite no excluye por sí sola un posible delito por conducción bajo la influencia si existen elementos probatorios suficientes."
+    },
+    {
+      "id": "ALC-RES-002",
+      "titulo": "Vía administrativa",
+      "color": "ambar",
+      "regla": "El valor corregido supera el límite aplicable y no concurren elementos de delito.",
+      "actuacion": [
+        "Aplicar la infracción administrativa correspondiente.",
+        "Mostrar cuantía/puntos solo cuando estén determinados por reglas validadas del dataset.",
+        "Aplicar medidas sobre el vehículo conforme a RGC art. 25 y a la regla transversal del proyecto, sin duplicar lógica."
+      ]
+    },
+    {
+      "id": "ALC-RES-003",
+      "titulo": "Posible delito por influencia",
+      "color": "rojo",
+      "regla": "Art. 379.2 CP: conducción de vehículo a motor o ciclomotor bajo la influencia de bebidas alcohólicas.",
+      "advertencia": "No existe un umbral numérico alternativo automático. La aplicación no debe inferir influencia solo por alcanzar una cifra concreta.",
+      "actuacion": [
+        "Documentar conducción, signos externos, accidente/infracciones y demás elementos objetivos.",
+        "Si los hechos revisten caracteres delictivos, activar la vía penal preferente."
+      ]
+    },
+    {
+      "id": "ALC-RES-004",
+      "titulo": "Delito por tasa objetiva",
+      "color": "rojo",
+      "regla": "Art. 379.2 CP cuando el valor penal corregido supera 0,60 mg/L.",
+      "actuacion": [
+        "Vía penal preferente.",
+        "Formular también la denuncia administrativa correspondiente y dejarla paralizada/suspendida hasta pronunciamiento judicial conforme a la regla transversal del proyecto."
+      ]
+    },
+    {
+      "id": "ALC-RES-005",
+      "titulo": "Negativa a las pruebas",
+      "color": "rojo",
+      "regla": "Art. 383 CP cuando, tras requerimiento legal, el conductor se niega a las pruebas legalmente establecidas.",
+      "incluye": "Negativa a la segunda medición legalmente exigida.",
+      "actuacion": [
+        "Vía penal preferente.",
+        "Aplicar la medida de inmovilización cuando proceda conforme al art. 25.2 RGC y reglas transversales."
+      ]
+    }
+  ],
+  "practica_pruebas": {
+    "segunda_prueba": "Segunda prueba conforme al art. 23.1 RGC.",
+    "intervalo": "Entre primera y segunda prueba debe mediar un tiempo mínimo de 10 minutos.",
+    "derechos": [
+      "Informar del derecho a controlar el intervalo mínimo.",
+      "Informar del derecho a formular alegaciones u observaciones.",
+      "Informar del derecho a contrastar resultados mediante análisis adecuados."
+    ],
+    "diligencias": [
+      "Identificar el instrumento y describir el procedimiento seguido.",
+      "Consignar las advertencias realizadas.",
+      "En hechos con caracteres delictivos, actuar conforme a LECrim y vía penal."
+    ]
+  },
+  "medidas_vehiculo": {
+    "regla": "No duplicar reglas generales 104/105 LSV existentes en el proyecto.",
+    "referencia": "TR-GEN-R-104-105-001",
+    "especifica_rgc_25": [
+      "Resultado positivo: el agente puede inmovilizar inmediatamente, salvo que pueda hacerse cargo otra persona debidamente habilitada.",
+      "Negativa: también puede inmovilizarse.",
+      "Levantar cuando desaparezca la causa o sustituya al conductor otra persona habilitada que ofrezca garantía suficiente."
+    ]
+  },
+  "fuentes_juridicas_validadas": [
+    { "id": "TR-ALC-SRC-001", "nombre": "Real Decreto Legislativo 6/2015 — Ley sobre Tráfico, Circulación de Vehículos a Motor y Seguridad Vial", "preceptos": ["14.1", "77.c", "80.1", "80.2.a", "Anexo II"], "uso": "Tasa 0,00 de menores, tipificación administrativa, cuantías y pérdida de puntos." },
+    { "id": "TR-ALC-SRC-002", "nombre": "Real Decreto 1428/2003 — Reglamento General de Circulación", "preceptos": ["20", "21", "22", "23", "24", "25"], "uso": "Límites de aire espirado, práctica de pruebas, diligencias e inmovilización." },
+    { "id": "TR-ALC-SRC-003", "nombre": "Ley Orgánica 10/1995 — Código Penal", "preceptos": ["379.2", "383"], "uso": "Conducción bajo influencia / tasa objetiva y negativa a las pruebas." },
+    { "id": "TR-ALC-SRC-004", "nombre": "Orden ICT/155/2020, de 7 de febrero", "preceptos": ["Anexo XIII, apartados 1 a 6 y apéndices III-IV"], "uso": "Control metrológico de etilómetros y remisión a OIML R 126 vigente." },
+    { "id": "TR-ALC-SRC-005", "nombre": "OIML R 126-1:2021", "preceptos": ["6.3", "6.6.1", "6.6.2"], "uso": "EMP vigentes y escala/decimales de analizadores evidenciales." },
+    { "id": "TR-ALC-SRC-006", "nombre": "STS de 25/10/2023, Sala Segunda", "preceptos": [], "uso": "0,65 mg/L con EMP 7,5% no supera por tasa objetiva 0,60 mg/L al expresar el resultado penal a dos decimales; 0,66 sí puede superar el umbral tras corrección." },
+    { "id": "TR-ALC-SRC-007", "nombre": "STS 210/2017, Sala Segunda, Pleno", "preceptos": [], "uso": "La negativa a la segunda medición legalmente exigida puede integrar el art. 383 CP." },
+    { "id": "TR-ALC-SRC-008", "nombre": "DGT — información oficial de tasas de alcohol, julio de 2026", "preceptos": [], "uso": "Referencia de límites vigentes aportada por el paquete validado." }
+  ],
+  "selector_vehiculo": {
+    "titulo": "Vehículo conducido",
+    "ubicacion": "Antes del tipo de conductor y de la interpretación del resultado; no afecta al cálculo EMP.",
+    "opciones": [
+      { "id": "motor_ciclomotor", "label": "Vehículo a motor / ciclomotor", "descripcion": "Turismo, motocicleta, ciclomotor y demás vehículos jurídicamente clasificados como vehículo a motor o ciclomotor." },
+      { "id": "bicicleta_epac", "label": "Bicicleta / ciclo / EPAC", "descripcion": "Incluye bicicleta de pedaleo asistido que cumpla la definición reglamentaria." },
+      { "id": "vmp", "label": "VMP", "descripcion": "VMP que realmente encaja en la definición reglamentaria." },
+      { "id": "clasificacion_pendiente", "label": "Eléctrico / aparato de clasificación dudosa", "descripcion": "No resolver la vía penal hasta clasificar técnicamente el aparato." }
+    ],
+    "advertencia_vmp": "No clasificar por apariencia. Si un supuesto patinete no es realmente VMP y resulta vehículo a motor/ciclomotor, seleccionar la rama vehículo a motor/ciclomotor."
+  },
+  "limites_por_vehiculo": {
+    "motor_ciclomotor": { "adulto_general": "0.25", "profesional_novel": "0.15", "menor": "0.00", "penal_posible": true, "puntos_posibles": true },
+    "bicicleta_epac": { "adulto": "0.25", "menor": "0.00", "profesional_novel_no_aplica": true, "penal_posible": false, "puntos": 0 },
+    "vmp": { "adulto": "0.25", "menor": "0.00", "profesional_novel_no_aplica": true, "penal_posible": false, "puntos": 0 }
+  },
+  "salida_administrativa_v2_consolidada": {
+    "titulo": "DENUNCIA ADMINISTRATIVA",
+    "codificados": {
+      "general": [
+        { "rango": ">0,25 y <=0,50", "opcion": "CIR 020.1 5E", "importe": 500, "reducido": 250, "puntos_si_vehiculo_exige_permiso": 4 },
+        { "rango": ">0,50", "opcion": "CIR 020.1 5I", "importe": 1000, "reducido": 500, "puntos_si_vehiculo_exige_permiso": 6 },
+        { "rango": ">0,25 y <=0,50 + sanción firme alcohol año anterior", "opcion": "CIR 020.1 5M", "importe": 1000, "reducido": 500, "puntos_si_vehiculo_exige_permiso": 4 }
+      ],
+      "profesional_novel": [
+        { "rango": ">0,15 y <=0,30", "opcion": "CIR 020.1 5G", "importe": 500, "reducido": 250, "puntos_si_vehiculo_exige_permiso": 4 },
+        { "rango": ">0,30", "opcion": "CIR 020.1 5K", "importe": 1000, "reducido": 500, "puntos_si_vehiculo_exige_permiso": 6 },
+        { "rango": ">0,15 y <=0,30 + sanción firme alcohol año anterior", "opcion": "CIR 020.1 5Ñ", "importe": 1000, "reducido": 500, "puntos_si_vehiculo_exige_permiso": 4 }
+      ],
+      "menor_tramo_cero": [
+        { "condicion": "positivo >0 dentro del tramo específico, sin antecedente", "opcion": "LSV 014.1 5B", "importe": 500, "reducido": 250, "puntos": 0 },
+        { "condicion": "positivo >0 dentro del tramo específico, con sanción firme alcohol año anterior", "opcion": "LSV 014.1 5C", "importe": 1000, "reducido": 500, "puntos": 0 }
+      ],
+      "negativa_administrativa_no_motor": { "opcion": "CIR 021.1 5F", "tipificacion": "LSV 77.d — Muy grave", "importe": 1000, "reducido": 500, "puntos_bicicleta_epac_vmp": 0, "responsable": "Conductor / usuario requerido" }
+    }
+  },
+  "regla_puntos": {
+    "formula": "puntos_mostrados = codificado.puntos solo si el vehículo conducido exige permiso/licencia; en bicicleta/ciclo/EPAC/VMP = 0",
+    "fundamento": "LSV art. 65.3",
+    "ui": "Puntos: 0 — este vehículo no exige permiso/licencia de conducción"
+  },
+  "regla_antecedente": {
+    "pregunta": "¿Existe sanción firme por alcoholemia en el año inmediatamente anterior?",
+    "efecto": "Resolver automáticamente 5E↔5M, 5G↔5Ñ o 5B↔5C.",
+    "prioridad": "Si ya se supera el doble de la tasa permitida, aplicar 5I/5K sin necesidad de usar el codificado de antecedente."
+  },
+  "fuentes_v3": [
+    { "id": "ALC-SRC-RGC", "nombre": "Real Decreto 1428/2003 — Reglamento General de Circulación", "preceptos": ["20.1", "20.2", "20.3", "21", "23", "25"], "uso": "Límites de aire espirado, pruebas e inmovilización." },
+    { "id": "ALC-SRC-LSV", "nombre": "Real Decreto Legislativo 6/2015 — Ley sobre Tráfico, Circulación de Vehículos a Motor y Seguridad Vial", "preceptos": ["14.1", "65.3", "77.c", "77.d", "80.1", "80.2.a", "Anexo II"], "uso": "Tasa 0,00 de menores y regla de pérdida de puntos." },
+    { "id": "ALC-SRC-CP", "nombre": "Ley Orgánica 10/1995 — Código Penal", "preceptos": ["379.2", "383"], "uso": "Tipos penales limitados a vehículo a motor o ciclomotor." },
+    { "id": "ALC-SRC-FISCALIA-VMP", "nombre": "Fiscalía de Seguridad Vial — Dictamen 2/2021", "preceptos": [], "uso": "Los arts. 379 y siguientes CP no se cometen con un VMP reglamentario." },
+    { "id": "ALC-SRC-DGT-VMP-2019", "nombre": "DGT — Instrucción 2019/S-149 TV-108", "preceptos": [], "uso": "EPAC como bicicleta y VMP sin detracción de puntos." },
+    { "id": "ALC-SRC-DGT-VMP-2026", "nombre": "DGT — Instrucción SANC 2026/13", "preceptos": [], "uso": "La clasificación VMP para alcoholemia es independiente de su tratamiento en Seguro." },
+    { "id": "ALC-SRC-ARCI", "nombre": "Guía codificada de infracciones ARCI DGT vigente", "preceptos": [], "uso": "Opciones CIR 020.1, CIR 021.1 y LSV 014.1 validadas en V3." }
+  ]
+}
