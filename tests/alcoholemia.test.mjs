@@ -69,13 +69,16 @@ test("la decisión administrativa usa el corregido exacto y la graduación usa l
   assert.match(resolve("0.51").administracion.hecho, /0,51 mg\/L/);
   assert.doesNotMatch(resolve("0.51").administracion.hecho, /corregida/i);
   assert.deepEqual(
-    [resolve("0.29").calculo_operativo.principal_label, resolve("0.29").calculo_operativo.principal_value],
-    ["TASA A CONSIGNAR EN DENUNCIA", "0.29"],
+    resolve("0.29").calculo_operativo.rates.map(({ label, value }) => [label, value]),
+    [["RESULTADO TRAS APLICAR EMP", "0.26"], ["TASA A CONSIGNAR EN DENUNCIA", "0.29"]],
   );
   assert.deepEqual(
-    [resolve("0.65").calculo_operativo.principal_label, resolve("0.65").calculo_operativo.principal_value],
-    ["TASA A EFECTOS DEL UMBRAL PENAL", "0.60"],
+    resolve("0.65").calculo_operativo.rates.map(({ label, value }) => [label, value]),
+    [["RESULTADO TRAS APLICAR EMP", "0.60125"], ["TASA A CONSIGNAR EN DENUNCIA", "0.65"]],
   );
+  assert.equal(resolve("0.65").calculo_operativo.kind, "administrativa");
+  assert.equal(resolve("0.66").calculo_operativo.kind, "penal");
+  assert.deepEqual(resolve("0.66").calculo_operativo.rates.map(({ label, value }) => [label, value]), [["TASA A EFECTOS DEL UMBRAL PENAL", "0.61"], ["TASA DEL TICKET", "0.66"]]);
 });
 
 test("la vista de Alcoholemia es agrupada, no expone árbol ni sangre y conserva los límites críticos", async () => {
@@ -91,14 +94,16 @@ test("la vista de Alcoholemia es agrupada, no expone árbol ni sangre y conserva
   assert.doesNotMatch(html, /árbol de decisiones|alcohol en sangre|tasa real|0,40 mg\/L/i);
   assert.doesNotMatch(html, /Tasa corregida a 2 decimales/i);
   assert.doesNotMatch(html, /Tasa exacta corregida|trunca a dos decimales|sin redondeo/i);
-  assert.match(html, /TASA A EFECTOS DEL UMBRAL PENAL/);
-  assert.match(html, /TASA DEL TICKET/);
-  assert.match(html, /0,60 mg\/L/);
+  assert.match(html, /RESULTADO TRAS APLICAR EMP/);
+  assert.match(html, /TASA A CONSIGNAR EN DENUNCIA/);
+  assert.match(html, /0,60125 mg\/L/);
   assert.match(html, /0,65 mg\/L/);
+  assert.doesNotMatch(html, /TASA A EFECTOS DEL UMBRAL PENAL/);
   assert.match(html, /Cómo se ha calculado/);
   assert.match(html, /SSTS 788\/2023 y 789\/2023/);
   assert.match(html, /0,65 × 7,5 % = 0,04875 mg\/L/);
   assert.match(html, /0,60125 → 0,60 mg\/L/);
+  assert.equal(html.match(/class="operational-rate operational-rate-/g)?.length, 2);
   assert.doesNotMatch(html, /DILIGENCIAS/);
   assert.equal(html.match(/data-slot="collapsible-trigger"/g)?.length, 5);
   assert.equal(html.match(/aria-expanded="false"/g)?.length, 5);
@@ -109,16 +114,37 @@ test("la vista de Alcoholemia es agrupada, no expone árbol ni sangre y conserva
   assert.match(html, /No procede denuncia para límite 0,25/);
 });
 
-test("la presentación administrativa destaca el ticket y relega el corregido exacto al desglose", async () => {
+test("la presentación administrativa muestra dos tasas grandes sin etiqueta penal", async () => {
   const { OperationalCalculation } = await vite.ssrLoadModule("/app/alcoholemia.tsx");
   const { calculateAlcoholemia, resolveAlcoholemiaOutcome } = await vite.ssrLoadModule("/data/alcoholemia.ts");
   const calculation = calculateAlcoholemia("0.41");
   const outcome = resolveAlcoholemiaOutcome({ calculation, vehicle: "motor_ciclomotor", driver: "general", previousSanction: false, negative: false });
-  const html = renderToStaticMarkup(React.createElement(OperationalCalculation, { presentation: outcome.calculo_operativo, ticketRate: calculation.tasa_ticket }));
-  assert.match(html, /operational-primary[^>]*><span>TASA A CONSIGNAR EN DENUNCIA<\/span><strong>0,41 mg\/L<\/strong>/);
-  assert.match(html, /Es la tasa que figura impresa en el ticket del etilómetro/);
+  const html = renderToStaticMarkup(React.createElement(OperationalCalculation, { presentation: outcome.calculo_operativo }));
+  assert.equal(html.match(/class="operational-rate operational-rate-/g)?.length, 2);
+  assert.match(html, /RESULTADO TRAS APLICAR EMP<\/span><strong>0,37925 mg\/L<\/strong>/);
+  assert.match(html, /TASA A CONSIGNAR EN DENUNCIA<\/span><strong>0,41 mg\/L<\/strong>/);
+  assert.match(html, /Tasa que figura en el ticket del etilómetro/);
+  assert.doesNotMatch(html, /TASA A EFECTOS DEL UMBRAL PENAL/);
   assert.match(html, /0,41 − 0,03075 = 0,37925 mg\/L/);
   assert.match(html, /Instrucción DGT 14\/S-134/);
+});
+
+test("solo una tasa penal operativa superior a 0,60 activa la presentación penal", async () => {
+  const { OperationalCalculation } = await vite.ssrLoadModule("/app/alcoholemia.tsx");
+  const { calculateAlcoholemia, resolveAlcoholemiaOutcome } = await vite.ssrLoadModule("/data/alcoholemia.ts");
+  const render = (reading) => {
+    const outcome = resolveAlcoholemiaOutcome({ calculation: calculateAlcoholemia(reading), vehicle: "motor_ciclomotor", driver: "general", previousSanction: false, negative: false });
+    return renderToStaticMarkup(React.createElement(OperationalCalculation, { presentation: outcome.calculo_operativo }));
+  };
+  const boundary = render("0.65");
+  assert.match(boundary, /RESULTADO TRAS APLICAR EMP<\/span><strong>0,60125 mg\/L<\/strong>/);
+  assert.doesNotMatch(boundary, /TASA A EFECTOS DEL UMBRAL PENAL/);
+  assert.match(boundary, /0,60125 → 0,60 mg\/L\. No supera POR TASA/);
+
+  const penal = render("0.66");
+  assert.match(penal, /TASA A EFECTOS DEL UMBRAL PENAL<\/span><strong>0,61 mg\/L<\/strong>/);
+  assert.match(penal, /TASA DEL TICKET<\/span><strong>0,66 mg\/L<\/strong>/);
+  assert.match(penal, /0,6105 → 0,61 mg\/L\. Sí supera POR TASA/);
 });
 
 test("el selector visual conserva exactamente los valores internos y toma iconos y orden de la configuración", async () => {

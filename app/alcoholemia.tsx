@@ -147,7 +147,7 @@ export function AlcoholemiaView({ onBack }: { onBack: () => void }) {
               <span>Tasa aplicable: <strong>{outcome.limite_mg_l ? `${formatMg(outcome.limite_mg_l)} mg/L` : "pendiente de clasificación"}</strong></span>
             </div>
             {calculation && !negative && outcome.calculo_operativo && (
-              <OperationalCalculation presentation={outcome.calculo_operativo} ticketRate={calculation.tasa_ticket} />
+              <OperationalCalculation presentation={outcome.calculo_operativo} />
             )}
             <p className="calculation-message">{outcome.mensaje}</p>
             {outcome.administracion && <AdministrativeFinding finding={outcome.administracion} suspended={outcome.kind === "penal_tasa"} />}
@@ -272,23 +272,20 @@ function SourcesSection() {
   );
 }
 
-export function OperationalCalculation({ presentation, ticketRate }: {
+export function OperationalCalculation({ presentation }: {
   presentation: NonNullable<ReturnType<typeof resolveAlcoholemiaOutcome>["calculo_operativo"]>;
-  ticketRate: string;
 }) {
   return (
     <div className={`operational-calculation operational-${presentation.kind}`}>
-      <div className="operational-primary">
-        <span>{presentation.principal_label}</span>
-        <strong>{formatMg(presentation.principal_value)} mg/L</strong>
-        <small>{presentation.principal_help}</small>
+      <div className="operational-rates">
+        {presentation.rates.map((rate) => (
+          <div className={`operational-rate operational-rate-${rate.role}`} key={rate.label}>
+            <span>{rate.label}</span>
+            <strong>{formatMg(rate.value)} mg/L</strong>
+            <small>{rate.help}</small>
+          </div>
+        ))}
       </div>
-      {presentation.kind === "penal" && (
-        <div className="ticket-rate-secondary">
-          <span>{alcoholemia.presentacion.calculo_operativo.etiqueta_ticket}</span>
-          <strong>{formatMg(ticketRate)} mg/L</strong>
-        </div>
-      )}
       <details className="calculation-explanation">
         <summary>{presentation.explanation_title}</summary>
         <dl>

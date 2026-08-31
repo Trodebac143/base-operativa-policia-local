@@ -22,7 +22,11 @@ export type AlcoholemiaUiSection = { id: AlcoholemiaUiSectionId; titulo: string;
 type OperationalUiConfig = {
   subtitulo_calculadora: string;
   ayuda_entrada: string;
+  etiqueta_resultado_emp: string;
+  ayuda_resultado_emp: string;
   etiqueta_ticket: string;
+  ayuda_ticket: string;
+  ayuda_ticket_penal: string;
   etiqueta_denuncia: string;
   ayuda_denuncia: string;
   etiqueta_penal: string;
@@ -205,7 +209,8 @@ export function formatMg(value: string): string { return value.replace(".", ",")
 
 export type AdministrativeFinding = { precepto: string; tipificacion: string; codificado: string; hecho: string; importe: number; reducido: number; puntos: number; puntos_nota?: string; responsable: string; suspendida: boolean };
 export type CalculationExplanationStep = { label: string; value: string };
-export type OperationalCalculationPresentation = { kind: "ticket" | "administrativa" | "penal"; principal_label: string; principal_value: string; principal_help: string; explanation_title: string; explanation_steps: CalculationExplanationStep[] };
+export type OperationalRatePresentation = { role: "resultado" | "ticket"; label: string; value: string; help: string };
+export type OperationalCalculationPresentation = { kind: "ticket" | "administrativa" | "penal"; rates: [OperationalRatePresentation, OperationalRatePresentation]; explanation_title: string; explanation_steps: CalculationExplanationStep[] };
 export type AlcoholemiaOutcome = {
   kind: "sin_superacion" | "administrativa" | "penal_tasa" | "penal_negativa" | "clasificacion_pendiente" | "sin_lectura";
   titulo: string;
@@ -271,23 +276,28 @@ function administrativeFinding(calculation: AlcoholemiaCalculation, vehicle: Veh
 function buildCalculationPresentation(calculation: AlcoholemiaCalculation, vehicle: VehicleType, exceedsAdministrativeLimit: boolean): OperationalCalculationPresentation {
   const domain = calculation[domainCalculation];
   const ui = alcoholemia.presentacion.calculo_operativo;
-  const penalReview = vehicle === "motor_ciclomotor" && compare(domain.ticketRate, decimal("0.60")) > 0;
-  const kind = penalReview ? "penal" : exceedsAdministrativeLimit ? "administrativa" : "ticket";
-  const principalLabel = kind === "penal" ? ui.etiqueta_penal : kind === "administrativa" ? ui.etiqueta_denuncia : ui.etiqueta_ticket;
-  const principalValue = kind === "penal" ? calculation.tasa_penal_operativa : calculation.tasa_ticket;
-  const principalHelp = kind === "penal" ? ui.ayuda_penal : ui.ayuda_denuncia;
+  const evaluatesPenalThreshold = vehicle === "motor_ciclomotor" && compare(domain.ticketRate, decimal("0.60")) > 0;
+  const reachesPenalOutcome = vehicle === "motor_ciclomotor" && calculation.supera_umbral_penal;
+  const kind = reachesPenalOutcome ? "penal" : exceedsAdministrativeLimit ? "administrativa" : "ticket";
+  const rates: OperationalCalculationPresentation["rates"] = kind === "penal"
+    ? [
+        { role: "resultado", label: ui.etiqueta_penal, value: calculation.tasa_penal_operativa, help: ui.ayuda_penal },
+        { role: "ticket", label: ui.etiqueta_ticket, value: calculation.tasa_ticket, help: ui.ayuda_ticket_penal },
+      ]
+    : [
+        { role: "resultado", label: ui.etiqueta_resultado_emp, value: calculation.corregido_interno_exacto, help: ui.ayuda_resultado_emp },
+        { role: "ticket", label: exceedsAdministrativeLimit ? ui.etiqueta_denuncia : ui.etiqueta_ticket, value: calculation.tasa_ticket, help: exceedsAdministrativeLimit ? ui.ayuda_denuncia : ui.ayuda_ticket },
+      ];
   const exactOperation = `${formatMg(calculation.tasa_ticket)} − ${formatMg(calculation.emp_exacto)} = ${formatMg(calculation.corregido_interno_exacto)} mg/L`;
-  const criterion = kind === "penal" ? ui.criterio_penal : ui.criterio_administrativo;
-  const result = kind === "penal"
+  const criterion = evaluatesPenalThreshold ? ui.criterio_penal : ui.criterio_administrativo;
+  const result = evaluatesPenalThreshold
     ? `Redondeo TS: ${formatMg(calculation.corregido_interno_exacto)} → ${formatMg(calculation.tasa_penal_operativa)} mg/L. ${calculation.supera_umbral_penal ? ui.conclusion_penal_supera : ui.conclusion_penal_no_supera}`
     : exceedsAdministrativeLimit
       ? `${ui.etiqueta_denuncia}: ${formatMg(calculation.tasa_ticket)} mg/L.`
       : "No procede denuncia por tasa: el corregido exacto no supera el límite aplicable.";
   return {
     kind,
-    principal_label: principalLabel,
-    principal_value: principalValue,
-    principal_help: principalHelp,
+    rates,
     explanation_title: ui.como_se_ha_calculado,
     explanation_steps: [
       { label: ui.etiqueta_ticket, value: `${formatMg(calculation.tasa_ticket)} mg/L` },
