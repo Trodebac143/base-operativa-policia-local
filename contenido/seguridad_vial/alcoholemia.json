@@ -180,12 +180,21 @@
     "titulo": "Vehículo conducido",
     "ubicacion": "Antes del tipo de conductor y de la interpretación del resultado; no afecta al cálculo EMP.",
     "opciones": [
-      { "id": "motor_ciclomotor", "label": "Vehículo a motor / ciclomotor", "descripcion": "Turismo, motocicleta, ciclomotor y demás vehículos jurídicamente clasificados como vehículo a motor o ciclomotor." },
-      { "id": "bicicleta_epac", "label": "Bicicleta / ciclo / EPAC", "descripcion": "Incluye bicicleta de pedaleo asistido que cumpla la definición reglamentaria." },
-      { "id": "vmp", "label": "VMP", "descripcion": "VMP que realmente encaja en la definición reglamentaria." },
-      { "id": "clasificacion_pendiente", "label": "Eléctrico / aparato de clasificación dudosa", "descripcion": "No resolver la vía penal hasta clasificar técnicamente el aparato." }
+      { "id": "motor_ciclomotor", "label": "Motor / ciclomotor", "icono": "🚗", "orden": 1, "visible": true, "descripcion": "Turismo, motocicleta, ciclomotor y demás vehículos jurídicamente clasificados como vehículo a motor o ciclomotor." },
+      { "id": "bicicleta_epac", "label": "Bicicleta / EPAC", "icono": "🚲", "orden": 2, "visible": true, "descripcion": "Incluye bicicleta de pedaleo asistido que cumpla la definición reglamentaria." },
+      { "id": "vmp", "label": "VMP", "icono": "🛴", "orden": 3, "visible": true, "descripcion": "VMP que realmente encaja en la definición reglamentaria." },
+      { "id": "clasificacion_pendiente", "label": "Eléctrico no VMP / clasificación dudosa", "icono": "⚠️", "orden": 4, "visible": true, "descripcion": "No resolver la vía penal hasta clasificar técnicamente el aparato." }
     ],
     "advertencia_vmp": "No clasificar por apariencia. Si un supuesto patinete no es realmente VMP y resulta vehículo a motor/ciclomotor, seleccionar la rama vehículo a motor/ciclomotor."
+  },
+  "presentacion": {
+    "secciones_secundarias": [
+      { "id": "tasas", "titulo": "Tasas en aire espirado", "icono": "♎", "orden": 1, "abierto_por_defecto": false, "visible": true },
+      { "id": "correccion", "titulo": "Cuadro rápido de corrección", "icono": "▣", "orden": 2, "abierto_por_defecto": false, "visible": true },
+      { "id": "actuacion", "titulo": "Actuación, pruebas y medidas", "icono": "▤", "orden": 3, "abierto_por_defecto": false, "visible": true },
+      { "id": "advertencias", "titulo": "Advertencias", "icono": "!", "orden": 4, "abierto_por_defecto": false, "visible": true },
+      { "id": "fuentes", "titulo": "Fuentes jurídicas", "icono": "ⓘ", "orden": 5, "abierto_por_defecto": false, "visible": true, "mostrar_conteo": true }
+    ]
   },
   "limites_por_vehiculo": {
     "motor_ciclomotor": { "adulto_general": "0.25", "profesional_novel": "0.15", "menor": "0.00", "penal_posible": true, "puntos_posibles": true },

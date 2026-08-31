@@ -24,12 +24,12 @@ Estos archivos ya no deben contener el contenido operativo principal; importan l
 
 ### Actualmente
 
-- **Sites de ChatGPT**: referencia publicada.
+- **GitHub Pages**: versión pública desplegada desde la rama `main`.
 - **Copia local**: entorno para probar cambios de contenido de forma autónoma.
 
 ### Futuro
 
-La carpeta `contenido/` no depende de Sites. Puede mantenerse igual si el proyecto se despliega en un servidor propio, siempre que se conserve la misma capa de carga/adaptación.
+La carpeta `contenido/` no depende de GitHub Pages. Puede mantenerse igual si el proyecto se despliega en otro servidor, siempre que se conserve la misma capa de carga/adaptación.
 
 ## Comandos
 

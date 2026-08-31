@@ -5,3 +5,18 @@
 
 .library-link{margin-left:auto;border:1px solid #d8b85f;background:transparent;color:#fff;border-radius:7px;padding:10px 13px;font-weight:700;cursor:pointer}.library-link:hover{background:#ffffff14}.library-search{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:14px}.library-search label{display:block;font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--navy);margin-bottom:9px}.library-search input{width:100%;border:2px solid #c9d7e1;border-radius:7px;padding:12px 13px;outline:0}.library-search input:focus{border-color:var(--blue);box-shadow:0 0 0 3px #24689c18}.library-list{display:grid;gap:10px}.library-list article{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:16px}.library-list strong{color:var(--navy);font-size:16px}.library-list p{margin:4px 0;color:var(--muted);font-size:14px}.library-list small{color:#607484;word-break:break-word}.library-list a{flex:0 0 auto;border:1px solid #abc0cf;border-radius:7px;padding:10px 12px;color:var(--navy);font-weight:700;text-decoration:none}.library-list a:hover{background:#eef5f9}.library-back{margin-top:14px}
 @media(max-width:700px){.topbar{flex-wrap:wrap}.library-link{margin-left:0;width:100%}.library-list article{display:block}.library-list a{display:inline-block;margin-top:12px}}
+
+/* Patrón común para bloques informativos secundarios. */
+.compact-collapsible{width:100%;border-bottom:1px solid var(--line)}
+.compact-collapsible:first-child{border-top:1px solid var(--line)}
+.compact-collapsible-trigger{width:100%;border:0;background:transparent;color:var(--navy);display:flex;align-items:center;gap:9px;padding:15px 4px;text-align:left;font-weight:800;cursor:pointer}
+.compact-collapsible-trigger:hover{color:var(--blue)}
+.compact-collapsible-trigger:focus-visible{outline:3px solid #24689c35;outline-offset:3px;border-radius:4px}
+.compact-collapsible-chevron{width:13px;flex:0 0 13px;color:var(--blue);font-size:12px;line-height:1}
+.compact-collapsible-chevron::before{content:"▶"}
+.compact-collapsible-trigger[data-state="open"] .compact-collapsible-chevron::before{content:"▼"}
+.compact-collapsible-icon{width:22px;flex:0 0 22px;text-align:center;color:var(--blue);font-size:15px}
+.compact-collapsible-title{font-size:14px;line-height:1.35}
+.compact-collapsible-content[data-state="closed"]{display:none}
+.compact-collapsible-content-inner{padding:0 4px 16px}
+@media(max-width:700px){.compact-collapsible-trigger{padding:14px 2px}.compact-collapsible-content-inner{padding-left:0;padding-right:0}}

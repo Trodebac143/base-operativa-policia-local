@@ -3,9 +3,12 @@ import alcoholemiaJson from "../contenido/seguridad_vial/alcoholemia.json";
 export type AlcoholemiaMode = "servicio_periodica" | "puesta_servicio_o_post_reparacion";
 export type VehicleType = "motor_ciclomotor" | "bicicleta_epac" | "vmp" | "clasificacion_pendiente";
 export type DriverType = "general" | "profesional" | "novel" | "menor";
+export type AlcoholemiaUiSectionId = "tasas" | "correccion" | "actuacion" | "advertencias" | "fuentes";
 type DecimalValue = { num: bigint; den: bigint };
 type EmpRule = { desde?: string; desde_exclusive?: string; hasta_inclusive?: string; tipo: "absoluto" | "porcentaje" | "formula"; valor?: string; formula?: string };
 type AdministrativeRule = { rango?: string; condicion?: string; opcion: string; importe: number; reducido: number; puntos_si_vehiculo_exige_permiso?: number; puntos?: number };
+type VehicleUiOption = { id: VehicleType; label: string; icono: string; orden: number; visible: boolean; descripcion: string };
+export type AlcoholemiaUiSection = { id: AlcoholemiaUiSectionId; titulo: string; icono?: string; orden: number; abierto_por_defecto: boolean; visible: boolean; mostrar_conteo?: boolean };
 type AlcoholemiaContent = {
   titulo: string;
   subtitulo: string;
@@ -17,7 +20,8 @@ type AlcoholemiaContent = {
   medidas_vehiculo: { regla: string; referencia: string; especifica_rgc_25: string[] };
   fuentes_juridicas_validadas: Array<{ id: string; nombre: string; preceptos: string[]; uso: string }>;
   tabla_sancion_administrativa: { regla_general: string; multa_base_euros: number; multa_agravada_euros: number; multa_agravada_cuando: string[]; puntos: { general: Array<{ rango: string; puntos: number }>; profesional_novel: Array<{ rango: string; puntos: number }>; menor: { regla: string; implementacion_v1: string } } };
-  selector_vehiculo: { titulo: string; ubicacion: string; opciones: Array<{ id: VehicleType; label: string; descripcion: string }>; advertencia_vmp: string };
+  selector_vehiculo: { titulo: string; ubicacion: string; opciones: VehicleUiOption[]; advertencia_vmp: string };
+  presentacion: { secciones_secundarias: AlcoholemiaUiSection[] };
   limites_por_vehiculo: { motor_ciclomotor: { adulto_general: string; profesional_novel: string; menor: string; penal_posible: boolean; puntos_posibles: boolean }; bicicleta_epac: { adulto: string; menor: string; profesional_novel_no_aplica: boolean; penal_posible: boolean; puntos: number }; vmp: { adulto: string; menor: string; profesional_novel_no_aplica: boolean; penal_posible: boolean; puntos: number } };
   salida_administrativa_v2_consolidada: { titulo: string; codificados: { general: AdministrativeRule[]; profesional_novel: AdministrativeRule[]; menor_tramo_cero: AdministrativeRule[]; negativa_administrativa_no_motor: AdministrativeRule & { tipificacion: string; puntos_bicicleta_epac_vmp: number; responsable: string } } };
   regla_puntos: { formula: string; fundamento: string; ui: string };
@@ -26,6 +30,14 @@ type AlcoholemiaContent = {
 };
 
 export const alcoholemia = alcoholemiaJson as AlcoholemiaContent;
+
+export const alcoholemiaVehicleOptions = [...alcoholemia.selector_vehiculo.opciones]
+  .filter((option) => option.visible)
+  .sort((left, right) => left.orden - right.orden);
+
+export const alcoholemiaSecondarySections = [...alcoholemia.presentacion.secciones_secundarias]
+  .filter((section) => section.visible)
+  .sort((left, right) => left.orden - right.orden);
 
 function decimal(value: string | number): DecimalValue {
   const raw = String(value).trim().replace(",", ".");

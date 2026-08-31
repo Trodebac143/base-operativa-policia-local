@@ -44,11 +44,49 @@ test("la vista de Alcoholemia es agrupada, no expone árbol ni sangre y conserva
   assert.doesNotMatch(html, /árbol de decisiones|alcohol en sangre|tasa real|0,40 mg\/L/i);
   assert.doesNotMatch(html, /Tasa corregida a 2 decimales|Penal:/i);
   assert.doesNotMatch(html, /DILIGENCIAS/);
-  assert.match(html, /<details class="alcohol-card sources-card"><summary[^>]*>.*Fuentes jurídicas/);
+  assert.equal(html.match(/data-slot="collapsible-trigger"/g)?.length, 5);
+  assert.equal(html.match(/aria-expanded="false"/g)?.length, 5);
+  assert.match(html, /Fuentes jurídicas \(7\)/);
   assert.match(html, /fumar, comer ni beber entre prueba y prueba/i);
   assert.doesNotMatch(html, /Reglas aplicables|Aplicar la infracción administrativa correspondiente|Mostrar cuantía\/puntos solo|Aplicar medidas .*regla transversal|TR-GEN-R|si procede/i);
   assert.match(html, /No supera 0,15 tras EMP/);
   assert.match(html, /No supera 0,25 tras EMP/);
+});
+
+test("el selector visual conserva exactamente los valores internos y toma iconos y orden de la configuración", async () => {
+  const { AlcoholemiaView } = await vite.ssrLoadModule("/app/alcoholemia.tsx");
+  const { alcoholemiaVehicleOptions } = await vite.ssrLoadModule("/data/alcoholemia.ts");
+  const expectedIds = ["motor_ciclomotor", "bicicleta_epac", "vmp", "clasificacion_pendiente"];
+  assert.deepEqual(alcoholemiaVehicleOptions.map((option) => option.id), expectedIds);
+  assert.deepEqual(alcoholemiaVehicleOptions.map((option) => option.icono), ["🚗", "🚲", "🛴", "⚠️"]);
+
+  const html = renderToStaticMarkup(React.createElement(AlcoholemiaView, { onBack() {} }));
+  for (const id of expectedIds) assert.match(html, new RegExp(`value="${id}"`));
+  assert.match(html, /<legend>Tipo de vehículo<\/legend>/);
+});
+
+test("la configuración determina el orden y el estado inicial de los desplegables", async () => {
+  const { AlcoholemiaView } = await vite.ssrLoadModule("/app/alcoholemia.tsx");
+  const { alcoholemiaSecondarySections } = await vite.ssrLoadModule("/data/alcoholemia.ts");
+  const expectedIds = ["tasas", "correccion", "actuacion", "advertencias", "fuentes"];
+  assert.deepEqual(alcoholemiaSecondarySections.map((section) => section.id), expectedIds);
+  assert.ok(alcoholemiaSecondarySections.every((section) => section.abierto_por_defecto === false));
+
+  const html = renderToStaticMarkup(React.createElement(AlcoholemiaView, { onBack() {} }));
+  const positions = alcoholemiaSecondarySections.map((section) => html.indexOf(section.titulo));
+  assert.ok(positions.every((position) => position >= 0));
+  assert.deepEqual([...positions].sort((left, right) => left - right), positions);
+});
+
+test("el desplegable común expone aria-expanded y respeta defaultOpen", async () => {
+  const { CollapsibleSection } = await vite.ssrLoadModule("/components/ui/collapsible.tsx");
+  const content = React.createElement("p", null, "Contenido de prueba");
+  const closed = renderToStaticMarkup(React.createElement(CollapsibleSection, { title: "Cerrado" }, content));
+  const open = renderToStaticMarkup(React.createElement(CollapsibleSection, { title: "Abierto", defaultOpen: true }, content));
+  assert.match(closed, /aria-expanded="false"/);
+  assert.match(closed, /data-state="closed"/);
+  assert.match(open, /aria-expanded="true"/);
+  assert.match(open, /data-state="open"/);
 });
 
 test("el contenido de Alcoholemia permanece separado de los casos y las categorías enlazan la vista", async () => {
@@ -100,4 +138,25 @@ test("novel y profesional en bicicleta/VMP usan 0,25, y la clasificación dudosa
   assert.equal(pending.kind, "clasificacion_pendiente");
   assert.equal(pending.administracion, undefined);
   assert.equal(pending.articulo_penal, undefined);
+});
+
+test("la matriz operativa conserva conductores, vehículos, negativa, reincidencia y vías administrativa y penal", async () => {
+  const { calculateAlcoholemia, resolveAlcoholemiaOutcome } = await vite.ssrLoadModule("/data/alcoholemia.ts");
+  const resolve = ({ reading = "0.29", vehicle = "motor_ciclomotor", driver = "general", previousSanction = false, negative = false } = {}) => resolveAlcoholemiaOutcome({
+    calculation: negative ? null : calculateAlcoholemia(reading),
+    vehicle,
+    driver,
+    previousSanction,
+    negative,
+  });
+
+  assert.equal(resolve().kind, "administrativa");
+  assert.equal(resolve({ reading: "0.19", driver: "novel" }).administracion.codificado, "CIR 020.1 5G");
+  assert.equal(resolve({ reading: "0.19", driver: "profesional" }).administracion.codificado, "CIR 020.1 5G");
+  assert.equal(resolve({ vehicle: "bicicleta_epac" }).administracion.puntos, 0);
+  assert.equal(resolve({ vehicle: "vmp" }).administracion.puntos, 0);
+  assert.equal(resolve({ vehicle: "clasificacion_pendiente" }).kind, "clasificacion_pendiente");
+  assert.equal(resolve({ negative: true }).kind, "penal_negativa");
+  assert.equal(resolve({ previousSanction: true }).administracion.codificado, "CIR 020.1 5M");
+  assert.equal(resolve({ reading: "0.66" }).kind, "penal_tasa");
 });
