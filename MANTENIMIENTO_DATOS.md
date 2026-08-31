@@ -130,6 +130,41 @@ Busca `presentacion.secciones_secundarias` en el mismo archivo. Ejemplo:
 
 No cambies `id`: enlaza la configuración con el contenido existente. El bloque de fuentes utiliza además `mostrar_conteo: true` para añadir automáticamente el número de fuentes al título.
 
+### Mantener el cálculo EMP y sus textos
+
+Las reglas metrológicas están en `contenido/seguridad_vial/alcoholemia.json`, dentro de `emp.modos.<modo>.reglas`. Cada regla contiene:
+
+- `desde`, `desde_exclusive` y `hasta_inclusive`: fronteras exactas de aplicación.
+- `tipo`: `absoluto`, `porcentaje` o `formula`.
+- `valor` o `formula`: dato matemático que usa el motor.
+- `etiqueta_ui` y `explicacion_ui`: texto que explica al usuario qué EMP se ha aplicado.
+
+Las etiquetas, ayudas y referencias del resultado operativo están en `presentacion.calculo_operativo`. En particular:
+
+- `etiqueta_denuncia` y `ayuda_denuncia`: presentación de la tasa del ticket que debe consignarse.
+- `etiqueta_penal` y `ayuda_penal`: presentación de la tasa penal operativa.
+- `criterio_administrativo`: referencia a la Instrucción DGT 14/S-134.
+- `criterio_penal`: referencia a las SSTS 788/2023 y 789/2023.
+- `nota_tabla_correccion`: aclaración bajo el cuadro rápido.
+
+El flujo matemático está implementado en `data/alcoholemia.ts` y mantiene conceptos separados:
+
+1. `tasa_ticket`: lectura impresa por el etilómetro.
+2. `emp_exacto`: EMP aplicable calculado sin pérdida de decimales.
+3. `corregido_interno_exacto`: resta exacta usada para decidir si procede denuncia.
+4. `tasa_penal_operativa`: único valor redondeado a dos decimales, mediante `roundPenalOperationalRate`, para comparar con el umbral objetivo de 0,60 mg/L.
+
+La graduación administrativa de sanción y puntos compara la tasa del ticket con 0,30/0,31 o 0,50/0,51. No debe reutilizarse `tasa_penal_operativa` para ninguna decisión administrativa. La pantalla se limita a representar el objeto `calculo_operativo` que entrega `resolveAlcoholemiaOutcome`; no debe duplicarse esta lógica en `app/alcoholemia.tsx`.
+
+- Regla administrativa: `data/alcoholemia.ts`, funciones `resolveAlcoholemiaOutcome` y `administrativeFinding`; tramos y salidas en `contenido/seguridad_vial/alcoholemia.json` → `limites_por_vehiculo` y `salida_administrativa_v2_consolidada.codificados`.
+- Regla penal y comparación con 0,60: `data/alcoholemia.ts`, funciones `roundPenalOperationalRate`, `calculateAlcoholemia` y `resolveAlcoholemiaOutcome`.
+- Texto del criterio del Tribunal Supremo: `contenido/seguridad_vial/alcoholemia.json` → `presentacion.calculo_operativo.criterio_penal`.
+- Texto del criterio administrativo: `contenido/seguridad_vial/alcoholemia.json` → `presentacion.calculo_operativo.criterio_administrativo`.
+
+Para cambios puramente visuales no edites `data/alcoholemia.ts`, `limites_por_vehiculo`, `salida_administrativa_v2_consolidada` ni `emp.modos`. Cambia las etiquetas de `presentacion.calculo_operativo` o los estilos de `app/alcoholemia.css`, según corresponda.
+
+Las regresiones obligatorias están en `tests/alcoholemia.test.mjs`. Si se modifica cualquier regla, deben conservarse expresamente los casos 0,18/0,19, 0,28/0,29, 0,40/0,41, 0,50/0,51 y 0,64/0,65/0,66.
+
 ### Archivos técnicos relacionados
 
 - `components/ui/collapsible.tsx`: componente común utilizado por los desplegables.

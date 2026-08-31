@@ -68,7 +68,7 @@ export function AlcoholemiaView({ onBack }: { onBack: () => void }) {
           <span className="alcohol-symbol tone-copper">∑</span>
           <div>
             <h3>{alcoholemia.emp.nombre_ui}</h3>
-            <p>Aplicación exacta del error máximo permitido</p>
+            <p>{alcoholemia.presentacion.calculo_operativo.subtitulo_calculadora}</p>
           </div>
         </div>
         <div className="calculator-layout">
@@ -85,7 +85,7 @@ export function AlcoholemiaView({ onBack }: { onBack: () => void }) {
               />
               <span>mg/L</span>
             </div>
-            <p id="alcohol-input-help" className="field-help">Admite coma o punto decimal. Se trabaja sin redondear hasta la representación operativa.</p>
+            <p id="alcohol-input-help" className="field-help">{alcoholemia.presentacion.calculo_operativo.ayuda_entrada}</p>
 
             <label htmlFor="alcohol-driver">Tipo de conductor</label>
             <select id="alcohol-driver" value={driver} onChange={(event) => setDriver(event.target.value as DriverType)}>
@@ -146,12 +146,8 @@ export function AlcoholemiaView({ onBack }: { onBack: () => void }) {
               <span>Vehículo: <strong>{selectedVehicle?.label}</strong></span>
               <span>Tasa aplicable: <strong>{outcome.limite_mg_l ? `${formatMg(outcome.limite_mg_l)} mg/L` : "pendiente de clasificación"}</strong></span>
             </div>
-            {calculation && !negative && (
-              <div className="calculation-metrics">
-                <Metric label="Lectura" value={formatMg(calculation.lectura_exacta)} />
-                <Metric label="EMP aplicado" value={`${formatMg(calculation.emp_exacto)} mg/L`} />
-                <Metric label="Tasa exacta corregida" value={`${formatMg(calculation.valor_corregido_exact)} mg/L`} />
-              </div>
+            {calculation && !negative && outcome.calculo_operativo && (
+              <OperationalCalculation presentation={outcome.calculo_operativo} ticketRate={calculation.tasa_ticket} />
             )}
             <p className="calculation-message">{outcome.mensaje}</p>
             {outcome.administracion && <AdministrativeFinding finding={outcome.administracion} suspended={outcome.kind === "penal_tasa"} />}
@@ -211,12 +207,12 @@ function CorrectionSection() {
     <>
       <div className="quick-table-wrap">
         <table className="quick-table">
-          <thead><tr><th>Lectura</th><th>Valor corregido</th><th>Zona</th><th>Uso práctico</th></tr></thead>
+          <thead><tr><th>Ticket</th><th>Cálculo EMP</th><th>Zona</th><th>Uso práctico</th></tr></thead>
           <tbody>
             {alcoholemia.tabla_rapida_servicio_periodica.map((entry) => (
               <tr key={entry.lectura}>
                 <td><strong>{formatMg(entry.lectura)}</strong></td>
-                <td><strong>{formatMg(entry.corregido ?? entry.corregido_exact ?? "")}</strong>{entry.corregido_penal_2_dec && <small>A 2 decimales: {formatMg(entry.corregido_penal_2_dec)}</small>}</td>
+                <td><strong>Penal: {formatMg(entry.tasa_penal_2_dec)}</strong><small>Interno exacto: {formatMg(entry.corregido_interno)}</small></td>
                 <td><span className={`status-pill status-${entry.color}`}>{entry.zona}</span></td>
                 <td>{entry.uso}</td>
               </tr>
@@ -224,7 +220,7 @@ function CorrectionSection() {
           </tbody>
         </table>
       </div>
-      <p className="alcohol-note">Tras restar el EMP, la tasa corregida se trunca a dos decimales, sin redondeo. Los valores 0,18 → 0,15 y 0,28 → 0,25 no superan esos límites. Los primeros ejemplos inequívocos de superación son 0,19 → 0,16 y 0,29 → 0,26.</p>
+      <p className="alcohol-note">{alcoholemia.presentacion.calculo_operativo.nota_tabla_correccion}</p>
     </>
   );
 }
@@ -276,8 +272,36 @@ function SourcesSection() {
   );
 }
 
-function Metric({ label, value, note }: { label: string; value: string; note?: string }) {
-  return <div className="metric"><span>{label}</span><strong>{value}</strong>{note && <small>{note}</small>}</div>;
+export function OperationalCalculation({ presentation, ticketRate }: {
+  presentation: NonNullable<ReturnType<typeof resolveAlcoholemiaOutcome>["calculo_operativo"]>;
+  ticketRate: string;
+}) {
+  return (
+    <div className={`operational-calculation operational-${presentation.kind}`}>
+      <div className="operational-primary">
+        <span>{presentation.principal_label}</span>
+        <strong>{formatMg(presentation.principal_value)} mg/L</strong>
+        <small>{presentation.principal_help}</small>
+      </div>
+      {presentation.kind === "penal" && (
+        <div className="ticket-rate-secondary">
+          <span>{alcoholemia.presentacion.calculo_operativo.etiqueta_ticket}</span>
+          <strong>{formatMg(ticketRate)} mg/L</strong>
+        </div>
+      )}
+      <details className="calculation-explanation">
+        <summary>{presentation.explanation_title}</summary>
+        <dl>
+          {presentation.explanation_steps.map((step) => (
+            <div key={step.label}>
+              <dt>{step.label}</dt>
+              <dd>{step.value}</dd>
+            </div>
+          ))}
+        </dl>
+      </details>
+    </div>
+  );
 }
 
 function InfoBlock({ title, items }: { title: string; items: string[] }) {

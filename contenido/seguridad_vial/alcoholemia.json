@@ -28,7 +28,7 @@
       "tipo": "Umbral penal objetivo",
       "limite_mg_l": "0.60",
       "comparador": ">",
-      "texto": "Art. 379.2 CP: tasa de aire espirado superior a 0,60 mg/L, una vez aplicado el EMP y truncado el resultado a dos decimales, sin redondeo."
+      "texto": "Art. 379.2 CP: tasa de aire espirado superior a 0,60 mg/L. Tras aplicar el EMP al valor exacto, la tasa penal operativa se expresa con dos decimales mediante redondeo ordinario."
     },
     {
       "tipo": "Negativa a las pruebas",
@@ -67,35 +67,37 @@
       "servicio_periodica": {
         "etiqueta": "Etilómetro en servicio / verificación periódica (habitual)",
         "reglas": [
-          { "desde": "0.0", "hasta_inclusive": "0.4", "tipo": "absoluto", "valor": "0.03" },
-          { "desde_exclusive": "0.4", "hasta_inclusive": "2.0", "tipo": "porcentaje", "valor": "7.5" },
-          { "desde_exclusive": "2.0", "tipo": "formula", "formula": "3*lectura/4 - 1.35" }
+          { "desde": "0.0", "hasta_inclusive": "0.4", "tipo": "absoluto", "valor": "0.03", "etiqueta_ui": "EMP absoluto de 0,030 mg/L", "explicacion_ui": "Etilómetro en servicio o verificación periódica; lectura hasta 0,400 mg/L inclusive." },
+          { "desde_exclusive": "0.4", "hasta_inclusive": "2.0", "tipo": "porcentaje", "valor": "7.5", "etiqueta_ui": "EMP porcentual del 7,5 %", "explicacion_ui": "Etilómetro en servicio o verificación periódica; lectura superior a 0,400 mg/L y hasta 2,000 mg/L inclusive." },
+          { "desde_exclusive": "2.0", "tipo": "formula", "formula": "3*lectura/4 - 1.35", "etiqueta_ui": "EMP mediante fórmula metrológica", "explicacion_ui": "Etilómetro en servicio o verificación periódica; lectura superior a 2,000 mg/L." }
         ]
       },
       "puesta_servicio_o_post_reparacion": {
         "etiqueta": "Puesta en servicio / verificación tras reparación o modificación",
         "reglas": [
-          { "desde": "0.0", "hasta_inclusive": "0.4", "tipo": "absoluto", "valor": "0.02" },
-          { "desde_exclusive": "0.4", "hasta_inclusive": "2.0", "tipo": "porcentaje", "valor": "5.0" },
-          { "desde_exclusive": "2.0", "tipo": "formula", "formula": "lectura/2 - 0.9" }
+          { "desde": "0.0", "hasta_inclusive": "0.4", "tipo": "absoluto", "valor": "0.02", "etiqueta_ui": "EMP absoluto de 0,020 mg/L", "explicacion_ui": "Puesta en servicio o verificación tras reparación o modificación; lectura hasta 0,400 mg/L inclusive." },
+          { "desde_exclusive": "0.4", "hasta_inclusive": "2.0", "tipo": "porcentaje", "valor": "5.0", "etiqueta_ui": "EMP porcentual del 5 %", "explicacion_ui": "Puesta en servicio o verificación tras reparación o modificación; lectura superior a 0,400 mg/L y hasta 2,000 mg/L inclusive." },
+          { "desde_exclusive": "2.0", "tipo": "formula", "formula": "lectura/2 - 0.9", "etiqueta_ui": "EMP mediante fórmula metrológica", "explicacion_ui": "Puesta en servicio o verificación tras reparación o modificación; lectura superior a 2,000 mg/L." }
         ]
       }
     },
     "aviso": "Cálculo orientativo operativo basado en el EMP aplicable. Debe conservarse la identificación y situación metrológica del etilómetro utilizado."
   },
   "tabla_rapida_servicio_periodica": [
-    { "lectura": "0.14", "corregido": "0.11", "zona": "Bajo 0,15", "color": "verde", "uso": "Por debajo de 0,15" },
-    { "lectura": "0.18", "corregido": "0.15", "zona": "En 0,15", "color": "verde", "uso": "No supera 0,15 tras EMP" },
-    { "lectura": "0.19", "corregido": "0.16", "zona": ">0,15", "color": "ambar", "uso": "Supera 0,15 tras EMP" },
-    { "lectura": "0.24", "corregido": "0.21", "zona": "Bajo 0,25", "color": "verde", "uso": "No alcanza 0,25" },
-    { "lectura": "0.28", "corregido": "0.25", "zona": "En 0,25", "color": "verde", "uso": "No supera 0,25 tras EMP" },
-    { "lectura": "0.29", "corregido": "0.26", "zona": ">0,25", "color": "ambar", "uso": "Supera 0,25 tras EMP" },
-    { "lectura": "0.54", "corregido": "0.49", "zona": "Hasta 0,50", "color": "ambar", "uso": "No supera 0,50 tras EMP" },
-    { "lectura": "0.55", "corregido": "0.50", "zona": "Hasta 0,50", "color": "ambar", "uso": "No supera 0,50 tras EMP" },
-    { "lectura": "0.65", "corregido": "0.60", "zona": "Límite penal", "color": "rojo_suave", "uso": "No supera 0,60 a efectos del tipo penal objetivo por tasa; valorar influencia" },
-    { "lectura": "0.66", "corregido": "0.61", "zona": ">0,60", "color": "rojo", "uso": "Supera 0,60 tras EMP: vía penal preferente por tasa objetiva" }
+    { "lectura": "0.14", "corregido_interno": "0.11", "tasa_penal_2_dec": "0.11", "zona": "Bajo 0,15", "color": "verde", "uso": "No supera 0,15 tras EMP" },
+    { "lectura": "0.18", "corregido_interno": "0.15", "tasa_penal_2_dec": "0.15", "zona": "En 0,15", "color": "verde", "uso": "No procede denuncia para límite 0,15" },
+    { "lectura": "0.19", "corregido_interno": "0.16", "tasa_penal_2_dec": "0.16", "zona": ">0,15", "color": "ambar", "uso": "Procede denuncia para límite 0,15; consignar 0,19" },
+    { "lectura": "0.28", "corregido_interno": "0.25", "tasa_penal_2_dec": "0.25", "zona": "En 0,25", "color": "verde", "uso": "No procede denuncia para límite 0,25" },
+    { "lectura": "0.29", "corregido_interno": "0.26", "tasa_penal_2_dec": "0.26", "zona": ">0,25", "color": "ambar", "uso": "Procede denuncia para límite 0,25; consignar 0,29" },
+    { "lectura": "0.40", "corregido_interno": "0.37", "tasa_penal_2_dec": "0.37", "zona": "EMP absoluto", "color": "ambar", "uso": "Última lectura con EMP absoluto de 0,030" },
+    { "lectura": "0.41", "corregido_interno": "0.37925", "tasa_penal_2_dec": "0.38", "zona": "EMP 7,5 %", "color": "ambar", "uso": "Primera lectura por encima de 0,400; cambia el tipo de EMP" },
+    { "lectura": "0.50", "corregido_interno": "0.4625", "tasa_penal_2_dec": "0.46", "zona": "Hasta 0,50", "color": "ambar", "uso": "Graduación administrativa por tasa del ticket: tramo hasta 0,50" },
+    { "lectura": "0.51", "corregido_interno": "0.47175", "tasa_penal_2_dec": "0.47", "zona": ">0,50", "color": "naranja", "uso": "Graduación administrativa por tasa del ticket: tramo superior a 0,50" },
+    { "lectura": "0.64", "corregido_interno": "0.592", "tasa_penal_2_dec": "0.59", "zona": "Bajo 0,60 penal", "color": "rojo_suave", "uso": "No supera el umbral penal objetivo por tasa" },
+    { "lectura": "0.65", "corregido_interno": "0.60125", "tasa_penal_2_dec": "0.60", "zona": "En 0,60 penal", "color": "rojo_suave", "uso": "No supera el umbral penal objetivo por tasa" },
+    { "lectura": "0.66", "corregido_interno": "0.6105", "tasa_penal_2_dec": "0.61", "zona": ">0,60 penal", "color": "rojo", "uso": "Supera el umbral penal objetivo por tasa" }
   ],
-  "nota_correccion_tabla_visual": "Los valores corregidos se truncan a dos decimales después de restar el EMP, sin aplicar redondeo. No tratar 0,18→0,15 ni 0,28→0,25 como 'primer valor sancionable': los límites legales se expresan como tasas superiores a 0,15/0,25. Los primeros ejemplos inequívocos de superación en el modo habitual de EMP 0,03 son 0,19→0,16 y 0,29→0,26.",
+  "nota_correccion_tabla_visual": "La decisión administrativa se toma con el valor corregido exacto, pero la tasa consignada y la graduación de sanción y puntos usan la lectura del ticket. Solo para el umbral penal objetivo se expresa el corregido con dos decimales mediante redondeo ordinario.",
   "resultado_operativo_agrupado": [
     {
       "id": "ALC-RES-001",
@@ -108,7 +110,7 @@
       "id": "ALC-RES-002",
       "titulo": "Vía administrativa",
       "color": "ambar",
-      "regla": "El valor corregido supera el límite aplicable y no concurren elementos de delito.",
+      "regla": "El valor corregido exacto supera el límite aplicable y no concurren elementos de delito. En la denuncia se consigna la tasa del ticket.",
       "actuacion": [
         "Aplicar la infracción administrativa correspondiente.",
         "Mostrar cuantía/puntos solo cuando estén determinados por reglas validadas del dataset.",
@@ -130,7 +132,7 @@
       "id": "ALC-RES-004",
       "titulo": "Delito por tasa objetiva",
       "color": "rojo",
-      "regla": "Art. 379.2 CP cuando el valor penal corregido supera 0,60 mg/L.",
+      "regla": "Art. 379.2 CP cuando la tasa penal operativa, redondeada a dos decimales tras aplicar el EMP al valor exacto, supera 0,60 mg/L.",
       "actuacion": [
         "Vía penal preferente.",
         "Formular también la denuncia administrativa correspondiente y dejarla paralizada/suspendida hasta pronunciamiento judicial conforme a la regla transversal del proyecto."
@@ -172,7 +174,7 @@
     { "id": "TR-ALC-SRC-003", "nombre": "Ley Orgánica 10/1995 — Código Penal", "preceptos": ["379.2", "383"], "uso": "Conducción bajo influencia / tasa objetiva y negativa a las pruebas." },
     { "id": "TR-ALC-SRC-004", "nombre": "Orden ICT/155/2020, de 7 de febrero", "preceptos": ["Anexo XIII, apartados 1 a 6 y apéndices III-IV"], "uso": "Control metrológico de etilómetros y remisión a OIML R 126 vigente." },
     { "id": "TR-ALC-SRC-005", "nombre": "OIML R 126-1:2021", "preceptos": ["6.3", "6.6.1", "6.6.2"], "uso": "EMP vigentes y escala/decimales de analizadores evidenciales." },
-    { "id": "TR-ALC-SRC-006", "nombre": "STS de 25/10/2023, Sala Segunda", "preceptos": [], "uso": "0,65 mg/L con EMP 7,5% no supera por tasa objetiva 0,60 mg/L al expresar el resultado penal a dos decimales; 0,66 sí puede superar el umbral tras corrección." },
+    { "id": "TR-ALC-SRC-006", "nombre": "SSTS 788/2023 y 789/2023, de 25 de octubre, Sala Segunda", "preceptos": ["STS 789/2023", "ROJ STS 4441/2023", "ECLI:ES:TS:2023:4441"], "uso": "El resultado corregido se expresa a dos decimales mediante redondeo ordinario para valorar el umbral penal objetivo: 0,65 mg/L no lo supera y 0,66 mg/L sí." },
     { "id": "TR-ALC-SRC-007", "nombre": "STS 210/2017, Sala Segunda, Pleno", "preceptos": [], "uso": "La negativa a la segunda medición legalmente exigida puede integrar el art. 383 CP." },
     { "id": "TR-ALC-SRC-008", "nombre": "DGT — información oficial de tasas de alcohol, julio de 2026", "preceptos": [], "uso": "Referencia de límites vigentes aportada por el paquete validado." }
   ],
@@ -188,6 +190,25 @@
     "advertencia_vmp": "No clasificar por apariencia. Si un supuesto patinete no es realmente VMP y resulta vehículo a motor/ciclomotor, seleccionar la rama vehículo a motor/ciclomotor."
   },
   "presentacion": {
+    "calculo_operativo": {
+      "subtitulo_calculadora": "Aplicación exacta del error máximo permitido",
+      "ayuda_entrada": "Admite coma o punto decimal. El cálculo interno conserva todos los decimales; el redondeo a dos decimales se aplica únicamente a la tasa penal operativa.",
+      "etiqueta_ticket": "TASA DEL TICKET",
+      "etiqueta_denuncia": "TASA A CONSIGNAR EN DENUNCIA",
+      "ayuda_denuncia": "Es la tasa que figura impresa en el ticket del etilómetro.",
+      "etiqueta_penal": "TASA A EFECTOS DEL UMBRAL PENAL",
+      "ayuda_penal": "Resultado tras aplicar el EMP y el criterio de redondeo a dos decimales del Tribunal Supremo.",
+      "como_se_ha_calculado": "Cómo se ha calculado",
+      "etiqueta_emp": "EMP aplicado",
+      "etiqueta_operacion_exacta": "Operación exacta interna",
+      "etiqueta_criterio": "Criterio aplicado",
+      "etiqueta_resultado": "Resultado operativo",
+      "criterio_administrativo": "Instrucción DGT 14/S-134: el EMP decide si procede denunciar; si procede, se consigna y se gradúa con la tasa del ticket.",
+      "criterio_penal": "SSTS 788/2023 y 789/2023, de 25 de octubre: redondeo ordinario a dos decimales del valor corregido exacto para el umbral penal objetivo.",
+      "conclusion_penal_supera": "Sí supera POR TASA el umbral objetivo superior a 0,60 mg/L del art. 379.2 CP.",
+      "conclusion_penal_no_supera": "No supera POR TASA el umbral objetivo superior a 0,60 mg/L del art. 379.2 CP.",
+      "nota_tabla_correccion": "La columna interna conserva todos los decimales. La tasa penal a dos decimales no se usa para decidir ni graduar la denuncia administrativa."
+    },
     "secciones_secundarias": [
       { "id": "tasas", "titulo": "Tasas en aire espirado", "icono": "♎", "orden": 1, "abierto_por_defecto": false, "visible": true },
       { "id": "correccion", "titulo": "Cuadro rápido de corrección", "icono": "▣", "orden": 2, "abierto_por_defecto": false, "visible": true },
@@ -238,6 +259,8 @@
     { "id": "ALC-SRC-FISCALIA-VMP", "nombre": "Fiscalía de Seguridad Vial — Dictamen 2/2021", "preceptos": [], "uso": "Los arts. 379 y siguientes CP no se cometen con un VMP reglamentario." },
     { "id": "ALC-SRC-DGT-VMP-2019", "nombre": "DGT — Instrucción 2019/S-149 TV-108", "preceptos": [], "uso": "EPAC como bicicleta y VMP sin detracción de puntos." },
     { "id": "ALC-SRC-DGT-VMP-2026", "nombre": "DGT — Instrucción SANC 2026/13", "preceptos": [], "uso": "La clasificación VMP para alcoholemia es independiente de su tratamiento en Seguro." },
+    { "id": "ALC-SRC-DGT-14S134", "nombre": "DGT — Instrucción 14/S-134", "preceptos": ["Denuncia, sanción y detracción de puntos en infracciones de alcohol"], "uso": "El EMP determina la procedencia de la denuncia; la tasa del ticket se consigna en el boletín y sirve de referencia para sanción y puntos." },
+    { "id": "ALC-SRC-TS-EMP", "nombre": "SSTS 788/2023 y 789/2023, de 25 de octubre", "preceptos": ["STS 789/2023", "ROJ STS 4441/2023", "ECLI:ES:TS:2023:4441"], "uso": "Redondeo ordinario a dos decimales del valor corregido exacto para valorar el umbral penal objetivo." },
     { "id": "ALC-SRC-ARCI", "nombre": "Guía codificada de infracciones ARCI DGT vigente", "preceptos": [], "uso": "Opciones CIR 020.1, CIR 021.1 y LSV 014.1 validadas en V3." }
   ]
 }

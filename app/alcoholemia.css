@@ -23,3 +23,24 @@
 .alcohol-secondary-sections .alcohol-footer-note{margin:10px 0 2px;padding:0}
 .alcohol-secondary-sections .source-list{padding:4px 0}
 @media(max-width:700px){.calculator-inputs .vehicle-options{padding:0}.calculator-inputs .vehicle-option{min-height:62px;padding:9px}.alcohol-secondary-sections{padding:0 14px}.alcohol-secondary-sections .quick-table-wrap,.alcohol-secondary-sections .practice-list,.alcohol-secondary-sections .outcomes-grid,.alcohol-secondary-sections .source-list{padding-left:0;padding-right:0}}
+
+.operational-calculation{display:grid;grid-template-columns:minmax(0,1fr);gap:9px}
+.operational-primary{border:1px solid #c8dce7;border-left:4px solid var(--blue);border-radius:8px;background:#fff;padding:12px 14px}
+.operational-primary span,.operational-primary small,.ticket-rate-secondary span{display:block}
+.operational-primary span{color:#496273;font-size:10px;font-weight:900;letter-spacing:.075em}
+.operational-primary strong{display:block;color:var(--navy);font-size:24px;line-height:1.1;margin:7px 0 5px}
+.operational-primary small{color:#607482;font-size:11px;line-height:1.4}
+.operational-administrativa .operational-primary{border-color:#e0bd73;border-left-color:#d88708;background:#fffdf7}
+.operational-penal .operational-primary{border-color:#e4aaa8;border-left-color:var(--red);background:#fffafa}
+.ticket-rate-secondary{display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid #dce7ec;border-radius:7px;background:#fff;padding:9px 12px}
+.ticket-rate-secondary span{color:#607482;font-size:10px;font-weight:800;letter-spacing:.06em}
+.ticket-rate-secondary strong{color:var(--navy);font-size:15px;white-space:nowrap}
+.calculation-explanation{border:1px solid #dce7ec;border-radius:7px;background:#fff;overflow:hidden}
+.calculation-explanation summary{cursor:pointer;color:var(--navy);font-size:11px;font-weight:800;padding:10px 12px;list-style-position:inside}
+.calculation-explanation[open] summary{border-bottom:1px solid #e7eef2}
+.calculation-explanation dl{margin:0;padding:3px 12px 9px}
+.calculation-explanation dl div{display:grid;grid-template-columns:minmax(120px,.65fr) minmax(0,1.35fr);gap:10px;padding:7px 0;border-bottom:1px solid #edf2f4}
+.calculation-explanation dl div:last-child{border-bottom:0}
+.calculation-explanation dt{color:#607482;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.04em}
+.calculation-explanation dd{margin:0;color:#314b5d;font-size:11px;line-height:1.4;overflow-wrap:anywhere}
+@media(max-width:700px){.operational-primary strong{font-size:21px}.calculation-explanation dl div{grid-template-columns:1fr;gap:3px}}

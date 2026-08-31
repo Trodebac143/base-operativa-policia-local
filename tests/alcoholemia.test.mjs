@@ -14,21 +14,68 @@ test("la calculadora EMP acepta coma y punto con el mismo resultado", async () =
   assert.deepEqual(calculateAlcoholemia("0,65"), calculateAlcoholemia("0.65"));
 });
 
-test("la calculadora EMP aplica los bordes y los ejemplos operativos validados", async () => {
+test("la calculadora EMP conserva el cálculo exacto y aplica cada regla en su frontera", async () => {
   const { calculateAlcoholemia } = await vite.ssrLoadModule("/data/alcoholemia.ts");
   const service = (value) => calculateAlcoholemia(value, "servicio_periodica");
-  assert.deepEqual([service("0,14").emp_exacto, service("0,14").valor_corregido_exact], ["0.03", "0.11"]);
-  assert.equal(service("0,18").valor_corregido_exact, "0.15");
-  assert.equal(service("0,19").valor_corregido_exact, "0.16");
-  assert.equal(service("0,28").valor_corregido_exact, "0.25");
-  assert.equal(service("0,29").valor_corregido_exact, "0.26");
-  assert.deepEqual([service("0,54").emp_exacto, service("0,54").valor_corregido_exact], ["0.0405", "0.49"]);
-  assert.deepEqual([service("0,55").emp_exacto, service("0,55").valor_corregido_exact], ["0.04125", "0.50"]);
-  assert.equal(service("0,56").valor_corregido_exact, "0.51");
-  assert.deepEqual([service("0,65").valor_corregido_exact, service("0,65").supera_umbral_penal], ["0.60", false]);
-  assert.deepEqual([service("0,66").valor_corregido_exact, service("0,66").supera_umbral_penal], ["0.61", true]);
+  assert.deepEqual([service("0,14").emp_exacto, service("0,14").corregido_interno_exacto], ["0.03", "0.11"]);
+  assert.deepEqual([service("0,18").corregido_interno_exacto, service("0,19").corregido_interno_exacto], ["0.15", "0.16"]);
+  assert.deepEqual([service("0,28").corregido_interno_exacto, service("0,29").corregido_interno_exacto], ["0.25", "0.26"]);
+  assert.deepEqual([service("0,40").emp_exacto, service("0,40").corregido_interno_exacto], ["0.03", "0.37"]);
+  assert.equal(service("0,40").tasa_ticket, "0.40");
+  assert.deepEqual([service("0,41").emp_exacto, service("0,41").corregido_interno_exacto], ["0.03075", "0.37925"]);
+  assert.equal(service("0,41").tasa_penal_operativa, "0.38");
+  assert.match(service("0,41").emp_operacion, /0,41 × 7,5 % = 0,03075 mg\/L/);
+  assert.equal(service("0,40").emp_tipo, "absoluto");
+  assert.equal(service("0,41").emp_tipo, "porcentaje");
   assert.equal(calculateAlcoholemia("0,40", "puesta_servicio_o_post_reparacion").emp_exacto, "0.02");
   assert.equal(calculateAlcoholemia("0,50", "puesta_servicio_o_post_reparacion").emp_exacto, "0.025");
+});
+
+test("la tasa penal operativa redondea a dos decimales sin truncar el corregido interno", async () => {
+  const { calculateAlcoholemia, roundPenalOperationalRate } = await vite.ssrLoadModule("/data/alcoholemia.ts");
+  const service = (value) => calculateAlcoholemia(value, "servicio_periodica");
+  assert.deepEqual(
+    ["0.64", "0.65", "0.66"].map((value) => {
+      const result = service(value);
+      return [result.emp_exacto, result.corregido_interno_exacto, result.tasa_penal_operativa, result.supera_umbral_penal];
+    }),
+    [
+      ["0.048", "0.592", "0.59", false],
+      ["0.04875", "0.60125", "0.60", false],
+      ["0.0495", "0.6105", "0.61", true],
+    ],
+  );
+  assert.equal(roundPenalOperationalRate("0.605"), "0.61");
+  assert.equal(roundPenalOperationalRate("0.6049"), "0.60");
+});
+
+test("la decisión administrativa usa el corregido exacto y la graduación usa la tasa del ticket", async () => {
+  const { calculateAlcoholemia, resolveAlcoholemiaOutcome } = await vite.ssrLoadModule("/data/alcoholemia.ts");
+  const resolve = (reading, driver = "general") => resolveAlcoholemiaOutcome({ calculation: calculateAlcoholemia(reading), vehicle: "motor_ciclomotor", driver, previousSanction: false, negative: false });
+  assert.equal(resolve("0.18", "novel").kind, "sin_superacion");
+  assert.equal(resolve("0.19", "novel").administracion.codificado, "CIR 020.1 5G");
+  assert.equal(resolve("0.28").kind, "sin_superacion");
+  assert.equal(resolve("0.29").administracion.codificado, "CIR 020.1 5E");
+  assert.deepEqual(
+    [resolve("0.30", "profesional").administracion, resolve("0.31", "profesional").administracion].map(({ codificado, importe, puntos }) => [codificado, importe, puntos]),
+    [["CIR 020.1 5G", 500, 4], ["CIR 020.1 5K", 1000, 6]],
+  );
+  assert.deepEqual(
+    [resolve("0.50").administracion, resolve("0.51").administracion].map(({ codificado, importe, puntos }) => [codificado, importe, puntos]),
+    [["CIR 020.1 5E", 500, 4], ["CIR 020.1 5I", 1000, 6]],
+  );
+  const repeated = resolveAlcoholemiaOutcome({ calculation: calculateAlcoholemia("0.50"), vehicle: "motor_ciclomotor", driver: "general", previousSanction: true, negative: false });
+  assert.deepEqual([repeated.administracion.codificado, repeated.administracion.importe, repeated.administracion.puntos], ["CIR 020.1 5M", 1000, 4]);
+  assert.match(resolve("0.51").administracion.hecho, /0,51 mg\/L/);
+  assert.doesNotMatch(resolve("0.51").administracion.hecho, /corregida/i);
+  assert.deepEqual(
+    [resolve("0.29").calculo_operativo.principal_label, resolve("0.29").calculo_operativo.principal_value],
+    ["TASA A CONSIGNAR EN DENUNCIA", "0.29"],
+  );
+  assert.deepEqual(
+    [resolve("0.65").calculo_operativo.principal_label, resolve("0.65").calculo_operativo.principal_value],
+    ["TASA A EFECTOS DEL UMBRAL PENAL", "0.60"],
+  );
 });
 
 test("la vista de Alcoholemia es agrupada, no expone árbol ni sangre y conserva los límites críticos", async () => {
@@ -42,15 +89,36 @@ test("la vista de Alcoholemia es agrupada, no expone árbol ni sangre y conserva
   assert.match(html, /0,29/);
   assert.match(html, /Negativa a la segunda medición legalmente exigida/i);
   assert.doesNotMatch(html, /árbol de decisiones|alcohol en sangre|tasa real|0,40 mg\/L/i);
-  assert.doesNotMatch(html, /Tasa corregida a 2 decimales|Penal:/i);
+  assert.doesNotMatch(html, /Tasa corregida a 2 decimales/i);
+  assert.doesNotMatch(html, /Tasa exacta corregida|trunca a dos decimales|sin redondeo/i);
+  assert.match(html, /TASA A EFECTOS DEL UMBRAL PENAL/);
+  assert.match(html, /TASA DEL TICKET/);
+  assert.match(html, /0,60 mg\/L/);
+  assert.match(html, /0,65 mg\/L/);
+  assert.match(html, /Cómo se ha calculado/);
+  assert.match(html, /SSTS 788\/2023 y 789\/2023/);
+  assert.match(html, /0,65 × 7,5 % = 0,04875 mg\/L/);
+  assert.match(html, /0,60125 → 0,60 mg\/L/);
   assert.doesNotMatch(html, /DILIGENCIAS/);
   assert.equal(html.match(/data-slot="collapsible-trigger"/g)?.length, 5);
   assert.equal(html.match(/aria-expanded="false"/g)?.length, 5);
-  assert.match(html, /Fuentes jurídicas \(7\)/);
+  assert.match(html, /Fuentes jurídicas \(9\)/);
   assert.match(html, /fumar, comer ni beber entre prueba y prueba/i);
   assert.doesNotMatch(html, /Reglas aplicables|Aplicar la infracción administrativa correspondiente|Mostrar cuantía\/puntos solo|Aplicar medidas .*regla transversal|TR-GEN-R|si procede/i);
   assert.match(html, /No supera 0,15 tras EMP/);
-  assert.match(html, /No supera 0,25 tras EMP/);
+  assert.match(html, /No procede denuncia para límite 0,25/);
+});
+
+test("la presentación administrativa destaca el ticket y relega el corregido exacto al desglose", async () => {
+  const { OperationalCalculation } = await vite.ssrLoadModule("/app/alcoholemia.tsx");
+  const { calculateAlcoholemia, resolveAlcoholemiaOutcome } = await vite.ssrLoadModule("/data/alcoholemia.ts");
+  const calculation = calculateAlcoholemia("0.41");
+  const outcome = resolveAlcoholemiaOutcome({ calculation, vehicle: "motor_ciclomotor", driver: "general", previousSanction: false, negative: false });
+  const html = renderToStaticMarkup(React.createElement(OperationalCalculation, { presentation: outcome.calculo_operativo, ticketRate: calculation.tasa_ticket }));
+  assert.match(html, /operational-primary[^>]*><span>TASA A CONSIGNAR EN DENUNCIA<\/span><strong>0,41 mg\/L<\/strong>/);
+  assert.match(html, /Es la tasa que figura impresa en el ticket del etilómetro/);
+  assert.match(html, /0,41 − 0,03075 = 0,37925 mg\/L/);
+  assert.match(html, /Instrucción DGT 14\/S-134/);
 });
 
 test("el selector visual conserva exactamente los valores internos y toma iconos y orden de la configuración", async () => {
@@ -103,7 +171,7 @@ test("resuelve la denuncia administrativa V2 con campos cerrados y la suspensió
   assert.equal(outcome.kind, "penal_tasa");
   assert.deepEqual([outcome.administracion.codificado, outcome.administracion.importe, outcome.administracion.reducido, outcome.administracion.puntos, outcome.administracion.suspendida], ["CIR 020.1 5I", 1000, 500, 6, true]);
   assert.match(outcome.articulo_penal, /379\.2/);
-  assert.match(outcome.administracion.hecho, /0,61|0.61/);
+  assert.match(outcome.administracion.hecho, /0,66|0.66/);
 });
 
 test("bicicleta, EPAC y VMP resuelven 0,66 como administración y siempre muestran cero puntos", async () => {
