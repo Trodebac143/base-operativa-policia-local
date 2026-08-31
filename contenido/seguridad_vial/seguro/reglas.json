@@ -26,7 +26,7 @@
   {
     "id": "TR-SOA-R-004",
     "nombre": "Medidas",
-    "contenido": "Inmovilización, retirada, traslado y depósito tienen presupuestos propios.",
+    "contenido": "Comprobada la carencia de seguro obligatorio, se prohíbe la circulación, procede la inmovilización y, al persistir la causa, el traslado a depósito conforme a la medida común de Seguro.",
     "tipo": "criterio_seguro",
     "aplica_a": "seguridad_vial_seguro",
     "activo": true

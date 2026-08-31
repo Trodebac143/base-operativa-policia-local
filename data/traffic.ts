@@ -4,11 +4,13 @@ import measurePlansJson from "../contenido/seguridad_vial/medidas_por_caso.json"
 
 /** Regla y medidas reutilizables para todos los bloques de Tráfico. */
 export const trafficMeasures = commonMeasuresJson as PoliceMeasure[];
-export const trafficMeasurePlans = measurePlansJson as Record<string, TrafficMeasurePlan>;
+type TrafficMeasurePlanCatalog = Record<string, unknown> & { _por_categoria?: Record<string, TrafficMeasurePlan> };
+export const trafficMeasurePlans = measurePlansJson as unknown as TrafficMeasurePlanCatalog;
 
 export function withTrafficMeasurePlan(item: OperationalCase): OperationalCase {
-  const measurePlan = trafficMeasurePlans[item.id];
+  const directPlan = trafficMeasurePlans[item.id] as TrafficMeasurePlan | undefined;
+  const measurePlan = directPlan ?? trafficMeasurePlans._por_categoria?.[item.categoria];
   if (!measurePlan) return item;
   const fuentes = item.fuentes.includes("TR-MOV-SRC-001") ? item.fuentes : [...item.fuentes, "TR-MOV-SRC-001"];
-  return { ...item, fuentes, regla_transversal: "TR-GEN-R-104-105-001", medida_operativa: measurePlan };
+  return { ...item, fuentes, regla_transversal: "TR-GEN-R-104-105-001", inmovilizacion: measurePlan.inmovilizacion.estado, motivo_inmovilizacion: `${measurePlan.inmovilizacion.fundamento ?? ""} ${measurePlan.inmovilizacion.detalle}`.trim(), medida_operativa: measurePlan };
 }

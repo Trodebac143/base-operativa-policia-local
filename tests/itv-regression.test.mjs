@@ -67,7 +67,7 @@ test("Seguro Obligatorio integra seis casos y las doce variantes ARCI validadas"
   assert.deepEqual(codes, ["SOA 2.1 5F", "SOA 2.1 5G", "SOA 2.1 5H", "SOA 2.1 5I", "SOA 2.1 5J", "SOA 2.1 5K", "SOA 2.1 5L", "SOA 2.1 5M", "SOA 2.1 5N", "SOA 2.1 5O", "SDA DA1 5A", "SDA DA1 5B"]);
   for (const item of seguroCases) {
     assert.match(item.competencia_denuncia, /Policía Local de Torrent/); assert.equal(item.competencia_instruye, "Jefatura Provincial de Tráfico de Valencia — receptor e instructora"); assert.equal(item.competencia_resuelve, "Jefe Provincial de Tráfico de Valencia");
-    assert.ok(["NO", "CONDICIONADA"].includes(item.inmovilizacion));
+    assert.equal(item.inmovilizacion, "SÍ");
     const html = renderToStaticMarkup(React.createElement(CaseSheet, { item, copied: false, onCopy() {} }));
     assert.match(html, /TEXTO LITERAL PARA EL BOLETÍN/); assert.doesNotMatch(html, /MUY GRAVE|PENDING_|TR-SOA-/);
   }
@@ -83,10 +83,12 @@ test("Seguro usa títulos operativos y la matriz común de medidas", async () =>
   assert.deepEqual(seguroCases.flatMap((item) => item.medidas), ["TR-MED-SOA-OPERATIVE", "TR-MED-SOA-OPERATIVE", "TR-MED-SOA-OPERATIVE", "TR-MED-SOA-OPERATIVE", "TR-MED-SOA-OPERATIVE", "TR-MED-SOA-OPERATIVE"]);
   const operational = seguroMeasures.find((item) => item.id === "TR-MED-SOA-OPERATIVE");
   assert.match(operational.fundamento, /104\.1\.e/);
-  assert.doesNotMatch(operational.fundamento, /105\.1\.d/);
+  assert.match(operational.fundamento, /105\.1\.d/);
   assert.match(operational.levantamiento, /acreditarse la existencia de un seguro obligatorio en vigor/);
-  assert.ok(seguroCases.every((item) => item.medida_operativa?.inmovilizacion.estado === "CONDICIONADA"));
-  assert.ok(seguroCases.every((item) => /art\. 104\.1\.e LSV/.test(item.motivo_inmovilizacion ?? "")));
+  assert.ok(seguroCases.every((item) => item.medida_operativa?.inmovilizacion.estado === "SÍ"));
+  assert.ok(seguroCases.every((item) => item.medida_operativa?.circulacion?.estado === "PROHIBIDA"));
+  assert.ok(seguroCases.every((item) => item.medida_operativa?.traslado_deposito?.estado === "SÍ"));
+  assert.ok(seguroCases.every((item) => /Art\. 104\.1\.e LSV/.test(item.motivo_inmovilizacion ?? "")));
   const source = await readFile(new URL("../data/seguro.ts", import.meta.url), "utf8");
   assert.doesNotMatch(source, /vehículo convencional sujeto|VPL sujeto|sin seguro y sin circulación efectiva/i);
 });
@@ -143,15 +145,15 @@ test("biblioteca documental visible, consultable y sin controles de gestión", a
   assert.doesNotMatch(page, /subir documento|eliminar documento|sustituir archivo|reindexar|ejecutar.*python/i);
 });
 
-test("la regla transversal separa inmovilización, falta de lugar, persistencia y levantamiento", async () => {
+test("la carencia comprobada de seguro resuelve circulación prohibida, inmovilización y depósito", async () => {
   const { seguroCases } = await vite.ssrLoadModule("/data/seguro.ts");
   const { itvCases } = await vite.ssrLoadModule("/data/itv.ts");
   const { CaseSheet } = await vite.ssrLoadModule("/app/page.tsx");
   const seguro = renderToStaticMarkup(React.createElement(CaseSheet, { item: seguroCases[0], copied: false, onCopy() {} }));
   const caducada = renderToStaticMarkup(React.createElement(CaseSheet, { item: itvCases[0], copied: false, onCopy() {} }));
   const negativa = renderToStaticMarkup(React.createElement(CaseSheet, { item: itvCases[4], copied: false, onCopy() {} }));
-  assert.match(seguro, /MEDIDA SOBRE EL VEHÍCULO/); assert.match(seguro, /INMOVILIZACIÓN — CONDICIONADA/); assert.match(seguro, /104\.1\.e LSV y 72\.2\.e Ordenanza de Torrent/); assert.match(seguro, /105\.1\.c LSV y 73\.1\.c Ordenanza de Torrent/); assert.match(seguro, /105\.1\.d LSV y 73\.1\.d Ordenanza de Torrent/); assert.match(seguro, /aunque exista lugar adecuado/); assert.match(seguro, /seguro obligatorio en vigor/);
-  assert.doesNotMatch(seguro, /Depósito municipal.*(?:ordinario|automático)|LUGAR \/ TRASLADO/);
+  assert.match(seguro, /MEDIDA SOBRE EL VEHÍCULO/); assert.match(seguro, /CIRCULACIÓN — PROHIBIDA/); assert.match(seguro, /Art\. 3\.1\.a del Real Decreto Legislativo 8\/2004/); assert.match(seguro, /INMOVILIZACIÓN — SÍ/); assert.match(seguro, /Art\. 104\.1\.e LSV y art\. 72\.2\.e/); assert.match(seguro, /LUGAR DE INMOVILIZACIÓN/); assert.match(seguro, /Art\. 104\.5 LSV y art\. 72\.4/); assert.match(seguro, /TRASLADO A DEPÓSITO — SÍ/); assert.match(seguro, /Art\. 105\.1\.d LSV y art\. 73\.1\.d/); assert.match(seguro, /ADEMÁS, SI NO EXISTE LUGAR ADECUADO/); assert.match(seguro, /Art\. 105\.1\.c LSV y art\. 73\.1\.c/); assert.match(seguro, /RÉGIMEN ESPECÍFICO DEL SEGURO/); assert.match(seguro, /Art\. 3\.1\.b del Real Decreto Legislativo 8\/2004/);
+  assert.doesNotMatch(seguro, /INMOVILIZACIÓN — CONDICIONADA|régimen sectorial específico|normativa sectorial/i);
   assert.match(caducada, /INMOVILIZACIÓN — NO/); assert.match(caducada, /No procede inmovilización por el mero hecho de tener la ITV caducada/); assert.doesNotMatch(caducada, /105\.1\.[cd]/);
   assert.match(negativa, /transporte mediante medios ajenos/); assert.match(negativa, /no es por sí solo retirada administrativa/);
   for (const item of [...itvCases, ...seguroCases]) {
@@ -177,8 +179,8 @@ test("las siete salidas de control contienen la conclusión operativa exigida", 
   assert.match(outputs[0], /No procede inmovilización por el mero hecho de tener la ITV caducada/);
   assert.match(outputs[1], /ITV desfavorable.*no equivale por sí sola a inmovilización/);
   assert.match(outputs[2], /ITV negativa.*prohibida la circulación autopropulsada.*transporte mediante medios ajenos/);
-  assert.match(outputs[3], /104\.1\.e LSV y 72\.2\.e Ordenanza de Torrent/);
-  assert.match(outputs[4], /régimen sectorial específico/);
-  assert.match(outputs[5], /Al acreditarse seguro obligatorio en vigor y cesar la causa/);
+  assert.match(outputs[3], /CIRCULACIÓN — PROHIBIDA.*INMOVILIZACIÓN — SÍ.*TRASLADO A DEPÓSITO — SÍ/s);
+  assert.match(outputs[4], /Art\. 3\.1\.b del Real Decreto Legislativo 8\/2004/);
+  assert.match(outputs[5], /La medida se levanta al acreditarse seguro obligatorio en vigor y cesar la causa/);
   assert.match(outputs[6], /Si la causa no cesa: retirada y depósito, aunque exista lugar adecuado/);
 });

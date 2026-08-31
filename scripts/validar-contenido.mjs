@@ -97,18 +97,25 @@ if (!trafficMeasurePlans || Array.isArray(trafficMeasurePlans) || typeof traffic
 else {
   const trafficCases = [...itv, ...seguro];
   for (const item of trafficCases) {
-    const plan = trafficMeasurePlans[item.id];
+    const plan = trafficMeasurePlans[item.id] ?? trafficMeasurePlans._por_categoria?.[item.categoria];
     if (!plan?.inmovilizacion || !["SÍ", "NO", "CONDICIONADA"].includes(plan.inmovilizacion.estado)) errors.push(`${item.id}: plan de inmovilización inválido`);
     if (plan?.inmovilizacion?.estado !== "NO" && !/104\.1\.[a-z].*72\.2\.[a-z]/i.test(plan.inmovilizacion.fundamento ?? "")) errors.push(`${item.id}: inmovilización sin doble fundamento exacto 104.1/72.2`);
     if (plan?.inmovilizacion?.estado !== "NO") {
       if (!/105\.1\.c.*73\.1\.c/i.test(plan.retirada_sin_lugar?.fundamento ?? "")) errors.push(`${item.id}: falta la rama independiente 105.1.c/73.1.c`);
-      if (!/sin lugar adecuado/i.test(plan.retirada_sin_lugar?.detalle ?? "")) errors.push(`${item.id}: la rama c no está limitada a la falta de lugar adecuado`);
-      if (!/105\.1\.d.*73\.1\.d/i.test(plan.retirada_persistencia?.fundamento ?? "")) errors.push(`${item.id}: falta la rama independiente 105.1.d/73.1.d`);
-      if (!/causa no cesa/i.test(plan.retirada_persistencia?.detalle ?? "") || !/aunque exista lugar adecuado/i.test(plan.retirada_persistencia?.detalle ?? "")) errors.push(`${item.id}: la rama d no acredita persistencia independiente del lugar`);
+      if (!/(sin|no existe) lugar adecuado/i.test(plan.retirada_sin_lugar?.detalle ?? "")) errors.push(`${item.id}: la rama c no está limitada a la falta de lugar adecuado`);
+      const persistencia = plan.traslado_deposito ?? plan.retirada_persistencia;
+      if (!/105\.1\.d.*73\.1\.d/i.test(persistencia?.fundamento ?? "")) errors.push(`${item.id}: falta la rama independiente 105.1.d/73.1.d`);
+      if (!/(causa no cesa|persistiendo la causa)/i.test(persistencia?.detalle ?? "")) errors.push(`${item.id}: la rama d no acredita persistencia independiente del lugar`);
       if (!plan.levantamiento) errors.push(`${item.id}: falta condición de levantamiento`);
     }
+    if (item.categoria === "seguridad_vial_seguro") {
+      if (plan?.circulacion?.estado !== "PROHIBIDA" || !/3\.1\.a/i.test(plan.circulacion.fundamento ?? "")) errors.push(`${item.id}: falta la prohibición de circulación por seguro`);
+      if (plan?.inmovilizacion?.estado !== "SÍ") errors.push(`${item.id}: la carencia comprobada de seguro debe resolver inmovilización SÍ`);
+      if (plan?.traslado_deposito?.estado !== "SÍ" || !/105\.1\.d.*73\.1\.d/i.test(plan.traslado_deposito.fundamento ?? "")) errors.push(`${item.id}: falta traslado a depósito por persistencia de seguro`);
+      if (!/3\.1\.b/i.test(plan?.regimen_especifico?.fundamento ?? "")) errors.push(`${item.id}: falta el régimen específico de depósito o precinto por seguro`);
+    }
     const serializedPlan = JSON.stringify(plan);
-    if (/depósito municipal.*(?:ordinario|automático)|104\.5.*(?:retirada|depósito)/i.test(serializedPlan)) errors.push(`${item.id}: criterio anterior de lugar o retirada todavía presente`);
+    if (/depósito municipal.*(?:ordinario|automático)|104\.5[^\"]*(?:retirada|depósito)/i.test(serializedPlan)) errors.push(`${item.id}: criterio anterior de lugar o retirada todavía presente`);
   }
 }
 const trafficRules = rules.filter((rule) => rule.id === "TR-GEN-R-104-105-001" && rule.activo);

@@ -24,6 +24,23 @@ Empieza siempre por `contenido/LEEME_PRIMERO.md`.
 - Biblioteca documental → `contenido/biblioteca/documentos.json`
 - Módulos y categorías → `contenido/estructura/` (pueden afectar navegación; preferible asistencia técnica)
 
+## Seguro obligatorio: circulación, inmovilización y depósito
+
+La regla visible y común para todos los casos de Seguro está en:
+
+`contenido/seguridad_vial/medidas_por_caso.json`
+
+Ruta de la regla: `_por_categoria.seguridad_vial_seguro`.
+
+- Para modificar la prohibición de circulación: edita `circulacion`.
+- Para modificar inmovilización, su artículo y su texto: edita `inmovilizacion`.
+- Para modificar el lugar señalado por los agentes: edita `lugar_inmovilizacion`.
+- Para modificar el traslado a depósito por persistencia: edita `traslado_deposito`.
+- Para el supuesto adicional de falta de lugar adecuado: edita `retirada_sin_lugar`.
+- Para el régimen específico de seguro y su artículo: edita `regimen_especifico`.
+
+La ficha descriptiva de la misma medida se mantiene en `contenido/seguridad_vial/seguro/medidas.json`, campo con `id` `TR-MED-SOA-OPERATIVE`. No copies la regla en los seis casos de `seguridad_vial/seguro/casos.json`.
+
 ## Flujo de trabajo local recomendado
 
 1. Haz una copia del archivo que vas a tocar o trabaja con control de versiones.

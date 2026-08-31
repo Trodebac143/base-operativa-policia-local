@@ -48,47 +48,16 @@
     "retirada_persistencia": { "fundamento": "Arts. 105.1.d LSV y 73.1.d Ordenanza de Torrent", "detalle": "Si la causa no cesa: retirada y depósito, aunque exista lugar adecuado." },
     "levantamiento": "Al cesar el riesgo especialmente grave, sin habilitar una circulación sectorialmente prohibida."
   },
-  "TR-SOA-OP-001": {
-    "inmovilizacion": { "estado": "CONDICIONADA", "fundamento": "Arts. 104.1.e LSV y 72.2.e Ordenanza de Torrent", "detalle": "La carencia de seguro es causa legal; aplicar la inmovilización conforme al régimen sectorial específico." },
-    "regla_sectorial": "Aplicar la normativa específica de responsabilidad civil y seguro; la regla general 104/105 actúa sin perjuicio de ese régimen.",
-    "retirada_sin_lugar": { "fundamento": "Arts. 105.1.c LSV y 73.1.c Ordenanza de Torrent", "detalle": "Si se inmoviliza, sin lugar adecuado para practicarla sin obstaculizar: retirada y depósito." },
-    "retirada_persistencia": { "fundamento": "Arts. 105.1.d LSV y 73.1.d Ordenanza de Torrent", "detalle": "Si se inmoviliza y la causa no cesa: retirada y depósito, aunque exista lugar adecuado." },
-    "levantamiento": "Al acreditarse seguro obligatorio en vigor y cesar la causa, sin perjuicio del régimen sectorial."
-  },
-  "TR-SOA-OP-002": {
-    "inmovilizacion": { "estado": "CONDICIONADA", "fundamento": "Arts. 104.1.e LSV y 72.2.e Ordenanza de Torrent", "detalle": "La carencia de seguro es causa legal; aplicar la inmovilización conforme al régimen sectorial específico." },
-    "regla_sectorial": "Aplicar la normativa específica de responsabilidad civil y seguro; la regla general 104/105 actúa sin perjuicio de ese régimen.",
-    "retirada_sin_lugar": { "fundamento": "Arts. 105.1.c LSV y 73.1.c Ordenanza de Torrent", "detalle": "Si se inmoviliza, sin lugar adecuado para practicarla sin obstaculizar: retirada y depósito." },
-    "retirada_persistencia": { "fundamento": "Arts. 105.1.d LSV y 73.1.d Ordenanza de Torrent", "detalle": "Si se inmoviliza y la causa no cesa: retirada y depósito, aunque exista lugar adecuado." },
-    "levantamiento": "Al acreditarse seguro obligatorio en vigor y cesar la causa, sin perjuicio del régimen sectorial."
-  },
-  "TR-SOA-OP-003": {
-    "inmovilizacion": { "estado": "CONDICIONADA", "fundamento": "Arts. 104.1.e LSV y 72.2.e Ordenanza de Torrent", "detalle": "La carencia de seguro es causa legal; aplicar la inmovilización conforme al régimen sectorial específico." },
-    "regla_sectorial": "Aplicar la normativa específica de responsabilidad civil y seguro; la regla general 104/105 actúa sin perjuicio de ese régimen.",
-    "retirada_sin_lugar": { "fundamento": "Arts. 105.1.c LSV y 73.1.c Ordenanza de Torrent", "detalle": "Si se inmoviliza, sin lugar adecuado para practicarla sin obstaculizar: retirada y depósito." },
-    "retirada_persistencia": { "fundamento": "Arts. 105.1.d LSV y 73.1.d Ordenanza de Torrent", "detalle": "Si se inmoviliza y la causa no cesa: retirada y depósito, aunque exista lugar adecuado." },
-    "levantamiento": "Al acreditarse seguro obligatorio en vigor y cesar la causa, sin perjuicio del régimen sectorial."
-  },
-  "TR-SOA-OP-004": {
-    "inmovilizacion": { "estado": "CONDICIONADA", "fundamento": "Arts. 104.1.e LSV y 72.2.e Ordenanza de Torrent", "detalle": "La carencia de seguro es causa legal; aplicar la inmovilización conforme al régimen sectorial específico." },
-    "regla_sectorial": "Aplicar la normativa específica de responsabilidad civil y seguro; la regla general 104/105 actúa sin perjuicio de ese régimen.",
-    "retirada_sin_lugar": { "fundamento": "Arts. 105.1.c LSV y 73.1.c Ordenanza de Torrent", "detalle": "Si se inmoviliza, sin lugar adecuado para practicarla sin obstaculizar: retirada y depósito." },
-    "retirada_persistencia": { "fundamento": "Arts. 105.1.d LSV y 73.1.d Ordenanza de Torrent", "detalle": "Si se inmoviliza y la causa no cesa: retirada y depósito, aunque exista lugar adecuado." },
-    "levantamiento": "Al acreditarse seguro obligatorio en vigor y cesar la causa, sin perjuicio del régimen sectorial."
-  },
-  "TR-SOA-OP-005": {
-    "inmovilizacion": { "estado": "CONDICIONADA", "fundamento": "Arts. 104.1.e LSV y 72.2.e Ordenanza de Torrent", "detalle": "La carencia de seguro es causa legal; aplicar la inmovilización conforme al régimen sectorial específico." },
-    "regla_sectorial": "Aplicar la normativa específica de responsabilidad civil y seguro; la regla general 104/105 actúa sin perjuicio de ese régimen.",
-    "retirada_sin_lugar": { "fundamento": "Arts. 105.1.c LSV y 73.1.c Ordenanza de Torrent", "detalle": "Si se inmoviliza, sin lugar adecuado para practicarla sin obstaculizar: retirada y depósito." },
-    "retirada_persistencia": { "fundamento": "Arts. 105.1.d LSV y 73.1.d Ordenanza de Torrent", "detalle": "Si se inmoviliza y la causa no cesa: retirada y depósito, aunque exista lugar adecuado." },
-    "levantamiento": "Al acreditarse seguro obligatorio en vigor y cesar la causa, sin perjuicio del régimen sectorial."
-  },
-  "TR-SOA-OP-006": {
-    "inmovilizacion": { "estado": "CONDICIONADA", "fundamento": "Arts. 104.1.e LSV y 72.2.e Ordenanza de Torrent", "detalle": "La carencia de seguro es causa legal; aplicar la inmovilización conforme al régimen sectorial específico." },
-    "regla_sectorial": "Aplicar la normativa específica de responsabilidad civil y seguro; la regla general 104/105 actúa sin perjuicio de ese régimen.",
-    "retirada_sin_lugar": { "fundamento": "Arts. 105.1.c LSV y 73.1.c Ordenanza de Torrent", "detalle": "Si se inmoviliza, sin lugar adecuado para practicarla sin obstaculizar: retirada y depósito." },
-    "retirada_persistencia": { "fundamento": "Arts. 105.1.d LSV y 73.1.d Ordenanza de Torrent", "detalle": "Si se inmoviliza y la causa no cesa: retirada y depósito, aunque exista lugar adecuado." },
-    "levantamiento": "Al acreditarse seguro obligatorio en vigor y cesar la causa, sin perjuicio del régimen sectorial."
+  "_por_categoria": {
+    "seguridad_vial_seguro": {
+      "circulacion": { "estado": "PROHIBIDA", "fundamento": "Art. 3.1.a del Real Decreto Legislativo 8/2004, de 29 de octubre", "detalle": "El vehículo que carece del seguro obligatorio no puede continuar circulando." },
+      "inmovilizacion": { "estado": "SÍ", "fundamento": "Art. 104.1.e LSV y art. 72.2.e de la Ordenanza Municipal de Movilidad y Circulación de Torrent", "detalle": "Comprobada la carencia de seguro obligatorio, procede la inmovilización del vehículo." },
+      "lugar_inmovilizacion": { "fundamento": "Art. 104.5 LSV y art. 72.4 de la Ordenanza Municipal de Movilidad y Circulación de Torrent", "detalle": "La inmovilización se llevará a efecto en el lugar señalado por los agentes." },
+      "traslado_deposito": { "estado": "SÍ", "fundamento": "Art. 105.1.d LSV y art. 73.1.d de la Ordenanza Municipal de Movilidad y Circulación de Torrent", "detalle": "Persistiendo la causa que motivó la inmovilización, procede la retirada y traslado al depósito." },
+      "retirada_sin_lugar": { "fundamento": "Art. 105.1.c LSV y art. 73.1.c de la Ordenanza Municipal de Movilidad y Circulación de Torrent", "detalle": "Aplicable únicamente si no existe lugar adecuado para practicar la inmovilización sin obstaculizar la circulación de vehículos o personas." },
+      "regimen_especifico": { "fundamento": "Art. 3.1.b del Real Decreto Legislativo 8/2004, de 29 de octubre", "detalle": "Contempla el depósito o precinto público o domiciliario del vehículo, a cargo de su propietario, mientras no sea concertado el seguro." },
+      "levantamiento": "La medida se levanta al acreditarse seguro obligatorio en vigor y cesar la causa, sin perjuicio de otras causas independientes."
+    }
   },
   "TR-PERM-OP-003": {
     "inmovilizacion": {"estado":"SÍ","fundamento":"Arts. 104.1.k LSV y 72.2.k Ordenanza de Torrent","detalle":"Vehículo que requiere permiso C o D conducido sin la autorización correspondiente."},

@@ -2,15 +2,17 @@
   {
     "id": "TR-MED-SOA-OPERATIVE",
     "titulo": "Medidas por carencia de seguro",
-    "fundamento": "Arts. 104.1.e LSV y 72.2.e Ordenanza de Torrent, sin perjuicio del régimen sectorial de seguro",
-    "activacion": "Carencia de seguro obligatorio, aplicando la medida conforme a la normativa sectorial específica.",
-    "automatica": false,
+    "fundamento": "Art. 3.1.a y b del RDL 8/2004; art. 104.1.e y 105.1.d LSV; arts. 72.2.e y 73.1.d de la Ordenanza Municipal de Movilidad y Circulación de Torrent",
+    "activacion": "Carencia de seguro obligatorio comprobada.",
+    "automatica": true,
     "actuaciones": [
-      "INMOVILIZACIÓN — Arts. 104.1.e LSV y 72.2.e Ordenanza de Torrent: aplicar conforme al régimen sectorial específico.",
-      "SIN LUGAR ADECUADO — Arts. 105.1.c LSV y 73.1.c Ordenanza de Torrent: retirada y depósito si la inmovilización no puede practicarse sin obstaculizar.",
-      "SI LA CAUSA NO CESA — Arts. 105.1.d LSV y 73.1.d Ordenanza de Torrent: retirada y depósito aunque exista lugar adecuado."
+      "CIRCULACIÓN — PROHIBIDA: el vehículo que carece del seguro obligatorio no puede continuar circulando (art. 3.1.a RDL 8/2004).",
+      "INMOVILIZACIÓN — SÍ: comprobada la carencia de seguro obligatorio, procede la inmovilización (art. 104.1.e LSV y art. 72.2.e de la Ordenanza de Torrent).",
+      "TRASLADO A DEPÓSITO — SÍ: persistiendo la causa de inmovilización, procede la retirada y traslado al depósito (art. 105.1.d LSV y art. 73.1.d de la Ordenanza de Torrent).",
+      "SI NO EXISTE LUGAR ADECUADO: art. 105.1.c LSV y art. 73.1.c de la Ordenanza de Torrent.",
+      "RÉGIMEN ESPECÍFICO DEL SEGURO: el art. 3.1.b RDL 8/2004 contempla el depósito o precinto público o domiciliario mientras no sea concertado el seguro."
     ],
-    "levantamiento": "Cuando cese la causa de la inmovilización; en los supuestos de carencia de seguro, deberá acreditarse la existencia de un seguro obligatorio en vigor."
+    "levantamiento": "Al acreditarse la existencia de un seguro obligatorio en vigor y cesar la causa de la medida."
   },
   {
     "id": "TR-MED-SOA-CHECK",
@@ -26,56 +28,54 @@
   {
     "id": "TR-MED-SOA-STOP",
     "titulo": "Prohibición de continuación ordinaria",
-    "fundamento": "RDL 8/2004, art. 3",
-    "activacion": "Vehículo sin seguro que estaba circulando",
-    "automatica": false,
+    "fundamento": "Art. 3.1.a RDL 8/2004",
+    "activacion": "Carencia de seguro obligatorio comprobada.",
+    "automatica": true,
     "actuaciones": [
-      "Impedir la continuación ordinaria sin confundir esta consecuencia con la inmovilización formal."
+      "El vehículo que carece del seguro obligatorio no puede continuar circulando."
     ],
     "levantamiento": "Tras acreditar seguro en vigor o por el medio legalmente procedente."
   },
   {
     "id": "TR-MED-SOA-IMMOB",
     "titulo": "Inmovilización por falta de seguro",
-    "fundamento": "LSV, art. 104.1.e",
-    "activacion": "Decisión policial motivada para impedir la circulación",
-    "automatica": false,
+    "fundamento": "Art. 104.1.e LSV y art. 72.2.e de la Ordenanza de Torrent",
+    "activacion": "Carencia de seguro obligatorio comprobada.",
+    "automatica": true,
     "actuaciones": [
-      "Designar un lugar seguro de inmovilización.",
-      "Solo permitir el desplazamiento imprescindible hasta ese lugar cuando sea necesario."
+      "La inmovilización se llevará a efecto en el lugar señalado por los agentes, conforme al art. 104.5 LSV y art. 72.4 de la Ordenanza de Torrent."
     ],
     "levantamiento": "Acreditación de seguro en vigor y desaparición del presupuesto de la medida."
   },
   {
     "id": "TR-MED-SOA-PARKED",
-    "titulo": "Vehículo estacionado sin seguro",
-    "activacion": "Carencia de seguro sin uso o conducción efectiva",
-    "automatica": false,
+    "titulo": "Carencia comprobada de seguro",
+    "activacion": "Carencia de seguro obligatorio comprobada.",
+    "automatica": true,
     "actuaciones": [
-      "Formular la modalidad de carencia.",
-      "No activar automáticamente inmovilización, retirada ni depósito."
+      "Aplicar la medida común de circulación prohibida, inmovilización y traslado a depósito."
     ],
-    "levantamiento": "No procede medida automática que levantar."
+    "levantamiento": "Al acreditarse seguro obligatorio en vigor y cesar la causa."
   },
   {
     "id": "TR-MED-SOA-REMOVE",
     "titulo": "Retirada y traslado",
-    "fundamento": "LSV, art. 105, cuando concurra su presupuesto",
-    "activacion": "Solo con causa propia o por imposibilidad de un lugar adecuado",
-    "automatica": false,
+    "fundamento": "Art. 105.1.d LSV y art. 73.1.d de la Ordenanza de Torrent",
+    "activacion": "Persistencia de la carencia de seguro tras la inmovilización.",
+    "automatica": true,
     "actuaciones": [
-      "Motivar de forma separada la retirada y el traslado."
+      "Retirar y trasladar al depósito al persistir la causa que motivó la inmovilización."
     ],
-    "levantamiento": "No deriva automáticamente de la denuncia ni de la inmovilización."
+    "levantamiento": "Al acreditarse seguro obligatorio en vigor y cesar la causa."
   },
   {
     "id": "TR-MED-SOA-DEPOSIT",
-    "titulo": "Depósito o precinto cautelar",
-    "fundamento": "RDL 8/2004, art. 3",
-    "activacion": "Acuerdo de la Jefatura Provincial de Tráfico",
-    "automatica": false,
+    "titulo": "Depósito o precinto por carencia de seguro",
+    "fundamento": "Art. 3.1.b RDL 8/2004",
+    "activacion": "Carencia de seguro obligatorio comprobada.",
+    "automatica": true,
     "actuaciones": [
-      "Aplicar los plazos y condiciones del acuerdo competente."
+      "El depósito o precinto público o domiciliario se mantiene mientras no sea concertado el seguro."
     ],
     "levantamiento": "Acreditar seguro y, para depósito o precinto, abonar o garantizar los gastos a cargo del propietario."
   },

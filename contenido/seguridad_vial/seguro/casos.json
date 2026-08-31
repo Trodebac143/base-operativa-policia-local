@@ -37,22 +37,22 @@
     ],
     "resultado": "Ciclomotor, Motocicleta, Turismo, 3ª Categoría que requiere SOA, circulando sin seguro en vigor.",
     "responsable": "Propietario; en vehículo inscrito, se presume propietario a quien figure en el registro.",
-    "inmovilizacion": "CONDICIONADA",
-    "motivo_inmovilizacion": "Causa prevista en el art. 104.1.e LSV; aplicar conforme al régimen sectorial específico de seguro.",
+    "inmovilizacion": "SÍ",
+    "motivo_inmovilizacion": "Comprobada la carencia de seguro obligatorio, procede la inmovilización del vehículo.",
     "actuacion_breve": [
-      "Formular la variante ARCI aplicable, impedir la continuación ordinaria y aplicar la medida sobre el vehículo conforme al régimen sectorial específico."
+      "Formular la variante ARCI aplicable, prohibir la continuación, inmovilizar y trasladar el vehículo al depósito."
     ],
     "actuacion": [
       "Comprobar la sujeción y la inexistencia de seguro vigente.",
       "Identificar la clase de vehículo y seleccionar la variante ARCI exacta.",
       "Formular denuncia y remitirla a la Jefatura Provincial de Tráfico de Valencia.",
-      "Impedir la continuación ordinaria y aplicar la medida sobre el vehículo conforme al régimen sectorial específico."
+      "Prohibir la continuación, inmovilizar y trasladar el vehículo al depósito."
     ],
     "medidas": [
       "TR-MED-SOA-OPERATIVE"
     ],
     "advertencias": [
-      "La inmovilización no es automática ni equivale a retirada, traslado o depósito.",
+      "Comprobada la carencia de seguro obligatorio, se prohíbe la circulación, se inmoviliza y se traslada al depósito.",
       "No se muestra calificación leve, grave o muy grave: el régimen específico no usa esa etiqueta universal."
     ],
     "datos_adicionales": {
@@ -164,8 +164,8 @@
     ],
     "resultado": "Vehículo convencional que requiere SOA y carece de seguro.",
     "responsable": "Propietario; en vehículo inscrito, se presume propietario a quien figure en el registro.",
-    "inmovilizacion": "CONDICIONADA",
-    "motivo_inmovilizacion": "Causa prevista en el art. 104.1.e LSV; aplicar conforme al régimen sectorial específico de seguro.",
+    "inmovilizacion": "SÍ",
+    "motivo_inmovilizacion": "Comprobada la carencia de seguro obligatorio, procede la inmovilización del vehículo.",
     "actuacion_breve": [
       "Formular la variante ARCI aplicable y advertir que no puede ponerse en circulación sin seguro."
     ],
@@ -173,7 +173,7 @@
       "Comprobar la sujeción, la clase de vehículo y la inexistencia de seguro.",
       "Documentar que no existe uso o conducción efectiva.",
       "Formular denuncia y remitirla a la Jefatura Provincial de Tráfico de Valencia.",
-      "Aplicar la medida sobre el vehículo conforme al régimen sectorial específico."
+      "Prohibir la puesta en circulación, inmovilizar y trasladar el vehículo al depósito."
     ],
     "medidas": [
       "TR-MED-SOA-OPERATIVE"
@@ -291,10 +291,10 @@
     "codificado": "SOA 2.1 5N",
     "importe_fijo": 800,
     "importe_reducido": 400,
-    "inmovilizacion": "CONDICIONADA",
-    "motivo_inmovilizacion": "Causa prevista en el art. 104.1.e LSV; aplicar conforme al régimen sectorial específico de seguro.",
+    "inmovilizacion": "SÍ",
+    "motivo_inmovilizacion": "Comprobada la carencia de seguro obligatorio, procede la inmovilización del vehículo.",
     "actuacion_breve": [
-      "Formular 5N, impedir la continuación ordinaria y aplicar la medida sobre el vehículo conforme al régimen sectorial específico."
+      "Formular 5N, prohibir la continuación, inmovilizar y trasladar el vehículo al depósito."
     ],
     "actuacion": [
       "Clasificar el vehículo con datos técnicos acreditados.",
@@ -358,8 +358,8 @@
     "codificado": "SOA 2.1 5O",
     "importe_fijo": 610,
     "importe_reducido": 305,
-    "inmovilizacion": "CONDICIONADA",
-    "motivo_inmovilizacion": "Causa prevista en el art. 104.1.e LSV; aplicar conforme al régimen sectorial específico de seguro.",
+    "inmovilizacion": "SÍ",
+    "motivo_inmovilizacion": "Comprobada la carencia de seguro obligatorio, procede la inmovilización del vehículo.",
     "actuacion_breve": [
       "Formular 5O y advertir que no puede ponerse en circulación sin seguro."
     ],
@@ -367,7 +367,7 @@
       "Clasificar el vehículo con datos técnicos acreditados.",
       "Comprobar el seguro y formular 5O.",
       "Impedir una posterior puesta en circulación sin seguro.",
-      "Aplicar la medida sobre el vehículo conforme al régimen sectorial específico."
+      "Prohibir la puesta en circulación, inmovilizar y trasladar el vehículo al depósito."
     ],
     "medidas": [
       "TR-MED-SOA-OPERATIVE"
@@ -427,10 +427,10 @@
     "codificado": "SDA DA1 5A",
     "importe_fijo": 300,
     "importe_reducido": 150,
-    "inmovilizacion": "CONDICIONADA",
-    "motivo_inmovilizacion": "Causa prevista en el art. 104.1.e LSV; aplicar conforme al régimen sectorial específico de seguro.",
+    "inmovilizacion": "SÍ",
+    "motivo_inmovilizacion": "Comprobada la carencia de seguro obligatorio, procede la inmovilización del vehículo.",
     "actuacion_breve": [
-      "Formular SDA DA1 5A, impedir la continuación ordinaria y aplicar la medida sobre el vehículo conforme al régimen sectorial específico."
+      "Formular SDA DA1 5A, prohibir la continuación, inmovilizar y trasladar el vehículo al depósito."
     ],
     "actuacion": [
       "Acreditar la clasificación VPL y los tres requisitos documentales.",
@@ -495,15 +495,15 @@
     "codificado": "SDA DA1 5B",
     "importe_fijo": 200,
     "importe_reducido": 100,
-    "inmovilizacion": "CONDICIONADA",
-    "motivo_inmovilizacion": "Causa prevista en el art. 104.1.e LSV; aplicar conforme al régimen sectorial específico de seguro.",
+    "inmovilizacion": "SÍ",
+    "motivo_inmovilizacion": "Comprobada la carencia de seguro obligatorio, procede la inmovilización del vehículo.",
     "actuacion_breve": [
       "Formular SDA DA1 5B y advertir que no puede ponerse en circulación sin seguro."
     ],
     "actuacion": [
       "Acreditar clasificación y requisitos VPL.",
       "Comprobar el seguro y formular SDA DA1 5B.",
-      "Aplicar la medida sobre el vehículo conforme al régimen sectorial específico."
+      "Prohibir la puesta en circulación, inmovilizar y trasladar el vehículo al depósito."
     ],
     "medidas": [
       "TR-MED-SOA-OPERATIVE"

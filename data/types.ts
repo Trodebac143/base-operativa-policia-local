@@ -16,8 +16,13 @@ export type Source = {
 export type ImmobilizationStatus = "SÍ" | "NO" | "CONDICIONADA";
 export type TrafficMeasureStatus = { estado: ImmobilizationStatus; fundamento?: string; detalle: string };
 export type TrafficMeasureCondition = { fundamento: string; detalle: string };
+export type TrafficCirculationStatus = { estado: "PROHIBIDA" | "PERMITIDA"; fundamento?: string; detalle: string };
 export type TrafficMeasurePlan = {
+  circulacion?: TrafficCirculationStatus;
   inmovilizacion: TrafficMeasureStatus;
+  lugar_inmovilizacion?: TrafficMeasureCondition;
+  traslado_deposito?: TrafficMeasureStatus;
+  regimen_especifico?: TrafficMeasureCondition;
   regla_sectorial?: string;
   alternativas_inmovilizacion?: TrafficMeasureCondition[];
   retirada_sin_lugar?: TrafficMeasureCondition;
