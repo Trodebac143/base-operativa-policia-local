@@ -65,5 +65,29 @@
     "descripcion": "Referencia operativa de aire espirado, EMP, pruebas y medidas",
     "orden": 40,
     "activo": true
+  },
+  {
+    "id": "seguridad_publica_drogas",
+    "modulo": "seguridad_publica",
+    "nombre": "Drogas",
+    "descripcion": "Consumo, tenencia y posible tráfico",
+    "orden": 10,
+    "activo": true
+  },
+  {
+    "id": "seguridad_publica_agentes",
+    "modulo": "seguridad_publica",
+    "nombre": "Hechos contra los agentes",
+    "descripcion": "Respeto, desobediencia, identificación, resistencia, amenazas y atentado",
+    "orden": 20,
+    "activo": true
+  },
+  {
+    "id": "seguridad_publica_armas",
+    "modulo": "seguridad_publica",
+    "nombre": "Armas y objetos peligrosos",
+    "descripcion": "Armas blancas y objetos utilizados como medio ofensivo",
+    "orden": 30,
+    "activo": true
   }
 ]

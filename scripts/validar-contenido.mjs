@@ -46,6 +46,7 @@ const trafficMeasures = reqArray("contenido/seguridad_vial/medidas.json");
 const trafficMeasurePlans = load("contenido/seguridad_vial/medidas_por_caso.json");
 const itvTree = load("contenido/seguridad_vial/itv/arbol.json");
 const seguroTree = load("contenido/seguridad_vial/seguro/arbol.json");
+const seguridadPublica = load("contenido/seguridad_publica/operativa.json");
 
 const moduleIds = duplicateIds(modules, "Módulos");
 const categoryIds = duplicateIds(categories, "Categorías");
@@ -140,6 +141,17 @@ function validateTree(tree, label) {
 validateTree(itvTree, "Árbol ITV");
 validateTree(seguroTree, "Árbol Seguro");
 
+if (!seguridadPublica || Array.isArray(seguridadPublica) || !Array.isArray(seguridadPublica.conceptos)) errors.push("Seguridad Pública: estructura operativa no válida");
+else {
+  duplicateIds(seguridadPublica.conceptos, "Conceptos Seguridad Pública");
+  for (const concept of seguridadPublica.conceptos) {
+    for (const field of ["id", "bloque", "titulo", "resultado", "norma", "frontera"]) if (!concept[field]) errors.push(`Seguridad Pública/${concept.id ?? "sin id"}: falta ${field}`);
+    if (!Array.isArray(concept.sinonimos) || !concept.sinonimos.length) errors.push(`Seguridad Pública/${concept.id}: faltan sinónimos`);
+    if (!Array.isArray(concept.comprobar) || !concept.comprobar.length) errors.push(`Seguridad Pública/${concept.id}: faltan comprobaciones`);
+  }
+  if (!seguridadPublica.comunes?.registros || seguridadPublica.comunes.registros.length !== 4) errors.push("Seguridad Pública: faltan las cuatro chuletas de registro");
+}
+
 for (const doc of documents) {
   if (!doc.titulo || !doc.archivo) errors.push(`Biblioteca: documento incompleto (${doc.titulo ?? "sin título"})`);
   else if (!fs.existsSync(path.join(root, "public", "documentos", doc.archivo))) errors.push(`Biblioteca: no existe public/documentos/${doc.archivo}`);
@@ -147,6 +159,7 @@ for (const doc of documents) {
 
 notes.push(`${cases.length} casos: ${animals.length} Animales + ${itv.length} ITV + ${seguro.length} Seguro + ${permisos.length} Permisos`);
 notes.push(`${sources.length} fuentes jurídicas · ${documents.length} documentos de biblioteca`);
+notes.push(`Seguridad Pública: ${seguridadPublica?.conceptos?.length ?? 0} conceptos operativos`);
 
 if (errors.length) {
   console.error("\n❌ CONTENIDO NO VÁLIDO\n");
