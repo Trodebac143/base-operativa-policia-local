@@ -146,10 +146,10 @@ test("Armas blancas separa clasificación y conducta sin perder rutas violentas"
   assert.equal(punal.clasificacionObjeto, "PUÑAL — ARMA PROHIBIDA");
   assert.equal(noPunal.clasificacionObjeto, "NO SE CLASIFICA COMO PUÑAL EN ESTA RAMA");
   assert.equal(automatica.clasificacionObjeto, "NAVAJA AUTOMÁTICA — ARMA PROHIBIDA");
-  assert.equal(mecanismoDudoso.clasificacionObjeto, "NO PUEDE CONFIRMARSE COMO NAVAJA AUTOMÁTICA");
+  assert.equal(mecanismoDudoso.clasificacionObjeto, "MECANISMO NO DETERMINADO — CLASIFICACIÓN ABIERTA");
   assert.deepEqual([punal.kind, punal.norma, punal.rango], ["administrativa", "Ley Orgánica 4/2015 · art. 36.10", "601–30.000 €"]);
-  assert.equal(noPunal.kind, "sin_conclusion_automatica");
-  assert.equal(mecanismoDudoso.kind, "sin_conclusion_automatica");
+  assert.equal(noPunal.kind, "valoracion_porte");
+  assert.equal(mecanismoDudoso.kind, "valoracion_porte");
   assert.doesNotMatch(JSON.stringify(punal), /156|157/);
 
   const noPunalUse = resolveWeaponOutcome({ tipo: "hoja", hojaMenorOnce: true, dosFilos: false, puntiaguda: true }, { comportamiento: "usa", flagrante: true });
@@ -179,12 +179,12 @@ test("Navaja diferencia mecanismo automático, no automático y dudoso sin ocult
   assert.equal(automatica.clasificacionObjeto, "NAVAJA AUTOMÁTICA — ARMA PROHIBIDA");
   assert.equal(automatica.kind, "administrativa");
   assert.match(noAutomatica.clasificacionObjeto, /NAVAJA NO AUTOMÁTICA/i);
-  assert.equal(noAutomatica.kind, "sin_conclusion_automatica");
-  assert.match(noAutomatica.titulo, /CONTINUAR VALORACIÓN/i);
-  assert.match(noAutomatica.frontera, /arma blanca no prohibida/i);
-  assert.equal(dudosa.clasificacionObjeto, "NO PUEDE CONFIRMARSE COMO NAVAJA AUTOMÁTICA");
-  assert.equal(dudosa.kind, "sin_conclusion_automatica");
-  assert.match(dudosa.titulo, /CLASIFICACIÓN ABIERTA/i);
+  assert.equal(noAutomatica.kind, "valoracion_porte");
+  assert.match(noAutomatica.titulo, /VALORAR PORTE/i);
+  assert.match(noAutomatica.frontera, /objeto, actividad, lugar, momento/i);
+  assert.equal(dudosa.clasificacionObjeto, "MECANISMO NO DETERMINADO — CLASIFICACIÓN ABIERTA");
+  assert.equal(dudosa.kind, "valoracion_porte");
+  assert.match(dudosa.titulo, /VALORAR PORTE/i);
 
   const noAutomaticaUse = resolveWeaponOutcome({ tipo: "navaja", mecanismo: "no_automatico" }, { comportamiento: "usa" });
   const noAutomaticaThreat = resolveWeaponOutcome({ tipo: "navaja", mecanismo: "no_automatico" }, { comportamiento: "amenaza" });
@@ -197,6 +197,55 @@ test("Navaja diferencia mecanismo automático, no automático y dudoso sin ocult
     const exceptional = resolveWeaponOutcome({ tipo: "navaja", mecanismo: "no_automatico", supuestoEspecifico: true, circunstanciaTenencia: circumstance }, porte);
     assert.deepEqual([exceptional.kind, exceptional.titulo], ["valoracion_especifica", "SUPUESTO QUE REQUIERE VALORACIÓN ESPECÍFICA"]);
   }
+});
+
+test("armas blancas reglamentadas resuelven longitud, porte coherente, porte indebido y ocupación preventiva", async () => {
+  const { resolveWeaponOutcome } = await vite.ssrLoadModule("/data/seguridad-publica.ts");
+  const simple = { comportamiento: "porte" };
+  const manualLong = resolveWeaponOutcome({ tipo: "navaja", mecanismo: "no_automatico", longitudNavaja: "supera_11" }, simple);
+  assert.deepEqual([manualLong.kind, manualLong.clasificacion, manualLong.rango], ["administrativa", "INFRACCIÓN GRAVE", "601–30.000 €"]);
+  assert.match(manualLong.norma, /art\. 5\.3.*art\. 36\.10/i);
+  assert.doesNotMatch(`${manualLong.titulo} ${manualLong.norma}`, /art\. 563/i);
+
+  const manualShort = resolveWeaponOutcome({ tipo: "navaja", mecanismo: "no_automatico", longitudNavaja: "no_supera_11" }, simple);
+  assert.equal(manualShort.kind, "valoracion_porte");
+  assert.match(manualShort.clasificacionObjeto, /≤11 CM — VALORAR PORTE/i);
+
+  const kitchenKnife = resolveWeaponOutcome({ tipo: "cuchillo", armamento: "no" }, { ...simple, motivo: "ninguno", transporte: "mochila", lugar: "via_publica" });
+  assert.equal(kitchenKnife.kind, "valoracion_porte");
+  assert.match(kitchenKnife.clasificacionObjeto, /CUCHILLO ORDINARIO/i);
+  assert.doesNotMatch(kitchenKnife.clasificacionObjeto, /PROHIBIDA|MILITAR/i);
+
+  const electrician = resolveWeaponOutcome({ tipo: "cuchillo", armamento: "no" }, { ...simple, motivo: "trabajo", transporte: "equipamiento", lugar: "trayecto", momento: "coherente" });
+  assert.equal(electrician.kind, "porte_coherente");
+  assert.match(electrician.titulo, /SIN INFRACCIÓN AUTOMÁTICA/i);
+
+  const nightlife = resolveWeaponOutcome({ tipo: "navaja", mecanismo: "no_automatico", longitudNavaja: "no_supera_11" }, { ...simple, motivo: "ninguno", transporte: "bolsillo", lugar: "ocio", momento: "madrugada" });
+  assert.deepEqual([nightlife.kind, nightlife.norma, nightlife.clasificacion], ["administrativa", "LO 4/2015 · art. 36.10", "INFRACCIÓN GRAVE"]);
+
+  const preventive = resolveWeaponOutcome({ tipo: "cuchillo", armamento: "no" }, { ...simple, motivo: "trabajo", transporte: "funda", lugar: "trabajo", accesoRestringido: "si", motivoSeguridadFinalizado: "si" });
+  assert.equal(preventive.kind, "ocupacion_preventiva");
+  assert.doesNotMatch(`${preventive.titulo} ${preventive.norma}`, /INFRACCIÓN|36\.10/i);
+  assert.match(preventive.actuacion.join(" "), /devolver.*jurídicamente proceda/i);
+});
+
+test("cuchillos, machetes e imitaciones conservan clasificación separada y prioridad de la conducta", async () => {
+  const { resolveWeaponOutcome } = await vite.ssrLoadModule("/data/seguridad-publica.ts");
+  const simple = { comportamiento: "porte" };
+  const ordinaryMachete = resolveWeaponOutcome({ tipo: "machete", armamento: "no" }, simple);
+  const approved = resolveWeaponOutcome({ tipo: "machete", armamento: "aprobado" }, simple);
+  const imitation = resolveWeaponOutcome({ tipo: "cuchillo", armamento: "imitacion" }, simple);
+  assert.match(ordinaryMachete.clasificacionObjeto, /MACHETE ORDINARIO.*NO CLASIFICADO AUTOMÁTICAMENTE COMO MILITAR/i);
+  assert.match(approved.clasificacionObjeto, /ARMAMENTO APROBADO.*ART\. 5\.3/i);
+  assert.match(imitation.clasificacionObjeto, /CATEGORÍA 5\.ª\.2/i);
+  assert.equal(imitation.kind, "valoracion_porte");
+
+  const intimidation = resolveWeaponOutcome({ tipo: "cuchillo", armamento: "no" }, { comportamiento: "intimidatoria" });
+  const use = resolveWeaponOutcome({ tipo: "cuchillo", armamento: "no" }, { comportamiento: "usa" });
+  assert.equal(intimidation.kind, "posible_penal");
+  assert.equal(use.kind, "derivacion_penal");
+  assert.match(use.titulo, /POSIBLE DELITO/i);
+  for (const outcome of [intimidation, use]) assert.doesNotMatch(outcome.norma, /^LO 4\/2015/);
 });
 
 test("Objetos peligrosos prioriza el uso y mantiene la salida administrativa subsidiaria", async () => {
@@ -213,13 +262,17 @@ test("Objetos peligrosos prioriza el uso y mantiene la salida administrativa sub
   assert.notEqual(screwdriverUse.norma, "Código Penal · art. 563");
   assert.match(screwdriverUse.frontera, /no activa automáticamente el art\. 563/i);
 
-  const objects = [{ tipo: "objeto" }, { tipo: "navaja", automaticaConfirmada: false }, { tipo: "hoja", hojaMenorOnce: true, dosFilos: false, puntiaguda: true }];
+  const objects = [{ tipo: "objeto" }, { tipo: "navaja", automaticaConfirmada: false }, { tipo: "navaja", mecanismo: "no_automatico", longitudNavaja: "supera_11" }, { tipo: "hoja", hojaMenorOnce: true, dosFilos: false, puntiaguda: true }, { tipo: "cuchillo", armamento: "no" }, { tipo: "cuchillo", armamento: "imitacion" }, { tipo: "machete", armamento: "aprobado" }];
   const behaviours = ["porte", "manipula", "exhibe", "intimidatoria", "amenaza", "intenta", "usa"];
   for (const object of objects) for (const comportamiento of behaviours) {
     const outcome = resolveWeaponOutcome(object, { comportamiento, contexto: comportamiento === "manipula" ? "altercado" : undefined });
     assert.ok(outcome.titulo && outcome.norma && outcome.frontera && outcome.actuacion.length, `Ruta incompleta: ${object.tipo}/${comportamiento}`);
     if (["intimidatoria", "amenaza", "intenta", "usa"].includes(comportamiento)) assert.doesNotMatch(JSON.stringify(outcome.hechosRelevantes), /sin incidente|permanece guardad/i);
   }
+
+  const staleCarry = resolveWeaponOutcome({ tipo: "cuchillo", armamento: "no" }, { comportamiento: "usa", motivo: "trabajo", transporte: "funda", lugar: "trabajo", accesoRestringido: "si" });
+  assert.equal(staleCarry.kind, "derivacion_penal");
+  assert.doesNotMatch(staleCarry.titulo, /OCUPACIÓN TEMPORAL|PORTE/i);
 });
 
 test("el árbol de armas es adaptativo, operativo y no expone lenguaje interno", async () => {
@@ -229,14 +282,38 @@ test("el árbol de armas es adaptativo, operativo y no expone lenguaje interno",
   const fs = await import("node:fs");
   const source = fs.readFileSync(new URL("../app/seguridad-publica.tsx", import.meta.url), "utf8");
   const dataSource = fs.readFileSync(new URL("../data/seguridad-publica.ts", import.meta.url), "utf8");
-  for (const text of ["¿Qué ocurre con el objeto?", "¿Dónde se encuentra?", "¿Qué situación se observa?", "Clasificación del arma blanca", "Datos relevantes para el acta / diligencias", "Criterio jurídico aplicado"]) assert.match(source, new RegExp(text, "i"));
+  for (const text of ["¿Qué ocurre con el objeto?", "¿Dónde se encuentra?", "¿Qué situación se observa?", "¿Qué tipo de arma blanca se observa?", "Datos para acta o diligencias", "Ver criterio jurídico"]) assert.match(source, new RegExp(text, "i"));
   assert.match(weaponsHtml, /No puedo determinarlo con seguridad/i);
   assert.match(weaponsHtml, /Automático.*No automático.*No puedo determinarlo con seguridad/is);
+  assert.match(source, /mecanismo === "no_automatico".*manualLengthOptions/s);
   assert.match(weaponsHtml, /¿Existe una circunstancia excepcional de tenencia\?/i);
   assert.doesNotMatch(source, /primera opción|opción anterior|opción superior/i);
-  assert.match(source, /value !== "porte"\) setCircunstanciaTenencia\("ninguna"\)/);
+  assert.match(source, /value !== "porte"\) clearCarry\(\)/);
   assert.match(weaponsHtml, /CLASIFICACIÓN DEL OBJETO.*CONDUCTA OBSERVADA/i);
-  assert.match(objectsHtml, /Destornillador.*tijeras.*martillo/i);
+  assert.match(objectsHtml, /OBJETO ORDINARIO.*Solo porte.*Intimidación o agresión/is);
   assert.doesNotMatch(`${weaponsHtml}${objectsHtml}`, /¿Es un arma prohibida?|¿El porte es ilegal?|¿Constituye delito?|¿Debe detenerse?|armas_blancas|objetos_peligrosos|regla interna|puntuación/i);
   assert.equal((dataSource.match(/resolvePenalProcessualDecision\(observed\)/g) ?? []).length, 1);
+});
+
+test("la UX operativa mantiene textos breves, detalle secundario y barra móvil segura", async () => {
+  const { seguridadPublicaConceptos } = await vite.ssrLoadModule("/data/seguridad-publica.ts");
+  const { SeguridadPublicaView } = await vite.ssrLoadModule("/app/seguridad-publica.tsx");
+  const fs = await import("node:fs");
+  const css = fs.readFileSync(new URL("../app/seguridad-publica.css", import.meta.url), "utf8");
+  const source = fs.readFileSync(new URL("../app/seguridad-publica.tsx", import.meta.url), "utf8");
+  for (const id of ["armas_blancas", "objetos_peligrosos"]) {
+    const concept = seguridadPublicaConceptos.find((item) => item.id === id);
+    assert.ok(concept.comprobar.length <= 3);
+    assert.ok(concept.comprobar.every((item) => item.length < 90));
+    assert.ok(concept.detalle.length >= 3);
+  }
+  const html = renderToStaticMarkup(React.createElement(SeguridadPublicaView, { block: "Armas y objetos peligrosos", initialConceptId: "armas_blancas", onBack() {} }));
+  assert.match(html, /Acciones principales.*Volver.*Copiar resumen/is);
+  assert.match(html, /Ver criterio jurídico/);
+  assert.match(source, /value !== "porte"\) clearCarry\(\)/);
+  assert.match(source, /accesoRestringido: showSafetyAccess \? accesoRestringido : undefined/);
+  assert.match(css, /\.sp-mobile-actions\{display:none\}/);
+  assert.match(css, /@media\(max-width:700px\).*\.sp-mobile-actions\{position:fixed/s);
+  assert.match(css, /safe-area-inset-bottom/);
+  assert.match(css, /sp-view-with-actions\{padding-bottom:/);
 });

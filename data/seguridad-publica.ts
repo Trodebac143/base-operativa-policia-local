@@ -14,6 +14,7 @@ export type PublicConcept = {
   actuacion?: string[];
   competencia?: string;
   fuentes?: string[];
+  detalle?: string[];
 };
 export type PublicSecurityBlock = PublicConcept["bloque"];
 export type ProcessualInput = {
@@ -175,12 +176,14 @@ export function resolveAuthorityOutcome(conceptId: string, level: string, input:
 }
 
 export type WeaponObjectInput = {
-  tipo: "navaja" | "hoja" | "objeto";
+  tipo: "navaja" | "hoja" | "cuchillo" | "machete" | "objeto";
   mecanismo?: "automatico" | "no_automatico" | "dudoso";
   automaticaConfirmada?: boolean;
+  longitudNavaja?: "supera_11" | "no_supera_11" | "dudosa";
   hojaMenorOnce?: boolean;
   dosFilos?: boolean;
   puntiaguda?: boolean;
+  armamento?: "aprobado" | "imitacion" | "no" | "dudoso";
   supuestoEspecifico?: boolean;
   circunstanciaTenencia?: "contemplacion" | "reparacion" | "transmision";
 };
@@ -189,9 +192,16 @@ export type WeaponContextInput = {
   disponibilidad?: "encima" | "efectos" | "accesible" | "vehiculo" | "sin_disponente";
   comportamiento: WeaponConduct;
   contexto?: "sin_incidente" | "altercado" | "violento" | "amenazas" | "otro_delito" | "otras";
+  motivo?: "trabajo" | "actividad" | "trayecto" | "otro" | "ninguno" | "dudoso";
+  transporte?: "funda" | "equipamiento" | "mochila" | "bolsillo" | "accesible" | "otro";
+  lugar?: "trabajo" | "actividad" | "trayecto" | "via_publica" | "establecimiento" | "ocio" | "reunion" | "otro";
+  momento?: "coherente" | "madrugada" | "otro" | "dudoso";
+  consumo?: "si" | "no" | "dudoso";
+  accesoRestringido?: "si" | "no" | "dudoso";
+  motivoSeguridadFinalizado?: "si" | "no" | "dudoso";
 } & ProcessualInput;
 export type WeaponOutcome = {
-  kind: "sin_conclusion_automatica" | "valoracion_especifica" | "administrativa" | "posible_penal" | "derivacion_penal" | "penal";
+  kind: "sin_conclusion_automatica" | "porte_coherente" | "valoracion_porte" | "ocupacion_preventiva" | "valoracion_especifica" | "administrativa" | "posible_penal" | "derivacion_penal" | "penal";
   titulo: string;
   norma: string;
   clasificacion?: string;
@@ -218,9 +228,34 @@ export function resolveWeaponOutcome(object: WeaponObjectInput, context: WeaponC
     : undefined;
   const automatica = mecanismo === "automatico";
   const prohibited = punal || automatica;
-  const clasificacionObjeto = punal ? "PUÑAL — ARMA PROHIBIDA" : automatica ? "NAVAJA AUTOMÁTICA — ARMA PROHIBIDA" : mecanismo === "no_automatico" ? "NAVAJA NO AUTOMÁTICA — CONTINUAR VALORACIÓN DE ARMA BLANCA NO PROHIBIDA" : object.tipo === "navaja" ? "NO PUEDE CONFIRMARSE COMO NAVAJA AUTOMÁTICA" : object.tipo === "hoja" ? "NO SE CLASIFICA COMO PUÑAL EN ESTA RAMA" : "OBJETO NO CLASIFICADO REGLAMENTARIAMENTE COMO ARMA";
+  const manualOverEleven = object.tipo === "navaja" && mecanismo === "no_automatico" && object.longitudNavaja === "supera_11";
+  const approvedArmament = ["cuchillo", "machete"].includes(object.tipo) && object.armamento === "aprobado";
+  const imitationArmament = ["cuchillo", "machete"].includes(object.tipo) && object.armamento === "imitacion";
+  const clasificacionObjeto = punal
+    ? "PUÑAL — ARMA PROHIBIDA"
+    : automatica
+      ? "NAVAJA AUTOMÁTICA — ARMA PROHIBIDA"
+      : manualOverEleven
+        ? "NAVAJA NO AUTOMÁTICA >11 CM — RÉGIMEN DEL ART. 5.3"
+        : object.tipo === "navaja" && mecanismo === "no_automatico" && object.longitudNavaja === "no_supera_11"
+          ? "NAVAJA NO AUTOMÁTICA ≤11 CM — VALORAR PORTE"
+          : object.tipo === "navaja" && mecanismo === "no_automatico"
+            ? "NAVAJA NO AUTOMÁTICA — LONGITUD NO DETERMINADA"
+            : object.tipo === "navaja"
+              ? "MECANISMO NO DETERMINADO — CLASIFICACIÓN ABIERTA"
+              : approvedArmament
+                ? "ARMA BLANCA INTEGRANTE DE ARMAMENTO APROBADO — RÉGIMEN ESPECÍFICO ART. 5.3"
+                : imitationArmament
+                  ? "IMITACIÓN DE CUCHILLO O MACHETE MILITAR — CATEGORÍA 5.ª.2"
+                  : object.tipo === "cuchillo"
+                    ? "CUCHILLO ORDINARIO — ARMA BLANCA REGLAMENTADA"
+                    : object.tipo === "machete"
+                      ? object.armamento === "dudoso" ? "MACHETE — CLASIFICACIÓN NO SEGURA" : "MACHETE ORDINARIO — NO CLASIFICADO AUTOMÁTICAMENTE COMO MILITAR"
+                      : object.tipo === "hoja"
+                        ? "NO SE CLASIFICA COMO PUÑAL EN ESTA RAMA"
+                        : "OBJETO NO CLASIFICADO REGLAMENTARIAMENTE COMO ARMA";
   const observed = inferredWeaponContext(context);
-  const facts = weaponFacts(observed);
+  const facts = [...weaponFacts(observed), ...carryFacts(context)];
   const conducta = weaponConductLabel(observed.comportamiento);
   const directReferral = ["amenaza", "intenta", "usa"].includes(observed.comportamiento);
   const intimidating = observed.comportamiento === "intimidatoria";
@@ -299,7 +334,7 @@ export function resolveWeaponOutcome(object: WeaponObjectInput, context: WeaponC
     norma: "Continuar el análisis penal correspondiente",
     clasificacionObjeto,
     conducta,
-    porQue: "La clasificación reglamentaria del objeto pasa a ser secundaria. El objeto puede adquirir relevancia penal por el modo en que ha sido utilizado, aunque no esté clasificado como arma blanca prohibida.",
+    porQue: "La conducta contra la persona tiene prioridad sobre la clasificación del objeto.",
     frontera: "La clasificación negativa o dudosa del objeto no elimina la conducta violenta ni permite cerrar la actuación sin resultado. Un objeto ordinario utilizado contra una persona no activa automáticamente el art. 563 CP.",
     hechosRelevantes: facts,
     derivaOtroDelito: true,
@@ -317,7 +352,7 @@ export function resolveWeaponOutcome(object: WeaponObjectInput, context: WeaponC
       conducta,
       situacion: "DILIGENCIAS DE PREVENCIÓN",
       detencion: "NO",
-      porQue: `La conducta mantiene relevancia aunque el objeto no se haya clasificado como arma prohibida. ${facts.join(" ")}`,
+      porQue: "La intimidación, exhibición o relación con otro hecho exige analizar primero la vía penal.",
       frontera: "La vía penal se analiza antes que cualquier salida administrativa subsidiaria. No se aplica automáticamente el art. 563 CP a un objeto ordinario ni a un arma cuya prohibición no esté confirmada.",
       hechosRelevantes: facts,
       derivaOtroDelito: true,
@@ -329,21 +364,114 @@ export function resolveWeaponOutcome(object: WeaponObjectInput, context: WeaponC
     };
   }
 
+  if (manualOverEleven) return {
+    kind: "administrativa",
+    titulo: "VÍA ADMINISTRATIVA",
+    norma: "Reglamento de Armas · art. 5.3 / LO 4/2015 · art. 36.10",
+    clasificacion: "INFRACCIÓN GRAVE",
+    rango: "601–30.000 €",
+    clasificacionObjeto,
+    conducta,
+    porQue: "Navaja no automática con hoja superior a 11 cm portada fuera del domicilio.",
+    frontera: "La longitud no convierte por sí sola el hecho en delito del art. 563 CP. La excepción domiciliaria de ornato o coleccionismo no ampara el porte en vía pública.",
+    hechosRelevantes: facts,
+    actuacion: ["Aprehender y documentar el arma y sus dimensiones.", "Aplicar la vía administrativa.", "La cuantía concreta corresponde al órgano sancionador competente."],
+  };
+
+  const simpleCarry = observed.comportamiento === "porte" && object.tipo !== "objeto";
+  const legitimatePurpose = ["trabajo", "actividad", "trayecto"].includes(context.motivo ?? "");
+  const protectedTransport = ["funda", "equipamiento"].includes(context.transporte ?? "");
+  const coherentPlace = context.lugar === "trayecto"
+    || (context.motivo === "trabajo" && context.lugar === "trabajo")
+    || (context.motivo === "actividad" && context.lugar === "actividad");
+  const coherentMoment = !context.momento || context.momento === "coherente" || context.momento === "dudoso";
+  const coherentCarry = simpleCarry && legitimatePurpose && protectedTransport && coherentPlace && coherentMoment && context.consumo !== "si";
+  const sensitivePlace = ["establecimiento", "ocio", "reunion"].includes(context.lugar ?? "");
+  const exposedTransport = ["bolsillo", "accesible"].includes(context.transporte ?? "");
+  const improperCarry = simpleCarry && context.motivo === "ninguno" && exposedTransport && (sensitivePlace || context.lugar === "via_publica");
+
+  if (coherentCarry && context.accesoRestringido === "si") return {
+    kind: "ocupacion_preventiva",
+    titulo: "OCUPACIÓN TEMPORAL PREVENTIVA",
+    norma: "Medida preventiva sin denuncia automática",
+    clasificacionObjeto,
+    conducta,
+    porQue: "El porte está relacionado con una actividad legítima, pero existe una restricción concreta de seguridad en el acceso.",
+    frontera: "La ocupación temporal preventiva se diferencia de la aprehensión por infracción. No genera denuncia automática.",
+    hechosRelevantes: facts,
+    actuacion: ["Ocupar temporalmente mientras subsista el motivo concreto de seguridad.", context.motivoSeguridadFinalizado === "si" ? "Ha cesado el motivo: devolver cuando jurídicamente proceda." : "Documentar el motivo y mantener separada la medida preventiva de una aprehensión sancionadora."],
+  };
+
+  if (improperCarry) return {
+    kind: "administrativa",
+    titulo: "PORTE INDEBIDO — VÍA ADMINISTRATIVA",
+    norma: "LO 4/2015 · art. 36.10",
+    clasificacion: "INFRACCIÓN GRAVE",
+    rango: "601–30.000 €",
+    clasificacionObjeto,
+    conducta,
+    porQue: "Sin motivo concreto, en forma inmediatamente accesible y en un lugar relevante.",
+    frontera: "Valoración conjunta del Reglamento de Armas, arts. 146 y 147. El lugar de ocio o reunión no determina por sí solo la infracción.",
+    hechosRelevantes: facts,
+    actuacion: ["Aprehender y documentar el arma y las circunstancias del porte.", "Formular denuncia administrativa.", "La cuantía concreta corresponde al órgano sancionador competente."],
+  };
+
+  if (coherentCarry) return {
+    kind: "porte_coherente",
+    titulo: "SIN INFRACCIÓN AUTOMÁTICA POR EL MERO PORTE",
+    norma: "Porte coherente con actividad legítima",
+    clasificacionObjeto,
+    conducta,
+    porQue: "Objeto, actividad, lugar y transporte presentan una relación objetiva coherente.",
+    frontera: "Poder adquirir o tener legalmente el arma no significa poder portarla libremente en cualquier lugar y circunstancia.",
+    hechosRelevantes: facts,
+    actuacion: ["Documentar brevemente las circunstancias comprobadas.", "No generar denuncia automática por el mero porte."],
+  };
+
+  if (simpleCarry) return {
+    kind: "valoracion_porte",
+    titulo: "VALORAR PORTE Y CIRCUNSTANCIAS",
+    norma: "Reglamento de Armas · arts. 146 y 147",
+    clasificacionObjeto,
+    conducta,
+    porQue: "La clasificación o la longitud no deciden por sí solas la licitud del porte.",
+    frontera: "Debe existir una relación coherente entre objeto, actividad, lugar, momento y forma de transporte. Si el conjunto determina porte indebido, continúa por el art. 36.10 LO 4/2015.",
+    hechosRelevantes: facts,
+    actuacion: ["Completar únicamente los hechos relevantes del porte.", "No cerrar la actuación por la sola clasificación del objeto."],
+  };
+
   return {
     kind: "sin_conclusion_automatica",
-    titulo: object.tipo === "navaja" && !automatica ? mecanismo === "no_automatico" ? "CONTINUAR VALORACIÓN DE NAVAJA NO AUTOMÁTICA" : "CLASIFICACIÓN ABIERTA — CONTINUAR VALORACIÓN" : "SIN INFRACCIÓN DE ARMAS AUTOMÁTICA",
-    norma: object.tipo === "navaja" && !automatica ? "Continuación pendiente de armas blancas no prohibidas" : "Continuar solo si aparecen otros hechos relevantes",
+    titulo: object.tipo === "objeto" ? "SIN INFRACCIÓN AUTOMÁTICA POR EL MERO PORTE" : "CLASIFICACIÓN ABIERTA — CONTINUAR VALORACIÓN",
+    norma: "Continuar según la conducta observada",
     clasificacionObjeto,
     conducta,
     porQue: object.tipo === "objeto"
       ? "El mero porte de un objeto ordinario no lo convierte en arma ni genera por sí solo una infracción de armas."
-      : object.tipo === "navaja" && !automatica ? "La navaja no automática o de mecanismo dudoso no se clasifica como automática por ese motivo. Se conserva el análisis del porte y sus circunstancias para la rama posterior de armas blancas no prohibidas." : "La falta de clasificación como puñal o navaja automática no significa que el objeto esté permitido; esta rama no convierte automáticamente el simple porte en infracción.",
+      : "La clasificación no es segura, pero la conducta continúa activa.",
     frontera: object.tipo === "objeto"
       ? "La relevancia puede surgir del uso concreto como medio de amenaza, intimidación o agresión."
-      : "La valoración completa de necesidad, ocasión, lugar y circunstancias del porte de un arma blanca no prohibida se desarrollará posteriormente.",
+      : "No se atribuye automáticamente carácter militar, prohibido ni relevancia del art. 563 por longitud, tamaño o apariencia.",
     hechosRelevantes: facts,
     actuacion: ["Mantener la descripción objetiva del objeto y continuar únicamente si aparecen hechos relevantes para otra rama."],
   };
+}
+
+function carryFacts(context: WeaponContextInput): string[] {
+  const facts: string[] = [];
+  const purposeLabels: Record<NonNullable<WeaponContextInput["motivo"]>, string> = { trabajo: "Motivo: trabajo.", actividad: "Motivo: actividad deportiva, caza o pesca.", trayecto: "Motivo: traslado hacia o desde una actividad relacionada.", otro: "Se manifiesta otro motivo concreto.", ninguno: "No consta motivo concreto.", dudoso: "El motivo no puede determinarse." };
+  const transportLabels: Record<NonNullable<WeaponContextInput["transporte"]>, string> = { funda: "Transporte en funda, caja o bolsa adecuada.", equipamiento: "Transporte junto con herramientas o equipamiento relacionado.", mochila: "Transporte en mochila o bolso.", bolsillo: "Porte en bolsillo, cintura o ropa.", accesible: "Objeto inmediatamente accesible.", otro: "Otra forma de transporte." };
+  const placeLabels: Record<NonNullable<WeaponContextInput["lugar"]>, string> = { trabajo: "Lugar de trabajo relacionado.", actividad: "Lugar de actividad relacionada.", trayecto: "Trayecto directo hacia o desde la actividad.", via_publica: "Vía pública sin relación aparente con una actividad.", establecimiento: "Establecimiento público.", ocio: "Local o zona de ocio.", reunion: "Lugar de reunión, concentración o recreo.", otro: "Otro lugar." };
+  const purpose = context.motivo ? purposeLabels[context.motivo] : undefined;
+  const transport = context.transporte ? transportLabels[context.transporte] : undefined;
+  const place = context.lugar ? placeLabels[context.lugar] : undefined;
+  if (purpose) facts.push(purpose);
+  if (transport) facts.push(transport);
+  if (place) facts.push(place);
+  if (context.momento === "madrugada") facts.push("Se observa en horario de madrugada sin actividad relacionada.");
+  if (context.consumo === "si") facts.push("Se observan signos de consumo o influencia.");
+  if (context.accesoRestringido === "si") facts.push("Intenta acceder a un espacio con restricción concreta de seguridad.");
+  return facts;
 }
 
 type InferredWeaponContext = Required<Pick<WeaponContextInput, "disponibilidad" | "comportamiento" | "contexto">> & ProcessualInput;
