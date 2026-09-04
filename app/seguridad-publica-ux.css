@@ -1,0 +1,11 @@
+.sp-section .sp-status {
+  padding: 0;
+  border: 0;
+}
+
+.sp-status-note {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+}

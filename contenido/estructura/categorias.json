@@ -87,7 +87,47 @@
     "modulo": "seguridad_publica",
     "nombre": "Armas y objetos peligrosos",
     "descripcion": "Armas blancas y objetos utilizados como medio ofensivo",
+    "orden": 80,
+    "activo": true
+  },
+  {
+    "id": "seguridad_publica_violencia_relacional",
+    "modulo": "seguridad_publica",
+    "nombre": "Violencia de género y doméstica",
+    "descripcion": "Relación protegida, hechos coexistentes y continuidad operativa",
     "orden": 30,
+    "activo": true
+  },
+  {
+    "id": "seguridad_publica_agresiones_lesiones",
+    "modulo": "seguridad_publica",
+    "nombre": "Agresiones y lesiones",
+    "descripcion": "Agresión física, resultado asistencial y alertas de gravedad",
+    "orden": 40,
+    "activo": true
+  },
+  {
+    "id": "seguridad_publica_agresiones_sexuales",
+    "modulo": "seguridad_publica",
+    "nombre": "Agresiones sexuales",
+    "descripcion": "Actuación inmediata, preservación y conexiones operativas",
+    "orden": 50,
+    "activo": true
+  },
+  {
+    "id": "seguridad_publica_peleas_rinas",
+    "modulo": "seguridad_publica",
+    "nombre": "Peleas y riñas",
+    "descripcion": "Agresiones individuales, recíprocas y riña tumultuaria",
+    "orden": 60,
+    "activo": true
+  },
+  {
+    "id": "seguridad_publica_amenazas_coacciones",
+    "modulo": "seguridad_publica",
+    "nombre": "Amenazas y coacciones",
+    "descripcion": "Anuncio de mal, imposición y conducta reiterada",
+    "orden": 70,
     "activo": true
   }
 ]

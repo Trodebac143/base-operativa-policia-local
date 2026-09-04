@@ -2,7 +2,7 @@ import operativaJson from "../contenido/seguridad_publica/operativa.json";
 
 export type PublicConcept = {
   id: string;
-  bloque: "Drogas" | "Autoridad y agentes" | "Armas y objetos peligrosos";
+  bloque: "Drogas" | "Autoridad y agentes" | "Armas y objetos peligrosos" | "Violencia de género y doméstica" | "Agresiones y lesiones" | "Agresiones sexuales" | "Peleas y riñas" | "Amenazas y coacciones";
   titulo: string;
   sinonimos: string[];
   resultado: string;
@@ -32,6 +32,28 @@ export type ProcessualDecision = {
 
 /** Traducción exclusivamente de interfaz: conserva las claves de contenido existentes. */
 export const seguridadPublicaBlockLabel = (block: PublicSecurityBlock) => block === "Autoridad y agentes" ? "Hechos contra los agentes" : block;
+export const seguridadPublicaBlockDescription: Record<PublicSecurityBlock, string> = {
+  "Drogas": "Consumo, tenencia y posible tráfico.",
+  "Autoridad y agentes": "Respeto, desobediencia, identificación, resistencia, amenazas y atentado.",
+  "Armas y objetos peligrosos": "Armas blancas y objetos utilizados como medio ofensivo.",
+  "Violencia de género y doméstica": "Relación protegida y hechos que pueden coexistir.",
+  "Agresiones y lesiones": "Agresión física, resultado asistencial y alertas de gravedad.",
+  "Agresiones sexuales": "Actuación inmediata, preservación y derivaciones necesarias.",
+  "Peleas y riñas": "Enfrentamientos individuales, recíprocos y tumultuarios.",
+  "Amenazas y coacciones": "Anuncio de mal, imposición y conducta reiterada.",
+};
+const publicSecurityCategoryByBlock: Record<PublicSecurityBlock, string> = {
+  "Drogas": "seguridad_publica_drogas",
+  "Autoridad y agentes": "seguridad_publica_agentes",
+  "Armas y objetos peligrosos": "seguridad_publica_armas",
+  "Violencia de género y doméstica": "seguridad_publica_violencia_relacional",
+  "Agresiones y lesiones": "seguridad_publica_agresiones_lesiones",
+  "Agresiones sexuales": "seguridad_publica_agresiones_sexuales",
+  "Peleas y riñas": "seguridad_publica_peleas_rinas",
+  "Amenazas y coacciones": "seguridad_publica_amenazas_coacciones",
+};
+export const seguridadPublicaCategoryId = (block: PublicSecurityBlock) => publicSecurityCategoryByBlock[block];
+export const seguridadPublicaBlockFromCategoryId = (categoryId: string): PublicSecurityBlock | undefined => Object.entries(publicSecurityCategoryByBlock).find(([, value]) => value === categoryId)?.[0] as PublicSecurityBlock | undefined;
 export type DrugOutcome = {
   kind: "administrativa" | "indicios_no_concluyentes" | "penal";
   titulo: string;
@@ -69,7 +91,7 @@ export const seguridadPublicaConceptos = seguridadPublica.conceptos;
 export const seguridadPublicaSearchEntries = seguridadPublicaConceptos.map((concept) => ({
   ...concept,
   modulo: "seguridad_publica",
-  categoria: concept.bloque === "Drogas" ? "seguridad_publica_drogas" : concept.bloque === "Armas y objetos peligrosos" ? "seguridad_publica_armas" : "seguridad_publica_agentes",
+  categoria: seguridadPublicaCategoryId(concept.bloque),
 }));
 
 const flagrancyDecision = (): ProcessualDecision => ({
@@ -173,6 +195,228 @@ export function resolveAuthorityOutcome(conceptId: string, level: string, input:
     return { titulo: "INFRACCIÓN ADMINISTRATIVA", norma: "LO 4/2015 · art. 37.4", porQue: "Insulto, expresión despectiva o frase airada sin anuncio serio de mal penalmente relevante.", frontera: "Permanece en el art. 37.4 LO 4/2015 cuando no hay anuncio serio de un mal penalmente relevante, agresión, acometimiento, resistencia grave mediante violencia o intimidación grave.", actuacion: ["Documentar literalmente conducta y contexto.", "Formular denuncia administrativa."] };
   }
   return null;
+}
+
+export type PublicSafetyRelation = "vg" | "domestica" | "ninguna";
+export type PublicSafetyFacts = {
+  relacion?: PublicSafetyRelation;
+  hechosRelacion?: Array<"agresion" | "amenazas" | "coacciones" | "sexual" | "quebrantamiento">;
+  episodiosPrevios?: boolean;
+  noDeseaDenunciar?: boolean;
+  agresionFisica?: boolean;
+  lesion?: boolean;
+  resultadoAsistencial?: "sin_asistencia" | "primera_asistencia" | "tratamiento_posterior" | "desconocido";
+  medioPeligroso?: boolean;
+  resultadoEspecialGravedad?: boolean;
+  indiciosFinalidadMatar?: boolean;
+  contextoSexual?: boolean;
+  tipoRina?: "una_agrede" | "reciproca" | "grupal_confusa" | "grupal_individualizable";
+  lesionIndividualizable?: boolean;
+  victimaAgente?: boolean;
+  actoSexualNoConsentido?: boolean;
+  penetracion?: boolean;
+  violenciaIntimidacion?: boolean;
+  dificultadDecidir?: boolean;
+  variasPersonas?: boolean;
+  posibleSumisionQuimica?: boolean;
+  menorDieciseis?: boolean;
+  conductaLibertad?: "amenaza" | "coaccion" | "acoso";
+  malAnunciado?: "entidad_delictiva" | "menor_entidad" | "no_precisado";
+  condicionImpuesta?: boolean;
+  coaccionEntidad?: "general" | "leve" | "no_precisada";
+  soportes?: boolean;
+};
+export type PublicSafetyResult = {
+  titulo: string;
+  norma: string;
+  clasificacion?: string;
+  texto: string;
+  actuacion: string[];
+  destacado?: "warning" | "danger" | "neutral";
+};
+export type PublicSafetyConnection = { conceptId: string; etiqueta: string; motivo: string };
+export type PublicSafetyOutcome = {
+  resultados: PublicSafetyResult[];
+  conexiones: PublicSafetyConnection[];
+  procesal?: ProcessualDecision;
+};
+
+const incidentResult = (titulo: string, norma: string, texto: string, actuacion: string[], clasificacion?: string, destacado?: PublicSafetyResult["destacado"]): PublicSafetyResult => ({ titulo, norma, texto, actuacion, clasificacion, destacado });
+const basicIncidentAction = ["Proteger y separar cuando proceda.", "Identificar a las personas implicadas.", "Recoger hechos relevantes, testigos e indicios disponibles."];
+const relationConnection = (relation: PublicSafetyRelation | undefined): PublicSafetyConnection | undefined => relation === "vg" || relation === "domestica" ? { conceptId: "violencia_relacional", etiqueta: relation === "vg" ? "Violencia de género" : "Violencia doméstica", motivo: "La relación ya recogida se conserva en la intervención." } : undefined;
+const addConnection = (connections: PublicSafetyConnection[], connection: PublicSafetyConnection | undefined) => { if (connection && !connections.some((item) => item.conceptId === connection.conceptId)) connections.push(connection); };
+const withIncidentProcessual = (outcome: PublicSafetyOutcome, regime: "leve" | "no_leve" | undefined, input: ProcessualInput) => ({ ...outcome, procesal: regime === "leve" ? delitoLeveDecision() : regime === "no_leve" ? resolvePenalProcessualDecision(input) : undefined });
+
+/** Motor común para incidentes personales: utiliza los mismos hechos entre bloques. */
+export function resolvePublicSafetyOutcome(conceptId: string, facts: PublicSafetyFacts, input: ProcessualInput = {}): PublicSafetyOutcome {
+  const results: PublicSafetyResult[] = [];
+  const connections: PublicSafetyConnection[] = [];
+  const relation = facts.relacion;
+  const protectedRelation = relation === "vg" || relation === "domestica";
+  const relationLink = relationConnection(relation);
+  const pending = (text: string) => ({ resultados: [incidentResult("ORIENTACIÓN PENDIENTE", "Datos de la intervención", text, basicIncidentAction, undefined, "neutral")], conexiones: [] });
+  const addComplaintNotice = (sexual = false) => {
+    if (relation !== "vg" || !facts.noDeseaDenunciar) return;
+    results.push(incidentResult(
+      "DENUNCIA DE LA VÍCTIMA",
+      sexual ? "Código Penal · art. 191; LECrim · art. 105" : "LECrim · art. 105",
+      sexual
+        ? "No paraliza la protección ni las primeras diligencias. Para proceder: denuncia de la víctima o querella del Ministerio Fiscal."
+        : "No es necesaria para continuar. Informar a la víctima y actuar de oficio.",
+      ["Documentar su manifestación e informar de sus derechos.", "Continuar la actuación policial."],
+      undefined,
+      "danger",
+    ));
+  };
+
+  if (conceptId === "violencia_relacional") {
+    if (!relation) return pending("Indica la relación entre autor y víctima antes de orientar los hechos.");
+    const relationFacts = facts.hechosRelacion ?? [];
+    const vgCriminalFacts = relation === "vg" && relationFacts.length > 0;
+    results.push(incidentResult(
+      relation === "vg" ? "ÁMBITO DE VIOLENCIA DE GÉNERO" : relation === "domestica" ? "ÁMBITO FAMILIAR O CONVIVENCIAL PROTEGIDO" : "SIN RELACIÓN PROTEGIDA",
+      relation === "vg" ? "LO 1/2004 · art. 1" : "Relación autor-víctima",
+      relation === "vg" ? "Hombre frente a esposa, exesposa o mujer ligada o anteriormente ligada por relación análoga de afectividad, aun sin convivencia." : relation === "domestica" ? "Otro integrante del ámbito familiar o convivencial protegido." : "Derivar cada hecho a los bloques generales correspondientes.",
+      relation === "vg" ? ["Coordinar continuación y valoración de riesgo mediante CNP / Sistema VioGén conforme al protocolo operativo aplicable."] : basicIncidentAction,
+      undefined,
+      relation === "ninguna" ? "neutral" : "warning",
+    ));
+    if (relation === "vg") {
+      const vgResults: Record<NonNullable<PublicSafetyFacts["hechosRelacion"]>[number], PublicSafetyResult> = {
+        agresion: incidentResult("POSIBLE MALTRATO EN VIOLENCIA DE GÉNERO", "Código Penal · art. 153.1", "El golpe o maltrato, aun sin lesión, tiene trascendencia penal.", ["Proteger y separar.", "Documentar el episodio y conservar los indicios."], "DELITO MENOS GRAVE", "warning"),
+        amenazas: incidentResult("POSIBLE DELITO DE AMENAZAS", "Código Penal · arts. 169 y ss. y 171.4", "La amenaza tiene trascendencia penal. Concretar expresiones y gravedad en su bloque.", ["Proteger y separar.", "Recoger literalmente las expresiones y el contexto."], "DELITO NO LEVE", "warning"),
+        coacciones: incidentResult("POSIBLE DELITO DE COACCIONES", "Código Penal · arts. 172.1 y 172.2", "La conducta que obliga o impide actuar tiene trascendencia penal.", ["Proteger y separar.", "Documentar la conducta y el medio empleado."], "DELITO MENOS GRAVE", "warning"),
+        sexual: incidentResult("POSIBLE AGRESIÓN SEXUAL", "Código Penal · arts. 178 a 180", "El acto sexual no consentido tiene trascendencia penal.", ["Proteger y separar.", "Priorizar asistencia y preservar indicios."], "DELITO NO LEVE", "warning"),
+        quebrantamiento: incidentResult("POSIBLE QUEBRANTAMIENTO", "Código Penal · art. 468.2", "El incumplimiento de la prohibición o medida tiene trascendencia penal.", ["Proteger y separar.", "Comprobar la vigencia y contenido de la medida."], "DELITO MENOS GRAVE", "warning"),
+      };
+      for (const fact of relationFacts) results.push(vgResults[fact]);
+    }
+    if (facts.episodiosPrevios) results.push(incidentResult("VALORAR ADEMÁS POSIBLE VIOLENCIA HABITUAL", "Código Penal · art. 173.2", "Los episodios anteriores no sustituyen el análisis del hecho actual.", ["Documentar episodios y datos objetivos.", "Mantener el análisis de cada hecho concreto."], relation === "vg" ? "DELITO MENOS GRAVE" : undefined, "warning"));
+    if (vgCriminalFacts) addComplaintNotice(relationFacts.includes("sexual"));
+    for (const fact of relationFacts) {
+      const connection: Record<string, PublicSafetyConnection> = {
+        agresion: { conceptId: "agresiones_lesiones", etiqueta: "Agresiones y lesiones", motivo: "Analizar el episodio físico sin volver a pedir la relación." },
+        amenazas: { conceptId: "amenazas_coacciones", etiqueta: "Amenazas y coacciones", motivo: "Analizar las expresiones y su contexto." },
+        coacciones: { conceptId: "amenazas_coacciones", etiqueta: "Amenazas y coacciones", motivo: "Analizar la conducta que obliga o impide actuar." },
+        sexual: { conceptId: "agresiones_sexuales", etiqueta: "Agresiones sexuales", motivo: "Aplicar el bloque de actuación inmediata." },
+        quebrantamiento: { conceptId: "", etiqueta: "Posible quebrantamiento", motivo: "Comunicar y documentar la posible prohibición o medida; este bloque no se desarrolla todavía." },
+      };
+      addConnection(connections, connection[fact]);
+    }
+    return withIncidentProcessual({ resultados: results, conexiones: connections }, vgCriminalFacts ? "no_leve" : undefined, input);
+  }
+
+  if (conceptId === "agresiones_lesiones") {
+    if (facts.agresionFisica === undefined) return pending("Indica si ha existido golpe o agresión física.");
+    if (!facts.agresionFisica) return { resultados: [incidentResult("SIN AGRESIÓN FÍSICA REFERIDA", "Datos de la intervención", "Valora el bloque que corresponda si existen amenazas, coacciones u otro hecho.", basicIncidentAction, undefined, "neutral")], conexiones: [] };
+    let regime: "leve" | "no_leve" | undefined;
+    if (!facts.lesion) {
+      if (protectedRelation) {
+        results.push(incidentResult("POSIBLE DELITO EN RELACIÓN PROTEGIDA", "Código Penal · art. 153", "El golpe o maltrato, aun sin lesión, tiene trascendencia penal.", ["Proteger y separar.", "Documentar el episodio concreto."], "DELITO MENOS GRAVE", "warning"));
+        regime = "no_leve";
+        addConnection(connections, relationLink);
+      } else {
+        results.push(incidentResult("MALTRATO DE OBRA SIN LESIÓN", "Código Penal · art. 147.3", "Posible delito leve. En régimen general requiere denuncia de la persona agraviada.", ["Documentar la agresión y ausencia de lesión conocida.", "Comprobar antes si existe violencia de género o doméstica."], "DELITO LEVE"));
+        regime = "leve";
+      }
+    } else if (facts.resultadoAsistencial === "tratamiento_posterior") {
+      results.push(incidentResult("POSIBLE LESIÓN", "Código Penal · art. 147.1", "Existe necesidad objetiva de tratamiento médico o quirúrgico posterior. No se clasifica como delito leve.", ["Recabar asistencia o parte médico y circunstancias completas de la agresión.", "Documentar mecanismo, zona afectada y evolución conocida."], "DELITO NO LEVE"));
+      regime = "no_leve";
+      if (facts.medioPeligroso) results.push(incidentResult("POSIBLE LESIÓN AGRAVADA", "Código Penal · art. 148.1", "El medio empleado y el peligro concreto son relevantes para la calificación; su uso no activa este artículo automáticamente.", ["Describir el arma, instrumento, objeto o medio empleado.", "Asegurar el efecto y su relación objetiva con los hechos cuando proceda."], undefined, "warning"));
+    } else if (facts.resultadoAsistencial === "primera_asistencia") {
+      if (protectedRelation) {
+        results.push(incidentResult("POSIBLE DELITO EN RELACIÓN PROTEGIDA", "Código Penal · art. 153", "La lesión de menor entidad tiene trascendencia penal en esta relación.", ["Proteger y separar.", "Documentar el episodio y el resultado asistencial."], "DELITO MENOS GRAVE", "warning"));
+        regime = "no_leve";
+        addConnection(connections, relationLink);
+      } else {
+        results.push(incidentResult("POSIBLE LESIÓN", "Código Penal · art. 147.2", "Posible delito leve. En régimen general requiere denuncia de la persona agraviada.", ["Recabar el parte y confirmar si se necesita tratamiento posterior.", "La asistencia hospitalaria por sí sola no determina el art. 147.1."], "DELITO LEVE"));
+        regime = "leve";
+      }
+    } else {
+      results.push(incidentResult("CLASIFICACIÓN PROVISIONAL", "Resultado médico pendiente", "No es posible distinguir todavía entre art. 147.1 y 147.2. Recabar asistencia o parte médico y circunstancias completas de la agresión.", ["Priorizar atención sanitaria cuando proceda.", "Actualizar la clasificación al conocer el resultado asistencial."], undefined, "warning"));
+    }
+    if (facts.resultadoEspecialGravedad) results.push(incidentResult("POSIBLES LESIONES DE ESPECIAL GRAVEDAD", "Código Penal · arts. 149/150", "Priorizar asistencia sanitaria, mecanismo de producción e indicios. Clasificación definitiva pendiente del resultado médico-forense.", ["Documentar el resultado observable sin exigir determinar órganos principales.", "Asegurar el mecanismo de producción y los indicios disponibles."], undefined, "danger"));
+    if (facts.indiciosFinalidadMatar) results.push(incidentResult("⚠️ NO VALORAR ÚNICAMENTE COMO LESIONES", "Posible tentativa de homicidio/asesinato", "Los hechos pueden ser compatibles con tentativa de homicidio/asesinato. Recoger especialmente medio empleado, zona atacada, número e intensidad de acciones, expresiones y forma de finalización.", ["Documentar zona corporal, arma o medio, reiteración e intensidad.", "Documentar expresiones, conducta antes/durante/después y motivo por el que cesó la agresión."], undefined, "danger"));
+    if (facts.medioPeligroso) addConnection(connections, { conceptId: "objetos_peligrosos", etiqueta: "Armas / objeto peligroso", motivo: "El medio empleado se conserva como dato de la intervención." });
+    if (facts.contextoSexual) addConnection(connections, { conceptId: "agresiones_sexuales", etiqueta: "Agresiones sexuales", motivo: "La lesión puede coexistir con el hecho sexual." });
+    addConnection(connections, relationLink);
+    if (regime === "no_leve") addComplaintNotice(false);
+    return withIncidentProcessual({ resultados: results, conexiones: connections }, regime, input);
+  }
+
+  if (conceptId === "agresiones_sexuales") {
+    if (facts.actoSexualNoConsentido === undefined) return pending("Indica si se refiere un acto de contenido sexual no consentido.");
+    if (!facts.actoSexualNoConsentido) return { resultados: [incidentResult("SIN ACTO SEXUAL NO CONSENTIDO REFERIDO", "Datos de la intervención", "Valora otros bloques si existen lesiones, amenazas o coacciones.", basicIncidentAction, undefined, "neutral")], conexiones: [] };
+    let regime: "no_leve" | undefined;
+    if (facts.menorDieciseis) {
+      results.push(incidentResult("VÍCTIMA MENOR DE 16 AÑOS", "Código Penal · art. 181", "Activar protección y tratamiento especializado de menor.", ["Proteger y activar la unidad especializada.", "Recoger solo los datos necesarios para la actuación inmediata."], "DELITO GRAVE", "danger"));
+      regime = "no_leve";
+    } else if (facts.penetracion) {
+      results.push(incidentResult("POSIBLE VIOLACIÓN", relation === "vg" ? "Código Penal · arts. 179 y 180.1.4" : "Código Penal · art. 179", "Existe penetración en los términos legalmente previstos.", ["Proteger y separar víctima y presunto autor.", "Obtener solo el relato mínimo necesario para la actuación inmediata.", "Evitar interrogatorios exhaustivos o repeticiones innecesarias.", "Priorizar asistencia sanitaria o forense cuando proceda.", "Preservar indicios y evitar contaminación.", "Coordinar continuación con unidad competente o especializada."], "DELITO GRAVE", "warning"));
+      regime = "no_leve";
+    } else {
+      results.push(incidentResult("POSIBLE AGRESIÓN SEXUAL", relation === "vg" ? "Código Penal · arts. 178 y 180.1.4" : "Código Penal · art. 178", "Se refiere un acto de contenido sexual no consentido.", ["Proteger y separar víctima y presunto autor.", "Obtener solo el relato mínimo necesario para la actuación inmediata.", "Evitar interrogatorios exhaustivos o repeticiones innecesarias.", "Priorizar asistencia sanitaria o forense cuando proceda.", "Preservar indicios y evitar contaminación.", "Coordinar continuación con unidad competente o especializada."], relation === "vg" ? "DELITO GRAVE" : "DELITO MENOS GRAVE", "warning"));
+      regime = "no_leve";
+    }
+    if (facts.posibleSumisionQuimica) results.push(incidentResult("POSIBLE SUMISIÓN O VULNERABILIDAD QUÍMICA", "Atención sanitaria/forense urgente", "Posible sumisión o vulnerabilidad química. Atención sanitaria/forense urgente y comunicar expresamente la sospecha.", ["Comunicar pérdida de memoria, somnolencia, desorientación, pérdida de conciencia o sospecha de sustancias.", "Priorizar asistencia sanitaria y forense."], undefined, "danger"));
+    if (facts.lesion) addConnection(connections, { conceptId: "agresiones_lesiones", etiqueta: "Lesiones", motivo: "Existen lesiones que deben valorarse en su bloque." });
+    if (facts.medioPeligroso) addConnection(connections, { conceptId: "objetos_peligrosos", etiqueta: "Armas / objeto peligroso", motivo: "El medio empleado es información complementaria." });
+    addConnection(connections, relationLink);
+    addComplaintNotice(true);
+    return withIncidentProcessual({ resultados: results, conexiones: connections }, regime, input);
+  }
+
+  if (conceptId === "peleas_rinas") {
+    if (!facts.tipoRina) return pending("Indica cómo se desarrolla el enfrentamiento físico.");
+    const riñaTumultuaria = facts.tipoRina === "grupal_confusa" && facts.medioPeligroso;
+    results.push(riñaTumultuaria
+      ? incidentResult("POSIBLE RIÑA TUMULTUARIA", "Código Penal · art. 154", "Existe enfrentamiento recíproco y confuso entre varias personas y utilización de medios o instrumentos peligrosos.", ["Separar y hacer cesar la agresión.", "Identificar participantes, víctimas y testigos.", "Asegurar armas u objetos peligrosos.", "Individualizar conductas siempre que sea posible."], "DELITO MENOS GRAVE", "warning")
+      : incidentResult("INDIVIDUALIZAR CONDUCTAS", "Actuación operativa", "No clasificar automáticamente como art. 154. Una pelea a puñetazos entre varias personas no basta por sí sola.", ["Separar y hacer cesar la agresión.", "Identificar participantes, víctimas y testigos.", "Individualizar agresiones y lesiones siempre que sea posible."], undefined, "neutral"));
+    if (facts.lesion) addConnection(connections, { conceptId: "agresiones_lesiones", etiqueta: "Lesiones", motivo: facts.lesionIndividualizable ? "Puede identificarse quién causó una lesión concreta." : "Hay personas lesionadas que deben valorarse." });
+    if (facts.medioPeligroso) addConnection(connections, { conceptId: "objetos_peligrosos", etiqueta: "Armas / objeto peligroso", motivo: "Asegurar el medio empleado y describirlo." });
+    if (facts.victimaAgente) addConnection(connections, { conceptId: "atentado", etiqueta: "Hechos contra los agentes", motivo: "La víctima puede ser agente; revisar el bloque específico." });
+    addConnection(connections, relationLink);
+    return withIncidentProcessual({ resultados: results, conexiones: connections }, riñaTumultuaria ? "no_leve" : undefined, input);
+  }
+
+  if (conceptId === "amenazas_coacciones") {
+    if (!facts.conductaLibertad) return pending("Indica qué está haciendo la persona.");
+    let regime: "leve" | "no_leve" | undefined;
+    if (facts.conductaLibertad === "acoso") return { resultados: [incidentResult("VALORACIÓN ESPECÍFICA NECESARIA", "Acoso", "La conducta reiterada de vigilancia, persecución o contacto puede requerir valoración específica de acoso. Este bloque no se desarrolla todavía.", ["Documentar la reiteración, contactos, soportes y contexto.", "Coordinar la continuación con la unidad competente."], undefined, "warning")], conexiones: [] };
+    if (facts.conductaLibertad === "amenaza") {
+      if (facts.malAnunciado === "entidad_delictiva") {
+        results.push(incidentResult("POSIBLE DELITO DE AMENAZAS", "Código Penal · arts. 169 y ss.", "La amenaza tiene entidad penal.", ["Recoger literalmente las expresiones.", "Documentar contexto, condición, medios y soportes."], "DELITO NO LEVE"));
+        regime = "no_leve";
+      }
+      else if (facts.malAnunciado === "menor_entidad" && relation === "vg") {
+        results.push(incidentResult("POSIBLE AMENAZA LEVE EN VIOLENCIA DE GÉNERO", "Código Penal · art. 171.4", "Aunque la conducta se denomine amenaza leve, no se clasifica como delito leve.", ["Documentar expresiones, contexto y relación.", "Aplicar la regla procesal correspondiente a delito menos grave."], "DELITO MENOS GRAVE", "warning"));
+        regime = "no_leve";
+      } else if (facts.malAnunciado === "menor_entidad" && relation === "domestica") results.push(incidentResult("POSIBLE AMENAZA EN ÁMBITO FAMILIAR PROTEGIDO", "Criterio doméstico aplicable", "Aplicar internamente el criterio doméstico correspondiente. No exigir denuncia cuando legalmente no corresponda.", ["Documentar expresiones, relación y contexto.", "Coordinar continuación con CNP."], undefined, "warning"));
+      else if (facts.malAnunciado === "menor_entidad") {
+        results.push(incidentResult("POSIBLE AMENAZA LEVE", "Código Penal · art. 171.7", "Posible delito leve. En régimen general requiere denuncia de la persona agraviada.", ["Recoger expresiones utilizadas y contexto.", "Informar de hechos y derechos; coordinar continuación y citación con CNP."], "DELITO LEVE"));
+        regime = "leve";
+      } else results.push(incidentResult("DATOS DE AMENAZA PENDIENTES", "Expresiones y contexto", "Indica el mal anunciado para orientar la actuación sin pedir una conclusión jurídica.", ["Recoger literalmente las expresiones utilizadas.", "Documentar destinatario, condición, medios y soportes."]));
+    }
+    if (facts.conductaLibertad === "coaccion") {
+      if (facts.coaccionEntidad === "general") {
+        results.push(incidentResult("POSIBLE COACCIÓN", "Código Penal · art. 172.1", "Existe una conducta que obliga o impide actuar contra la voluntad.", ["Documentar la acción concreta.", "Recoger violencia, intimidación, medios y contexto."], "DELITO MENOS GRAVE"));
+        regime = "no_leve";
+      }
+      else if (facts.coaccionEntidad === "leve" && relation === "vg") {
+        results.push(incidentResult("POSIBLE COACCIÓN LEVE EN VIOLENCIA DE GÉNERO", "Código Penal · art. 172.2", "Aunque la conducta se denomine coacción leve, no es delito leve.", ["Documentar la acción, contexto y relación.", "Aplicar la regla procesal correspondiente a delito menos grave."], "DELITO MENOS GRAVE", "warning"));
+        regime = "no_leve";
+      } else if (facts.coaccionEntidad === "leve" && relation === "domestica") results.push(incidentResult("POSIBLE COACCIÓN EN ÁMBITO FAMILIAR PROTEGIDO", "Criterio doméstico aplicable", "Aplicar internamente el criterio doméstico correspondiente. No exigir denuncia cuando legalmente no corresponda.", ["Documentar la acción, relación y contexto.", "Coordinar continuación con CNP."], undefined, "warning"));
+      else if (facts.coaccionEntidad === "leve") {
+        results.push(incidentResult("POSIBLE COACCIÓN LEVE", "Código Penal · art. 172.3", "Posible delito leve. En régimen general requiere denuncia de la persona agraviada.", ["Documentar la acción que obliga o impide actuar.", "Informar de hechos y derechos; coordinar continuación y citación con CNP."], "DELITO LEVE"));
+        regime = "leve";
+      } else results.push(incidentResult("DATOS DE COACCIÓN PENDIENTES", "Conducta observada", "Indica si la imposición o impedimento se aprecia por violencia o intimidación, o es de menor entidad.", ["Documentar la acción concreta: impedir salir, impedir acceso, quitar llaves u obligar a actuar.", "Recoger medios y contexto."]));
+    }
+    if (facts.medioPeligroso) addConnection(connections, { conceptId: "objetos_peligrosos", etiqueta: "Armas / objeto peligroso", motivo: "Se exhibe o utiliza como medio de intimidación." });
+    addConnection(connections, relationLink);
+    if (regime === "no_leve") addComplaintNotice(false);
+    return withIncidentProcessual({ resultados: results, conexiones: connections }, regime, input);
+  }
+  return pending("No hay una orientación dinámica definida para esta situación.");
 }
 
 export type WeaponObjectInput = {
