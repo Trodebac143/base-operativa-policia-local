@@ -9,3 +9,124 @@
   font-size: 13px;
   line-height: 1.45;
 }
+
+.sp-block-heading span {
+  width: 42px;
+  height: 42px;
+  border-radius: 11px;
+  color: #7650aa;
+  background: #f0ebf7;
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  font-weight: 850;
+}
+
+.sp-block-heading svg {
+  width: 23px;
+  height: 23px;
+}
+
+.sp-choice {
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.sp-choice label {
+  min-height: 46px;
+  margin-top: 7px;
+  padding: 11px 12px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: #fbfcfd;
+}
+
+.sp-choice label:has(input:checked) {
+  border-color: var(--blue);
+  background: #eaf3fa;
+  box-shadow: 0 0 0 2px rgba(26, 106, 168, .12);
+}
+
+.sp-choice input[type="radio"],
+.sp-choice input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+  accent-color: var(--blue);
+}
+
+.sp-processual-question {
+  border: 2px solid #d7a84a;
+  background: #fffaf0;
+}
+
+.sp-processual-question > strong {
+  display: block;
+  color: var(--navy);
+  line-height: 1.45;
+  margin: 4px 0 10px;
+}
+
+.sp-processual-output {
+  background: #f8fafb;
+}
+
+.sp-decision-banner {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 11px;
+  min-height: 66px;
+  padding: 14px 16px;
+  border: 2px solid currentColor;
+  border-radius: 11px;
+  font-weight: 850;
+}
+
+.sp-decision-banner > span {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 0 5px color-mix(in srgb, currentColor 14%, transparent);
+}
+
+.sp-decision-banner strong {
+  font-size: 21px;
+  letter-spacing: .015em;
+}
+
+.sp-decision-banner small {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+
+.sp-decision-banner.detain {
+  color: #a12626;
+  background: #fff0ef;
+}
+
+.sp-decision-banner.investigate {
+  color: #8a5a00;
+  background: #fff8e6;
+}
+
+.sp-decision-banner.prevent {
+  color: #1a628f;
+  background: #edf6fb;
+}
+
+@media (max-width: 700px) {
+  .sp-decision-banner {
+    grid-template-columns: auto 1fr;
+  }
+
+  .sp-decision-banner strong {
+    font-size: 18px;
+  }
+
+  .sp-decision-banner small {
+    grid-column: 2;
+  }
+}

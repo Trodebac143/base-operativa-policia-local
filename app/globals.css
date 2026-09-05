@@ -20,3 +20,34 @@
 .compact-collapsible-content[data-state="open"]{background:var(--aux-surface-open);border-top:1px solid var(--aux-border)}
 .compact-collapsible-content-inner{padding:0 14px 16px}
 @media(max-width:700px){.compact-collapsible-trigger{padding:14px 12px}.compact-collapsible-content-inner{padding-left:12px;padding-right:12px}}
+
+/* Sistema visual operativo compartido. */
+:root {
+  --ink: #16222e;
+  --navy: #0f2f52;
+  --navy-2: #163a66;
+  --blue: #1a6aa8;
+  --gold: #f2c14e;
+  --page-bg: #eef2f5;
+  --line: #d5dfe7;
+  --muted: #5b6d7d;
+  --paper: #ffffff;
+  --red: #9b2525;
+  --green: #0e7c4b;
+}
+
+html,
+body {
+  background: var(--page-bg);
+}
+
+body {
+  color: var(--ink);
+  font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}

@@ -62,13 +62,14 @@ test("la vista ofrece buscador y no hereda bloques genéricos fuera de la situac
   assert.doesNotMatch(`${drugsHtml}${agentsHtml}`, /SP-[A-Z0-9]|regla interna|resolvedor|valorar detención/);
 });
 
-test("las salidas procesales muestran una situación del autor y una continuación breves", async () => {
+test("la salida penal pide primero hechos objetivos y no anticipa una detención", async () => {
   const { SeguridadPublicaView } = await vite.ssrLoadModule("/app/seguridad-publica.tsx");
-  const detained = renderToStaticMarkup(React.createElement(SeguridadPublicaView, { block: "Autoridad y agentes", initialConceptId: "atentado", onBack() {} }));
-  assert.match(detained, /Situación del autor.*DETENCIÓN.*SÍ.*DETENIDO/is);
-  assert.match(detained, /Continuación de la actuación.*Solicitar presencia de CNP.*Entregar persona y actuaciones a CNP/is);
-  assert.match(detained, /Fundamento jurídico/);
-  assert.doesNotMatch(detained, /Ver derechos del detenido|Ver diligencias de la detención|Registro \/ comprobación/);
+  const pending = renderToStaticMarkup(React.createElement(SeguridadPublicaView, { block: "Autoridad y agentes", initialConceptId: "atentado", onBack() {} }));
+  assert.match(pending, /¿La persona ha sido sorprendida durante la comisión del hecho o inmediatamente después\?/i);
+  assert.match(pending, /Actuación inmediata/i);
+  assert.doesNotMatch(pending, /SITUACIÓN PROCESAL|DETENER|INVESTIGADO NO DETENIDO/i);
+  assert.match(pending, /Fundamento jurídico/);
+  assert.doesNotMatch(pending, /Ver derechos del detenido|Ver diligencias de la detención|Registro \/ comprobación|¿procede detener\?/i);
   const { resolveAuthorityOutcome } = await vite.ssrLoadModule("/data/seguridad-publica.ts");
   const investigated = resolveAuthorityOutcome("amenazas", "leve");
   assert.equal(investigated.situacion, "INVESTIGADO NO DETENIDO");

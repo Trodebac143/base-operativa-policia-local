@@ -1,0 +1,504 @@
+:root {
+  --module-animals: #188657;
+  --module-road: #1a6aa8;
+  --module-public: #7650aa;
+  --module-business: #ad7314;
+  --bottom-nav-height: 72px;
+}
+
+html {
+  scroll-padding-bottom: calc(var(--bottom-nav-height) + 24px);
+}
+
+body {
+  background: var(--page-bg);
+}
+
+button,
+a,
+input,
+select,
+summary {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+summary:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--blue) 38%, transparent);
+  outline-offset: 3px;
+}
+
+main {
+  min-height: 100vh;
+  padding-bottom: calc(var(--bottom-nav-height) + env(safe-area-inset-bottom));
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 24;
+  min-height: 78px;
+  background: linear-gradient(180deg, var(--navy), var(--navy-2));
+  border-bottom-color: var(--gold);
+  box-shadow: 0 5px 18px rgba(15, 47, 82, .18);
+}
+
+.brandmark {
+  width: 50px;
+  height: 50px;
+  color: var(--gold);
+  background: rgba(255, 255, 255, .08);
+  border-color: rgba(255, 255, 255, .38);
+  display: grid;
+  place-items: center;
+  font-size: 25px;
+}
+
+.brandmark svg {
+  width: 28px;
+  height: 28px;
+}
+
+.eyebrow {
+  color: var(--gold);
+}
+
+.topbar h1 span {
+  color: #d6e5f0;
+}
+
+.shell {
+  width: min(1080px, calc(100% - 32px));
+  margin: 24px auto 30px;
+}
+
+.library-link,
+.copy,
+.alcohol-back,
+.back {
+  min-height: 46px;
+}
+
+.library-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-width: 1.5px;
+  border-color: rgba(242, 193, 78, .72);
+  color: #fff1bf;
+}
+
+.library-link svg {
+  width: 18px;
+}
+
+.searchbox,
+.library-search,
+.sp-search {
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(15, 47, 82, .08);
+}
+
+.searchrow {
+  min-height: 58px;
+  height: auto;
+  border-radius: 12px;
+  background: #fbfcfd;
+}
+
+.searchrow svg {
+  width: 23px;
+  color: var(--blue);
+}
+
+.searchrow > b {
+  flex: 0 0 30px;
+  color: var(--blue);
+  font-size: 27px;
+  line-height: 1;
+  text-align: center;
+}
+
+.searchrow input {
+  min-height: 54px;
+  font-size: 17px;
+}
+
+.searchrow .search-clear {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #e6edf2;
+}
+
+.searchrow .search-clear svg {
+  width: 20px;
+}
+
+.intro p {
+  font-size: 23px;
+  color: var(--navy);
+}
+
+.modulegrid {
+  gap: 15px;
+}
+
+.modulecard {
+  --module-color: var(--blue);
+  --module-soft: #eaf3fa;
+  border: 1px solid var(--line);
+  border-top: 5px solid var(--module-color);
+  border-radius: 16px;
+  min-height: 124px;
+  padding: 19px;
+  box-shadow: 0 5px 16px rgba(15, 47, 82, .07);
+}
+
+.modulecard:hover {
+  border-color: var(--module-color);
+  box-shadow: 0 10px 26px rgba(15, 47, 82, .14);
+}
+
+.modulecard.module-animales {
+  --module-color: var(--module-animals);
+  --module-soft: #e8f5ee;
+}
+
+.modulecard.module-seguridad_vial {
+  --module-color: var(--module-road);
+  --module-soft: #e7f1f9;
+}
+
+.modulecard.module-seguridad_publica {
+  --module-color: var(--module-public);
+  --module-soft: #f0ebf7;
+}
+
+.modulecard.module-establecimientos_publicos {
+  --module-color: var(--module-business);
+  --module-soft: #fbf0dc;
+}
+
+.moduleicon {
+  width: 58px;
+  height: 58px;
+  border-radius: 14px;
+  color: var(--module-color);
+  background: var(--module-soft);
+  display: grid;
+  place-items: center;
+  font-size: 28px;
+}
+
+.moduleicon svg {
+  width: 31px;
+  height: 31px;
+}
+
+.modulecard strong {
+  font-size: 18px;
+}
+
+.modulecard em {
+  display: inline-flex;
+  width: fit-content;
+  border-radius: 999px;
+  padding: 5px 9px;
+  color: var(--module-color);
+  background: var(--module-soft);
+}
+
+.sectionhead {
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-left: 7px solid var(--section-accent, var(--blue));
+  border-radius: 13px;
+  background: var(--paper);
+  box-shadow: 0 4px 14px rgba(15, 47, 82, .05);
+}
+
+.module-view-animales { --section-accent: var(--module-animals); }
+.module-view-seguridad_vial { --section-accent: var(--module-road); }
+.module-view-seguridad_publica { --section-accent: var(--module-public); }
+.module-view-establecimientos_publicos { --section-accent: var(--module-business); }
+
+.listcards button,
+.library-list article,
+.sheet,
+.sp-sheet,
+.sp-block,
+.alcohol-card,
+.traffic-primary,
+.permit-block {
+  border-radius: 14px;
+  box-shadow: 0 5px 18px rgba(15, 47, 82, .06);
+}
+
+.listcards button {
+  min-height: 78px;
+  border-left: 5px solid var(--section-accent, var(--blue));
+}
+
+.sheettitle,
+.sp-sheet > header {
+  color: #fff;
+  background: linear-gradient(180deg, var(--navy), var(--navy-2));
+  border-bottom: 4px solid var(--gold);
+}
+
+.sheettitle h2,
+.sp-sheet > header h2,
+.sp-sheet > header p,
+.sp-sheet > header .kicker {
+  color: inherit;
+}
+
+.sheettitle .kicker,
+.sp-sheet > header .kicker {
+  color: var(--gold);
+}
+
+.sheettitle .copy {
+  color: #fff1bf;
+  border-color: var(--gold);
+  background: rgba(255, 255, 255, .08);
+}
+
+.sheettitle .copy:hover {
+  color: var(--navy);
+  background: var(--gold);
+}
+
+.library-list article {
+  justify-content: flex-start;
+}
+
+.library-document-icon {
+  flex: 0 0 48px;
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  color: var(--blue);
+  background: #e8f1f8;
+  border-radius: 12px;
+  font-size: 24px;
+}
+
+.library-document-icon svg {
+  width: 25px;
+}
+
+.library-document-copy {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.help-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 7px 24px rgba(15, 47, 82, .08);
+}
+
+.help-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  padding: 20px;
+}
+
+.help-grid article {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 16px;
+  background: #fbfcfd;
+}
+
+.help-grid h3 {
+  margin: 0 0 7px;
+  color: var(--navy);
+  font-size: 15px;
+}
+
+.help-grid p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.support-note {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin: 24px auto 8px;
+  padding: 13px 18px;
+  color: var(--muted);
+  background: transparent;
+  border: 0;
+}
+
+.support-note svg {
+  flex: 0 0 18px;
+  width: 18px;
+  color: #a66a05;
+}
+
+.support-note strong {
+  color: #7d5110;
+}
+
+.bottom-navigation {
+  position: fixed;
+  z-index: 40;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  min-height: var(--bottom-nav-height);
+  padding: 0 max(10px, calc((100vw - 1080px) / 2)) env(safe-area-inset-bottom);
+  background: rgba(15, 47, 82, .98);
+  border-top: 3px solid var(--gold);
+  box-shadow: 0 -7px 22px rgba(15, 47, 82, .2);
+  backdrop-filter: blur(8px);
+}
+
+.bottom-navigation button {
+  position: relative;
+  min-width: 0;
+  min-height: 69px;
+  border: 0;
+  background: transparent;
+  color: #d2e1ec;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  cursor: pointer;
+  font-weight: 750;
+}
+
+.bottom-navigation button + button {
+  border-left: 1px solid rgba(255, 255, 255, .07);
+}
+
+.bottom-navigation svg {
+  width: 23px;
+  height: 23px;
+}
+
+.bottom-navigation-icon {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  font-size: 23px;
+  line-height: 1;
+}
+
+.bottom-navigation span {
+  font-size: 12px;
+}
+
+.bottom-navigation button:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, .06);
+}
+
+.bottom-navigation button.active {
+  color: var(--gold);
+  background: rgba(242, 193, 78, .1);
+}
+
+.bottom-navigation button.active::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 28%;
+  right: 28%;
+  height: 4px;
+  border-radius: 0 0 5px 5px;
+  background: var(--gold);
+}
+
+@media (max-width: 700px) {
+  :root { --bottom-nav-height: 68px; }
+
+  .topbar {
+    min-height: 72px;
+  }
+
+  .topbar h1 span {
+    display: block;
+    margin-top: 2px;
+  }
+
+  .library-link {
+    width: auto;
+    margin-left: auto;
+    padding: 9px 10px;
+  }
+
+  .library-link span {
+    display: none;
+  }
+
+  .shell {
+    width: min(100% - 22px, 1080px);
+    margin-top: 16px;
+  }
+
+  .searchbox {
+    padding: 14px;
+  }
+
+  .modulecard {
+    min-height: 110px;
+    padding: 16px;
+  }
+
+  .moduleicon {
+    width: 52px;
+    height: 52px;
+  }
+
+  .help-grid {
+    grid-template-columns: 1fr;
+    padding: 14px;
+  }
+
+  .library-list article {
+    display: grid;
+    grid-template-columns: auto 1fr;
+  }
+
+  .library-list a {
+    grid-column: 1 / -1;
+    width: 100%;
+    text-align: center;
+  }
+
+  .support-note {
+    align-items: flex-start;
+    font-size: 12px;
+    line-height: 1.4;
+  }
+
+  .sp-mobile-actions {
+    bottom: calc(var(--bottom-nav-height) + env(safe-area-inset-bottom) + 2px);
+  }
+
+  .bottom-navigation button {
+    min-height: 65px;
+  }
+}

@@ -136,12 +136,12 @@ test("biblioteca y actualización conservan el modo seguro", async () => {
   assert.match(files[1], /no-store, no-cache, must-revalidate/);
 });
 
-test("biblioteca documental visible, consultable y sin controles de gestión", async () => {
+test("Biblioteca visible, consultable y sin controles de gestión", async () => {
   const { libraryDocuments } = await vite.ssrLoadModule("/data/documents.ts");
   assert.equal(libraryDocuments.length, 7);
   for (const document of libraryDocuments) await access(new URL(`../public/documentos/${document.archivo}`, import.meta.url));
   const page = await readFile(new URL("../app/page.tsx", import.meta.url), "utf8");
-  assert.match(page, /Biblioteca documental/); assert.match(page, /Buscar por título o nombre de archivo/); assert.match(page, /Abrir PDF/);
+  assert.match(page, /<h2>Biblioteca<\/h2>/); assert.match(page, /Buscar por título o nombre de archivo/); assert.match(page, /Abrir PDF/);
   assert.doesNotMatch(page, /subir documento|eliminar documento|sustituir archivo|reindexar|ejecutar.*python/i);
 });
 
