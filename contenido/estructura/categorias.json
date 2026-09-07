@@ -67,6 +67,14 @@
     "activo": true
   },
   {
+    "id": "seguridad_vial_vmp",
+    "modulo": "seguridad_vial",
+    "nombre": "🛴 VMP y VPL",
+    "descripcion": "Clasificación, documentación, seguro, técnica, circulación, alcohol y menores",
+    "orden": 50,
+    "activo": true
+  },
+  {
     "id": "seguridad_publica_drogas",
     "modulo": "seguridad_publica",
     "nombre": "Drogas",

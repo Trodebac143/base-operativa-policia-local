@@ -118,8 +118,8 @@
     "fuentes": [
       "TR-SOA-SRC-001",
       "TR-SOA-SRC-003",
-      "TR-SOA-SRC-004",
-      "TR-SOA-SRC-008"
+      "TR-ITV-SRC-001",
+      "TR-ITV-SRC-007"
     ],
     "fichas_juridicas": [
       "TR-SOA-FJ-001",
@@ -244,8 +244,8 @@
     },
     "fuentes": [
       "TR-SOA-SRC-001",
-      "TR-SOA-SRC-004",
-      "TR-SOA-SRC-008"
+      "TR-ITV-SRC-001",
+      "TR-ITV-SRC-007"
     ],
     "fichas_juridicas": [
       "TR-SOA-FJ-001",
@@ -313,7 +313,7 @@
       "TR-SOA-SRC-001",
       "TR-SOA-SRC-002",
       "TR-SOA-SRC-006",
-      "TR-SOA-SRC-004"
+      "TR-ITV-SRC-001"
     ],
     "fichas_juridicas": [
       "TR-SOA-FJ-003",
@@ -380,7 +380,7 @@
       "TR-SOA-SRC-001",
       "TR-SOA-SRC-002",
       "TR-SOA-SRC-006",
-      "TR-SOA-SRC-004"
+      "TR-ITV-SRC-001"
     ],
     "fichas_juridicas": [
       "TR-SOA-FJ-003",
@@ -449,7 +449,7 @@
       "TR-SOA-SRC-005",
       "TR-SOA-SRC-006",
       "TR-SOA-SRC-007",
-      "TR-SOA-SRC-004"
+      "TR-ITV-SRC-001"
     ],
     "fichas_juridicas": [
       "TR-SOA-FJ-004",
@@ -517,7 +517,7 @@
       "TR-SOA-SRC-005",
       "TR-SOA-SRC-006",
       "TR-SOA-SRC-007",
-      "TR-SOA-SRC-004"
+      "TR-ITV-SRC-001"
     ],
     "fichas_juridicas": [
       "TR-SOA-FJ-004",

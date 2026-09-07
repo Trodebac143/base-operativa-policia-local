@@ -129,20 +129,21 @@ test("el árbol histórico no tiene acceso, navegación ni componente visible", 
 });
 
 test("biblioteca y actualización conservan el modo seguro", async () => {
-  const files = await Promise.all(["app/page.tsx", "worker/index.ts", "data/itv.ts", "data/seguro.ts"].map((name) => readFile(new URL(`../${name}`, import.meta.url), "utf8")));
+  const files = await Promise.all(["app/page.tsx", "app/library-view.tsx", "worker/index.ts", "data/itv.ts", "data/seguro.ts"].map((name) => readFile(new URL(`../${name}`, import.meta.url), "utf8")));
   const surface = files.join("\n");
   assert.doesNotMatch(surface, /reindexar|reindexación|ejecutar.*python|subir documento|eliminar documento|sustituir archivo/i);
   assert.doesNotMatch(surface, /localStorage\.(?:clear|removeItem)/);
-  assert.match(files[1], /no-store, no-cache, must-revalidate/);
+  assert.match(files[2], /no-store, no-cache, must-revalidate/);
 });
 
 test("Biblioteca visible, consultable y sin controles de gestión", async () => {
   const { libraryDocuments } = await vite.ssrLoadModule("/data/documents.ts");
-  assert.equal(libraryDocuments.length, 7);
+  assert.equal(libraryDocuments.length, 8);
+  assert.ok(libraryDocuments.some((document) => document.archivo === "Manual Intervención VMP.pdf"));
   for (const document of libraryDocuments) await access(new URL(`../public/documentos/${document.archivo}`, import.meta.url));
-  const page = await readFile(new URL("../app/page.tsx", import.meta.url), "utf8");
-  assert.match(page, /<h2>Biblioteca<\/h2>/); assert.match(page, /Buscar por título o nombre de archivo/); assert.match(page, /Abrir PDF/);
-  assert.doesNotMatch(page, /subir documento|eliminar documento|sustituir archivo|reindexar|ejecutar.*python/i);
+  const libraryView = await readFile(new URL("../app/library-view.tsx", import.meta.url), "utf8");
+  assert.match(libraryView, /<h2>Biblioteca<\/h2>/); assert.match(libraryView, /Buscar por título o nombre de archivo/); assert.match(libraryView, /Abrir documento/);
+  assert.doesNotMatch(libraryView, /subir documento|eliminar documento|sustituir archivo|reindexar|ejecutar.*python/i);
 });
 
 test("la carencia comprobada de seguro resuelve circulación prohibida, inmovilización y depósito", async () => {

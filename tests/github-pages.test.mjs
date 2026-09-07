@@ -13,12 +13,13 @@ test("GitHub Pages usa exportación estática y un basePath calculado", async ()
 
 test("los recursos públicos se resuelven mediante un único helper", async () => {
   const helper = await readFile(new URL("../lib/public-path.ts", import.meta.url), "utf8");
-  const page = await readFile(new URL("../app/page.tsx", import.meta.url), "utf8");
+  const libraryView = await readFile(new URL("../app/library-view.tsx", import.meta.url), "utf8");
   const layout = await readFile(new URL("../app/layout.tsx", import.meta.url), "utf8");
   assert.match(helper, /NEXT_PUBLIC_BASE_PATH/);
-  assert.match(page, /publicPath\(`\/documentos\/\$\{document\.archivo\}`\)/);
+  assert.match(libraryView, /publicPath\(`\/documentos\/\$\{document\.archivo\}`\)/);
+  assert.match(libraryView, /publicPath\(`\/documentos\/\$\{source\.documentoLocal\}`\)/);
   assert.match(layout, /publicPath\("\/favicon\.svg"\)/);
-  assert.doesNotMatch(page, /encodeURI\(`\/documentos\//);
+  assert.doesNotMatch(libraryView, /encodeURI\(`\/documentos\//);
 });
 
 test("el workflow utiliza las acciones oficiales de GitHub Pages", async () => {

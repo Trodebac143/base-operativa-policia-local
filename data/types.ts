@@ -5,8 +5,15 @@ export type Rule = { id: string; nombre: string; tipo: string; contenido: string
 export type Source = {
   id: string;
   nombre: string;
+  nombreCorto?: string;
   tipo?: string;
   ambito?: string;
+  organismo?: string;
+  urlOficial?: string;
+  documentoLocal?: string;
+  referencias?: string[];
+  preceptos?: string[];
+  uso?: string;
   /** Metadatos de mantenimiento: se conservan en el repositorio y no se renderizan. */
   clasificacion_repositorio?: string;
   estado_vigencia_auditoria?: string;

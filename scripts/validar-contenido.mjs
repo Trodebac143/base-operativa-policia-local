@@ -47,6 +47,8 @@ const trafficMeasurePlans = load("contenido/seguridad_vial/medidas_por_caso.json
 const itvTree = load("contenido/seguridad_vial/itv/arbol.json");
 const seguroTree = load("contenido/seguridad_vial/seguro/arbol.json");
 const seguridadPublica = load("contenido/seguridad_publica/operativa.json");
+const vmpGuide = load("contenido/seguridad_vial/vmp/guia.json");
+const alcoholemia = load("contenido/seguridad_vial/alcoholemia.json");
 
 const moduleIds = duplicateIds(modules, "Módulos");
 const categoryIds = duplicateIds(categories, "Categorías");
@@ -59,6 +61,72 @@ const penalIds = duplicateIds(penal, "Preceptos penales");
 const measureIds = duplicateIds([...trafficMeasures, ...itvMeasures, ...seguroMeasures], "Medidas");
 const cases = [...animals, ...itv, ...seguro, ...permisos];
 const caseIds = duplicateIds(cases, "Casos");
+
+const normalizeSourceReference = (value) => value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+const sourceReferenceIndex = new Map();
+for (const source of sources) {
+  if (!source.nombre) errors.push(`Fuente ${source.id}: falta nombre`);
+  for (const reference of [source.id, source.nombre, source.nombreCorto, ...(source.referencias ?? [])]) {
+    if (!reference) continue;
+    const normalized = normalizeSourceReference(reference);
+    const previous = sourceReferenceIndex.get(normalized);
+    if (previous && previous !== source.id) errors.push(`Fuentes: referencia ambigua "${reference}" en ${previous} y ${source.id}`);
+    else sourceReferenceIndex.set(normalized, source.id);
+  }
+  if (source.urlOficial) {
+    try {
+      const url = new URL(source.urlOficial);
+      if (!["http:", "https:"].includes(url.protocol)) errors.push(`Fuente ${source.id}: urlOficial debe ser HTTP(S)`);
+    } catch {
+      errors.push(`Fuente ${source.id}: urlOficial no válida`);
+    }
+  }
+  if (source.documentoLocal) {
+    if (!fs.existsSync(path.join(root, "public", "documentos", source.documentoLocal))) errors.push(`Fuente ${source.id}: no existe public/documentos/${source.documentoLocal}`);
+    if (!documents.some((document) => document.archivo === source.documentoLocal)) errors.push(`Fuente ${source.id}: documentoLocal no está registrado en Biblioteca`);
+  }
+}
+
+const sourceReferenceKeys = new Set(["sourceId", "fuenteId", "source_id", "fuente_id", "sources", "fuentes", "fuente_manual", "fuentes_v3", "fuentes_juridicas_validadas"]);
+const sourceReferenceUsage = new Map(sources.map((source) => [source.id, 0]));
+function validateSourceReferences(value, label, key = "") {
+  if (typeof value === "string") {
+    if (sourceReferenceKeys.has(key)) {
+      const resolvedId = sourceReferenceIndex.get(normalizeSourceReference(value));
+      if (!resolvedId) errors.push(`${label}: fuente inexistente ${value}`);
+      else sourceReferenceUsage.set(resolvedId, (sourceReferenceUsage.get(resolvedId) ?? 0) + 1);
+    }
+    return;
+  }
+  if (Array.isArray(value)) {
+    if (sourceReferenceKeys.has(key)) {
+      for (const reference of value) {
+        if (typeof reference !== "string") errors.push(`${label}: la lista ${key} debe contener solo referencias de fuente`);
+        else validateSourceReferences(reference, label, key);
+      }
+    } else {
+      for (const entry of value) validateSourceReferences(entry, label, key);
+    }
+    return;
+  }
+  if (value && typeof value === "object") {
+    for (const [childKey, childValue] of Object.entries(value)) validateSourceReferences(childValue, label, childKey);
+  }
+}
+
+for (const [label, value] of [
+  ["Animales", animals],
+  ["Seguridad Vial/ITV", itv],
+  ["Seguridad Vial/Seguro", seguro],
+  ["Seguridad Vial/Permisos", permisos],
+  ["Reglas comunes", rules],
+  ["Reglas de permisos", permisosRules],
+  ["Fichas de permisos", permisosSheets],
+  ["Preceptos penales", penal],
+  ["Seguridad Pública", seguridadPublica],
+  ["VMP/VPL", vmpGuide],
+  ["Alcoholemia", alcoholemia],
+]) validateSourceReferences(value, label);
 
 for (const category of categories) if (!moduleIds.has(category.modulo)) errors.push(`Categoría ${category.id}: módulo desconocido ${category.modulo}`);
 
@@ -152,6 +220,31 @@ else {
   if (!seguridadPublica.comunes?.registros || seguridadPublica.comunes.registros.length !== 4) errors.push("Seguridad Pública: faltan las cuatro chuletas de registro");
 }
 
+if (!vmpGuide || Array.isArray(vmpGuide) || !Array.isArray(vmpGuide.areas)) errors.push("VMP/VPL: estructura operativa no válida");
+else {
+  if (vmpGuide.categoria !== "seguridad_vial_vmp" || !categoryIds.has(vmpGuide.categoria)) errors.push("VMP/VPL: categoría no enlazada");
+  const expectedVmpAreas = ["Identificar / clasificar vehículo", "Certificado, registro e identificación", "Seguro obligatorio", "Requisitos técnicos / modificaciones", "Normas de circulación", "Alcohol y drogas", "Menores de edad"];
+  if (vmpGuide.areas.length !== 7) errors.push(`VMP/VPL: se esperaban 7 áreas y hay ${vmpGuide.areas.length}`);
+  if (vmpGuide.areas.some((area) => area.id === "inmovilizacion")) errors.push("VMP/VPL: la inmovilización no puede ser un área de entrada");
+  if (vmpGuide.areas.map((area) => area.titulo).join("|") !== expectedVmpAreas.join("|")) errors.push("VMP/VPL: títulos u orden de las siete áreas incorrectos");
+  duplicateIds(vmpGuide.areas, "Áreas VMP/VPL");
+  if (!sourceIds.has(vmpGuide.fuente_manual)) errors.push(`VMP/VPL: fuente inexistente ${vmpGuide.fuente_manual}`);
+  if (vmpGuide.documentacion?.infracciones?.length !== 3) errors.push("VMP/VPL: catálogo documental incompleto");
+  if (vmpGuide.tecnica?.infracciones?.length !== 3) errors.push("VMP/VPL: catálogo técnico incompleto");
+  if (!Array.isArray(vmpGuide.circulacion?.infracciones) || vmpGuide.circulacion.infracciones.length < 15) errors.push("VMP/VPL: catálogo de circulación incompleto");
+  if (!Array.isArray(vmpGuide.casos_practicos) || vmpGuide.casos_practicos.length !== 8) errors.push("VMP/VPL: deben existir exactamente 8 casos prácticos");
+  else {
+    duplicateIds(vmpGuide.casos_practicos, "Casos prácticos VMP/VPL");
+    for (const item of vmpGuide.casos_practicos) {
+      for (const field of ["situacion", "datos_clave", "que_comprobar", "por_que", "hechos"]) if (!item[field]) errors.push(`VMP/VPL/${item.id}: falta ${field}`);
+      const stored = JSON.stringify(item.hechos);
+      if (/"(?:codigo|articulo|importe|reducido|inmovilizacion|deposito)"\s*:/i.test(stored)) errors.push(`VMP/VPL/${item.id}: duplica sanciones o medidas fuera del motor común`);
+    }
+  }
+  const referencedSeguroCases = Object.values(vmpGuide.seguro ?? {}).flatMap((value) => value && typeof value === "object" ? Object.values(value) : []).filter((value) => typeof value === "string" && value.startsWith("TR-SOA-OP-"));
+  for (const caseId of referencedSeguroCases) if (!caseIds.has(caseId)) errors.push(`VMP/VPL: caso común de Seguro inexistente ${caseId}`);
+}
+
 for (const doc of documents) {
   if (!doc.titulo || !doc.archivo) errors.push(`Biblioteca: documento incompleto (${doc.titulo ?? "sin título"})`);
   else if (!fs.existsSync(path.join(root, "public", "documentos", doc.archivo))) errors.push(`Biblioteca: no existe public/documentos/${doc.archivo}`);
@@ -159,7 +252,9 @@ for (const doc of documents) {
 
 notes.push(`${cases.length} casos: ${animals.length} Animales + ${itv.length} ITV + ${seguro.length} Seguro + ${permisos.length} Permisos`);
 notes.push(`${sources.length} fuentes jurídicas · ${documents.length} documentos de biblioteca`);
+notes.push(`${[...sourceReferenceUsage.values()].filter(Boolean).length} fuentes referenciadas por contenido activo · ${sources.filter((source) => source.urlOficial).length} con URL oficial · ${sources.filter((source) => source.documentoLocal).length} con documento local`);
 notes.push(`Seguridad Pública: ${seguridadPublica?.conceptos?.length ?? 0} conceptos operativos`);
+notes.push(`VMP/VPL: ${vmpGuide?.areas?.length ?? 0} áreas operativas · ${vmpGuide?.casos_practicos?.length ?? 0} casos prácticos · ${vmpGuide?.circulacion?.infracciones?.length ?? 0} reglas de circulación`);
 
 if (errors.length) {
   console.error("\n❌ CONTENIDO NO VÁLIDO\n");

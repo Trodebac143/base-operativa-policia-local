@@ -24,6 +24,6 @@ test("la barra fija reserva espacio, respeta safe-area y mantiene objetivos tác
   const fs = await import("node:fs");
   const css = fs.readFileSync(new URL("../app/operational-ui.css", import.meta.url), "utf8");
   assert.match(css, /\.bottom-navigation\s*\{[^}]*position:\s*fixed[^}]*bottom:\s*0/is);
-  assert.match(css, /padding-bottom:\s*calc\(var\(--bottom-nav-height\)\s*\+\s*env\(safe-area-inset-bottom\)\)/i);
+  assert.match(css, /padding-bottom:\s*calc\(var\(--bottom-nav-height\)\s*\+\s*var\(--project-signature-space,\s*0px\)\s*\+\s*env\(safe-area-inset-bottom\)\)/i);
   assert.match(css, /\.bottom-navigation button\s*\{[^}]*min-height:\s*69px/is);
 });

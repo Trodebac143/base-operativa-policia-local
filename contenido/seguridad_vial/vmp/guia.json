@@ -1,0 +1,101 @@
+{
+  "id": "TR-VMP-GUIDE-001",
+  "categoria": "seguridad_vial_vmp",
+  "titulo": "VMP y VPL",
+  "subtitulo": "Clasificación factual y respuesta operativa en servicio",
+  "fuente_manual": "TR-VMP-SRC-001",
+  "fecha_referencia": "2026-09-07",
+  "areas": [
+    { "id": "clasificacion", "icono": "◎", "titulo": "Identificar / clasificar vehículo", "descripcion": "Una plaza, asiento, autoequilibrado, masa y velocidad de fábrica", "orden": 10 },
+    { "id": "documentacion", "icono": "▤", "titulo": "Certificado, registro e identificación", "descripcion": "Aplica la absorción 5A → 5B → 5C sin duplicar denuncias", "orden": 20 },
+    { "id": "seguro", "icono": "◈", "titulo": "Seguro obligatorio", "descripcion": "Acceso al criterio común SDA/SOA según la clasificación", "orden": 30 },
+    { "id": "tecnica", "icono": "⚙", "titulo": "Requisitos técnicos / modificaciones", "descripcion": "Manipulación, defectos y vehículos fuera de la definición VMP", "orden": 40 },
+    { "id": "circulacion", "icono": "↗", "titulo": "Normas de circulación", "descripcion": "Catálogo codificado con entradas en vigor controladas por fecha", "orden": 50 },
+    { "id": "alcohol", "icono": "∑", "titulo": "Alcohol y drogas", "descripcion": "Abre la calculadora común con la rama VMP preseleccionada", "orden": 60 },
+    { "id": "menores", "icono": "◇", "titulo": "Menores de edad", "descripcion": "Tasa 0,0 y regla de edad desde el 01/10/2026", "orden": 70 }
+  ],
+  "clasificacion": {
+    "aviso": "Clasificar por características reales de fábrica, no por apariencia ni por la información aislada de Tráfico.",
+    "categoria_a": "Una plaza, propulsión eléctrica y requisitos VMP: hasta 25 kg a 6–25 km/h, o más de 25 kg a 6–14 km/h.",
+    "categoria_b": "Más de 25 kg y velocidad de fábrica superior a 14 y hasta 25 km/h. Vehículo a motor únicamente a efectos del seguro.",
+    "no_vmp": "No es VMP si supera 25 km/h de fábrica, tiene más de una plaza o lleva asiento sin sistema de autoequilibrado, entre otros supuestos excluyentes.",
+    "modificacion": "Si el vehículo salió de fábrica con velocidad VMP y después fue manipulado, conserva la clasificación original. Tramitar el incumplimiento técnico; no convertirlo automáticamente en ciclomotor.",
+    "datos_minimos": [
+      "Número de identificación o matrícula; comprobar coincidencia con la placa.",
+      "Número de serie y número de certificado de la placa de marcaje.",
+      "Masa en orden de marcha, velocidad máxima de fábrica, marca y modelo.",
+      "Fotografías del vehículo, placa y elementos modificados.",
+      "Si no consta en el registro, pesar o consultar al fabricante y verificar prestaciones reales."
+    ]
+  },
+  "documentacion": {
+    "fin_transitorio": "2027-01-22",
+    "comercializacion_corte": "2024-01-22",
+    "aviso_transitorio": "El repositorio conserva el criterio ya validado: los comercializados antes del 22/01/2024 pueden circular e inscribirse hasta el 22/01/2027 sin certificado.",
+    "infracciones": [
+      { "id": "5A", "codigo": "VEH.22.B-2.5A", "titulo": "No disponer de certificado de circulación", "calificacion": "Grave", "importe": 200, "reducido": 100, "absorbe": ["5B", "5C"] },
+      { "id": "5B", "codigo": "VEH.22.B-2.5B", "titulo": "No inscribir el VMP en el Registro Nacional de Vehículos", "calificacion": "Leve", "importe": 100, "reducido": 50, "absorbe": ["5C"] },
+      { "id": "5C", "codigo": "VEH.22.B-2.5C", "titulo": "No disponer o exhibir etiqueta identificativa o placa de marcaje", "calificacion": "Leve", "importe": 80, "reducido": 40, "absorbe": [] }
+    ]
+  },
+  "seguro": {
+    "categoria_a_casos": { "circulando": "TR-SOA-OP-005", "carecer": "TR-SOA-OP-006" },
+    "categoria_b_casos": { "circulando": "TR-SOA-OP-003", "carecer": "TR-SOA-OP-004" },
+    "sin_denuncia": "NO DENUNCIABLE POR SEGURO. Falta al menos un requisito previo del régimen SDA; tramitar, cuando proceda, la infracción documental resultante.",
+    "no_vmp": "No aplicar SOA por apariencia. Usar la clase que figure en la ficha técnica o informe y continuar por su régimen real."
+  },
+  "tecnica": {
+    "infracciones": [
+      { "id": "5D", "codigo": "VEH.22.B-2.5D", "articulo": "Anexo XXI RGV", "titulo": "Manipulación del limitador o modificación estructural que afecta gravemente a la seguridad", "descripcion_operativa": "No cumplir los requisitos técnicos por manipulación o modificación grave", "calificacion": "Muy grave", "importe": 500, "reducido": 250, "inmovilizacion": true, "informe": true },
+      { "id": "5E", "codigo": "VEH.22.B-2.5E", "titulo": "Incumplimiento grave: iluminación, ruedas, frenos u otro requisito grave", "calificacion": "Grave", "importe": 200, "reducido": 100, "inmovilizacion": false, "informe": false },
+      { "id": "5F", "codigo": "VEH.22.B-2.5F", "titulo": "Incumplimiento leve: avisador acústico, pata de cabra u otro requisito leve", "calificacion": "Leve", "importe": 80, "reducido": 40, "inmovilizacion": false, "informe": false }
+    ],
+    "no_vmp_no_matriculable": { "id": "NO_MATRICULABLE", "codigo": "VEH.1.1.5B", "articulo": "Art. 1 RGV", "titulo": "Carecer de autorización administrativa para circular en el supuesto no matriculable validado", "descripcion_operativa": "Carecer de autorización administrativa para circular", "calificacion": "Muy grave", "importe": 500, "reducido": 250 },
+    "comprobaciones": ["Avisador acústico", "Sistema de frenado", "Luz de freno", "Iluminación delantera y trasera", "Ruedas y estado estructural", "Limitador y velocidad real", "Velocidad máxima de fabricación", "Modificaciones posteriores respecto de fábrica"],
+    "medidas": {
+      "acta": "El vehículo queda INMOVILIZADO en el domicilio del titular, bajo su responsabilidad, y se compromete a NO CIRCULAR por la vía pública hasta subsanar el incumplimiento de los requisitos técnicos.",
+      "actuacion_base": ["Documentar masa, velocidad máxima de fábrica, marca, modelo, número de serie y certificado.", "Informar de que no puede circular hasta subsanar la causa cuando se adopte la inmovilización."],
+      "5D": { "inmovilizacion": true, "deposito": false, "informe": true, "fotografias": true, "diligencias": false },
+      "5E": { "inmovilizacion": false, "deposito": false, "informe": false, "fotografias": false, "diligencias": false },
+      "5F": { "inmovilizacion": false, "deposito": false, "informe": false, "fotografias": false, "diligencias": false },
+      "NO_MATRICULABLE": { "inmovilizacion": true, "deposito": false, "informe": true, "fotografias": true, "diligencias": true }
+    }
+  },
+  "circulacion": {
+    "infracciones": [
+      { "id": "casco_estado", "codigo": "Art. 18.1 O.O.M.M", "titulo": "Circular sin casco protector", "calificacion": "Grave", "importe": 200, "reducido": 100, "vigente_desde": "2026-10-01" },
+      { "id": "casco_local", "codigo": "Art. 39.2.4 O.O.M.M", "titulo": "No utilizar adecuadamente casco homologado o certificado", "calificacion": "Grave", "importe": 200, "reducido": 100, "vigente_desde": "2026-10-01" },
+      { "id": "pasajero", "codigo": "Art. 23.3.0 O.O.M.M", "titulo": "Transportar a otra persona en un vehículo de una plaza", "calificacion": "Grave", "importe": 200, "reducido": 100 },
+      { "id": "carga_disposicion", "codigo": "Art. 23.5.0 O.O.M.M", "titulo": "Disponer la carga de forma distinta a la establecida", "calificacion": "Leve", "importe": 80, "reducido": 40 },
+      { "id": "carga_proyeccion", "codigo": "Art. 15.1.5A RGCIR", "titulo": "Carga que sobresale de la proyección en planta", "calificacion": "Leve", "importe": 80, "reducido": 40 },
+      { "id": "carga_riesgo", "codigo": "Art. 14.1.A.5A RGCIR", "titulo": "Carga que puede arrastrar, caer o desplazarse", "calificacion": "Grave", "importe": 200, "reducido": 100 },
+      { "id": "carga_peligro", "codigo": "Art. 14.1.B.5D RGCIR", "titulo": "Carga caída que crea grave peligro", "calificacion": "Muy grave", "importe": 500, "reducido": 250 },
+      { "id": "reflectante", "codigo": "Art. 18.3.0 O.O.M.M", "titulo": "Carecer o no usar chaleco o elemento reflectante", "calificacion": "Leve", "importe": 80, "reducido": 40, "vigente_desde": "2026-10-01" },
+      { "id": "auriculares", "codigo": "Art. 24.2 O.O.M.M", "titulo": "Conducir utilizando auriculares conectados a aparatos de sonido", "calificacion": "Grave", "importe": 200, "reducido": 100 },
+      { "id": "iluminacion", "codigo": "Art. 24.8 O.O.M.M", "titulo": "Circular sin iluminación o con elementos no homologados", "calificacion": "Grave", "importe": 200, "reducido": 100, "vigente_desde": "2027-10-01" },
+      { "id": "movil_mano", "codigo": "Art. 39.2.9 O.O.M.M", "titulo": "Utilizar un dispositivo de telefonía móvil sujetándolo con la mano", "calificacion": "Grave", "importe": 200, "reducido": 100 },
+      { "id": "movil_cabeza", "codigo": "Art. 39 O.O.M.M", "titulo": "Usar dispositivos ajustados entre la cabeza y el casco o de forma manual", "calificacion": "Grave", "importe": 200, "reducido": 100 },
+      { "id": "pantallas", "codigo": "Art. 24.1 O.O.M.M", "titulo": "Utilizar pantallas visuales incompatibles con la atención permanente", "calificacion": "Grave", "importe": 200, "reducido": 100 },
+      { "id": "aceras", "codigo": "Art. 39.bis O.O.M.M", "titulo": "Circular por travesía, interurbana, túneles urbanos, aceras o zonas peatonales", "calificacion": "Grave", "importe": 200, "reducido": 100 },
+      { "id": "brazo", "codigo": "Art. 12.2 O.O.M.M", "titulo": "Cambio de sentido sin cumplir las disposiciones", "calificacion": "Leve", "importe": 80, "reducido": 40, "vigente_desde": "2026-10-01" }
+    ]
+  },
+  "menores": {
+    "edad_minima": 15,
+    "vigente_desde": "2026-10-01",
+    "regla": "Desde el 01/10/2026 está prohibido circular con VMP siendo menor de 15 años.",
+    "datos_responsable": "Recoger siempre los datos del responsable legal; responde solidariamente conforme al art. 82.b LSV.",
+    "alcohol": "En menores la tasa es 0,0 mg/L. Usar la calculadora común de Alcoholemia con vehículo VMP y conductor menor."
+  },
+  "casos_practicos": [
+    { "id": "vpl-regularizado-sin-seguro", "titulo": "VPL regularizado circulando sin seguro", "situacion": "VPL con toda la documentación previa, sin seguro y circulando.", "datos_clave": ["MOM 14 kg", "Vmax fábrica 25 km/h", "Certificado, inscripción y etiqueta: sí", "Seguro: no", "Circulaba: sí"], "que_comprobar": ["Número identificativo o de serie", "Coincidencia documental", "Vigencia del seguro"], "por_que": "Cumple la definición VPL y los requisitos previos del régimen SDA.", "hechos": { "clasificacion": { "mass": 14, "factoryMaxSpeed": 25, "modified": false }, "documentacion": { "marketedBeforeCutoff": false, "hasCertificate": true, "registered": true, "hasIdentificationLabel": true, "hasMarkingPlate": true }, "seguro": { "insured": false, "circulating": true } } },
+    { "id": "vpl-asegurado-sin-etiqueta", "titulo": "VPL asegurado pero sin etiqueta identificativa", "situacion": "VPL documentado y asegurado que no porta la etiqueta exigible.", "datos_clave": ["MOM 15 kg", "Vmax fábrica 25 km/h", "Certificado e inscripción: sí", "Etiqueta: no", "Seguro: sí"], "que_comprobar": ["Certificado", "Inscripción", "Etiqueta y placa de marcaje"], "por_que": "El seguro está en vigor, pero falta un elemento documental independiente.", "hechos": { "clasificacion": { "mass": 15, "factoryMaxSpeed": 25, "modified": false }, "documentacion": { "marketedBeforeCutoff": false, "hasCertificate": true, "registered": true, "hasIdentificationLabel": false, "hasMarkingPlate": true }, "seguro": { "insured": true, "circulating": true } } },
+    { "id": "vmp-nuevo-sin-certificado", "titulo": "VMP de nueva comercialización sin certificado", "situacion": "Vehículo comercializado en 2025 sin certificado.", "datos_clave": ["MOM 16 kg", "Vmax fábrica 25 km/h", "Comercialización 2025", "Certificado: no"], "que_comprobar": ["Fecha de comercialización", "Certificado", "Inscripción e identificación"], "por_que": "Fuera del régimen transitorio, la primera carencia documental absorbe las posteriores.", "hechos": { "clasificacion": { "mass": 16, "factoryMaxSpeed": 25, "modified": false }, "documentacion": { "marketedBeforeCutoff": false, "hasCertificate": false, "registered": false, "hasIdentificationLabel": false, "hasMarkingPlate": false }, "seguro": { "insured": false, "circulating": true } } },
+    { "id": "vmp-certificado-no-inscrito", "titulo": "VMP certificado pero no inscrito", "situacion": "VPL certificado, sin inscripción, sin etiqueta y sin seguro.", "datos_clave": ["MOM 12 kg", "Vmax fábrica 23 km/h", "Certificado: sí", "Inscripción y etiqueta: no", "Seguro: no"], "que_comprobar": ["Certificado", "Consulta RNV/RVPL", "Etiqueta"], "por_que": "La falta de inscripción absorbe la identificación y además impide la denuncia SDA.", "hechos": { "clasificacion": { "mass": 12, "factoryMaxSpeed": 23, "modified": false }, "documentacion": { "marketedBeforeCutoff": false, "hasCertificate": true, "registered": false, "hasIdentificationLabel": false, "hasMarkingPlate": true }, "seguro": { "insured": false, "circulating": true } } },
+    { "id": "vmp-antiguo-no-inscrito", "titulo": "VMP antiguo sin inscripción obligatoria", "situacion": "Vehículo de 2022 sin certificado ni inscripción durante el régimen transitorio.", "datos_clave": ["MOM 13 kg", "Vmax fábrica 25 km/h", "Comercializado en 2022", "Certificado e inscripción: no"], "que_comprobar": ["Fecha de comercialización", "Consulta RNV/RVPL", "Identificación temporal"], "por_que": "MORATORIA DEL CERTIFICADO ≠ MORATORIA DE INSCRIPCIÓN.", "hechos": { "clasificacion": { "mass": 13, "factoryMaxSpeed": 25, "modified": false }, "documentacion": { "marketedBeforeCutoff": true, "hasCertificate": false, "registered": false, "hasIdentificationLabel": false, "hasMarkingPlate": false }, "seguro": { "insured": false, "circulating": true } } },
+    { "id": "vmp-motor-sin-seguro", "titulo": "VMP de más de 25 kg y más de 14 km/h sin seguro", "situacion": "VMP pesado, sin seguro y circulando.", "datos_clave": ["MOM 28,5 kg", "Vmax fábrica 25 km/h", "Seguro: no", "Circulaba: sí"], "que_comprobar": ["MOM", "Velocidad máxima de fabricación", "Vigencia del seguro"], "por_que": "Es vehículo a motor a efectos del seguro y el SOA no depende de su documentación VMP.", "hechos": { "clasificacion": { "mass": 28.5, "factoryMaxSpeed": 25, "modified": false }, "seguro": { "insured": false, "circulating": true } } },
+    { "id": "vmp-manipulado", "titulo": "VMP manipulado / deslimitado", "situacion": "VMP cuya velocidad original era definitoria y que después fue manipulado.", "datos_clave": ["MOM 15 kg", "Vmax original 25 km/h", "Velocidad detectada 38 km/h", "Manipulación acreditada"], "que_comprobar": ["Velocidad máxima de fabricación", "Manipulación posterior", "Elementos alterados"], "por_que": "La velocidad actual por manipulación no equivale a la velocidad máxima de fabricación.", "hechos": { "clasificacion": { "mass": 15, "factoryMaxSpeed": 25, "modified": true, "observedMaxSpeed": 38 }, "tecnica": "5D" } },
+    { "id": "fabrica-superior-25", "titulo": "Vehículo con velocidad superior a 25 km/h de fábrica", "situacion": "Dos ejemplos que quedan fuera de la definición VMP desde fábrica.", "datos_clave": ["Ejemplo A: MOM 20 kg y Vmax fábrica 60 km/h", "Ejemplo B: MOM 40 kg y Vmax fábrica 80 km/h"], "que_comprobar": ["Ficha o informe técnico", "Encaje en Reglamento UE 168/2013", "Si se acredita que no es matriculable"], "por_que": "Primero se excluye VMP; después se determina la clase real sin asignarla por apariencia.", "hechos": { "variantes": [{ "mass": 20, "factoryMaxSpeed": 60, "modified": false }, { "mass": 40, "factoryMaxSpeed": 80, "modified": false }] } }
+  ],
+  "incidencias": ["El material facilitado no contiene criterios fácticos suficientes para decidir automáticamente si cualquier vehículo no VMP entra en el Reglamento UE 168/2013. La aplicación exige ficha o informe técnico y no inventa esa clasificación."]
+}

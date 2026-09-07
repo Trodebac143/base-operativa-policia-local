@@ -51,7 +51,7 @@ type AlcoholemiaContent = {
   resultado_operativo_agrupado: Array<{ id: string; titulo: string; color: string; regla: string; advertencia?: string; incluye?: string; actuacion?: string[] }>;
   practica_pruebas: { segunda_prueba: string; intervalo: string; derechos: string[] };
   medidas_vehiculo: { regla: string; referencia: string; especifica_rgc_25: string[] };
-  fuentes_juridicas_validadas: Array<{ id: string; nombre: string; preceptos: string[]; uso: string }>;
+  fuentes_juridicas_validadas: string[];
   tabla_sancion_administrativa: { regla_general: string; multa_base_euros: number; multa_agravada_euros: number; multa_agravada_cuando: string[]; puntos: { general: Array<{ rango: string; puntos: number }>; profesional_novel: Array<{ rango: string; puntos: number }>; menor: { regla: string; implementacion_v1: string } } };
   selector_vehiculo: { titulo: string; ubicacion: string; opciones: VehicleUiOption[]; advertencia_vmp: string };
   presentacion: { secciones_secundarias: AlcoholemiaUiSection[]; calculo_operativo: OperationalUiConfig };
@@ -59,7 +59,7 @@ type AlcoholemiaContent = {
   salida_administrativa_v2_consolidada: { titulo: string; codificados: { general: AdministrativeRule[]; profesional_novel: AdministrativeRule[]; menor_tramo_cero: AdministrativeRule[]; negativa_administrativa_no_motor: AdministrativeRule & { tipificacion: string; puntos_bicicleta_epac_vmp: number; responsable: string } } };
   regla_puntos: { formula: string; fundamento: string; ui: string };
   regla_antecedente: { pregunta: string; efecto: string; prioridad: string };
-  fuentes_v3: Array<{ id: string; nombre: string; preceptos: string[]; uso: string }>;
+  fuentes_v3: string[];
 };
 
 export const alcoholemia = alcoholemiaJson as AlcoholemiaContent;

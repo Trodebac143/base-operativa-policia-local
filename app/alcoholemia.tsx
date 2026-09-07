@@ -14,6 +14,7 @@ import {
   type DriverType,
   type VehicleType,
 } from "@/data/alcoholemia";
+import { resolveSourceReferences } from "@/data/sources";
 
 const euro = new Intl.NumberFormat("es-ES", { style: "currency", currency: "EUR" });
 const driverOptions: Array<{ id: DriverType; label: string }> = [
@@ -22,11 +23,12 @@ const driverOptions: Array<{ id: DriverType; label: string }> = [
   { id: "novel", label: "Novel" },
   { id: "menor", label: "Menor de edad" },
 ];
+const alcoholemiaSources = resolveSourceReferences(alcoholemia.fuentes_v3);
 
-export function AlcoholemiaView({ onBack }: { onBack: () => void }) {
+export function AlcoholemiaView({ onBack, initialVehicle = "motor_ciclomotor", backLabel = "← Volver a Seguridad Vial" }: { onBack: () => void; initialVehicle?: VehicleType; backLabel?: string }) {
   const [reading, setReading] = useState("0,65");
   const [mode, setMode] = useState<AlcoholemiaMode>(alcoholemia.emp.modo_por_defecto);
-  const [vehicle, setVehicle] = useState<VehicleType>("motor_ciclomotor");
+  const [vehicle, setVehicle] = useState<VehicleType>(initialVehicle);
   const [driver, setDriver] = useState<DriverType>("general");
   const [previousSanction, setPreviousSanction] = useState(false);
   const [negative, setNegative] = useState(false);
@@ -60,7 +62,7 @@ export function AlcoholemiaView({ onBack }: { onBack: () => void }) {
           <h2>{alcoholemia.titulo}</h2>
           <p>{alcoholemia.subtitulo}</p>
         </div>
-        <button className="alcohol-back" onClick={onBack}>← Volver a Seguridad Vial</button>
+        <button className="alcohol-back" onClick={onBack}>{backLabel}</button>
       </div>
 
       <section className="alcohol-card calculator-card">
@@ -170,7 +172,7 @@ export function AlcoholemiaView({ onBack }: { onBack: () => void }) {
             key={section.id}
             title={section.titulo}
             icon={section.icono}
-            count={section.mostrar_conteo ? alcoholemia.fuentes_v3.length : undefined}
+            count={section.mostrar_conteo ? alcoholemiaSources.length : undefined}
             defaultOpen={section.abierto_por_defecto}
           >
             {secondaryContent[section.id]}
@@ -261,11 +263,11 @@ function WarningsSection({ vehicle }: { vehicle: VehicleType }) {
 function SourcesSection() {
   return (
     <div className="source-list">
-      {alcoholemia.fuentes_v3.map((source) => (
+      {alcoholemiaSources.map((source) => (
         <article key={source.id}>
           <strong>{source.nombre}</strong>
-          {source.preceptos.length > 0 && <span>{source.preceptos.join(" · ")}</span>}
-          <p>{source.uso}</p>
+          {!!source.preceptos?.length && <span>{source.preceptos.join(" · ")}</span>}
+          {source.uso && <p>{source.uso}</p>}
         </article>
       ))}
     </div>
