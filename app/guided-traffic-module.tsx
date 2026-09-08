@@ -42,7 +42,6 @@ export function VmpGuideView({ onOpenCase, cases }: VmpGuideViewProps) {
   const [view, setView] = useState<ViewId | null>(null);
   const [practicalCaseId, setPracticalCaseId] = useState<string | null>(null);
   const [facts, setFacts] = useState<VmpClassificationInput>(initialFacts);
-  const classification = useMemo(() => classifyVmp(facts), [facts]);
 
   const openCaseId = (caseId: string | null) => {
     const item = cases.find((candidate) => candidate.id === caseId);
@@ -83,9 +82,9 @@ export function VmpGuideView({ onOpenCase, cases }: VmpGuideViewProps) {
         <div className="vmp-area-view">
           <button className="vmp-area-back" onClick={() => setView(null)}>← Volver a las 7 áreas</button>
           {view === "clasificacion" && <ClassificationPanel facts={facts} setFacts={setFacts} />}
-          {view === "documentacion" && <DocumentationPanel facts={facts} setFacts={setFacts} category={classification.category} />}
-          {view === "seguro" && <InsurancePanel facts={facts} setFacts={setFacts} category={classification.category} cases={cases} onOpenCase={openCaseId} />}
-          {view === "tecnica" && <TechnicalPanel classification={classification} />}
+          {view === "documentacion" && <DocumentationPanel facts={facts} setFacts={setFacts} />}
+          {view === "seguro" && <InsurancePanel facts={facts} setFacts={setFacts} cases={cases} onOpenCase={openCaseId} />}
+          {view === "tecnica" && <TechnicalPanel classification={classifyVmp(facts)} />}
           {view === "circulacion" && <CirculationPanel />}
           {view === "menores" && <MinorsPanel onOpenAlcohol={() => setView("alcohol")} />}
         </div>
@@ -117,6 +116,55 @@ function ClassificationFields({ facts, setFacts, prefix }: { facts: VmpClassific
   </div>;
 }
 
+function classificationInputIsValid(facts: VmpClassificationInput) {
+  return facts.electric != null
+    && facts.seats != null
+    && Number.isFinite(facts.seats)
+    && facts.seats >= 1
+    && facts.hasSeat != null
+    && (!facts.hasSeat || facts.selfBalancing != null)
+    && facts.mass != null
+    && Number.isFinite(facts.mass)
+    && facts.mass >= 0
+    && facts.factoryMaxSpeed != null
+    && Number.isFinite(facts.factoryMaxSpeed)
+    && facts.factoryMaxSpeed >= 0
+    && facts.meetsOtherRequirements != null;
+}
+
+function useExplicitClassification(facts: VmpClassificationInput, setFacts: (value: VmpClassificationInput) => void) {
+  const [finding, setFinding] = useState<ReturnType<typeof classifyVmp> | null>(null);
+  const updateFacts = (value: VmpClassificationInput) => {
+    setFacts(value);
+    setFinding(null);
+  };
+  const canClassify = classificationInputIsValid(facts);
+  const classify = () => {
+    if (canClassify) setFinding(classifyVmp(facts));
+  };
+  return { finding, updateFacts, canClassify, classify };
+}
+
+function EmbeddedClassification({ facts, setFacts, prefix, intro, finding, canClassify, onClassify }: {
+  facts: VmpClassificationInput;
+  setFacts: (value: VmpClassificationInput) => void;
+  prefix: string;
+  intro: string;
+  finding: ReturnType<typeof classifyVmp> | null;
+  canClassify: boolean;
+  onClassify: () => void;
+}) {
+  return <>
+    <p className="vmp-context"><strong>{intro}</strong></p>
+    <ClassificationFields facts={facts} setFacts={setFacts} prefix={prefix} />
+    <div className="vmp-classification-action">
+      <button type="button" className="vmp-primary-action" disabled={!canClassify} onClick={onClassify}>Clasificar vehículo</button>
+      {!canClassify && <p>Completa MOM, velocidad y los demás datos de clasificación para continuar.</p>}
+    </div>
+    {finding && <p className="vmp-context" aria-live="polite">Clasificación obtenida: <strong>{categoryLabel(finding.category)}</strong></p>}
+  </>;
+}
+
 function ClassificationPanel({ facts, setFacts }: { facts: VmpClassificationInput; setFacts: (value: VmpClassificationInput) => void }) {
   const finding = useMemo(() => classifyVmp(facts), [facts]);
   return <section className="vmp-panel">
@@ -129,7 +177,9 @@ function ClassificationPanel({ facts, setFacts }: { facts: VmpClassificationInpu
   </section>;
 }
 
-function DocumentationPanel({ facts, setFacts, category }: { facts: VmpClassificationInput; setFacts: (value: VmpClassificationInput) => void; category: VmpCategory }) {
+function DocumentationPanel({ facts, setFacts }: { facts: VmpClassificationInput; setFacts: (value: VmpClassificationInput) => void }) {
+  const classification = useExplicitClassification(facts, setFacts);
+  const category: VmpCategory = classification.finding?.category ?? "INCOMPLETA";
   const [asOf, setAsOf] = useState(vmpGuide.fecha_referencia);
   const [marketedBefore, setMarketedBefore] = useState<BooleanValue>(null);
   const [certificate, setCertificate] = useState<BooleanValue>(null);
@@ -140,8 +190,7 @@ function DocumentationPanel({ facts, setFacts, category }: { facts: VmpClassific
   const finding = ready ? resolveVmpDocumentation({ category, marketedBeforeCutoff: marketedBefore!, asOf, hasCertificate: certificate!, registered: registered!, hasIdentificationLabel: label!, hasMarkingPlate: plate ?? false }) : null;
   return <section className="vmp-panel">
     <PanelHeading icon="▤" title="Certificado, registro e identificación" text="Cada requisito se comprueba por separado y el motor aplica la absorción 5A → 5B → 5C." />
-    {category === "INCOMPLETA" && <><p className="vmp-context"><strong>Primero, identifica el vehículo con hechos observables.</strong></p><ClassificationFields facts={facts} setFacts={setFacts} prefix="vmp-doc-class" /></>}
-    {category !== "INCOMPLETA" && <p className="vmp-context">Clasificación obtenida: <strong>{categoryLabel(category)}</strong></p>}
+    <EmbeddedClassification facts={facts} setFacts={classification.updateFacts} prefix="vmp-doc-class" intro="Primero, identifica el vehículo con hechos observables." finding={classification.finding} canClassify={classification.canClassify} onClassify={classification.classify} />
     <div className="vmp-form-grid">
       <label htmlFor="vmp-doc-date"><span>Fecha de la intervención</span><input id="vmp-doc-date" type="date" value={asOf} onChange={(event) => setAsOf(event.target.value)} /></label>
       <BoolSelect id="vmp-before" label="¿Fue comercializado antes del 22/01/2024?" value={marketedBefore} onChange={setMarketedBefore} />
@@ -155,7 +204,9 @@ function DocumentationPanel({ facts, setFacts, category }: { facts: VmpClassific
   </section>;
 }
 
-function InsurancePanel({ facts, setFacts, category, cases, onOpenCase }: { facts: VmpClassificationInput; setFacts: (value: VmpClassificationInput) => void; category: VmpCategory; cases: OperationalCase[]; onOpenCase: (caseId: string | null) => void }) {
+function InsurancePanel({ facts, setFacts, cases, onOpenCase }: { facts: VmpClassificationInput; setFacts: (value: VmpClassificationInput) => void; cases: OperationalCase[]; onOpenCase: (caseId: string | null) => void }) {
+  const classification = useExplicitClassification(facts, setFacts);
+  const category: VmpCategory = classification.finding?.category ?? "INCOMPLETA";
   const [asOf, setAsOf] = useState(vmpGuide.fecha_referencia);
   const [marketedBefore, setMarketedBefore] = useState<BooleanValue>(null);
   const [certificate, setCertificate] = useState<BooleanValue>(null);
@@ -174,8 +225,7 @@ function InsurancePanel({ facts, setFacts, category, cases, onOpenCase }: { fact
 
   return <section className="vmp-panel">
     <PanelHeading icon="◈" title="Seguro obligatorio" text="Clasifica aquí el vehículo y reutiliza los casos comunes SDA/SOA, sin un segundo cálculo jurídico." />
-    {category === "INCOMPLETA" && <><p className="vmp-context"><strong>Introduce los datos de clasificación sin salir de Seguro.</strong></p><ClassificationFields facts={facts} setFacts={setFacts} prefix="vmp-ins-class" /></>}
-    {category !== "INCOMPLETA" && <p className="vmp-context">Clasificación obtenida: <strong>{categoryLabel(category)}</strong></p>}
+    <EmbeddedClassification facts={facts} setFacts={classification.updateFacts} prefix="vmp-ins-class" intro="Introduce los datos de clasificación sin salir de Seguro." finding={classification.finding} canClassify={classification.canClassify} onClassify={classification.classify} />
     {category === "A" && <div className="vmp-subflow"><h4>Requisitos previos SDA y control documental</h4><div className="vmp-form-grid">
       <label htmlFor="vmp-ins-date"><span>Fecha de la intervención</span><input id="vmp-ins-date" type="date" value={asOf} onChange={(event) => setAsOf(event.target.value)} /></label>
       <BoolSelect id="vmp-ins-before" label="¿Fue comercializado antes del 22/01/2024?" value={marketedBefore} onChange={setMarketedBefore} />

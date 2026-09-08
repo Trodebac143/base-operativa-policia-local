@@ -228,3 +228,13 @@ test("27 · la fuente se mantiene como manual interno y la incidencia humana no 
   assert.equal(data.vmpGuide.incidencias.length, 1);
   assert.match(data.vmpGuide.incidencias[0], /ficha o informe técnico/i);
 });
+
+test("28 · Seguro y Documentación solo clasifican tras confirmación y conservan los campos", async () => {
+  const source = await readFile(new URL("../app/guided-traffic-module.tsx", import.meta.url), "utf8");
+  assert.match(source, /disabled={!canClassify} onClick={onClassify}>Clasificar vehículo/);
+  assert.match(source, /setFinding\(null\)/, "editar los hechos invalida el resultado anterior");
+  assert.doesNotMatch(source, /const classification = useMemo\(\(\) => classifyVmp\(facts\)/, "el padre no clasifica durante la escritura");
+  assert.match(source, /prefix="vmp-ins-class"[^\n]+finding={classification\.finding}/);
+  assert.match(source, /prefix="vmp-doc-class"[^\n]+finding={classification\.finding}/);
+  assert.doesNotMatch(source, /category === "INCOMPLETA"[^\n]+<ClassificationFields/);
+});
