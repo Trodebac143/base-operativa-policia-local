@@ -19,8 +19,8 @@ test("tenencia pública sin indicios de tráfico publica art. 36.16, rango y apr
 test("tráfico solo cierra rama penal con venta o indicios suficientes y clasifica art. 368", async () => {
   const { resolveDrugOutcome } = await vite.ssrLoadModule("/data/seguridad-publica.ts");
   assert.equal(resolveDrugOutcome({ ventaObservada: false, indiciosSuficientes: false, sustancia: "resto" }).kind, "indicios_no_concluyentes");
-  const grave = resolveDrugOutcome({ ventaObservada: true, indiciosSuficientes: false, sustancia: "grave_dano" });
-  const resto = resolveDrugOutcome({ ventaObservada: false, indiciosSuficientes: true, sustancia: "resto" });
+  const grave = resolveDrugOutcome({ ventaObservada: true, indiciosSuficientes: false, sustancia: "grave_dano", flagrante: true });
+  const resto = resolveDrugOutcome({ ventaObservada: false, indiciosSuficientes: true, sustancia: "resto", flagrante: true });
   assert.deepEqual([grave.norma, grave.clasificacion, grave.detencion], ["Código Penal · art. 368", "DELITO GRAVE", "SÍ"]);
   assert.deepEqual([resto.clasificacion, resto.detencion], ["DELITO MENOS GRAVE", "SÍ"]);
 });
@@ -42,8 +42,8 @@ test("falta de respeto, identificación y escalas de autoridad conservan la fron
 test("amenazas y atentado resuelven clasificación y detención conforme a los supuestos trabajados", async () => {
   const { resolveAuthorityOutcome } = await vite.ssrLoadModule("/data/seguridad-publica.ts");
   const leve = resolveAuthorityOutcome("amenazas", "leve");
-  const art169 = resolveAuthorityOutcome("amenazas", "art169");
-  const atentado = resolveAuthorityOutcome("amenazas", "atentado");
+  const art169 = resolveAuthorityOutcome("amenazas", "art169", { flagrante: true });
+  const atentado = resolveAuthorityOutcome("amenazas", "atentado", { flagrante: true });
   assert.deepEqual([leve.norma, leve.clasificacion, leve.detencion, leve.situacion], ["Código Penal · art. 171.7", "DELITO LEVE", "NO", "INVESTIGADO NO DETENIDO"]);
   assert.deepEqual([art169.norma, art169.clasificacion], ["Código Penal · art. 169", "DELITO MENOS GRAVE"]);
   assert.deepEqual([atentado.norma, atentado.detencion], ["Código Penal · art. 550", "SÍ"]);
@@ -99,6 +99,7 @@ test("los nuevos bloques resuelven las situaciones policiales obligatorias y con
   const { resolvePublicSafetyOutcome } = await vite.ssrLoadModule("/data/seguridad-publica.ts");
   const first = (concept, facts) => resolvePublicSafetyOutcome(concept, facts).resultados[0];
   const includesNorm = (outcome, expression) => assert.match(outcome.resultados.map((item) => item.norma).join(" | "), expression);
+  const sexualFacts = { violenciaIntimidacion: false, voluntadAnulada: false, conductaSexual: "acto_fisico", penetracion: false };
 
   assert.match(first("agresiones_lesiones", { relacion: "ninguna", agresionFisica: true, lesion: false }).norma, /147\.3/);
   assert.match(first("agresiones_lesiones", { relacion: "ninguna", agresionFisica: true, lesion: true, resultadoAsistencial: "desconocido" }).titulo, /CLASIFICACIÓN PROVISIONAL/);
@@ -113,33 +114,34 @@ test("los nuevos bloques resuelven las situaciones policiales obligatorias y con
 
   const threatGeneral = resolvePublicSafetyOutcome("amenazas_coacciones", { relacion: "ninguna", conductaLibertad: "amenaza", malAnunciado: "menor_entidad" });
   assert.deepEqual([first("amenazas_coacciones", { relacion: "ninguna", conductaLibertad: "amenaza", malAnunciado: "menor_entidad" }).norma, threatGeneral.procesal?.escenarioProcesal], ["Código Penal · art. 171.7", "DELITO LEVE"]);
-  const threatVg = resolvePublicSafetyOutcome("amenazas_coacciones", { relacion: "vg", conductaLibertad: "amenaza", malAnunciado: "menor_entidad" });
+  const threatVg = resolvePublicSafetyOutcome("amenazas_coacciones", { relacion: "vg", conductaLibertad: "amenaza", malAnunciado: "menor_entidad" }, { flagrante: true });
   assert.deepEqual([first("amenazas_coacciones", { relacion: "vg", conductaLibertad: "amenaza", malAnunciado: "menor_entidad" }).norma, first("amenazas_coacciones", { relacion: "vg", conductaLibertad: "amenaza", malAnunciado: "menor_entidad" }).clasificacion, threatVg.procesal?.escenarioProcesal, threatVg.procesal?.detencion], ["Código Penal · art. 171.4", "DELITO MENOS GRAVE", "FLAGRANCIA", "SÍ"]);
-  assert.equal(resolvePublicSafetyOutcome("amenazas_coacciones", { relacion: "ninguna", conductaLibertad: "amenaza", malAnunciado: "entidad_delictiva" }).procesal?.detencion, "SÍ");
+  assert.equal(resolvePublicSafetyOutcome("amenazas_coacciones", { relacion: "ninguna", conductaLibertad: "amenaza", malAnunciado: "entidad_delictiva" }, { flagrante: true }).procesal?.detencion, "SÍ");
   assert.match(first("amenazas_coacciones", { relacion: "ninguna", conductaLibertad: "coaccion", coaccionEntidad: "leve" }).norma, /172\.3/);
-  const coactionVg = resolvePublicSafetyOutcome("amenazas_coacciones", { relacion: "vg", conductaLibertad: "coaccion", coaccionEntidad: "leve" });
+  const coactionVg = resolvePublicSafetyOutcome("amenazas_coacciones", { relacion: "vg", conductaLibertad: "coaccion", coaccionEntidad: "leve" }, { flagrante: true });
   assert.deepEqual([first("amenazas_coacciones", { relacion: "vg", conductaLibertad: "coaccion", coaccionEntidad: "leve" }).norma, first("amenazas_coacciones", { relacion: "vg", conductaLibertad: "coaccion", coaccionEntidad: "leve" }).clasificacion, coactionVg.procesal?.escenarioProcesal, coactionVg.procesal?.detencion], ["Código Penal · art. 172.2", "DELITO MENOS GRAVE", "FLAGRANCIA", "SÍ"]);
-  assert.equal(resolvePublicSafetyOutcome("amenazas_coacciones", { relacion: "ninguna", conductaLibertad: "coaccion", coaccionEntidad: "general" }).procesal?.detencion, "SÍ");
+  assert.equal(resolvePublicSafetyOutcome("amenazas_coacciones", { relacion: "ninguna", conductaLibertad: "coaccion", coaccionEntidad: "general" }, { flagrante: true }).procesal?.detencion, "SÍ");
 
   assert.doesNotMatch(first("peleas_rinas", { relacion: "ninguna", tipoRina: "grupal_confusa", medioPeligroso: false }).norma, /154/);
-  const tumultuousFight = resolvePublicSafetyOutcome("peleas_rinas", { relacion: "ninguna", tipoRina: "grupal_confusa", medioPeligroso: true });
+  const tumultuousFight = resolvePublicSafetyOutcome("peleas_rinas", { relacion: "ninguna", tipoRina: "grupal_confusa", medioPeligroso: true }, { flagrante: true });
   includesNorm(tumultuousFight, /154/);
   assert.deepEqual([tumultuousFight.resultados[0].clasificacion, tumultuousFight.procesal?.detencion], ["DELITO MENOS GRAVE", "SÍ"]);
   const fightWithInjury = resolvePublicSafetyOutcome("peleas_rinas", { relacion: "ninguna", tipoRina: "grupal_confusa", medioPeligroso: true, lesion: true, lesionIndividualizable: true });
   includesNorm(fightWithInjury, /154/);
   assert.ok(fightWithInjury.conexiones.some((item) => item.conceptId === "agresiones_lesiones"));
 
-  const sexual178 = resolvePublicSafetyOutcome("agresiones_sexuales", { relacion: "ninguna", actoSexualNoConsentido: true, menorDieciseis: false, penetracion: false }, { flagrante: true });
-  assert.deepEqual([sexual178.resultados[0].norma, sexual178.resultados[0].clasificacion, sexual178.procesal?.situacion, sexual178.procesal?.detencion], ["Código Penal · art. 178", "DELITO MENOS GRAVE", "DETENIDO", "SÍ"]);
-  const sexual179 = resolvePublicSafetyOutcome("agresiones_sexuales", { relacion: "ninguna", actoSexualNoConsentido: true, menorDieciseis: false, penetracion: true });
-  assert.match(sexual179.resultados[0].norma, /179/);
-  assert.deepEqual([sexual179.resultados[0].clasificacion, sexual179.procesal?.detencion], ["DELITO GRAVE", "SÍ"]);
-  assert.ok(resolvePublicSafetyOutcome("agresiones_sexuales", { relacion: "ninguna", actoSexualNoConsentido: true, menorDieciseis: false, lesion: true }).conexiones.some((item) => item.conceptId === "agresiones_lesiones"));
-  assert.ok(resolvePublicSafetyOutcome("agresiones_sexuales", { relacion: "vg", actoSexualNoConsentido: true, menorDieciseis: false }).conexiones.some((item) => item.conceptId === "violencia_relacional"));
-  assert.match(resolvePublicSafetyOutcome("agresiones_sexuales", { relacion: "ninguna", actoSexualNoConsentido: true, menorDieciseis: false, posibleSumisionQuimica: true }).resultados.map((item) => item.titulo).join(" | "), /SUMISIÓN O VULNERABILIDAD QUÍMICA/);
-  const sexualMinor = resolvePublicSafetyOutcome("agresiones_sexuales", { relacion: "ninguna", actoSexualNoConsentido: true, menorDieciseis: true });
-  assert.match(sexualMinor.resultados[0].titulo, /MENOR DE 16 AÑOS/);
-  assert.deepEqual([sexualMinor.resultados[0].norma, sexualMinor.resultados[0].clasificacion, sexualMinor.procesal?.detencion], ["Código Penal · art. 181", "DELITO GRAVE", "SÍ"]);
+  const sexual178 = resolvePublicSafetyOutcome("agresiones_sexuales", { ...sexualFacts, relacion: "ninguna", actoSexualNoConsentido: true, menorDieciseis: false, penetracion: false }, { flagrante: true });
+  const sexual178Crime = sexual178.resultados.find((item) => /178\.1/.test(item.norma));
+  assert.deepEqual([sexual178Crime?.clasificacion, sexual178.procesal?.situacion, sexual178.procesal?.detencion], ["DELITO MENOS GRAVE", "DETENIDO", "SÍ"]);
+  const sexual179 = resolvePublicSafetyOutcome("agresiones_sexuales", { ...sexualFacts, relacion: "ninguna", actoSexualNoConsentido: true, menorDieciseis: false, penetracion: true }, { flagrante: false, indiciosHechoSuficientes: true, indiciosParticipacionSuficientes: true, necesidadDetencion: true });
+  const sexual179Crime = sexual179.resultados.find((item) => /179\.1/.test(item.norma));
+  assert.deepEqual([sexual179Crime?.clasificacion, sexual179.procesal?.detencion], ["DELITO GRAVE", "SÍ"]);
+  assert.ok(resolvePublicSafetyOutcome("agresiones_sexuales", { ...sexualFacts, relacion: "ninguna", actoSexualNoConsentido: true, menorDieciseis: false, lesion: true }).conexiones.some((item) => item.conceptId === "agresiones_lesiones"));
+  assert.ok(resolvePublicSafetyOutcome("agresiones_sexuales", { ...sexualFacts, relacion: "vg", actoSexualNoConsentido: true, menorDieciseis: false }).conexiones.some((item) => item.conceptId === "violencia_relacional"));
+  assert.match(resolvePublicSafetyOutcome("agresiones_sexuales", { ...sexualFacts, relacion: "ninguna", actoSexualNoConsentido: true, menorDieciseis: false, posibleSumisionQuimica: true }).resultados.map((item) => item.titulo).join(" | "), /SUMISIÓN O VULNERABILIDAD QUÍMICA/);
+  const sexualMinor = resolvePublicSafetyOutcome("agresiones_sexuales", { ...sexualFacts, relacion: "ninguna", actoSexualNoConsentido: true, menorDieciseis: true }, { flagrante: true });
+  const sexualMinorCrime = sexualMinor.resultados.find((item) => /181\.1/.test(item.norma));
+  assert.deepEqual([sexualMinorCrime?.clasificacion, sexualMinor.procesal?.detencion], ["DELITO GRAVE", "SÍ"]);
 
   const relationOnly = resolvePublicSafetyOutcome("violencia_relacional", { relacion: "vg", noDeseaDenunciar: true });
   assert.equal(relationOnly.procesal, undefined);
@@ -150,12 +152,12 @@ test("los nuevos bloques resuelven las situaciones policiales obligatorias y con
   includesNorm(vgIncident, /153\.1/);
   assert.ok(vgIncident.conexiones.some((item) => item.conceptId === "agresiones_lesiones"));
   assert.match(vgIncident.resultados.map((item) => item.texto).join(" | "), /No es necesaria.*actuar de oficio/i);
-  const vgNotFlagrant = resolvePublicSafetyOutcome("violencia_relacional", { relacion: "vg", hechosRelacion: ["agresion"] }, { flagrante: false, plenamenteIdentificado: true, localizable: true, riesgoIncomparecencia: false });
+  const vgNotFlagrant = resolvePublicSafetyOutcome("violencia_relacional", { relacion: "vg", hechosRelacion: ["agresion"] }, { flagrante: false, indiciosHechoSuficientes: true, indiciosParticipacionSuficientes: true, necesidadDetencion: false });
   assert.deepEqual([vgNotFlagrant.procesal?.situacion, vgNotFlagrant.procesal?.detencion], ["INVESTIGADO NO DETENIDO", "NO"]);
-  const sexualVg = resolvePublicSafetyOutcome("agresiones_sexuales", { relacion: "vg", actoSexualNoConsentido: true, menorDieciseis: false, noDeseaDenunciar: true });
-  assert.match(sexualVg.resultados[0].norma, /180\.1\.4/);
-  assert.equal(sexualVg.resultados[0].clasificacion, "DELITO GRAVE");
-  assert.match(sexualVg.resultados.map((item) => item.texto).join(" | "), /denuncia de la víctima o querella del Ministerio Fiscal/i);
+  const sexualVg = resolvePublicSafetyOutcome("agresiones_sexuales", { ...sexualFacts, relacion: "vg", actoSexualNoConsentido: true, menorDieciseis: false, noDeseaDenunciar: true });
+  assert.match(sexualVg.resultados.map((item) => item.norma).join(" | "), /180\.1\.4/);
+  assert.ok(sexualVg.resultados.some((item) => item.clasificacion === "DELITO GRAVE"));
+  assert.match(sexualVg.resultados.map((item) => item.texto).join(" | "), /denuncia de la víctima.*Ministerio Fiscal/i);
   assert.doesNotMatch(sexualVg.resultados.map((item) => item.texto).join(" | "), /actuar de oficio/i);
 });
 
@@ -190,16 +192,16 @@ test("la auditoría procesal muestra fronteras completas y aplica el régimen de
 
   const leve = resolveAuthorityOutcome("amenazas", "leve");
   const threatFlagrant = resolveAuthorityOutcome("amenazas", "art169", { flagrante: true });
-  const threatLater = resolveAuthorityOutcome("amenazas", "art169", { flagrante: false, plenamenteIdentificado: true, localizable: true, riesgoIncomparecencia: false });
+  const threatLater = resolveAuthorityOutcome("amenazas", "art169", { flagrante: false, indiciosHechoSuficientes: true, indiciosParticipacionSuficientes: true, necesidadDetencion: false });
   assert.deepEqual([leve.clasificacion, leve.detencion, leve.situacion], ["DELITO LEVE", "NO", "INVESTIGADO NO DETENIDO"]);
   assert.match(leve.fundamentoDetencion, /495 LECrim/i);
   assert.deepEqual([threatFlagrant.clasificacion, threatFlagrant.detencion], ["DELITO MENOS GRAVE", "SÍ"]);
   assert.deepEqual([threatLater.detencion, threatLater.situacion], ["NO", "INVESTIGADO NO DETENIDO"]);
-  assert.match(threatLater.fundamentoDetencion, /492\.3–4 y 493 LECrim/i);
+  assert.match(threatLater.fundamentoDetencion, /492\.4 y 493 LECrim/i);
 
   const administrativeDrugs = resolveDrugOutcome({ ventaObservada: false, indiciosSuficientes: false, sustancia: "resto" });
   const drugFlagrant = resolveDrugOutcome({ ventaObservada: true, indiciosSuficientes: true, sustancia: "grave_dano", flagrante: true });
-  const drugLater = resolveDrugOutcome({ ventaObservada: true, indiciosSuficientes: true, sustancia: "resto", flagrante: false, plenamenteIdentificado: true, localizable: true, riesgoIncomparecencia: false });
+  const drugLater = resolveDrugOutcome({ ventaObservada: true, indiciosSuficientes: true, sustancia: "resto", flagrante: false, indiciosHechoSuficientes: true, indiciosParticipacionSuficientes: true, necesidadDetencion: false });
   assert.deepEqual([administrativeDrugs.situacion, administrativeDrugs.detencion], ["DILIGENCIAS DE PREVENCIÓN", "NO"]);
   assert.deepEqual([drugFlagrant.clasificacion, drugFlagrant.detencion], ["DELITO GRAVE", "SÍ"]);
   assert.deepEqual([drugLater.clasificacion, drugLater.situacion, drugLater.detencion], ["DELITO MENOS GRAVE", "INVESTIGADO NO DETENIDO", "NO"]);

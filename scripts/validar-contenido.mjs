@@ -64,6 +64,7 @@ const caseIds = duplicateIds(cases, "Casos");
 
 const normalizeSourceReference = (value) => value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
 const sourceReferenceIndex = new Map();
+const sourceUrlIndex = new Map();
 for (const source of sources) {
   if (!source.nombre) errors.push(`Fuente ${source.id}: falta nombre`);
   for (const reference of [source.id, source.nombre, source.nombreCorto, ...(source.referencias ?? [])]) {
@@ -77,6 +78,10 @@ for (const source of sources) {
     try {
       const url = new URL(source.urlOficial);
       if (!["http:", "https:"].includes(url.protocol)) errors.push(`Fuente ${source.id}: urlOficial debe ser HTTP(S)`);
+      const normalizedUrl = `${url.origin}${url.pathname.replace(/\/$/, "")}${url.search}`.toLowerCase();
+      const previousUrl = sourceUrlIndex.get(normalizedUrl);
+      if (previousUrl && previousUrl !== source.id) errors.push(`Fuentes: URL oficial duplicada en ${previousUrl} y ${source.id}`);
+      else sourceUrlIndex.set(normalizedUrl, source.id);
     } catch {
       errors.push(`Fuente ${source.id}: urlOficial no válida`);
     }
@@ -127,6 +132,12 @@ for (const [label, value] of [
   ["VMP/VPL", vmpGuide],
   ["Alcoholemia", alcoholemia],
 ]) validateSourceReferences(value, label);
+
+for (const source of sources) {
+  if ((sourceReferenceUsage.get(source.id) ?? 0) > 0 && !source.urlOficial && !source.documentoLocal) {
+    errors.push(`Fuente ${source.id}: utilizada por contenido activo pero sin enlace oficial ni documento local visible en Biblioteca → Fuentes`);
+  }
+}
 
 for (const category of categories) if (!moduleIds.has(category.modulo)) errors.push(`Categoría ${category.id}: módulo desconocido ${category.modulo}`);
 

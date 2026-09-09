@@ -15,6 +15,7 @@
     "lint": "bash scripts/sites-env.sh -- eslint . --ignore-pattern dist --ignore-pattern .next",
     "db:generate": "bash scripts/sites-env.sh -- drizzle-kit generate",
     "validar:contenido": "node scripts/validar-contenido.mjs",
+    "verificar:fuentes": "node scripts/verificar-enlaces-fuentes.mjs",
     "probar:contenido": "npm run validar:contenido && npm test"
   },
   "dependencies": {

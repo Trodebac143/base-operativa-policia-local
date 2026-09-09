@@ -1,7 +1,7 @@
 {
   "titulo": "Seguridad Pública",
   "subtitulo": "Orientación operativa prevalidada para actuaciones de seguridad pública.",
-  "fuentes": ["Constitución Española · arts. 17 y 18.2", "LO 2/1986 · art. 53", "LO 4/2015", "Código Penal", "LECrim", "Instrucción SES 10/2025"],
+  "fuentes": ["SP-SRC-CE", "SP-SRC-LO-2-1986", "SP-SRC-LO-4-2015", "AN-SRC-007", "SP-SRC-LECRIM", "SP-SRC-LO-1-2004", "SP-SRC-LO-10-2022", "SP-SRC-LO-1-2025", "SP-SRC-VIOGEN-2", "SP-SRC-SES-10-2025"],
   "comunes": {
     "coordinacion_cnp": "Coordina la continuación de la actuación con CNP. Preferentemente, solicita su presencia para que continúe diligencias y practique la citación. Si CNP facilita fecha y hora, puedes practicar directamente la citación, dejando constancia.",
     "investigado": {

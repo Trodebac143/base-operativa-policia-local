@@ -19,6 +19,7 @@ Empieza siempre por `contenido/LEEME_PRIMERO.md`.
 - Aplicación de medidas por ficha de Tráfico → `contenido/seguridad_vial/medidas_por_caso.json`
 - Permisos de conducir → `contenido/seguridad_vial/permisos_conducir/` (reservado)
 - Fuentes jurídicas → `contenido/juridico/fuentes.json`
+- Política permanente de fuentes → `contenido/juridico/POLITICA_FUENTES.md`
 - Preceptos penales → `contenido/juridico/articulos_penales.json`
 - Reglas comunes → `contenido/juridico/reglas_generales_y_comunes.json`
 - Biblioteca documental → `contenido/biblioteca/documentos.json`
@@ -80,6 +81,10 @@ La ficha descriptiva de la misma medida se mantiene en `contenido/seguridad_vial
 No edites `app/`, `components/`, `worker/`, `db/` ni los adaptadores de `data/` para una corrección ordinaria de contenido.
 
 ## Validación
+
+### Regla permanente: Biblioteca / Fuentes
+
+No añadas una fuente jurídica solo dentro de una ficha, regla o motor. En la misma actualización debes registrarla en `contenido/juridico/fuentes.json`, proporcionar su enlace oficial (o documento local accesible), reutilizar cualquier entrada equivalente y comprobar que aparece en Biblioteca → Fuentes. Las sustituciones o modificaciones deben conservar estado y trazabilidad. La lista de control completa está en `contenido/juridico/POLITICA_FUENTES.md`.
 
 `npm run validar:contenido` detecta, entre otros:
 

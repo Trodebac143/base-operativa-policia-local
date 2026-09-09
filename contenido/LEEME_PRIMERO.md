@@ -17,6 +17,7 @@ Si solo vas a corregir o mantener contenido jurídico/operativo, trabaja aquí. 
 | La regla común visible de circulación, inmovilización y depósito por Seguro | `seguridad_vial/medidas_por_caso.json` → `_por_categoria.seguridad_vial_seguro` |
 | El árbol de Seguro | `seguridad_vial/seguro/arbol.json` |
 | Una fuente jurídica | `juridico/fuentes.json` |
+| La política obligatoria de fuentes | `juridico/POLITICA_FUENTES.md` |
 | Un texto penal literal validado | `juridico/articulos_penales.json` |
 | Reglas comunes | `juridico/reglas_generales_y_comunes.json` |
 | Un documento de la biblioteca | `biblioteca/documentos.json` |
@@ -38,5 +39,7 @@ npm run validar:contenido
 Si devuelve `CONTENIDO VÁLIDO`, levanta la copia local y revisa visualmente el cambio.
 
 ## Importante
+
+Toda fuente jurídica nueva debe cumplir `juridico/POLITICA_FUENTES.md`: registro central, visibilidad en Biblioteca → Fuentes, enlace consultable, ausencia de duplicados y validación de todas las referencias.
 
 Por ahora el Site publicado sigue siendo la referencia pública. Esta copia local sirve para probar el mantenimiento autónomo. Cuando un cambio esté validado, el mismo contenido podrá trasladarse a Sites.

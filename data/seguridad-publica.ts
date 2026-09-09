@@ -22,12 +22,16 @@ export type ProcessualInput = {
   plenamenteIdentificado?: boolean;
   localizable?: boolean;
   riesgoIncomparecencia?: boolean;
+  indiciosHechoSuficientes?: boolean;
+  indiciosParticipacionSuficientes?: boolean;
+  necesidadDetencion?: boolean;
+  autorMayorEdad?: boolean;
 };
 export type ProcessualDecision = {
-  situacion: "DETENIDO" | "INVESTIGADO NO DETENIDO";
-  detencion: "SÍ" | "NO";
+  situacion: "DETENIDO" | "INVESTIGADO NO DETENIDO" | "NO DETENER TODAVÍA — INVESTIGAR" | "RUTA DE RESPONSABILIDAD PENAL DE MENORES";
+  detencion: "SÍ" | "NO" | "NO APLICAR MOTOR ADULTO";
   fundamentoDetencion: string;
-  escenarioProcesal: "FLAGRANCIA" | "NO FLAGRANTE" | "DELITO LEVE";
+  escenarioProcesal: "FLAGRANCIA" | "NO FLAGRANTE" | "DELITO LEVE" | "INDICIOS INSUFICIENTES" | "AUTOR MENOR";
 };
 
 /** Traducción exclusivamente de interfaz: conserva las claves de contenido existentes. */
@@ -59,8 +63,8 @@ export type DrugOutcome = {
   titulo: string;
   norma: string;
   clasificacion?: string;
-  situacion: "DETENIDO" | "INVESTIGADO NO DETENIDO" | "DILIGENCIAS DE PREVENCIÓN";
-  detencion: "SÍ" | "NO";
+  situacion: ProcessualDecision["situacion"] | "DILIGENCIAS DE PREVENCIÓN";
+  detencion: ProcessualDecision["detencion"];
   fundamentoDetencion?: string;
   escenarioProcesal?: ProcessualDecision["escenarioProcesal"];
   porQue: string;
@@ -70,8 +74,8 @@ export type AuthorityOutcome = {
   titulo: string;
   norma: string;
   clasificacion?: string;
-  situacion?: "DETENIDO" | "INVESTIGADO NO DETENIDO";
-  detencion?: "SÍ" | "NO";
+  situacion?: ProcessualDecision["situacion"];
+  detencion?: ProcessualDecision["detencion"];
   fundamentoDetencion?: string;
   escenarioProcesal?: ProcessualDecision["escenarioProcesal"];
   porQue: string;
@@ -102,22 +106,35 @@ const flagrancyDecision = (): ProcessualDecision => ({
 });
 
 const nonFlagrancyDecision = (input: ProcessualInput): ProcessualDecision => {
-  const favorable = input.plenamenteIdentificado !== false && input.localizable !== false && !input.riesgoIncomparecencia;
-  if (favorable) return {
+  if (input.indiciosHechoSuficientes !== true || input.indiciosParticipacionSuficientes !== true) return {
+    situacion: "NO DETENER TODAVÍA — INVESTIGAR",
+    detencion: "NO",
+    escenarioProcesal: "INDICIOS INSUFICIENTES",
+    fundamentoDetencion: "NO FLAGRANCIA: todavía no constan conjuntamente motivos racionalmente bastantes sobre la existencia del hecho delictivo y la participación de la persona. Art. 492.4 LECrim. Continuar comprobaciones sin cerrar el caso como investigado no detenido.",
+  };
+  if (input.necesidadDetencion !== true) return {
     situacion: "INVESTIGADO NO DETENIDO",
     detencion: "NO",
     escenarioProcesal: "NO FLAGRANTE",
-    fundamentoDetencion: "DELITO NO FLAGRANTE → INVESTIGADO NO DETENIDO al estar identificado y localizable y no constar circunstancias objetivas de riesgo de incomparecencia. Arts. 492.3–4 y 493 LECrim.",
+    fundamentoDetencion: "NO FLAGRANCIA: existen indicios racionales suficientes de hecho y participación, pero la valoración individualizada no justifica la necesidad concreta de detener. Arts. 492.4 y 493 LECrim. La identificación o localización no decide por sí sola.",
   };
   return {
     situacion: "DETENIDO",
     detencion: "SÍ",
     escenarioProcesal: "NO FLAGRANTE",
-    fundamentoDetencion: "DELITO NO FLAGRANTE → DETENCIÓN: SÍ al concurrir los presupuestos legales y circunstancias objetivas de riesgo de incomparecencia. Arts. 492.3–4 y 493 LECrim.",
+    fundamentoDetencion: "NO FLAGRANCIA: concurren motivos racionalmente bastantes sobre la existencia del hecho y la participación, y la valoración individualizada justifica la necesidad concreta de la detención. Art. 492.4 LECrim. La ausencia de flagrancia no impide por sí sola detener.",
   };
 };
 
-export const resolvePenalProcessualDecision = (input: ProcessualInput = {}): ProcessualDecision => input.flagrante === false ? nonFlagrancyDecision(input) : flagrancyDecision();
+export const resolvePenalProcessualDecision = (input: ProcessualInput = {}): ProcessualDecision => {
+  if (input.autorMayorEdad === false) return {
+    situacion: "RUTA DE RESPONSABILIDAD PENAL DE MENORES",
+    detencion: "NO APLICAR MOTOR ADULTO",
+    escenarioProcesal: "AUTOR MENOR",
+    fundamentoDetencion: "El presunto autor es menor de 18 años: no se aplica directamente el motor adulto de detención de la LECrim. Activar la ruta específica de responsabilidad penal de menores.",
+  };
+  return input.flagrante === true ? flagrancyDecision() : nonFlagrancyDecision(input);
+};
 
 const delitoLeveDecision = (): ProcessualDecision => ({
   situacion: "INVESTIGADO NO DETENIDO",
@@ -197,9 +214,23 @@ export function resolveAuthorityOutcome(conceptId: string, level: string, input:
   return null;
 }
 
+export type PersonSex = "hombre" | "mujer" | "otro" | "no_determinado";
 export type PublicSafetyRelation = "vg" | "domestica" | "ninguna";
+export type RelationshipKind = "esposa" | "exesposa" | "pareja" | "expareja" | "familiar" | "conviviente" | "superioridad" | "amigo" | "conocido" | "desconocido" | "otra" | "no_determinada";
+export type RelationalContext = {
+  isViogenLO12004: boolean;
+  isPartnerOrExPartner: boolean;
+  hasFamilyRelationship: boolean;
+  hasCohabitation: boolean;
+  hasSuperiorityRelationship: boolean;
+  femaleSexualOffenceVSMJurisdiction: boolean;
+};
 export type PublicSafetyFacts = {
   relacion?: PublicSafetyRelation;
+  sexoAutor?: PersonSex;
+  sexoVictima?: PersonSex;
+  tipoRelacion?: RelationshipKind;
+  convivencia?: boolean;
   hechosRelacion?: Array<"agresion" | "amenazas" | "coacciones" | "sexual" | "quebrantamiento">;
   episodiosPrevios?: boolean;
   noDeseaDenunciar?: boolean;
@@ -220,6 +251,19 @@ export type PublicSafetyFacts = {
   variasPersonas?: boolean;
   posibleSumisionQuimica?: boolean;
   menorDieciseis?: boolean;
+  autorMayorEdad?: boolean;
+  conductaSexual?: "acto_fisico" | "hacer_presenciar" | "contacto_tic";
+  estadoConsentimiento?: "ausencia_manifestada" | "actos_claros_consentimiento" | "violencia_intimidacion" | "voluntad_anulada" | "informacion_insuficiente";
+  voluntadAnulada?: boolean;
+  abusoSuperioridad?: boolean;
+  vulnerabilidadEspecial?: boolean;
+  violenciaExtremaDegradante?: boolean;
+  sustanciasAdministradas?: boolean;
+  organizacionCriminal?: boolean;
+  posibleExcepcion183Bis?: boolean;
+  amenazasAutonomas?: boolean;
+  tiempoTranscurridoSuperior72h?: boolean;
+  procedibilidadSexual?: "denuncia_victima" | "denuncia_representante" | "ministerio_fiscal" | "pendiente";
   conductaLibertad?: "amenaza" | "coaccion" | "acoso";
   malAnunciado?: "entidad_delictiva" | "menor_entidad" | "no_precisado";
   condicionImpuesta?: boolean;
@@ -239,7 +283,26 @@ export type PublicSafetyOutcome = {
   resultados: PublicSafetyResult[];
   conexiones: PublicSafetyConnection[];
   procesal?: ProcessualDecision;
+  contextoRelacional?: RelationalContext;
+  procedibilidad?: { estado: "CUMPLIDA" | "PENDIENTE / COORDINAR"; fundamento: string };
 };
+
+export function deriveRelationalContext(facts: PublicSafetyFacts): RelationalContext {
+  const legacyViogen = facts.relacion === "vg";
+  const legacyDomestic = facts.relacion === "domestica";
+  const partner = ["esposa", "exesposa", "pareja", "expareja"].includes(facts.tipoRelacion ?? "") || legacyViogen;
+  const isViogenLO12004 = facts.sexoAutor === undefined && facts.sexoVictima === undefined && facts.tipoRelacion === undefined
+    ? legacyViogen
+    : facts.sexoAutor === "hombre" && facts.sexoVictima === "mujer" && partner;
+  return {
+    isViogenLO12004,
+    isPartnerOrExPartner: partner,
+    hasFamilyRelationship: facts.tipoRelacion === "familiar" || legacyDomestic,
+    hasCohabitation: facts.convivencia === true,
+    hasSuperiorityRelationship: facts.tipoRelacion === "superioridad" || facts.abusoSuperioridad === true,
+    femaleSexualOffenceVSMJurisdiction: facts.sexoVictima === "mujer",
+  };
+}
 
 const incidentResult = (titulo: string, norma: string, texto: string, actuacion: string[], clasificacion?: string, destacado?: PublicSafetyResult["destacado"]): PublicSafetyResult => ({ titulo, norma, texto, actuacion, clasificacion, destacado });
 const basicIncidentAction = ["Proteger y separar cuando proceda.", "Identificar a las personas implicadas.", "Recoger hechos relevantes, testigos e indicios disponibles."];
@@ -251,19 +314,23 @@ const withIncidentProcessual = (outcome: PublicSafetyOutcome, regime: "leve" | "
 export function resolvePublicSafetyOutcome(conceptId: string, facts: PublicSafetyFacts, input: ProcessualInput = {}): PublicSafetyOutcome {
   const results: PublicSafetyResult[] = [];
   const connections: PublicSafetyConnection[] = [];
-  const relation = facts.relacion;
-  const protectedRelation = relation === "vg" || relation === "domestica";
+  const contextoRelacional = deriveRelationalContext(facts);
+  const relation: PublicSafetyRelation | undefined = contextoRelacional.isViogenLO12004
+    ? "vg"
+    : contextoRelacional.hasFamilyRelationship || facts.tipoRelacion === "conviviente" ? "domestica" : facts.tipoRelacion ? "ninguna" : facts.relacion;
+  const protectedRelation = contextoRelacional.isViogenLO12004 || contextoRelacional.hasFamilyRelationship || relation === "domestica";
   const relationLink = relationConnection(relation);
   const pending = (text: string) => ({ resultados: [incidentResult("ORIENTACIÓN PENDIENTE", "Datos de la intervención", text, basicIncidentAction, undefined, "neutral")], conexiones: [] });
   const addComplaintNotice = (sexual = false) => {
-    if (relation !== "vg" || !facts.noDeseaDenunciar) return;
+    if (!facts.noDeseaDenunciar) return;
+    if (!sexual && relation !== "vg") return;
     results.push(incidentResult(
       "DENUNCIA DE LA VÍCTIMA",
       sexual ? "Código Penal · art. 191; LECrim · art. 105" : "LECrim · art. 105",
       sexual
         ? "No paraliza la protección ni las primeras diligencias. Para proceder: denuncia de la víctima o querella del Ministerio Fiscal."
         : "No es necesaria para continuar. Informar a la víctima y actuar de oficio.",
-      ["Documentar su manifestación e informar de sus derechos.", "Continuar la actuación policial."],
+      ["Documentar su manifestación e informar de sus derechos.", sexual ? "Mantener protección, asistencia, actuaciones urgentes, preservación de indicios y coordinación con CNP/unidad especializada/Ministerio Fiscal." : "Continuar la actuación policial."],
       undefined,
       "danger",
     ));
@@ -345,25 +412,74 @@ export function resolvePublicSafetyOutcome(conceptId: string, facts: PublicSafet
   }
 
   if (conceptId === "agresiones_sexuales") {
-    if (facts.actoSexualNoConsentido === undefined) return pending("Indica si se refiere un acto de contenido sexual no consentido.");
-    if (!facts.actoSexualNoConsentido) return { resultados: [incidentResult("SIN ACTO SEXUAL NO CONSENTIDO REFERIDO", "Datos de la intervención", "Valora otros bloques si existen lesiones, amenazas o coacciones.", basicIncidentAction, undefined, "neutral")], conexiones: [] };
+    const sexualScopeResult = incidentResult(
+      contextoRelacional.isViogenLO12004 ? "ÁMBITO: VIOLENCIA DE GÉNERO LO 1/2004" : "ÁMBITO: VIOLENCIA SEXUAL",
+      contextoRelacional.isViogenLO12004 ? "LO 1/2004 · art. 1" : "Código Penal · Título VIII",
+      contextoRelacional.isViogenLO12004 ? "La relación de pareja o expareja se deduce de los hechos; la convivencia no es necesaria." : "La violencia sexual puede existir cualquiera que sea la relación entre autor y víctima.",
+      contextoRelacional.isViogenLO12004 ? ["Activar protección y valoración de riesgo mediante VioGén 2 / Protocolo 2025; esta valoración no decide por sí sola la detención."] : [],
+      undefined,
+      contextoRelacional.isViogenLO12004 ? "warning" : "neutral",
+    );
+    const sexualPending = (text: string): PublicSafetyOutcome => {
+      const pendingOutcome = pending(text);
+      return { ...pendingOutcome, resultados: [sexualScopeResult, ...pendingOutcome.resultados], contextoRelacional };
+    };
+    if (facts.actoSexualNoConsentido === undefined) return sexualPending("Indica si se refiere un acto de contenido sexual no consentido.");
+    if (!facts.actoSexualNoConsentido) return { resultados: [incidentResult("SIN ACTO SEXUAL NO CONSENTIDO REFERIDO", "Datos de la intervención", "Valora otros bloques si existen lesiones, amenazas o coacciones.", basicIncidentAction, undefined, "neutral")], conexiones: [], contextoRelacional };
+    if (facts.menorDieciseis === undefined) return sexualPending("Indica si la víctima es menor de 16 años antes de seleccionar la rama penal.");
+    if (facts.menorDieciseis && facts.conductaSexual === undefined) return sexualPending("Distingue acto sexual físico, hacer presenciar actos sexuales o contacto mediante TIC.");
+    const selectedConduct = facts.conductaSexual ?? "acto_fisico";
+    if (selectedConduct === "acto_fisico" && facts.penetracion === undefined) return sexualPending("Indica los hechos sobre acceso carnal o introducción antes de distinguir los arts. 178, 179 o 181.4.");
+    if (selectedConduct === "acto_fisico" && (facts.violenciaIntimidacion === undefined || facts.voluntadAnulada === undefined)) return sexualPending("Completa los hechos sobre violencia, intimidación y voluntad anulada antes de cerrar la modalidad típica.");
+    const sexualActions = ["Proteger y separar víctima y presunto autor.", "Obtener únicamente el relato inicial mínimo necesario; evitar repeticiones innecesarias.", "Priorizar asistencia sanitaria/forense cuando proceda; el tiempo transcurrido no excluye automáticamente la valoración.", "Preservar indicios y cadena de custodia conforme al protocolo aplicable.", "Identificar o localizar al presunto autor y posibles testigos, cámaras, mensajes u otros indicios.", "Coordinar con CNP, unidad especializada, servicios sanitarios/forenses y Ministerio Fiscal cuando corresponda."];
+    const coercive = facts.violenciaIntimidacion || facts.voluntadAnulada || facts.estadoConsentimiento === "violencia_intimidacion" || facts.estadoConsentimiento === "voluntad_anulada";
+    const conduct = selectedConduct;
+    const aggravations: string[] = [];
+    if (facts.variasPersonas) aggravations.push("actuación conjunta de dos o más personas");
+    if (facts.violenciaExtremaDegradante) aggravations.push("violencia extrema o actos degradantes/vejatorios");
+    if (facts.vulnerabilidadEspecial) aggravations.push("especial vulnerabilidad");
+    if (contextoRelacional.isPartnerOrExPartner) aggravations.push("pareja o expareja");
+    if (contextoRelacional.hasFamilyRelationship || contextoRelacional.hasCohabitation || contextoRelacional.hasSuperiorityRelationship) aggravations.push("convivencia, parentesco o superioridad");
+    if (facts.medioPeligroso) aggravations.push("armas u otros medios peligrosos");
+    if (facts.sustanciasAdministradas && !facts.voluntadAnulada) aggravations.push("sustancias administradas para anular la voluntad");
+
+    results.push(sexualScopeResult);
+    if (contextoRelacional.femaleSexualOffenceVSMJurisdiction) results.push(incidentResult("COMPETENCIA JUDICIAL DIFERENCIADA", "LO 1/2025 · competencia de la Sección de Violencia sobre la Mujer", "Víctima mujer en delito del Título VIII: conservar esta capa separada de VioGén LO 1/2004.", [], undefined, "neutral"));
+
     let regime: "no_leve" | undefined;
-    if (facts.menorDieciseis) {
-      results.push(incidentResult("VÍCTIMA MENOR DE 16 AÑOS", "Código Penal · art. 181", "Activar protección y tratamiento especializado de menor.", ["Proteger y activar la unidad especializada.", "Recoger solo los datos necesarios para la actuación inmediata."], "DELITO GRAVE", "danger"));
+    if (conduct === "hacer_presenciar") {
+      results.push(incidentResult("HACER PRESENCIAR ACTOS SEXUALES A MENOR DE 16", "Código Penal · art. 182", "Rama diferenciada de una agresión sexual física consumada.", sexualActions, "DELITO NO LEVE", "warning"));
       regime = "no_leve";
-    } else if (facts.penetracion) {
-      results.push(incidentResult("POSIBLE VIOLACIÓN", relation === "vg" ? "Código Penal · arts. 179 y 180.1.4" : "Código Penal · art. 179", "Existe penetración en los términos legalmente previstos.", ["Proteger y separar víctima y presunto autor.", "Obtener solo el relato mínimo necesario para la actuación inmediata.", "Evitar interrogatorios exhaustivos o repeticiones innecesarias.", "Priorizar asistencia sanitaria o forense cuando proceda.", "Preservar indicios y evitar contaminación.", "Coordinar continuación con unidad competente o especializada."], "DELITO GRAVE", "warning"));
+    } else if (conduct === "contacto_tic") {
+      results.push(incidentResult("CONTACTO SEXUAL MEDIANTE TIC CON MENOR DE 16", "Código Penal · art. 183", "Rama diferenciada de una agresión sexual física consumada.", sexualActions, "DELITO NO LEVE", "warning"));
+      regime = "no_leve";
+    } else if (facts.posibleExcepcion183Bis) {
+      results.push(incidentResult("REQUIERE VALORACIÓN JURÍDICA ESPECÍFICA", "Código Penal · art. 183 bis", "No existe una diferencia numérica automática de edad. Deben valorarse proximidad de edad, desarrollo, madurez física y psicológica y consentimiento libre; la excepción no opera con circunstancias del art. 178.2.", sexualActions, undefined, "danger"));
+    } else if (facts.menorDieciseis) {
+      const minorNorm = facts.penetracion ? "Código Penal · art. 181.4" : coercive ? "Código Penal · art. 181.2" : "Código Penal · art. 181.1";
+      results.push(incidentResult(facts.penetracion ? "AGRESIÓN SEXUAL A MENOR DE 16 CON PENETRACIÓN" : "AGRESIÓN SEXUAL A MENOR DE 16", minorNorm, coercive ? "Concurren modalidades de violencia, intimidación o voluntad anulada; se aplica la rama específica de menor." : "Se aplica la rama específica del art. 181, no el flujo adulto 178/179.", sexualActions, "DELITO GRAVE", "danger"));
+      const minorAggravations = [...aggravations, ...(facts.organizacionCriminal ? ["organización o grupo criminal"] : [])];
+      if (minorAggravations.length) results.push(incidentResult("AGRAVACIONES ESPECÍFICAS DEL MENOR", "Código Penal · art. 181.5", minorAggravations.join("; ") + ". Se conservan los hechos sin trasladar automáticamente las reglas de adultos.", [], "DELITO GRAVE", "warning"));
       regime = "no_leve";
     } else {
-      results.push(incidentResult("POSIBLE AGRESIÓN SEXUAL", relation === "vg" ? "Código Penal · arts. 178 y 180.1.4" : "Código Penal · art. 178", "Se refiere un acto de contenido sexual no consentido.", ["Proteger y separar víctima y presunto autor.", "Obtener solo el relato mínimo necesario para la actuación inmediata.", "Evitar interrogatorios exhaustivos o repeticiones innecesarias.", "Priorizar asistencia sanitaria o forense cuando proceda.", "Preservar indicios y evitar contaminación.", "Coordinar continuación con unidad competente o especializada."], relation === "vg" ? "DELITO GRAVE" : "DELITO MENOS GRAVE", "warning"));
+      const baseNorm = facts.penetracion ? (coercive ? "179.2" : "179.1") : (coercive ? "178.3" : "178.1");
+      const aggravated = aggravations.length > 0;
+      results.push(incidentResult(facts.penetracion ? "POSIBLE VIOLACIÓN" : "POSIBLE AGRESIÓN SEXUAL", `Código Penal · art. ${baseNorm}`, facts.penetracion ? "Consta acceso carnal o introducción típica en los términos aportados." : "Consta un acto contra la libertad sexual sin consentimiento; no se exige resistencia física.", sexualActions, facts.penetracion || aggravated ? "DELITO GRAVE" : "DELITO MENOS GRAVE", "warning"));
+      if (aggravated) results.push(incidentResult("AGRAVACIÓN SEXUAL", contextoRelacional.isPartnerOrExPartner ? "Código Penal · arts. 180.1 y 180.1.4" : "Código Penal · art. 180.1", `${aggravations.join("; ")}. ${aggravations.length > 1 ? "Concurren varias agravaciones; conservar cada hecho para el resultado jurídico." : "La circunstancia se conserva para la calificación."}`, [], "DELITO GRAVE", "danger"));
       regime = "no_leve";
     }
     if (facts.posibleSumisionQuimica) results.push(incidentResult("POSIBLE SUMISIÓN O VULNERABILIDAD QUÍMICA", "Atención sanitaria/forense urgente", "Posible sumisión o vulnerabilidad química. Atención sanitaria/forense urgente y comunicar expresamente la sospecha.", ["Comunicar pérdida de memoria, somnolencia, desorientación, pérdida de conciencia o sospecha de sustancias.", "Priorizar asistencia sanitaria y forense."], undefined, "danger"));
     if (facts.lesion) addConnection(connections, { conceptId: "agresiones_lesiones", etiqueta: "Lesiones", motivo: "Existen lesiones que deben valorarse en su bloque." });
+    if (facts.amenazasAutonomas) addConnection(connections, { conceptId: "amenazas_coacciones", etiqueta: "Amenazas y coacciones", motivo: "Solo se analizan por separado si los hechos son autónomos respecto de la intimidación del delito sexual." });
     if (facts.medioPeligroso) addConnection(connections, { conceptId: "objetos_peligrosos", etiqueta: "Armas / objeto peligroso", motivo: "El medio empleado es información complementaria." });
     addConnection(connections, relationLink);
+    const procedurePending = facts.noDeseaDenunciar === true || facts.procedibilidadSexual === "pendiente";
+    const procedibilidad = procedurePending
+      ? { estado: "PENDIENTE / COORDINAR" as const, fundamento: "Art. 191 CP: falta por ahora denuncia de la persona agraviada o representante, o querella/actuación del Ministerio Fiscal. Esto no elimina el delito ni paraliza protección, asistencia o diligencias urgentes." }
+      : { estado: "CUMPLIDA" as const, fundamento: "Art. 191 CP: consta la vía de procedibilidad indicada. La denuncia puede ser oral y documentarse conforme al procedimiento legal." };
     addComplaintNotice(true);
-    return withIncidentProcessual({ resultados: results, conexiones: connections }, regime, input);
+    const outcome = withIncidentProcessual({ resultados: results, conexiones: connections, contextoRelacional, procedibilidad }, procedurePending ? undefined : regime, { ...input, autorMayorEdad: facts.autorMayorEdad ?? input.autorMayorEdad });
+    return outcome;
   }
 
   if (conceptId === "peleas_rinas") {
@@ -450,8 +566,8 @@ export type WeaponOutcome = {
   norma: string;
   clasificacion?: string;
   rango?: string;
-  situacion?: "DETENIDO" | "INVESTIGADO NO DETENIDO" | "DILIGENCIAS DE PREVENCIÓN";
-  detencion?: "SÍ" | "NO";
+  situacion?: ProcessualDecision["situacion"] | "DILIGENCIAS DE PREVENCIÓN";
+  detencion?: ProcessualDecision["detencion"];
   fundamentoDetencion?: string;
   escenarioProcesal?: ProcessualDecision["escenarioProcesal"];
   porQue: string;

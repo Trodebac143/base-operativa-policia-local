@@ -100,3 +100,20 @@ test("14 · Biblioteca incluye estilos responsive para navegación y fichas", as
   assert.match(css, /@media\(max-width:700px\)\{\.library-tabs\{grid-template-columns:1fr\}\.source-library-list\{grid-template-columns:1fr\}/i);
   assert.match(css, /\.source-library-actions\{display:grid\}/i);
 });
+
+test("15 · las fuentes de la intervención penal están registradas, visibles y enlazadas", () => {
+  for (const id of ["AN-SRC-007", "SP-SRC-LECRIM", "SP-SRC-LO-1-2004", "SP-SRC-LO-10-2022", "SP-SRC-LO-1-2025", "SP-SRC-VIOGEN-2"]) {
+    const source = sourceData.sources.find((item) => item.id === id);
+    assert.ok(source, `Falta ${id}`);
+    assert.ok(source.urlOficial || source.documentoLocal, `${id} no tiene enlace consultable`);
+    const html = render(library.LibrarySourcesPanel, { initialQuery: source.nombreCorto ?? source.nombre });
+    assert.match(html, /Consultar fuente oficial|Abrir documento/);
+  }
+});
+
+test("16 · toda fuente utilizada por contenido activo ofrece consulta en Biblioteca", () => {
+  for (const reference of usageData.allSourceReferences()) {
+    const source = sourceData.resolveSourceReference(reference);
+    assert.ok(source.urlOficial || source.documentoLocal, `${source.id} carece de enlace visible`);
+  }
+});
