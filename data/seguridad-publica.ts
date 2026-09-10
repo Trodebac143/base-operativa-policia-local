@@ -1,8 +1,10 @@
 import operativaJson from "../contenido/seguridad_publica/operativa.json";
+import { resolveMinorOffenceProcessualDecision, resolvePenalProcessualDecision, type ProcessualDecision, type ProcessualInput } from "./procesal-penal";
+export { resolveMinorOffenceProcessualDecision, resolvePenalProcessualDecision, type ProcessualDecision, type ProcessualInput } from "./procesal-penal";
 
 export type PublicConcept = {
   id: string;
-  bloque: "Drogas" | "Autoridad y agentes" | "Armas y objetos peligrosos" | "Violencia de género y doméstica" | "Agresiones y lesiones" | "Agresiones sexuales" | "Peleas y riñas" | "Amenazas y coacciones";
+  bloque: "Drogas" | "Autoridad y agentes" | "Armas y objetos peligrosos" | "Violencia de género y doméstica" | "Agresiones y lesiones" | "Agresiones sexuales" | "Peleas y riñas" | "Amenazas y coacciones" | "Delitos contra el patrimonio";
   titulo: string;
   sinonimos: string[];
   resultado: string;
@@ -17,22 +19,6 @@ export type PublicConcept = {
   detalle?: string[];
 };
 export type PublicSecurityBlock = PublicConcept["bloque"];
-export type ProcessualInput = {
-  flagrante?: boolean;
-  plenamenteIdentificado?: boolean;
-  localizable?: boolean;
-  riesgoIncomparecencia?: boolean;
-  indiciosHechoSuficientes?: boolean;
-  indiciosParticipacionSuficientes?: boolean;
-  necesidadDetencion?: boolean;
-  autorMayorEdad?: boolean;
-};
-export type ProcessualDecision = {
-  situacion: "DETENIDO" | "INVESTIGADO NO DETENIDO" | "NO DETENER TODAVÍA — INVESTIGAR" | "RUTA DE RESPONSABILIDAD PENAL DE MENORES";
-  detencion: "SÍ" | "NO" | "NO APLICAR MOTOR ADULTO";
-  fundamentoDetencion: string;
-  escenarioProcesal: "FLAGRANCIA" | "NO FLAGRANTE" | "DELITO LEVE" | "INDICIOS INSUFICIENTES" | "AUTOR MENOR";
-};
 
 /** Traducción exclusivamente de interfaz: conserva las claves de contenido existentes. */
 export const seguridadPublicaBlockLabel = (block: PublicSecurityBlock) => block === "Autoridad y agentes" ? "Hechos contra los agentes" : block;
@@ -45,6 +31,7 @@ export const seguridadPublicaBlockDescription: Record<PublicSecurityBlock, strin
   "Agresiones sexuales": "Actuación inmediata, preservación y derivaciones necesarias.",
   "Peleas y riñas": "Enfrentamientos individuales, recíprocos y tumultuarios.",
   "Amenazas y coacciones": "Anuncio de mal, imposición y conducta reiterada.",
+  "Delitos contra el patrimonio": "Hurto, robos, apropiaciones y daños a partir de hechos observables.",
 };
 const publicSecurityCategoryByBlock: Record<PublicSecurityBlock, string> = {
   "Drogas": "seguridad_publica_drogas",
@@ -55,6 +42,7 @@ const publicSecurityCategoryByBlock: Record<PublicSecurityBlock, string> = {
   "Agresiones sexuales": "seguridad_publica_agresiones_sexuales",
   "Peleas y riñas": "seguridad_publica_peleas_rinas",
   "Amenazas y coacciones": "seguridad_publica_amenazas_coacciones",
+  "Delitos contra el patrimonio": "seguridad_publica_patrimonio",
 };
 export const seguridadPublicaCategoryId = (block: PublicSecurityBlock) => publicSecurityCategoryByBlock[block];
 export const seguridadPublicaBlockFromCategoryId = (categoryId: string): PublicSecurityBlock | undefined => Object.entries(publicSecurityCategoryByBlock).find(([, value]) => value === categoryId)?.[0] as PublicSecurityBlock | undefined;
@@ -98,50 +86,7 @@ export const seguridadPublicaSearchEntries = seguridadPublicaConceptos.map((conc
   categoria: seguridadPublicaCategoryId(concept.bloque),
 }));
 
-const flagrancyDecision = (): ProcessualDecision => ({
-  situacion: "DETENIDO",
-  detencion: "SÍ",
-  escenarioProcesal: "FLAGRANCIA",
-  fundamentoDetencion: "DELITO NO LEVE + FLAGRANCIA → DETENCIÓN: SÍ. Arts. 490.2 y 492.1 LECrim: la autoridad o agente de Policía Judicial tiene obligación de detener al delincuente sorprendido in fraganti.",
-});
-
-const nonFlagrancyDecision = (input: ProcessualInput): ProcessualDecision => {
-  if (input.indiciosHechoSuficientes !== true || input.indiciosParticipacionSuficientes !== true) return {
-    situacion: "NO DETENER TODAVÍA — INVESTIGAR",
-    detencion: "NO",
-    escenarioProcesal: "INDICIOS INSUFICIENTES",
-    fundamentoDetencion: "NO FLAGRANCIA: todavía no constan conjuntamente motivos racionalmente bastantes sobre la existencia del hecho delictivo y la participación de la persona. Art. 492.4 LECrim. Continuar comprobaciones sin cerrar el caso como investigado no detenido.",
-  };
-  if (input.necesidadDetencion !== true) return {
-    situacion: "INVESTIGADO NO DETENIDO",
-    detencion: "NO",
-    escenarioProcesal: "NO FLAGRANTE",
-    fundamentoDetencion: "NO FLAGRANCIA: existen indicios racionales suficientes de hecho y participación, pero la valoración individualizada no justifica la necesidad concreta de detener. Arts. 492.4 y 493 LECrim. La identificación o localización no decide por sí sola.",
-  };
-  return {
-    situacion: "DETENIDO",
-    detencion: "SÍ",
-    escenarioProcesal: "NO FLAGRANTE",
-    fundamentoDetencion: "NO FLAGRANCIA: concurren motivos racionalmente bastantes sobre la existencia del hecho y la participación, y la valoración individualizada justifica la necesidad concreta de la detención. Art. 492.4 LECrim. La ausencia de flagrancia no impide por sí sola detener.",
-  };
-};
-
-export const resolvePenalProcessualDecision = (input: ProcessualInput = {}): ProcessualDecision => {
-  if (input.autorMayorEdad === false) return {
-    situacion: "RUTA DE RESPONSABILIDAD PENAL DE MENORES",
-    detencion: "NO APLICAR MOTOR ADULTO",
-    escenarioProcesal: "AUTOR MENOR",
-    fundamentoDetencion: "El presunto autor es menor de 18 años: no se aplica directamente el motor adulto de detención de la LECrim. Activar la ruta específica de responsabilidad penal de menores.",
-  };
-  return input.flagrante === true ? flagrancyDecision() : nonFlagrancyDecision(input);
-};
-
-const delitoLeveDecision = (): ProcessualDecision => ({
-  situacion: "INVESTIGADO NO DETENIDO",
-  detencion: "NO",
-  escenarioProcesal: "DELITO LEVE",
-  fundamentoDetencion: "DELITO LEVE → DETENCIÓN: NO, como regla general. Art. 495 LECrim: solo cabe la excepción cuando el presunto autor no tenga domicilio conocido y no dé fianza bastante a juicio de la autoridad o agente que intente detenerle.",
-});
+const delitoLeveDecision = (input: ProcessualInput = {}): ProcessualDecision => resolveMinorOffenceProcessualDecision(input);
 
 export function resolveDrugOutcome(input: { ventaObservada: boolean; indiciosSuficientes: boolean; sustancia: "grave_dano" | "resto" } & ProcessualInput): DrugOutcome {
   if (input.ventaObservada || input.indiciosSuficientes) {
@@ -192,7 +137,7 @@ export function resolveAuthorityOutcome(conceptId: string, level: string, input:
   }
   if (conceptId === "amenazas") {
     if (level === "leve") return {
-      titulo: "POSIBLE DELITO", norma: "Código Penal · art. 171.7", clasificacion: "DELITO LEVE", ...delitoLeveDecision(),
+      titulo: "POSIBLE DELITO", norma: "Código Penal · art. 171.7", clasificacion: "DELITO LEVE", ...delitoLeveDecision(input),
       porQue: "Amenaza de carácter leve fuera de los restantes supuestos.",
       frontera: "Una frase airada sin anuncio serio de mal penalmente relevante permanece en el art. 37.4 LO 4/2015. Una amenaza de mal futuro con entidad suficiente abre la rama del art. 169 CP; la intimidación grave integrada en resistencia grave o inicio inmediato de ataque abre la rama del art. 550 CP.",
       actuacion: ["Identificar y documentar literalmente las expresiones y el contexto.", "Informar de hechos y derechos; coordinar continuación y citación con CNP."],
@@ -308,7 +253,7 @@ const incidentResult = (titulo: string, norma: string, texto: string, actuacion:
 const basicIncidentAction = ["Proteger y separar cuando proceda.", "Identificar a las personas implicadas.", "Recoger hechos relevantes, testigos e indicios disponibles."];
 const relationConnection = (relation: PublicSafetyRelation | undefined): PublicSafetyConnection | undefined => relation === "vg" || relation === "domestica" ? { conceptId: "violencia_relacional", etiqueta: relation === "vg" ? "Violencia de género" : "Violencia doméstica", motivo: "La relación ya recogida se conserva en la intervención." } : undefined;
 const addConnection = (connections: PublicSafetyConnection[], connection: PublicSafetyConnection | undefined) => { if (connection && !connections.some((item) => item.conceptId === connection.conceptId)) connections.push(connection); };
-const withIncidentProcessual = (outcome: PublicSafetyOutcome, regime: "leve" | "no_leve" | undefined, input: ProcessualInput) => ({ ...outcome, procesal: regime === "leve" ? delitoLeveDecision() : regime === "no_leve" ? resolvePenalProcessualDecision(input) : undefined });
+const withIncidentProcessual = (outcome: PublicSafetyOutcome, regime: "leve" | "no_leve" | undefined, input: ProcessualInput) => ({ ...outcome, procesal: regime === "leve" ? delitoLeveDecision(input) : regime === "no_leve" ? resolvePenalProcessualDecision(input) : undefined });
 
 /** Motor común para incidentes personales: utiliza los mismos hechos entre bloques. */
 export function resolvePublicSafetyOutcome(conceptId: string, facts: PublicSafetyFacts, input: ProcessualInput = {}): PublicSafetyOutcome {

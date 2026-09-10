@@ -1,6 +1,7 @@
 /** Cloudflare Worker entry point for the vinext-starter template. */
 import { handleImageOptimization, DEFAULT_DEVICE_SIZES, DEFAULT_IMAGE_SIZES } from "vinext/server/image-optimization";
 import handler from "vinext/server/app-router-entry";
+import { APP_VERSION } from "../data/version";
 
 interface Env {
   ASSETS: Fetcher;
@@ -19,7 +20,7 @@ interface ExecutionContext {
   passThroughOnException(): void;
 }
 
-export const SITE_VERSION = "0.6.0";
+export const SITE_VERSION = APP_VERSION;
 function withFreshNavigation(response: Response): Response {
   const headers = new Headers(response.headers);
   const contentType = headers.get("content-type") ?? "";

@@ -137,5 +137,13 @@
     "descripcion": "Anuncio de mal, imposición y conducta reiterada",
     "orden": 70,
     "activo": true
+  },
+  {
+    "id": "seguridad_publica_patrimonio",
+    "modulo": "seguridad_publica",
+    "nombre": "Delitos contra el patrimonio",
+    "descripcion": "Hurto, robo, apropiación indebida y daños",
+    "orden": 90,
+    "activo": true
   }
 ]

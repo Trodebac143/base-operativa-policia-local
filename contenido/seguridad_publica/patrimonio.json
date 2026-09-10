@@ -1,0 +1,22 @@
+{
+  "id": "seguridad_publica_patrimonio",
+  "titulo": "Delitos contra el patrimonio",
+  "version_contenido": "0.7.0",
+  "alcance": ["Hurto", "Robo con fuerza", "Robo con violencia o intimidación", "Apropiación indebida", "Daños"],
+  "principios": [
+    "El agente aporta hechos; el motor deriva tipo penal, gravedad, grado, situación procesal y actuación.",
+    "Un dato desconocido no equivale a no, cero o ausencia.",
+    "La cuantía no convierte un robo con fuerza o violencia en hurto leve.",
+    "La recuperación del efecto no excluye por sí sola la consumación.",
+    "Las denuncias, detenciones, reseñas y antecedentes policiales nunca activan multirreincidencia.",
+    "La ausencia de flagrancia no equivale a ausencia de detención."
+  ],
+  "fronteras": {
+    "estafa": "El engaño previo que provoca un acto de disposición deriva al art. 248 CP; el árbol completo de estafas queda fuera de esta fase.",
+    "administracion_desleal": "El exceso de facultades de administración con perjuicio deriva al art. 252 CP.",
+    "llave_falsa": "Una llave entregada legítimamente no se trata automáticamente como llave falsa.",
+    "danos_informaticos": "Los daños informáticos derivan a su módulo específico y no se fuerzan dentro de los arts. 263 y siguientes.",
+    "excusa_268": "La excusa absolutoria no significa que no exista hecho; exige parentesco incluido y ausencia de violencia, intimidación o abuso de vulnerabilidad."
+  },
+  "fuentes": ["AN-SRC-007", "SP-SRC-LECRIM", "SP-SRC-CE", "SP-SRC-LO-1-2026"]
+}

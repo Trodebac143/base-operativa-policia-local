@@ -102,7 +102,7 @@ test("14 · Biblioteca incluye estilos responsive para navegación y fichas", as
 });
 
 test("15 · las fuentes de la intervención penal están registradas, visibles y enlazadas", () => {
-  for (const id of ["AN-SRC-007", "SP-SRC-LECRIM", "SP-SRC-LO-1-2004", "SP-SRC-LO-10-2022", "SP-SRC-LO-1-2025", "SP-SRC-VIOGEN-2"]) {
+  for (const id of ["AN-SRC-007", "SP-SRC-LECRIM", "SP-SRC-LO-1-2004", "SP-SRC-LO-10-2022", "SP-SRC-LO-1-2025", "SP-SRC-LO-1-2026", "SP-SRC-VIOGEN-2"]) {
     const source = sourceData.sources.find((item) => item.id === id);
     assert.ok(source, `Falta ${id}`);
     assert.ok(source.urlOficial || source.documentoLocal, `${id} no tiene enlace consultable`);
