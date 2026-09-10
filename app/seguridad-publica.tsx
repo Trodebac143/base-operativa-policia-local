@@ -240,9 +240,29 @@ function PatrimonyDecision({ facts, setFacts, onNavigate }: { facts: PublicSafet
   const [patrimony, setPatrimony] = useState<PatrimonyFacts>({});
   const [flagrante, setFlagrante] = useState<boolean>();
   const [processFacts, setProcessFacts] = useState<ProcessualFactsForm>({});
-  const set = <K extends keyof PatrimonyFacts>(key: K, value: PatrimonyFacts[K]) => setPatrimony((current) => ({ ...current, [key]: value }));
+  const set = <K extends keyof PatrimonyFacts>(key: K, value: PatrimonyFacts[K]) => setPatrimony((current) => {
+    const next = { ...current, [key]: value };
+    if (key === "posesionPrevia") {
+      next.recepcionLegitima = value === "autor_entrega_legitima";
+      next.obligacionDevolverEntregar = undefined;
+      next.facultadesAdministracion = undefined;
+      next.excesoFacultadesConPerjuicio = undefined;
+      next.conductaApropiacionONegacion = undefined;
+      next.viaApropiacionFuera253 = undefined;
+    }
+    if (key === "tipoLugar") next.especialGravedad2414 = undefined;
+    if (key === "violenciaFisica" || key === "intimidacion") {
+      next.momentoViolencia = undefined;
+      next.conexionViolenciaApoderamiento = undefined;
+      next.armaPresente = undefined;
+      next.armaUsada = undefined;
+      next.lesionAutonoma = undefined;
+      next.amenazaCoaccionAutonoma = undefined;
+    }
+    return next;
+  });
   const setRelation = <K extends keyof PublicSafetyFacts>(key: K, value: PublicSafetyFacts[K]) => setFacts((current) => ({ ...current, [key]: value }));
-  const outcome = resolvePatrimonyOutcome(patrimony, processualInput(flagrante, processFacts), facts);
+  const outcome = resolvePatrimonyOutcome({ ...patrimony, vinculoFamiliar268: facts.tipoRelacion === "familiar" ? patrimony.vinculoFamiliar268 : undefined }, processualInput(flagrante, processFacts), facts);
   const minor = outcome.gravedad === "DELITO LEVE";
   const showProcess = Boolean(outcome.procesal) && hasProcessualAnswer(flagrante, processFacts, minor);
   const mainOptions: Array<[NonNullable<PatrimonyFacts["hechoPrincipal"]>, string]> = [["apoderamiento", "Se llevan o intentan llevar una cosa"], ["recepcion", "La cosa se recibió legítimamente y después no se devuelve o se dispone de ella"], ["danos", "Se daña o destruye una cosa"], ["no_claro", "No puede determinarse todavía"]];
@@ -266,6 +286,7 @@ function PatrimonyDecision({ facts, setFacts, onNavigate }: { facts: PublicSafet
       {patrimony.fuerza && patrimony.fuerza !== "ninguna" && <fieldset className="sp-choice"><legend>Lugar</legend>{[["morada", "Morada, aunque esté temporalmente vacía"], ["local_abierto", "Local abierto al público"], ["local_fuera_horario", "Local fuera del horario de apertura"], ["dependencia", "Dependencia de casa o local"], ["otro", "Otro lugar"], ["no_determinado", "No determinado"]].map(([value, label]) => <label key={value}><input type="radio" checked={patrimony.tipoLugar === value} onChange={() => set("tipoLugar", value as PatrimonyFacts["tipoLugar"])} /> {label}</label>)}</fieldset>}
       {(patrimony.fuerza === "ninguna" || patrimony.conexionViolenciaApoderamiento === true) && <><MoneyQuestion facts={patrimony} set={set} />{patrimony.cuantiaAcreditada === true && <>{yesNo("¿Se neutraliza un dispositivo antihurto instalado en la propia cosa?", "dispositivoAntihurtoEnCosaNeutralizado")}{yesNo("¿Es teléfono móvil u otro dispositivo del art. 235.1.10 CP?", "telefonoODispositivo235")}{patrimony.telefonoODispositivo235 && yesNo("¿Es una existencia destinada a venta, almacenamiento o exposición comercial?", "existenciaComercialVentaAlmacenExposicion")}</>}</>}
     </>}
+    {patrimony.hechoPrincipal === "apoderamiento" && patrimony.fuerza && patrimony.fuerza !== "ninguna" && ["morada", "local_abierto", "local_fuera_horario", "dependencia"].includes(patrimony.tipoLugar ?? "") && !patrimony.violenciaFisica && !patrimony.intimidacion && <details className="sp-common"><summary>Circunstancias de especial gravedad del robo</summary>{yesNo("¿Consta especial gravedad por la forma de comisión o los perjuicios, conforme al art. 241.4 CP?", "especialGravedad2414")}</details>}
     {patrimony.hechoPrincipal === "recepcion" && patrimony.titularidad === "ajena" && <>
       <fieldset className="sp-choice"><legend>¿Cómo llegó la cosa a poder del autor?</legend>{[["autor_entrega_legitima", "Entrega legítima"], ["autor_acceso_material", "Mero acceso material o laboral"], ["autor_facultades_administracion", "Con facultades de administración"], ["victima_titular", "Seguía en posesión del titular"], ["tercero", "Por un tercero"], ["no_determinada", "No determinado"]].map(([value, label]) => <label key={value}><input type="radio" checked={patrimony.posesionPrevia === value} onChange={() => set("posesionPrevia", value as PatrimonyFacts["posesionPrevia"])} /> {label}</label>)}</fieldset>
       {patrimony.posesionPrevia && yesNo("¿Hubo engaño previo que provocó el acto de disposición?", "enganoPrevioActoDisposicion")}{patrimony.enganoPrevioActoDisposicion === false && <>{yesNo("¿Existía obligación de devolver o entregar?", "obligacionDevolverEntregar")}{yesNo("¿Tenía facultades de administración?", "facultadesAdministracion")}{patrimony.facultadesAdministracion && yesNo("¿Excedió esas facultades causando perjuicio?", "excesoFacultadesConPerjuicio")}{yesNo("¿Se apropió o negó haber recibido la cosa?", "conductaApropiacionONegacion")}{yesNo("¿Es un supuesto residual fuera del art. 253?", "viaApropiacionFuera253")}{(patrimony.conductaApropiacionONegacion || patrimony.viaApropiacionFuera253 || patrimony.excesoFacultadesConPerjuicio) && <MoneyQuestion facts={patrimony} set={set} />}</>}
