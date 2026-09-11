@@ -1,0 +1,24 @@
+{
+  "name": "Base Operativa Policía Local",
+  "short_name": "Base Operativa",
+  "description": "Consulta rápida de conocimiento operativo policial estructurado.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "theme_color": "#112f50",
+  "background_color": "#112f50",
+  "icons": [
+    {
+      "src": "branding/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "branding/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

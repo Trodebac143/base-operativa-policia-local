@@ -55,11 +55,16 @@ main {
   display: grid;
   place-items: center;
   font-size: 25px;
+  padding: 2px;
+  overflow: hidden;
 }
 
-.brandmark svg {
-  width: 28px;
-  height: 28px;
+.brandmark img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 8px;
 }
 
 .eyebrow {
@@ -436,6 +441,11 @@ main {
 
   .topbar {
     min-height: 72px;
+  }
+
+  .brandmark {
+    width: 42px;
+    height: 42px;
   }
 
   .topbar h1 span {

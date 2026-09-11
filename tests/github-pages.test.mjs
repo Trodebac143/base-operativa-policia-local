@@ -1,5 +1,7 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { access, readFile } from "node:fs/promises";
+import { join } from "node:path";
+import { fileURLToPath } from "node:url";
 import test from "node:test";
 
 test("GitHub Pages usa exportación estática y un basePath calculado", async () => {
@@ -18,8 +20,31 @@ test("los recursos públicos se resuelven mediante un único helper", async () =
   assert.match(helper, /NEXT_PUBLIC_BASE_PATH/);
   assert.match(libraryView, /publicPath\(`\/documentos\/\$\{document\.archivo\}`\)/);
   assert.match(libraryView, /publicPath\(`\/documentos\/\$\{source\.documentoLocal\}`\)/);
-  assert.match(layout, /publicPath\("\/favicon\.svg"\)/);
+  assert.match(layout, /publicPath\("\/favicon\.ico"\)/);
+  assert.match(layout, /publicPath\("\/manifest\.webmanifest"\)/);
+  assert.match(layout, /apple-touch-icon\.png/);
+  assert.match(layout, /applicationName: "Base Operativa"/);
   assert.doesNotMatch(libraryView, /encodeURI\(`\/documentos\//);
+});
+
+test("la identidad visual usa el master y derivados accesibles bajo basePath", async () => {
+  const page = await readFile(new URL("../app/page.tsx", import.meta.url), "utf8");
+  const manifest = JSON.parse(await readFile(new URL("../public/manifest.webmanifest", import.meta.url), "utf8"));
+  assert.match(page, /publicPath\("\/branding\/Icono_Base_Operativa\.png"\)/);
+  assert.equal(manifest.name, "Base Operativa Policía Local");
+  assert.equal(manifest.short_name, "Base Operativa");
+  assert.deepEqual(manifest.icons.map((icon) => icon.sizes), ["192x192", "512x512"]);
+  for (const asset of [
+    "public/favicon.ico",
+    "public/branding/Icono_Base_Operativa.png",
+    "public/branding/favicon-16x16.png",
+    "public/branding/favicon-32x32.png",
+    "public/branding/apple-touch-icon.png",
+    "public/branding/icon-192x192.png",
+    "public/branding/icon-512x512.png",
+  ]) {
+    await access(join(fileURLToPath(new URL("..", import.meta.url)), asset));
+  }
 });
 
 test("el workflow utiliza las acciones oficiales de GitHub Pages", async () => {
