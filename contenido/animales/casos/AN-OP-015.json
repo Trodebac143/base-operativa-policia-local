@@ -1,0 +1,49 @@
+{
+  "id": "AN-OP-015",
+  "modulo": "animales",
+  "categoria": "animales_convivencia",
+  "titulo": "Animal en espacio con acceso expresamente prohibido",
+  "palabras_clave": [
+    "acceso prohibido",
+    "señal",
+    "animal",
+    "establecimiento",
+    "entrada"
+  ],
+  "que_comprobar": [
+    "Comprobar que existe prohibición expresa aplicable y señalización visible.",
+    "Identificar al responsable y al animal.",
+    "Comprobar si concurre alguna excepción legal, especialmente perros de asistencia."
+  ],
+  "resultado": "Posible infracción municipal por presencia del animal en un espacio donde exista prohibición expresa aplicable.",
+  "norma": "Ordenanza Municipal sobre Tenencia de Animales de Torrent",
+  "articulo": "65.5",
+  "calificacion": null,
+  "rango_min": null,
+  "rango_max": null,
+  "actuacion": [
+    "Comprobar prohibición y señalización.",
+    "Identificar al responsable.",
+    "Documentar lugar, señalización y ausencia de excepción.",
+    "Formular denuncia si procede.",
+    "Informar de que debe retirar al animal y respetar las condiciones de acceso."
+  ],
+  "competencia_denuncia": "Policía Local",
+  "competencia_resuelve": "Ayuntamiento de Torrent",
+  "advertencias": [
+    "Solo utiliza esta ficha si existe una prohibición expresa aplicable y visible; no basta con que el establecimiento sea de un determinado tipo.",
+    "Antes de denunciar, comprueba si existe una excepción legal. Si se trata de un perro de asistencia amparado por su régimen específico, no uses esta ficha por el mero acceso del animal."
+  ],
+  "alerta_penal": false,
+  "referencia_penal": null,
+  "regla_transversal": null,
+  "fuentes": [
+    "OTA-TORRENT",
+    "AN-SRC-001",
+    "AN-SRC-016"
+  ],
+  "fichas_juridicas": [
+    "AN-JUR-004"
+  ],
+  "estado": "validado"
+}

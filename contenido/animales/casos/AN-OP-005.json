@@ -1,0 +1,46 @@
+{
+  "id": "AN-OP-005",
+  "modulo": "animales",
+  "categoria": "animales_ppp",
+  "titulo": "PPP no inscrito en el registro correspondiente",
+  "palabras_clave": [
+    "PPP",
+    "registro",
+    "inscripción",
+    "registro PPP"
+  ],
+  "que_comprobar": [
+    "Confirmar condición de PPP.",
+    "Comprobar si el animal consta inscrito en el registro PPP correspondiente.",
+    "Identificar al responsable.",
+    "Documentar la consulta y su resultado."
+  ],
+  "resultado": "Omisión de la inscripción del animal potencialmente peligroso en el registro correspondiente.",
+  "norma": "Ley 50/1999",
+  "articulo": "13.2.c",
+  "calificacion": "grave",
+  "rango_min": 300.52,
+  "rango_max": 2404.05,
+  "actuacion": [
+    "Comprobar inscripción.",
+    "Identificar al responsable.",
+    "Documentar el resultado.",
+    "Formular denuncia por el cauce PPP.",
+    "Informar de la obligación de inscripción."
+  ],
+  "competencia_denuncia": "Policía Local",
+  "competencia_resuelve": "Ayuntamiento de Torrent",
+  "advertencias": [],
+  "alerta_penal": false,
+  "referencia_penal": null,
+  "regla_transversal": null,
+  "fuentes": [
+    "AN-SRC-004",
+    "AN-SRC-005",
+    "AN-SRC-027"
+  ],
+  "fichas_juridicas": [
+    "AN-JUR-017"
+  ],
+  "estado": "validado"
+}

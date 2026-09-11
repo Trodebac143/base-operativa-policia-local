@@ -1,0 +1,48 @@
+{
+  "id": "AN-OP-006",
+  "modulo": "animales",
+  "categoria": "animales_ppp",
+  "titulo": "PPP sin bozal",
+  "palabras_clave": [
+    "PPP",
+    "bozal",
+    "vía pública",
+    "lugar público"
+  ],
+  "que_comprobar": [
+    "Confirmar condición de PPP.",
+    "Comprobar que se encuentra en lugar o espacio público.",
+    "Constatar la ausencia efectiva de bozal.",
+    "Identificar al conductor y comprobar documentación."
+  ],
+  "resultado": "PPP en lugar público sin bozal reglamentario.",
+  "norma": "Ley 50/1999",
+  "articulo": "13.2.d",
+  "calificacion": "grave",
+  "rango_min": 300.52,
+  "rango_max": 2404.05,
+  "actuacion": [
+    "Identificar al conductor y al animal.",
+    "Documentar lugar, circunstancias y ausencia de bozal.",
+    "Comprobar el resto de requisitos PPP sin generar duplicidades automáticas.",
+    "Formular denuncia por el cauce PPP.",
+    "Informar de la obligación de utilizar bozal adecuado."
+  ],
+  "competencia_denuncia": "Policía Local",
+  "competencia_resuelve": "Ayuntamiento de Torrent",
+  "advertencias": [
+    "Comprueba también la correa: debe ser no extensible y de menos de 2 metros. Si además incumple esta obligación, describe por separado la falta de bozal y la sujeción incorrecta."
+  ],
+  "alerta_penal": false,
+  "referencia_penal": null,
+  "regla_transversal": null,
+  "fuentes": [
+    "AN-SRC-004",
+    "AN-SRC-005",
+    "AN-SRC-027"
+  ],
+  "fichas_juridicas": [
+    "AN-JUR-019"
+  ],
+  "estado": "validado"
+}

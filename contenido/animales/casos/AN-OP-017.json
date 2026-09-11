@@ -1,0 +1,52 @@
+{
+  "id": "AN-OP-017",
+  "modulo": "animales",
+  "categoria": "animales_identificacion",
+  "titulo": "Datos registrales del animal no actualizados",
+  "palabras_clave": [
+    "registro",
+    "datos",
+    "actualización",
+    "titular",
+    "domicilio",
+    "teléfono",
+    "RIAC",
+    "identificación"
+  ],
+  "que_comprobar": [
+    "Identificar al animal y a su responsable legal.",
+    "Comprobar que el animal está sujeto a identificación y consta en el registro correspondiente.",
+    "Determinar qué dato registral obligatorio está desactualizado.",
+    "Comprobar, cuando sea posible, desde cuándo existe el cambio y si fue comunicado.",
+    "Documentar la consulta registral y el dato concreto que no está actualizado."
+  ],
+  "resultado": "No mantener actualizados los datos del animal en el Registro Supramunicipal de Identificación de Animales de Compañía de la Comunitat Valenciana.",
+  "norma": "Ley 2/2023 de la Comunitat Valenciana",
+  "articulo": "42.2.g",
+  "calificacion": "leve",
+  "rango_min": 100,
+  "rango_max": 3000,
+  "actuacion": [
+    "Identificar al responsable y al animal.",
+    "Comprobar la información registral disponible.",
+    "Precisar en el acta qué dato consta desactualizado y cuál es el dato correcto acreditado.",
+    "Formular denuncia si se acredita el incumplimiento.",
+    "Informar al responsable de que debe actualizar los datos en el registro correspondiente."
+  ],
+  "competencia_denuncia": "Policía Local",
+  "competencia_resuelve": "Ayuntamiento de Torrent",
+  "advertencias": [
+    "No confundir datos registrales desactualizados con ausencia de identificación física (chip), falta de inscripción registral o falta de censo municipal.",
+    "Debe concretarse qué dato obligatorio no está actualizado; no basta una referencia genérica a 'datos incorrectos'."
+  ],
+  "alerta_penal": false,
+  "referencia_penal": null,
+  "regla_transversal": null,
+  "fuentes": [
+    "AN-SRC-018"
+  ],
+  "fichas_juridicas": [
+    "AN-JUR-033"
+  ],
+  "estado": "validado"
+}

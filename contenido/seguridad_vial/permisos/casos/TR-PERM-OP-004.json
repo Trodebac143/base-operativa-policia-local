@@ -1,0 +1,50 @@
+{
+  "id": "TR-PERM-OP-004",
+  "modulo": "seguridad_vial",
+  "categoria": "seguridad_vial_permisos",
+  "titulo": "Nunca ha obtenido permiso o licencia",
+  "situacion": "Conduce vehículo de motor o ciclomotor sin haber obtenido nunca permiso o licencia.",
+  "palabras_clave": [
+    "nunca obtenido",
+    "384",
+    "5A"
+  ],
+  "que_comprobar": [
+    "Consulta registral completa.",
+    "Que no existe permiso auténtico español ni extranjero."
+  ],
+  "resultado": "VÍA PENAL PREFERENTE — ART. 384 CP. Formular también denuncia administrativa 5A y dejar su tramitación suspendida.",
+  "via": "Penal preferente y administrativa suspendida",
+  "norma": "Reglamento General de Conductores",
+  "articulo": "1.1",
+  "textoDenuncia": "CONDUCIR EL VEHÍCULO RESEÑADO CARECIENDO DE AUTORIZACIÓN ADMINISTRATIVA PARA CONDUCIR POR NO HABERLA OBTENIDO NUNCA.",
+  "codificado": "CON 1.1 5A",
+  "calificacion": "muy grave",
+  "importe_fijo": 500,
+  "importe_reducido": 250,
+  "responsable": "Conductor",
+  "actuacion": [
+    "Detener la conducción.",
+    "Instruir diligencias por el artículo 384 CP.",
+    "Formular denuncia 5A y dejarla suspendida.",
+    "Permitir conductor sustituto habilitado si no concurre otra causa."
+  ],
+  "competencia_denuncia": "Policía Local de Torrent",
+  "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
+  "destino_diligencias_penales": "Juzgado de Guardia de Torrent",
+  "advertencias": [
+    "Un permiso extranjero auténtico, aunque no sea válido en España, excluye la clasificación de nunca obtenido."
+  ],
+  "alerta_penal": true,
+  "penal_article_id": "CP-384",
+  "regla_transversal": "GEN-JUR-001",
+  "fuentes": [
+    "TR-PERM-SRC-001",
+    "AN-SRC-007",
+    "TR-ITV-SRC-007"
+  ],
+  "fichas_juridicas": [
+    "TR-PERM-FJ-003"
+  ],
+  "estado": "validado"
+}

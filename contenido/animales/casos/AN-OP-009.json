@@ -1,0 +1,45 @@
+{
+  "id": "AN-OP-009",
+  "modulo": "animales",
+  "categoria": "animales_ppp",
+  "titulo": "Negativa o resistencia a facilitar datos/documentación PPP",
+  "palabras_clave": [
+    "PPP",
+    "negativa",
+    "resistencia",
+    "documentación",
+    "datos falsos"
+  ],
+  "que_comprobar": [
+    "Realizar un requerimiento claro de datos o documentación legalmente exigible.",
+    "Identificar qué documento o dato se solicita.",
+    "Documentar la negativa, resistencia o la información inexacta/falsa."
+  ],
+  "resultado": "Negativa o resistencia a suministrar datos o facilitar información requerida por autoridades/agentes, o suministro de información inexacta/documentación falsa en los términos de la Ley 50/1999.",
+  "norma": "Ley 50/1999",
+  "articulo": "13.2.f",
+  "calificacion": "grave",
+  "rango_min": 300.52,
+  "rango_max": 2404.05,
+  "actuacion": [
+    "Documentar el requerimiento efectuado.",
+    "Hacer constar la respuesta concreta de la persona requerida.",
+    "Comprobar por otros medios la información disponible.",
+    "Formular denuncia cuando concurran los elementos del tipo."
+  ],
+  "competencia_denuncia": "Policía Local",
+  "competencia_resuelve": "Ayuntamiento de Torrent",
+  "advertencias": [],
+  "alerta_penal": false,
+  "referencia_penal": null,
+  "regla_transversal": null,
+  "fuentes": [
+    "AN-SRC-004",
+    "AN-SRC-005",
+    "AN-SRC-027"
+  ],
+  "fichas_juridicas": [
+    "AN-JUR-023"
+  ],
+  "estado": "validado"
+}

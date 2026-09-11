@@ -1,0 +1,89 @@
+{
+  "modulo": "seguridad_vial",
+  "categoria": "seguridad_vial_itv",
+  "responsable": "Titular o arrendatario a largo plazo inscrito",
+  "competencia_denuncia": "Policía Local de Torrent — órgano actuante y formulador de la denuncia",
+  "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
+  "alerta_penal": false,
+  "referencia_penal": null,
+  "estado": "validado",
+  "id": "TR-ITV-OP-003",
+  "titulo": "ITV desfavorable — dentro del plazo",
+  "palabras_clave": [
+    "ITV",
+    "desfavorable",
+    "segunda inspección",
+    "taller",
+    "5C"
+  ],
+  "que_comprobar": [
+    "Informe ITV, defectos graves y fecha límite de segunda inspección.",
+    "Origen, destino y finalidad real del desplazamiento.",
+    "Necesidad del traslado al taller o regularización, o de la vuelta a la estación ITV.",
+    "Coherencia de la ruta y ausencia de usos intermedios."
+  ],
+  "resultado": "Dentro del plazo, solo están permitidos los desplazamientos necesarios para subsanar las deficiencias y volver a la inspección. Cualquier otro desplazamiento constituye infracción.",
+  "estado_circulacion": "INHABILITADO, salvo los desplazamientos expresamente permitidos por el art. 11.2.",
+  "norma": "Reglamento General de Vehículos",
+  "articulo": "10.1",
+  "norma_infringida": "Reglamento General de Vehículos",
+  "articulo_infringido": "10.1",
+  "tipificacion_norma": "Ley sobre Tráfico, Circulación de Vehículos a Motor y Seguridad Vial",
+  "tipificacion_articulo": "76.o",
+  "calificacion": null,
+  "inmovilizacion": "CONDICIONADA",
+  "motivo_inmovilizacion": "Solo cuando existan deficiencias actuales que constituyan riesgo especialmente grave para la seguridad vial.",
+  "actuacion_breve": [
+    "Verificar que el trayecto sea necesario para reparar o volver a ITV; si no lo es, formular denuncia 5C."
+  ],
+  "actuacion": [
+    "Comprobar el informe ITV y la fecha límite.",
+    "Comprobar destino y finalidad del desplazamiento.",
+    "Si se dirige al taller o regularización, o vuelve a una estación ITV para nueva inspección dentro del plazo, el desplazamiento está amparado por el art. 11.2.",
+    "Si realiza cualquier otro desplazamiento, aplicar la denuncia correspondiente.",
+    "No acordar inmovilización por el mero resultado desfavorable; aplicar art. 104 solo si concurre una causa concreta."
+  ],
+  "medidas": [
+    "TR-MED-ITV-CHECK",
+    "TR-MED-WARN-NOCIRC"
+  ],
+  "advertencias": [
+    "La ITV desfavorable no genera inmovilización automática.",
+    "El plazo concedido para la segunda inspección no puede superar dos meses desde la primera inspección desfavorable."
+  ],
+  "datos_adicionales": {
+    "encaje_condicional": [
+      {
+        "supuesto": "Trayecto necesario y coherente para subsanar las deficiencias o volver a la ITV",
+        "articulo": "11.2 RD 920/2017",
+        "calificacion": "sin infracción ITV"
+      },
+      {
+        "supuesto": "Cualquier otro desplazamiento",
+        "articulo": "10.1 RGV",
+        "norma_infringida": "Reglamento General de Vehículos",
+        "articulo_infringido": "10.1",
+        "tipificacion_norma": "Ley sobre Tráfico, Circulación de Vehículos a Motor y Seguridad Vial",
+        "tipificacion_articulo": "76.o",
+        "textoDenuncia": "CIRCULAR CON EL VEHÍCULO RESEÑADO CUYA INSPECCIÓN TÉCNICA HA RESULTADO DESFAVORABLE.",
+        "calificacion": "grave",
+        "codificado": "VEH 10.1 5C",
+        "importe_fijo": 200,
+        "importe_reducido": 100
+      }
+    ]
+  },
+  "fuentes": [
+    "TR-ITV-SRC-001",
+    "TR-ITV-SRC-002",
+    "TR-ITV-SRC-003",
+    "TR-ITV-SRC-007"
+  ],
+  "fichas_juridicas": [
+    "TR-ITV-FJ-002",
+    "TR-ITV-FJ-003",
+    "TR-ITV-FJ-004",
+    "TR-ITV-FJ-005",
+    "TR-ITV-FJ-006"
+  ]
+}

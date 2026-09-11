@@ -1,0 +1,47 @@
+{
+  "id": "TR-PERM-OP-010",
+  "modulo": "seguridad_vial",
+  "categoria": "seguridad_vial_permisos",
+  "subgrupo": "permisos_suspension_judicial",
+  "titulo": "Conducir fuera del plazo de suspensión judicial (hasta 2 años) sin haber hecho curso",
+  "situacion": "La privación judicial, exactamente de dos años o inferior, está cumplida, pero no se acredita el curso exigido.",
+  "palabras_clave": [
+    "dos años",
+    "cumplida",
+    "curso",
+    "5D"
+  ],
+  "que_comprobar": [
+    "Duración exacta y cumplimiento total.",
+    "Curso de sensibilización y reeducación vial."
+  ],
+  "resultado": "VÍA ADMINISTRATIVA 5D. La pena está cumplida: no aplicar los artículos 384 ni 468 CP.",
+  "via": "Administrativa",
+  "norma": "Reglamento General de Conductores",
+  "articulo": "1.1",
+  "textoDenuncia": "CONDUCIR EL VEHÍCULO RESEÑADO INCUMPLIENDO LOS REQUISITOS ADMINISTRATIVOS EXIGIDOS PARA HACERLO TRAS HABER CUMPLIDO UNA PENA DE PRIVACIÓN DEL DERECHO A CONDUCIR DE DURACIÓN IGUAL O INFERIOR A DOS AÑOS.",
+  "codificado": "CON 1.1 5D",
+  "calificacion": "grave",
+  "importe_fijo": 200,
+  "importe_reducido": 100,
+  "responsable": "Conductor",
+  "actuacion": [
+    "Detener la conducción y formular denuncia 5D.",
+    "Permitir conductor sustituto habilitado si no concurre otra causa."
+  ],
+  "competencia_denuncia": "Policía Local de Torrent",
+  "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
+  "advertencias": [
+    "Exactamente dos años pertenece a esta rama."
+  ],
+  "alerta_penal": false,
+  "fuentes": [
+    "TR-PERM-SRC-001",
+    "TR-PERM-SRC-003",
+    "TR-ITV-SRC-007"
+  ],
+  "fichas_juridicas": [
+    "TR-PERM-FJ-005"
+  ],
+  "estado": "validado"
+}

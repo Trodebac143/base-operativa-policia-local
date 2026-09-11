@@ -1,0 +1,73 @@
+{
+  "modulo": "seguridad_vial",
+  "categoria": "seguridad_vial_itv",
+  "responsable": "Titular o arrendatario a largo plazo inscrito",
+  "competencia_denuncia": "Policía Local de Torrent — órgano actuante y formulador de la denuncia",
+  "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
+  "alerta_penal": false,
+  "referencia_penal": null,
+  "estado": "validado",
+  "id": "TR-ITV-OP-006",
+  "titulo": "ITV negativa — puesto en circulación / estacionado",
+  "palabras_clave": [
+    "ITV",
+    "negativa",
+    "estacionado",
+    "grúa",
+    "5F"
+  ],
+  "que_comprobar": [
+    "Resultado negativo e informe de defectos muy graves.",
+    "Ubicación en vía pública e indicios de puesta en circulación.",
+    "Deficiencias técnicas actuales.",
+    "Existencia independiente de peligro, obstáculo u otro presupuesto de retirada."
+  ],
+  "resultado": "Vehículo con última ITV negativa estacionado o puesto en circulación en vía pública.",
+  "estado_circulacion": "CIRCULACIÓN PROHIBIDA POR MEDIOS PROPIOS mientras persista la inhabilitación.",
+  "norma": "Reglamento General de Vehículos",
+  "articulo": "10.1",
+  "norma_infringida": "Reglamento General de Vehículos",
+  "articulo_infringido": "10.1",
+  "tipificacion_norma": "Ley sobre Tráfico, Circulación de Vehículos a Motor y Seguridad Vial",
+  "tipificacion_articulo": "76.o",
+  "textoDenuncia": "PONER EN CIRCULACIÓN EL VEHÍCULO RESEÑADO, CUYA ÚLTIMA INSPECCIÓN TÉCNICA HA RESULTADO NEGATIVA, HABIENDO QUEDADO INHABILITADO PARA CIRCULAR POR LAS VÍAS PÚBLICAS.",
+  "codificado": "VEH 10.1 5F",
+  "calificacion": "grave",
+  "importe_fijo": 200,
+  "importe_reducido": 100,
+  "inmovilizacion": "CONDICIONADA",
+  "motivo_inmovilizacion": "Solo cuando existan deficiencias actuales que constituyan riesgo especialmente grave; la anotación negativa no basta por sí sola.",
+  "actuacion_breve": [
+    "Formular denuncia 5F y advertir que el vehículo solo puede retirarse mediante transporte por medios ajenos."
+  ],
+  "actuacion": [
+    "Formular la denuncia correspondiente cuando concurran los elementos de la salida sancionadora ya validada.",
+    "Advertir expresamente que el vehículo no puede ser retirado circulando por sus propios medios.",
+    "Si debe trasladarse, utilizar medios ajenos al propio vehículo.",
+    "Aplicar inmovilización del art. 104 únicamente si el defecto acreditado encaja en una causa concreta, especialmente 104.1.b o 104.1.h.",
+    "Aplicar retirada y depósito solo si concurre un supuesto propio del art. 105 LSV."
+  ],
+  "medidas": [
+    "TR-MED-ITV-CHECK",
+    "TR-MED-WARN-NOCIRC",
+    "TR-MED-EXT-TRANSPORT"
+  ],
+  "advertencias": [
+    "La anotación negativa no genera automáticamente inmovilización, retirada ni depósito.",
+    "La retirada administrativa exige peligro, obstáculo u otro supuesto tasado del artículo 105 LSV."
+  ],
+  "fuentes": [
+    "TR-ITV-SRC-001",
+    "TR-ITV-SRC-002",
+    "TR-ITV-SRC-003",
+    "TR-ITV-SRC-004",
+    "TR-ITV-SRC-007"
+  ],
+  "fichas_juridicas": [
+    "TR-ITV-FJ-002",
+    "TR-ITV-FJ-003",
+    "TR-ITV-FJ-004",
+    "TR-ITV-FJ-005",
+    "TR-ITV-FJ-006"
+  ]
+}

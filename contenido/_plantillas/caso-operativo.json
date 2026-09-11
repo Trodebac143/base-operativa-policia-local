@@ -1,0 +1,26 @@
+{
+  "id": "XX-OP-001",
+  "modulo": "ID_DEL_MODULO",
+  "categoria": "ID_DE_LA_CATEGORIA",
+  "titulo": "Título breve del caso",
+  "palabras_clave": [
+    "palabra para buscar"
+  ],
+  "que_comprobar": [
+    "Primera comprobación necesaria"
+  ],
+  "resultado": "Resultado operativo validado",
+  "norma": "Norma aplicable",
+  "articulo": "Artículo aplicable",
+  "actuacion": [
+    "Primera actuación"
+  ],
+  "competencia_denuncia": "Órgano actuante o formulador",
+  "competencia_resuelve": "Órgano que resuelve",
+  "advertencias": [],
+  "alerta_penal": false,
+  "fuentes": [
+    "ID-DE-FUENTE-EXISTENTE"
+  ],
+  "estado": "borrador"
+}

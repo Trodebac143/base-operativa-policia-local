@@ -1,0 +1,48 @@
+{
+  "id": "TR-PERM-OP-016",
+  "modulo": "seguridad_vial",
+  "categoria": "seguridad_vial_permisos",
+  "subgrupo": "permisos_extranjeros",
+  "titulo": "Permiso extranjero ya no válido — no susceptible de canje",
+  "situacion": "El permiso extranjero ya no es válido en España y no cumple las condiciones reglamentarias de canje.",
+  "palabras_clave": [
+    "extranjero",
+    "no canjeable",
+    "5E",
+    "residente"
+  ],
+  "que_comprobar": [
+    "Pérdida actual de validez en España.",
+    "Condición concreta que impide el canje, incluida la fecha de obtención respecto de la residencia legal."
+  ],
+  "resultado": "NO VÁLIDO ACTUALMENTE EN ESPAÑA. VÍA ADMINISTRATIVA 5E por permiso extranjero equivalente no susceptible de canje. No clasificar como nunca obtenido.",
+  "via": "Administrativa",
+  "norma": "Reglamento General de Conductores",
+  "articulo": "1.1",
+  "textoDenuncia": "CONDUCIR EL VEHÍCULO RESEÑADO CARECIENDO DE AUTORIZACIÓN ADMINISTRATIVA DE CONDUCCIÓN VÁLIDA EN ESPAÑA, SIENDO TITULAR DE PERMISO EXTRANJERO EQUIVALENTE NO SUSCEPTIBLE DE CANJE POR INCUMPLIMIENTO DE CONDICIONES Y REQUISITOS REGLAMENTARIAMENTE EXIGIDOS.",
+  "codificado": "CON 1.1 5E",
+  "calificacion": "muy grave",
+  "importe_fijo": 500,
+  "importe_reducido": 250,
+  "responsable": "Conductor",
+  "actuacion": [
+    "Detener la conducción y formular denuncia 5E.",
+    "Permitir conductor sustituto habilitado si no concurre otra causa."
+  ],
+  "competencia_denuncia": "Policía Local de Torrent",
+  "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
+  "advertencias": [
+    "No anticipar esta consecuencia durante un periodo en que el artículo 21 todavía reconozca validez."
+  ],
+  "alerta_penal": false,
+  "fuentes": [
+    "TR-PERM-SRC-001",
+    "TR-PERM-SRC-005",
+    "TR-PERM-SRC-006",
+    "TR-ITV-SRC-007"
+  ],
+  "fichas_juridicas": [
+    "TR-PERM-FJ-007"
+  ],
+  "estado": "validado"
+}

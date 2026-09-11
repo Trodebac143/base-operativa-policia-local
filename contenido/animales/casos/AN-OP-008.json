@@ -1,0 +1,47 @@
+{
+  "id": "AN-OP-008",
+  "modulo": "animales",
+  "categoria": "animales_ppp",
+  "titulo": "PPP suelto o sin medidas para evitar escapada/extravío",
+  "palabras_clave": [
+    "PPP",
+    "suelto",
+    "escapada",
+    "extravío",
+    "fuga"
+  ],
+  "que_comprobar": [
+    "Confirmar condición de PPP.",
+    "Determinar si estaba suelto o existían medidas insuficientes para evitar la escapada/extravío.",
+    "Identificar al responsable.",
+    "Documentar lugar, recinto, cierres, sujeciones y circunstancias."
+  ],
+  "resultado": "Dejar suelto un PPP o no adoptar las medidas necesarias para evitar su escapada o extravío.",
+  "norma": "Ley 50/1999",
+  "articulo": "13.2.a",
+  "calificacion": "grave",
+  "rango_min": 300.52,
+  "rango_max": 2404.05,
+  "actuacion": [
+    "Controlar/proteger el animal y evitar riesgos.",
+    "Identificar al responsable.",
+    "Documentar las medidas existentes y por qué resultaron insuficientes.",
+    "Formular denuncia por el cauce PPP.",
+    "Informar de la obligación de adoptar medidas eficaces de control."
+  ],
+  "competencia_denuncia": "Policía Local",
+  "competencia_resuelve": "Ayuntamiento de Torrent",
+  "advertencias": [],
+  "alerta_penal": false,
+  "referencia_penal": null,
+  "regla_transversal": null,
+  "fuentes": [
+    "AN-SRC-004",
+    "AN-SRC-005",
+    "AN-SRC-027"
+  ],
+  "fichas_juridicas": [
+    "AN-JUR-021"
+  ],
+  "estado": "validado"
+}

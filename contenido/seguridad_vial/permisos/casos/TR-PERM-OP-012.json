@@ -1,0 +1,41 @@
+{
+  "id": "TR-PERM-OP-012",
+  "modulo": "seguridad_vial",
+  "categoria": "seguridad_vial_permisos",
+  "titulo": "Incumplimiento de requisitos administrativos para conducir",
+  "situacion": "Existe autorización de base, pero se incumple un requisito administrativo exigido para conducir.",
+  "palabras_clave": [
+    "requisitos administrativos",
+    "5D"
+  ],
+  "que_comprobar": [
+    "Requisito concreto incumplido y vigencia de la autorización de base."
+  ],
+  "resultado": "VÍA ADMINISTRATIVA. Aplicar exclusivamente la opción 5D cuando el hecho encaje en incumplimiento de requisitos administrativos.",
+  "via": "Administrativa",
+  "norma": "Reglamento General de Conductores",
+  "articulo": "1.1",
+  "codificado": "CON 1.1 5D",
+  "calificacion": "grave",
+  "importe_fijo": 200,
+  "importe_reducido": 100,
+  "responsable": "Conductor",
+  "actuacion": [
+    "Documentar el requisito incumplido y formular denuncia 5D.",
+    "Detener la conducción si no puede continuar legalmente."
+  ],
+  "competencia_denuncia": "Policía Local de Torrent",
+  "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
+  "advertencias": [
+    "No usar esta opción como categoría residual sin identificar el requisito."
+  ],
+  "alerta_penal": false,
+  "fuentes": [
+    "TR-PERM-SRC-001",
+    "TR-ITV-SRC-007"
+  ],
+  "fichas_juridicas": [
+    "TR-PERM-FJ-001"
+  ],
+  "estado": "validado"
+}

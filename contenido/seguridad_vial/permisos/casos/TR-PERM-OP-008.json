@@ -1,0 +1,49 @@
+{
+  "id": "TR-PERM-OP-008",
+  "modulo": "seguridad_vial",
+  "categoria": "seguridad_vial_permisos",
+  "subgrupo": "permisos_perdida_vigencia",
+  "titulo": "Fuera del plazo de la pérdida de vigencia sin curso ni examen",
+  "situacion": "Han transcurrido seis o tres meses desde la pérdida, pero no se han superado curso y prueba de recuperación.",
+  "palabras_clave": [
+    "seis meses",
+    "tres meses",
+    "curso",
+    "prueba",
+    "puntos"
+  ],
+  "que_comprobar": [
+    "Pérdida firme, ejecutiva y conocida.",
+    "Curso y prueba de recuperación."
+  ],
+  "resultado": "LA AUTORIZACIÓN NO SE RECUPERA AUTOMÁTICAMENTE. Si concurren firmeza, ejecutividad y conocimiento, vía penal preferente del artículo 384 CP y denuncia 5A suspendida.",
+  "via": "Penal preferente y administrativa suspendida",
+  "norma": "Reglamento General de Conductores",
+  "articulo": "1.1",
+  "codificado": "CON 1.1 5A",
+  "calificacion": "muy grave",
+  "importe_fijo": 500,
+  "importe_reducido": 250,
+  "responsable": "Conductor",
+  "actuacion": [
+    "Detener la conducción.",
+    "Instruir diligencias por el artículo 384 CP cuando concurran sus presupuestos.",
+    "Formular denuncia 5A y dejarla suspendida."
+  ],
+  "competencia_denuncia": "Policía Local de Torrent",
+  "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
+  "destino_diligencias_penales": "Juzgado de Guardia de Torrent",
+  "advertencias": [],
+  "alerta_penal": true,
+  "penal_article_id": "CP-384",
+  "regla_transversal": "GEN-JUR-001",
+  "fuentes": [
+    "TR-PERM-SRC-001",
+    "AN-SRC-007",
+    "TR-ITV-SRC-007"
+  ],
+  "fichas_juridicas": [
+    "TR-PERM-FJ-003"
+  ],
+  "estado": "validado"
+}

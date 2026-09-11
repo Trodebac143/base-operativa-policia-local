@@ -1,0 +1,71 @@
+{
+  "id": "AN-OP-016",
+  "modulo": "animales",
+  "categoria": "animales_convivencia",
+  "titulo": "Malas condiciones higiénicas, olores o molestias vecinales sin afectación grave al animal",
+  "palabras_clave": [
+    "higiene",
+    "olores",
+    "suciedad",
+    "molestias",
+    "vecinos",
+    "heces",
+    "orines"
+  ],
+  "que_comprobar": [
+    "Objetivar suciedad, heces/orines, olores y ventilación.",
+    "Comprobar número de animales y estado del alojamiento.",
+    "Documentar duración/reiteración de las molestias.",
+    "Comprobar si existen signos de afectación grave a la salud o bienestar del animal."
+  ],
+  "resultado": "Posible infracción municipal por mantener al animal/alojamiento en condiciones higiénicas deficientes o generar molestias evitables, siempre que no exista afectación grave al bienestar que requiera otro encaje.",
+  "norma": "Ordenanza Municipal sobre Tenencia de Animales de Torrent",
+  "articulo": "65.6",
+  "calificacion": null,
+  "rango_min": null,
+  "rango_max": null,
+  "actuacion": [
+    "Identificar al responsable.",
+    "Documentar objetivamente las condiciones y molestias.",
+    "Realizar fotografías/informe cuando proceda.",
+    "Formular denuncia municipal si el supuesto encaja en el art. 65.6.",
+    "Informar de la obligación de limpiar, mantener higiénicamente y eliminar focos de molestias."
+  ],
+  "competencia_denuncia": "Policía Local",
+  "competencia_resuelve": "Ayuntamiento de Torrent",
+  "advertencias": [
+    "Esta ficha se utiliza únicamente cuando las deficiencias higiénicas, olores o molestias no han causado una afectación grave al animal.",
+    "Comprueba el estado físico y conductual del animal. Si presenta lesiones, enfermedad, deterioro relevante o signos compatibles con maltrato grave, no cierres la actuación con esta ficha.",
+    "Si existen esos signos, documenta detalladamente el estado del animal, solicita valoración veterinaria cuando sea necesaria para acreditar lesiones, sufrimiento o estado sanitario y activa la actuación por protección o maltrato animal para determinar el encaje administrativo y la posible vía penal."
+  ],
+  "alerta_penal": false,
+  "referencia_penal": null,
+  "regla_transversal": null,
+  "fuentes": [
+    "OTA-TORRENT",
+    "AN-SRC-018",
+    "AN-SRC-007"
+  ],
+  "fichas_juridicas": [
+    "AN-JUR-005"
+  ],
+  "estado": "validado",
+  "penal_article_id": null,
+  "destino_diligencias_penales": "Fiscalía Provincial de Valencia — Sección de Medio Ambiente (protección/maltrato animal)",
+  "datos_adicionales": {
+    "relevancia_penal_condicional": {
+      "activa": true,
+      "titulo": "Escalar a posible maltrato penal si aparecen signos graves",
+      "condiciones": [
+        "Lesión que requiera tratamiento veterinario.",
+        "Maltrato grave aun sin lesión.",
+        "Muerte del animal vinculada a los hechos."
+      ],
+      "articulo_referencia": "Código Penal, art. 340 bis",
+      "penal_article_id": "CP-340-BIS",
+      "accion": [
+        "Documenta detalladamente el estado del animal y las condiciones en las que se encuentra, mediante fotografías, vídeo y descripción de los hechos. Identifica al responsable y solicita valoración veterinaria cuando sea necesaria para acreditar lesiones, sufrimiento o estado sanitario. Adopta las medidas necesarias para proteger al animal e instruye las diligencias penales que procedan, remitiéndolas a la Fiscalía Provincial de Valencia — Sección de Medio Ambiente (protección/maltrato animal)."
+      ]
+    }
+  }
+}

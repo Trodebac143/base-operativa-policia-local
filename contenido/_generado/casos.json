@@ -1,0 +1,2885 @@
+[
+  {
+    "id": "AN-OP-001",
+    "modulo": "animales",
+    "categoria": "animales_identificacion",
+    "titulo": "Perro sin identificación obligatoria",
+    "palabras_clave": [
+      "perro",
+      "microchip",
+      "chip",
+      "identificación",
+      "registro"
+    ],
+    "que_comprobar": [
+      "Comprobar la existencia de microchip mediante lector.",
+      "Comprobar que la identificación está correctamente inscrita en el registro correspondiente.",
+      "Identificar al propietario o responsable.",
+      "Documentar qué comprobaciones se han realizado y cuál ha sido el resultado."
+    ],
+    "resultado": "Existe posible infracción si se confirma el incumplimiento de la obligación de identificación. La identificación física (chip) y la inscripción registral forman parte del sistema de identificación.",
+    "norma": "Ley 2/2023 de la Comunitat Valenciana",
+    "articulo": "42.3.mm",
+    "calificacion": "grave",
+    "rango_min": 3001,
+    "rango_max": 9000,
+    "actuacion": [
+      "Comprobar chip y registro.",
+      "Identificar al propietario o responsable.",
+      "Documentar las comprobaciones realizadas y lo averiguado.",
+      "Formular la correspondiente denuncia si se acredita la infracción.",
+      "Informar al propietario de la obligación de identificar y registrar al animal."
+    ],
+    "competencia_denuncia": "Policía Local",
+    "competencia_resuelve": "Ayuntamiento de Torrent",
+    "advertencias": [
+      "No confundir falta de identificación obligatoria con mero incumplimiento censal municipal."
+    ],
+    "alerta_penal": false,
+    "referencia_penal": null,
+    "regla_transversal": null,
+    "fuentes": [
+      "AN-SRC-018",
+      "AN-SRC-023"
+    ],
+    "fichas_juridicas": [
+      "AN-JUR-008"
+    ],
+    "estado": "validado"
+  },
+  {
+    "id": "AN-OP-002",
+    "modulo": "animales",
+    "categoria": "animales_identificacion",
+    "titulo": "Perro o gato no censado",
+    "palabras_clave": [
+      "perro",
+      "gato",
+      "censo",
+      "censado",
+      "censo municipal"
+    ],
+    "que_comprobar": [
+      "Identificar al animal y a su responsable.",
+      "Comprobar si consta en el Censo Municipal de Animales de Compañía o sistema censal municipal aplicable.",
+      "Diferenciar censo municipal de microchip e inscripción registral."
+    ],
+    "resultado": "Posible infracción municipal por posesión de perro o gato no censado.",
+    "norma": "Ordenanza Municipal sobre Tenencia de Animales de Torrent",
+    "articulo": "65.2",
+    "calificacion": null,
+    "rango_min": null,
+    "rango_max": null,
+    "actuacion": [
+      "Identificar al responsable y al animal.",
+      "Documentar la comprobación censal y su resultado.",
+      "Formular denuncia municipal si se acredita la falta de censo.",
+      "Informar de la obligación de regularizar el censo y mantener los datos actualizados."
+    ],
+    "competencia_denuncia": "Policía Local",
+    "competencia_resuelve": "Ayuntamiento de Torrent",
+    "advertencias": [
+      "Esta ficha solo se utiliza para la falta de censo municipal. Si el problema es la ausencia de identificación física (chip) o de inscripción registral, utiliza la ficha específica correspondiente."
+    ],
+    "alerta_penal": false,
+    "referencia_penal": null,
+    "regla_transversal": null,
+    "fuentes": [
+      "OTA-TORRENT"
+    ],
+    "fichas_juridicas": [
+      "AN-JUR-009"
+    ],
+    "estado": "validado",
+    "datos_adicionales": {
+      "articulos_relacionados": [
+        "28",
+        "29",
+        "30",
+        "31",
+        "32"
+      ]
+    }
+  },
+  {
+    "id": "AN-OP-003",
+    "modulo": "animales",
+    "categoria": "animales_ppp",
+    "titulo": "PPP sin licencia",
+    "palabras_clave": [
+      "PPP",
+      "licencia",
+      "perro peligroso",
+      "potencialmente peligroso"
+    ],
+    "que_comprobar": [
+      "Confirmar que el animal está sometido al régimen PPP.",
+      "Identificar a la persona que lo posee/conduce/controla.",
+      "Comprobar la existencia y vigencia de licencia PPP.",
+      "Documentar la comprobación y su resultado."
+    ],
+    "resultado": "Tener un animal potencialmente peligroso sin licencia administrativa.",
+    "norma": "Ley 50/1999",
+    "articulo": "13.1.b",
+    "calificacion": "muy grave",
+    "rango_min": 2404.06,
+    "rango_max": 15025.3,
+    "actuacion": [
+      "Identificar a la persona y al animal.",
+      "Comprobar la licencia en los sistemas/documentación disponibles.",
+      "Documentar exactamente la carencia comprobada.",
+      "Formular denuncia por el cauce PPP de Torrent.",
+      "Informar de la obligación de disponer de licencia vigente."
+    ],
+    "competencia_denuncia": "Policía Local",
+    "competencia_resuelve": "Ayuntamiento de Torrent",
+    "advertencias": [
+      "Que la persona no lleve consigo la licencia no demuestra que carezca de ella. Comprueba su existencia y vigencia antes de denunciar por «PPP sin licencia».",
+      "La falta de exhibición de la licencia no determina por sí sola la retirada del animal."
+    ],
+    "alerta_penal": false,
+    "referencia_penal": null,
+    "regla_transversal": null,
+    "fuentes": [
+      "AN-SRC-004",
+      "AN-SRC-005",
+      "AN-SRC-027"
+    ],
+    "fichas_juridicas": [
+      "AN-JUR-015"
+    ],
+    "estado": "validado",
+    "datos_adicionales": {
+      "cauce_torrent": "Acta PPP + boletín OCC + art. 7.m + referencia a Ley 50/1999 y artículo infringido."
+    }
+  },
+  {
+    "id": "AN-OP-004",
+    "modulo": "animales",
+    "categoria": "animales_ppp",
+    "titulo": "PPP sin identificación",
+    "palabras_clave": [
+      "PPP",
+      "microchip",
+      "chip",
+      "identificación"
+    ],
+    "que_comprobar": [
+      "Confirmar condición de PPP.",
+      "Comprobar microchip con lector.",
+      "Comprobar inscripción asociada cuando proceda.",
+      "Identificar al responsable y documentar resultados."
+    ],
+    "resultado": "Incumplimiento de la obligación de identificación del animal potencialmente peligroso.",
+    "norma": "Ley 50/1999",
+    "articulo": "13.2.b",
+    "calificacion": "grave",
+    "rango_min": 300.52,
+    "rango_max": 2404.05,
+    "actuacion": [
+      "Comprobar microchip e identificación registral.",
+      "Identificar al responsable.",
+      "Documentar la ausencia o irregularidad constatada.",
+      "Formular denuncia por el cauce PPP.",
+      "Informar de la obligación de identificar al animal."
+    ],
+    "competencia_denuncia": "Policía Local",
+    "competencia_resuelve": "Ayuntamiento de Torrent",
+    "advertencias": [],
+    "alerta_penal": false,
+    "referencia_penal": null,
+    "regla_transversal": null,
+    "fuentes": [
+      "AN-SRC-004",
+      "AN-SRC-005",
+      "AN-SRC-027"
+    ],
+    "fichas_juridicas": [
+      "AN-JUR-016"
+    ],
+    "estado": "validado"
+  },
+  {
+    "id": "AN-OP-005",
+    "modulo": "animales",
+    "categoria": "animales_ppp",
+    "titulo": "PPP no inscrito en el registro correspondiente",
+    "palabras_clave": [
+      "PPP",
+      "registro",
+      "inscripción",
+      "registro PPP"
+    ],
+    "que_comprobar": [
+      "Confirmar condición de PPP.",
+      "Comprobar si el animal consta inscrito en el registro PPP correspondiente.",
+      "Identificar al responsable.",
+      "Documentar la consulta y su resultado."
+    ],
+    "resultado": "Omisión de la inscripción del animal potencialmente peligroso en el registro correspondiente.",
+    "norma": "Ley 50/1999",
+    "articulo": "13.2.c",
+    "calificacion": "grave",
+    "rango_min": 300.52,
+    "rango_max": 2404.05,
+    "actuacion": [
+      "Comprobar inscripción.",
+      "Identificar al responsable.",
+      "Documentar el resultado.",
+      "Formular denuncia por el cauce PPP.",
+      "Informar de la obligación de inscripción."
+    ],
+    "competencia_denuncia": "Policía Local",
+    "competencia_resuelve": "Ayuntamiento de Torrent",
+    "advertencias": [],
+    "alerta_penal": false,
+    "referencia_penal": null,
+    "regla_transversal": null,
+    "fuentes": [
+      "AN-SRC-004",
+      "AN-SRC-005",
+      "AN-SRC-027"
+    ],
+    "fichas_juridicas": [
+      "AN-JUR-017"
+    ],
+    "estado": "validado"
+  },
+  {
+    "id": "AN-OP-006",
+    "modulo": "animales",
+    "categoria": "animales_ppp",
+    "titulo": "PPP sin bozal",
+    "palabras_clave": [
+      "PPP",
+      "bozal",
+      "vía pública",
+      "lugar público"
+    ],
+    "que_comprobar": [
+      "Confirmar condición de PPP.",
+      "Comprobar que se encuentra en lugar o espacio público.",
+      "Constatar la ausencia efectiva de bozal.",
+      "Identificar al conductor y comprobar documentación."
+    ],
+    "resultado": "PPP en lugar público sin bozal reglamentario.",
+    "norma": "Ley 50/1999",
+    "articulo": "13.2.d",
+    "calificacion": "grave",
+    "rango_min": 300.52,
+    "rango_max": 2404.05,
+    "actuacion": [
+      "Identificar al conductor y al animal.",
+      "Documentar lugar, circunstancias y ausencia de bozal.",
+      "Comprobar el resto de requisitos PPP sin generar duplicidades automáticas.",
+      "Formular denuncia por el cauce PPP.",
+      "Informar de la obligación de utilizar bozal adecuado."
+    ],
+    "competencia_denuncia": "Policía Local",
+    "competencia_resuelve": "Ayuntamiento de Torrent",
+    "advertencias": [
+      "Comprueba también la correa: debe ser no extensible y de menos de 2 metros. Si además incumple esta obligación, describe por separado la falta de bozal y la sujeción incorrecta."
+    ],
+    "alerta_penal": false,
+    "referencia_penal": null,
+    "regla_transversal": null,
+    "fuentes": [
+      "AN-SRC-004",
+      "AN-SRC-005",
+      "AN-SRC-027"
+    ],
+    "fichas_juridicas": [
+      "AN-JUR-019"
+    ],
+    "estado": "validado"
+  },
+  {
+    "id": "AN-OP-007",
+    "modulo": "animales",
+    "categoria": "animales_ppp",
+    "titulo": "PPP sin sujeción reglamentaria",
+    "palabras_clave": [
+      "PPP",
+      "correa",
+      "sujeción",
+      "correa extensible",
+      "dos metros"
+    ],
+    "que_comprobar": [
+      "Confirmar condición de PPP.",
+      "Comprobar lugar o espacio público.",
+      "Comprobar tipo y longitud de la correa/sistema de sujeción.",
+      "Comprobar el número de PPP conducidos por la misma persona."
+    ],
+    "resultado": "PPP en lugar público sin la sujeción reglamentaria.",
+    "norma": "Ley 50/1999",
+    "articulo": "13.2.d",
+    "calificacion": "grave",
+    "rango_min": 300.52,
+    "rango_max": 2404.05,
+    "actuacion": [
+      "Identificar al conductor y al animal.",
+      "Documentar el sistema de sujeción utilizado y sus características.",
+      "Comprobar que la correa no sea extensible y sea de menos de 2 metros.",
+      "Comprobar que no se conduzca más de un PPP por persona.",
+      "Formular denuncia si se acredita el incumplimiento."
+    ],
+    "competencia_denuncia": "Policía Local",
+    "competencia_resuelve": "Ayuntamiento de Torrent",
+    "advertencias": [
+      "Si concurren falta de bozal y sujeción incorrecta, describe cada incumplimiento por separado en el acta. No dupliques una misma conducta bajo dos conceptos."
+    ],
+    "alerta_penal": false,
+    "referencia_penal": null,
+    "regla_transversal": null,
+    "fuentes": [
+      "AN-SRC-004",
+      "AN-SRC-005",
+      "AN-SRC-027"
+    ],
+    "fichas_juridicas": [
+      "AN-JUR-020"
+    ],
+    "estado": "validado"
+  },
+  {
+    "id": "AN-OP-008",
+    "modulo": "animales",
+    "categoria": "animales_ppp",
+    "titulo": "PPP suelto o sin medidas para evitar escapada/extravío",
+    "palabras_clave": [
+      "PPP",
+      "suelto",
+      "escapada",
+      "extravío",
+      "fuga"
+    ],
+    "que_comprobar": [
+      "Confirmar condición de PPP.",
+      "Determinar si estaba suelto o existían medidas insuficientes para evitar la escapada/extravío.",
+      "Identificar al responsable.",
+      "Documentar lugar, recinto, cierres, sujeciones y circunstancias."
+    ],
+    "resultado": "Dejar suelto un PPP o no adoptar las medidas necesarias para evitar su escapada o extravío.",
+    "norma": "Ley 50/1999",
+    "articulo": "13.2.a",
+    "calificacion": "grave",
+    "rango_min": 300.52,
+    "rango_max": 2404.05,
+    "actuacion": [
+      "Controlar/proteger el animal y evitar riesgos.",
+      "Identificar al responsable.",
+      "Documentar las medidas existentes y por qué resultaron insuficientes.",
+      "Formular denuncia por el cauce PPP.",
+      "Informar de la obligación de adoptar medidas eficaces de control."
+    ],
+    "competencia_denuncia": "Policía Local",
+    "competencia_resuelve": "Ayuntamiento de Torrent",
+    "advertencias": [],
+    "alerta_penal": false,
+    "referencia_penal": null,
+    "regla_transversal": null,
+    "fuentes": [
+      "AN-SRC-004",
+      "AN-SRC-005",
+      "AN-SRC-027"
+    ],
+    "fichas_juridicas": [
+      "AN-JUR-021"
+    ],
+    "estado": "validado"
+  },
+  {
+    "id": "AN-OP-009",
+    "modulo": "animales",
+    "categoria": "animales_ppp",
+    "titulo": "Negativa o resistencia a facilitar datos/documentación PPP",
+    "palabras_clave": [
+      "PPP",
+      "negativa",
+      "resistencia",
+      "documentación",
+      "datos falsos"
+    ],
+    "que_comprobar": [
+      "Realizar un requerimiento claro de datos o documentación legalmente exigible.",
+      "Identificar qué documento o dato se solicita.",
+      "Documentar la negativa, resistencia o la información inexacta/falsa."
+    ],
+    "resultado": "Negativa o resistencia a suministrar datos o facilitar información requerida por autoridades/agentes, o suministro de información inexacta/documentación falsa en los términos de la Ley 50/1999.",
+    "norma": "Ley 50/1999",
+    "articulo": "13.2.f",
+    "calificacion": "grave",
+    "rango_min": 300.52,
+    "rango_max": 2404.05,
+    "actuacion": [
+      "Documentar el requerimiento efectuado.",
+      "Hacer constar la respuesta concreta de la persona requerida.",
+      "Comprobar por otros medios la información disponible.",
+      "Formular denuncia cuando concurran los elementos del tipo."
+    ],
+    "competencia_denuncia": "Policía Local",
+    "competencia_resuelve": "Ayuntamiento de Torrent",
+    "advertencias": [],
+    "alerta_penal": false,
+    "referencia_penal": null,
+    "regla_transversal": null,
+    "fuentes": [
+      "AN-SRC-004",
+      "AN-SRC-005",
+      "AN-SRC-027"
+    ],
+    "fichas_juridicas": [
+      "AN-JUR-023"
+    ],
+    "estado": "validado"
+  },
+  {
+    "id": "AN-OP-010",
+    "modulo": "animales",
+    "categoria": "animales_sanidad",
+    "titulo": "Vacunación antirrábica obligatoria no realizada",
+    "palabras_clave": [
+      "vacuna",
+      "rabia",
+      "antirrábica",
+      "vacunación",
+      "pasaporte"
+    ],
+    "que_comprobar": [
+      "Identificar al animal y responsable.",
+      "Comprobar microchip.",
+      "Revisar pasaporte/documentación sanitaria.",
+      "Confirmar que la vacunación era obligatoria y que no está vigente/realizada."
+    ],
+    "resultado": "Incumplimiento de un tratamiento preventivo declarado obligatorio, cuando la vacunación antirrábica resulte exigible.",
+    "norma": "Ley 2/2023 de la Comunitat Valenciana",
+    "articulo": "42.3.t",
+    "calificacion": "grave",
+    "rango_min": 3001,
+    "rango_max": 9000,
+    "actuacion": [
+      "Comprobar identificación y documentación sanitaria.",
+      "Documentar fecha de última vacunación, vigencia y resultado de la comprobación.",
+      "Formular denuncia si se confirma el incumplimiento.",
+      "Informar de la obligación de regularizar la vacunación con veterinario autorizado."
+    ],
+    "competencia_denuncia": "Policía Local",
+    "competencia_resuelve": "Ayuntamiento de Torrent",
+    "advertencias": [
+      "Antes de denunciar, confirma en la documentación sanitaria que la vacunación antirrábica era obligatoria para ese animal y que no estaba vigente o no se había realizado. Si no puedes acreditar ambos extremos, no cierres la actuación con esta ficha."
+    ],
+    "alerta_penal": false,
+    "referencia_penal": null,
+    "regla_transversal": null,
+    "fuentes": [
+      "AN-SRC-018",
+      "AN-SRC-026"
+    ],
+    "fichas_juridicas": [
+      "AN-JUR-025"
+    ],
+    "estado": "validado"
+  },
+  {
+    "id": "AN-OP-011",
+    "modulo": "animales",
+    "categoria": "animales_sanidad",
+    "titulo": "Tratamiento preventivo obligatorio no realizado",
+    "palabras_clave": [
+      "tratamiento",
+      "preventivo",
+      "obligatorio",
+      "sanidad",
+      "veterinario"
+    ],
+    "que_comprobar": [
+      "Identificar animal y responsable.",
+      "Confirmar que el tratamiento estaba declarado obligatorio.",
+      "Comprobar documentación sanitaria disponible.",
+      "Documentar el incumplimiento concreto."
+    ],
+    "resultado": "No proporcionar al animal un tratamiento preventivo declarado obligatorio.",
+    "norma": "Ley 2/2023 de la Comunitat Valenciana",
+    "articulo": "42.3.t",
+    "calificacion": "grave",
+    "rango_min": 3001,
+    "rango_max": 9000,
+    "actuacion": [
+      "Comprobar la obligación concreta aplicable.",
+      "Documentar tratamiento, fechas y documentación revisada.",
+      "Formular denuncia cuando se acredite el incumplimiento.",
+      "Informar de la obligación de regularización veterinaria."
+    ],
+    "competencia_denuncia": "Policía Local",
+    "competencia_resuelve": "Ayuntamiento de Torrent",
+    "advertencias": [],
+    "alerta_penal": false,
+    "referencia_penal": null,
+    "regla_transversal": null,
+    "fuentes": [
+      "AN-SRC-018",
+      "AN-SRC-026"
+    ],
+    "fichas_juridicas": [
+      "AN-JUR-024"
+    ],
+    "estado": "validado"
+  },
+  {
+    "id": "AN-OP-012",
+    "modulo": "animales",
+    "categoria": "animales_abandono",
+    "titulo": "Animal abandonado",
+    "palabras_clave": [
+      "abandono",
+      "abandonado",
+      "340 ter",
+      "animal solo"
+    ],
+    "que_comprobar": [
+      "Identificar al animal mediante microchip/registro cuando sea posible.",
+      "Identificar al responsable.",
+      "Documentar lugar, tiempo, estado, agua/alimento/refugio, temperatura, tráfico y otros riesgos.",
+      "Comprobar testigos, cámaras u otros elementos de prueba.",
+      "Comprobar si las condiciones concretas del abandono pueden poner en peligro la vida o integridad del animal."
+    ],
+    "resultado": "Abandono de animal de compañía. La vía penal solo se activa si el animal vertebrado ha sido abandonado bajo responsabilidad de una persona en condiciones en que pueda peligrar su vida o integridad.",
+    "norma": "Ley 2/2023 de la Comunitat Valenciana",
+    "articulo": "42.3.e",
+    "calificacion": "grave",
+    "rango_min": 3001,
+    "rango_max": 9000,
+    "actuacion": [
+      "Proteger al animal y activar recogida/protección cuando proceda.",
+      "Identificar al responsable si es posible.",
+      "Comprobar chip y registro.",
+      "Documentar exhaustivamente las circunstancias.",
+      "Formular/documentar la infracción administrativa.",
+      "Si las condiciones del abandono pueden poner en peligro la vida o integridad del animal, activa la rama penal condicional, documenta específicamente esos riesgos e instruye las diligencias penales que procedan."
+    ],
+    "competencia_denuncia": "Policía Local",
+    "competencia_resuelve": "Ayuntamiento de Torrent",
+    "advertencias": [
+      "El abandono administrativo no implica automáticamente delito. Para activar el art. 340 ter debe existir además un peligro para la vida o integridad del animal.",
+      "Si se activa la vía penal, documenta de forma concreta los factores de riesgo: estado del animal, falta de agua/alimento/refugio, temperatura, tráfico, tiempo de exposición y cualquier otra circunstancia relevante.",
+      "Si el abandono ha causado muerte, daños irreversibles o lesiones invalidantes, revisa además la calificación administrativa aplicable conforme al escenario condicional ya validado."
+    ],
+    "alerta_penal": false,
+    "referencia_penal": null,
+    "regla_transversal": null,
+    "fuentes": [
+      "AN-SRC-018",
+      "AN-SRC-007"
+    ],
+    "fichas_juridicas": [
+      "AN-JUR-030",
+      "AN-JUR-032"
+    ],
+    "estado": "validado",
+    "datos_adicionales": {
+      "calificacion_condicional": {
+        "si": "muerte, daños irreversibles o lesiones invalidantes",
+        "calificacion": "muy grave",
+        "rango_min": 9001,
+        "rango_max": 45000
+      },
+      "relevancia_penal_condicional": {
+        "activa": true,
+        "titulo": "Posible delito de abandono si existe peligro para la vida o integridad",
+        "condiciones": [
+          "Animal vertebrado bajo responsabilidad de la persona.",
+          "Existencia de abandono.",
+          "Condiciones concretas capaces de poner en peligro la vida o integridad del animal."
+        ],
+        "articulo_referencia": "Código Penal, art. 340 ter",
+        "penal_article_id": "CP-340-TER",
+        "accion": [
+          "Proteger al animal.",
+          "Documentar exhaustivamente las circunstancias que generan el peligro.",
+          "Identificar al responsable y asegurar los elementos de prueba disponibles.",
+          "Instruir las diligencias penales que procedan.",
+          "Remitir las diligencias a la Fiscalía Provincial de Valencia — Sección de Medio Ambiente (protección/maltrato animal)."
+        ]
+      }
+    },
+    "penal_article_id": null,
+    "destino_diligencias_penales": "Fiscalía Provincial de Valencia — Sección de Medio Ambiente (protección/maltrato animal)"
+  },
+  {
+    "id": "AN-OP-013",
+    "modulo": "animales",
+    "categoria": "animales_convivencia",
+    "titulo": "Excrementos no recogidos",
+    "palabras_clave": [
+      "excrementos",
+      "heces",
+      "caca",
+      "limpieza",
+      "vía pública"
+    ],
+    "que_comprobar": [
+      "Constatar el depósito de excrementos en zona de tránsito/uso público.",
+      "Comprobar que el responsable no los recoge o no limpia adecuadamente.",
+      "Identificar al responsable."
+    ],
+    "resultado": "Incumplimiento de la obligación municipal de impedir o retirar/limpiar los excrementos del animal.",
+    "norma": "Ordenanza de Convivencia Ciudadana de Torrent",
+    "articulo": "14",
+    "calificacion": null,
+    "rango_min": null,
+    "rango_max": null,
+    "actuacion": [
+      "Identificar al responsable.",
+      "Documentar lugar, depósito y falta de recogida/limpieza.",
+      "Formular denuncia por el cauce OCC.",
+      "Requerir/informar que debe recoger y limpiar los restos."
+    ],
+    "competencia_denuncia": "Policía Local",
+    "competencia_resuelve": "Ayuntamiento de Torrent",
+    "advertencias": [],
+    "alerta_penal": false,
+    "referencia_penal": null,
+    "regla_transversal": null,
+    "fuentes": [
+      "OCC-TORRENT"
+    ],
+    "fichas_juridicas": [
+      "AN-JUR-001"
+    ],
+    "estado": "validado"
+  },
+  {
+    "id": "AN-OP-014",
+    "modulo": "animales",
+    "categoria": "animales_convivencia",
+    "titulo": "Perro ordinario suelto o sin control mediante correa",
+    "palabras_clave": [
+      "perro suelto",
+      "sin correa",
+      "correa",
+      "vía pública",
+      "control"
+    ],
+    "que_comprobar": [
+      "Confirmar que no se trata de un PPP.",
+      "Comprobar que el perro está completamente suelto fuera de zona/condición autorizada.",
+      "Identificar al responsable.",
+      "Documentar lugar, distancia, tráfico/personas, obediencia y riesgo."
+    ],
+    "resultado": "Posible infracción municipal por llevar un perro ordinario suelto en vía pública fuera de los supuestos autorizados.",
+    "norma": "Ordenanza Municipal sobre Tenencia de Animales de Torrent",
+    "articulo": "65.4",
+    "calificacion": null,
+    "rango_min": null,
+    "rango_max": null,
+    "actuacion": [
+      "Identificar al responsable.",
+      "Comprobar chip.",
+      "Documentar el grado real de control y las circunstancias.",
+      "Formular denuncia cuando concurra el supuesto.",
+      "Informar de la obligación de conducirlo bajo control mediante correa/sistema equivalente conforme a la normativa vigente."
+    ],
+    "competencia_denuncia": "Policía Local",
+    "competencia_resuelve": "Ayuntamiento de Torrent",
+    "advertencias": [
+      "Si el perro es PPP, no uses esta ficha: selecciona la rama PPP.",
+      "Esta ficha cubre al perro ordinario completamente suelto. Si el animal va sujeto y la duda es únicamente la longitud o el tipo de correa, no denuncies por el art. 65.4 con esta ficha."
+    ],
+    "alerta_penal": false,
+    "referencia_penal": null,
+    "regla_transversal": null,
+    "fuentes": [
+      "OTA-TORRENT",
+      "AN-SRC-018"
+    ],
+    "fichas_juridicas": [
+      "AN-JUR-003"
+    ],
+    "estado": "validado"
+  },
+  {
+    "id": "AN-OP-015",
+    "modulo": "animales",
+    "categoria": "animales_convivencia",
+    "titulo": "Animal en espacio con acceso expresamente prohibido",
+    "palabras_clave": [
+      "acceso prohibido",
+      "señal",
+      "animal",
+      "establecimiento",
+      "entrada"
+    ],
+    "que_comprobar": [
+      "Comprobar que existe prohibición expresa aplicable y señalización visible.",
+      "Identificar al responsable y al animal.",
+      "Comprobar si concurre alguna excepción legal, especialmente perros de asistencia."
+    ],
+    "resultado": "Posible infracción municipal por presencia del animal en un espacio donde exista prohibición expresa aplicable.",
+    "norma": "Ordenanza Municipal sobre Tenencia de Animales de Torrent",
+    "articulo": "65.5",
+    "calificacion": null,
+    "rango_min": null,
+    "rango_max": null,
+    "actuacion": [
+      "Comprobar prohibición y señalización.",
+      "Identificar al responsable.",
+      "Documentar lugar, señalización y ausencia de excepción.",
+      "Formular denuncia si procede.",
+      "Informar de que debe retirar al animal y respetar las condiciones de acceso."
+    ],
+    "competencia_denuncia": "Policía Local",
+    "competencia_resuelve": "Ayuntamiento de Torrent",
+    "advertencias": [
+      "Solo utiliza esta ficha si existe una prohibición expresa aplicable y visible; no basta con que el establecimiento sea de un determinado tipo.",
+      "Antes de denunciar, comprueba si existe una excepción legal. Si se trata de un perro de asistencia amparado por su régimen específico, no uses esta ficha por el mero acceso del animal."
+    ],
+    "alerta_penal": false,
+    "referencia_penal": null,
+    "regla_transversal": null,
+    "fuentes": [
+      "OTA-TORRENT",
+      "AN-SRC-001",
+      "AN-SRC-016"
+    ],
+    "fichas_juridicas": [
+      "AN-JUR-004"
+    ],
+    "estado": "validado"
+  },
+  {
+    "id": "AN-OP-016",
+    "modulo": "animales",
+    "categoria": "animales_convivencia",
+    "titulo": "Malas condiciones higiénicas, olores o molestias vecinales sin afectación grave al animal",
+    "palabras_clave": [
+      "higiene",
+      "olores",
+      "suciedad",
+      "molestias",
+      "vecinos",
+      "heces",
+      "orines"
+    ],
+    "que_comprobar": [
+      "Objetivar suciedad, heces/orines, olores y ventilación.",
+      "Comprobar número de animales y estado del alojamiento.",
+      "Documentar duración/reiteración de las molestias.",
+      "Comprobar si existen signos de afectación grave a la salud o bienestar del animal."
+    ],
+    "resultado": "Posible infracción municipal por mantener al animal/alojamiento en condiciones higiénicas deficientes o generar molestias evitables, siempre que no exista afectación grave al bienestar que requiera otro encaje.",
+    "norma": "Ordenanza Municipal sobre Tenencia de Animales de Torrent",
+    "articulo": "65.6",
+    "calificacion": null,
+    "rango_min": null,
+    "rango_max": null,
+    "actuacion": [
+      "Identificar al responsable.",
+      "Documentar objetivamente las condiciones y molestias.",
+      "Realizar fotografías/informe cuando proceda.",
+      "Formular denuncia municipal si el supuesto encaja en el art. 65.6.",
+      "Informar de la obligación de limpiar, mantener higiénicamente y eliminar focos de molestias."
+    ],
+    "competencia_denuncia": "Policía Local",
+    "competencia_resuelve": "Ayuntamiento de Torrent",
+    "advertencias": [
+      "Esta ficha se utiliza únicamente cuando las deficiencias higiénicas, olores o molestias no han causado una afectación grave al animal.",
+      "Comprueba el estado físico y conductual del animal. Si presenta lesiones, enfermedad, deterioro relevante o signos compatibles con maltrato grave, no cierres la actuación con esta ficha.",
+      "Si existen esos signos, documenta detalladamente el estado del animal, solicita valoración veterinaria cuando sea necesaria para acreditar lesiones, sufrimiento o estado sanitario y activa la actuación por protección o maltrato animal para determinar el encaje administrativo y la posible vía penal."
+    ],
+    "alerta_penal": false,
+    "referencia_penal": null,
+    "regla_transversal": null,
+    "fuentes": [
+      "OTA-TORRENT",
+      "AN-SRC-018",
+      "AN-SRC-007"
+    ],
+    "fichas_juridicas": [
+      "AN-JUR-005"
+    ],
+    "estado": "validado",
+    "penal_article_id": null,
+    "destino_diligencias_penales": "Fiscalía Provincial de Valencia — Sección de Medio Ambiente (protección/maltrato animal)",
+    "datos_adicionales": {
+      "relevancia_penal_condicional": {
+        "activa": true,
+        "titulo": "Escalar a posible maltrato penal si aparecen signos graves",
+        "condiciones": [
+          "Lesión que requiera tratamiento veterinario.",
+          "Maltrato grave aun sin lesión.",
+          "Muerte del animal vinculada a los hechos."
+        ],
+        "articulo_referencia": "Código Penal, art. 340 bis",
+        "penal_article_id": "CP-340-BIS",
+        "accion": [
+          "Documenta detalladamente el estado del animal y las condiciones en las que se encuentra, mediante fotografías, vídeo y descripción de los hechos. Identifica al responsable y solicita valoración veterinaria cuando sea necesaria para acreditar lesiones, sufrimiento o estado sanitario. Adopta las medidas necesarias para proteger al animal e instruye las diligencias penales que procedan, remitiéndolas a la Fiscalía Provincial de Valencia — Sección de Medio Ambiente (protección/maltrato animal)."
+        ]
+      }
+    }
+  },
+  {
+    "id": "AN-OP-017",
+    "modulo": "animales",
+    "categoria": "animales_identificacion",
+    "titulo": "Datos registrales del animal no actualizados",
+    "palabras_clave": [
+      "registro",
+      "datos",
+      "actualización",
+      "titular",
+      "domicilio",
+      "teléfono",
+      "RIAC",
+      "identificación"
+    ],
+    "que_comprobar": [
+      "Identificar al animal y a su responsable legal.",
+      "Comprobar que el animal está sujeto a identificación y consta en el registro correspondiente.",
+      "Determinar qué dato registral obligatorio está desactualizado.",
+      "Comprobar, cuando sea posible, desde cuándo existe el cambio y si fue comunicado.",
+      "Documentar la consulta registral y el dato concreto que no está actualizado."
+    ],
+    "resultado": "No mantener actualizados los datos del animal en el Registro Supramunicipal de Identificación de Animales de Compañía de la Comunitat Valenciana.",
+    "norma": "Ley 2/2023 de la Comunitat Valenciana",
+    "articulo": "42.2.g",
+    "calificacion": "leve",
+    "rango_min": 100,
+    "rango_max": 3000,
+    "actuacion": [
+      "Identificar al responsable y al animal.",
+      "Comprobar la información registral disponible.",
+      "Precisar en el acta qué dato consta desactualizado y cuál es el dato correcto acreditado.",
+      "Formular denuncia si se acredita el incumplimiento.",
+      "Informar al responsable de que debe actualizar los datos en el registro correspondiente."
+    ],
+    "competencia_denuncia": "Policía Local",
+    "competencia_resuelve": "Ayuntamiento de Torrent",
+    "advertencias": [
+      "No confundir datos registrales desactualizados con ausencia de identificación física (chip), falta de inscripción registral o falta de censo municipal.",
+      "Debe concretarse qué dato obligatorio no está actualizado; no basta una referencia genérica a 'datos incorrectos'."
+    ],
+    "alerta_penal": false,
+    "referencia_penal": null,
+    "regla_transversal": null,
+    "fuentes": [
+      "AN-SRC-018"
+    ],
+    "fichas_juridicas": [
+      "AN-JUR-033"
+    ],
+    "estado": "validado"
+  },
+  {
+    "id": "AN-OP-018",
+    "modulo": "animales",
+    "categoria": "animales_identificacion",
+    "titulo": "Extravío, pérdida o sustracción del animal no comunicada",
+    "palabras_clave": [
+      "pérdida",
+      "extravío",
+      "sustracción",
+      "robo",
+      "desaparición",
+      "comunicación",
+      "registro",
+      "denuncia"
+    ],
+    "que_comprobar": [
+      "Identificar al responsable legal y determinar qué animal ha desaparecido.",
+      "Comprobar si el animal estaba sujeto a identificación y si constaba inscrito en el registro.",
+      "Determinar si se trata de extravío/pérdida o de sustracción.",
+      "Comprobar la fecha y hora aproximadas en que se tuvo conocimiento de la desaparición.",
+      "Comprobar si se efectuó comunicación al Registro Valenciano/Supramunicipal y al ayuntamiento cuando resulte exigible.",
+      "En caso de extravío o sustracción de animal identificado, comprobar si la comunicación fue acompañada de la correspondiente denuncia cuando proceda."
+    ],
+    "resultado": "Incumplimiento de la obligación legal de comunicar la desaparición del animal. El precepto sancionador concreto depende de si el animal está identificado y de si el hecho es extravío/pérdida o sustracción.",
+    "norma": "Ley 2/2023 de la Comunitat Valenciana",
+    "articulo": "42.2.e / 42.2.f / 42.2.t, según supuesto",
+    "calificacion": "leve",
+    "rango_min": 100,
+    "rango_max": 3000,
+    "actuacion": [
+      "Identificar al responsable y recabar los datos del animal.",
+      "Comprobar la situación de identificación e inscripción registral.",
+      "Determinar con precisión si se trata de extravío/pérdida o sustracción.",
+      "Comprobar las comunicaciones efectuadas y sus fechas.",
+      "Documentar en el acta el supuesto concreto y el precepto aplicable.",
+      "Formular denuncia si se acredita el incumplimiento.",
+      "Informar al responsable de la obligación de comunicar inmediatamente la desaparición por los cauces legalmente exigibles."
+    ],
+    "competencia_denuncia": "Policía Local",
+    "competencia_resuelve": "Ayuntamiento de Torrent",
+    "advertencias": [
+      "Animal identificado y extravío no comunicado al registro: art. 42.2.e.",
+      "Animal no identificado o no incluido en el registro y extravío/pérdida no comunicado a la autoridad competente: art. 42.2.f.",
+      "Si se trata de una sustracción, no uses automáticamente los arts. 42.2.e o 42.2.f. Utiliza el art. 42.2.t en relación con el art. 6.2.b únicamente cuando hayas comprobado que no existe otro tipo específico aplicable.",
+      "La desaparición del animal no equivale por sí sola a abandono. Utiliza la ficha de abandono únicamente cuando existan hechos propios de abandono."
+    ],
+    "alerta_penal": false,
+    "referencia_penal": null,
+    "regla_transversal": null,
+    "fuentes": [
+      "AN-SRC-018"
+    ],
+    "fichas_juridicas": [
+      "AN-JUR-034"
+    ],
+    "estado": "validado",
+    "datos_adicionales": {
+      "encaje_condicional": [
+        {
+          "supuesto": "Animal identificado: extravío no comunicado al registro en plazo",
+          "articulo": "42.2.e",
+          "calificacion": "leve"
+        },
+        {
+          "supuesto": "Animal no identificado/no incluido en registro: extravío o pérdida no comunicado a autoridad competente",
+          "articulo": "42.2.f",
+          "calificacion": "leve"
+        },
+        {
+          "supuesto": "Sustracción no comunicada cuando no exista tipo específico aplicable",
+          "articulo": "42.2.t en relación con 6.2.b",
+          "calificacion": "leve"
+        }
+      ]
+    }
+  },
+  {
+    "id": "AN-OP-019",
+    "modulo": "animales",
+    "categoria": "animales_identificacion",
+    "titulo": "No poner a disposición de los agentes la documentación obligatoria de identificación",
+    "palabras_clave": [
+      "documentación",
+      "identificación",
+      "agentes",
+      "requerimiento",
+      "no facilita",
+      "no aporta",
+      "registro",
+      "documentos"
+    ],
+    "que_comprobar": [
+      "Realizar un requerimiento claro de documentación de identificación que resulte obligatoria en el caso concreto.",
+      "Identificar qué documento se solicita y por qué resulta exigible.",
+      "Comprobar si la documentación puede verificarse por medios disponibles antes de concluir que existe incumplimiento.",
+      "Documentar el requerimiento y la respuesta concreta de la persona responsable."
+    ],
+    "resultado": "No poner a disposición de la autoridad competente o de sus agentes la documentación de identificación del animal que haya sido requerida y resulte obligatoria en el caso concreto.",
+    "norma": "Ley 2/2023 de la Comunitat Valenciana",
+    "articulo": "42.2.m",
+    "calificacion": "leve",
+    "rango_min": 100,
+    "rango_max": 3000,
+    "actuacion": [
+      "Identificar al responsable y al animal.",
+      "Precisar el documento obligatorio requerido.",
+      "Realizar y documentar el requerimiento.",
+      "Comprobar, cuando sea posible, la información mediante los sistemas disponibles.",
+      "Hacer constar la respuesta o negativa concreta.",
+      "Formular denuncia cuando se acrediten todos los elementos del tipo."
+    ],
+    "competencia_denuncia": "Policía Local",
+    "competencia_resuelve": "Ayuntamiento de Torrent",
+    "advertencias": [
+      "Para aplicar esta ficha debe existir un requerimiento concreto de documentación obligatoria. Deja constancia del documento solicitado y de la respuesta.",
+      "No confundas falta de exhibición física con inexistencia de la documentación cuando pueda comprobarse por otros medios.",
+      "Si el animal es PPP, consulta primero la rama PPP. No utilices esta ficha para sustituir una infracción PPP específica."
+    ],
+    "alerta_penal": false,
+    "referencia_penal": null,
+    "regla_transversal": null,
+    "fuentes": [
+      "AN-SRC-018"
+    ],
+    "fichas_juridicas": [
+      "AN-JUR-035"
+    ],
+    "estado": "validado"
+  },
+  {
+    "modulo": "seguridad_vial",
+    "categoria": "seguridad_vial_itv",
+    "responsable": "Titular o arrendatario a largo plazo inscrito",
+    "competencia_denuncia": "Policía Local de Torrent — órgano actuante y formulador de la denuncia",
+    "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
+    "alerta_penal": false,
+    "referencia_penal": null,
+    "estado": "validado",
+    "id": "TR-ITV-OP-001",
+    "titulo": "ITV vencida — circulando",
+    "palabras_clave": [
+      "ITV",
+      "caducada",
+      "vencida",
+      "circulando",
+      "5A"
+    ],
+    "que_comprobar": [
+      "Fecha en que era exigible la inspección periódica.",
+      "Estado ITV en el Registro de Vehículos y documentación disponible.",
+      "Circulación efectiva del vehículo."
+    ],
+    "resultado": "Vehículo circulando sin haber superado la inspección técnica periódica en el plazo debido.",
+    "norma": "Reglamento General de Vehículos",
+    "articulo": "10.1",
+    "norma_infringida": "Reglamento General de Vehículos",
+    "articulo_infringido": "10.1",
+    "tipificacion_norma": "Ley sobre Tráfico, Circulación de Vehículos a Motor y Seguridad Vial",
+    "tipificacion_articulo": "76.o",
+    "textoDenuncia": "NO HABERSE SOMETIDO EL VEHÍCULO RESEÑADO A LA INSPECCIÓN TÉCNICA PERIÓDICA ESTABLECIDA REGLAMENTARIAMENTE.",
+    "codificado": "VEH 10.1 5A",
+    "calificacion": "grave",
+    "importe_fijo": 200,
+    "importe_reducido": 100,
+    "inmovilizacion": "NO",
+    "motivo_inmovilizacion": "La ITV vencida, por sí sola, no habilita la inmovilización.",
+    "actuacion_breve": [
+      "Comprobar el estado ITV, formular denuncia 5A y remitirla a la Jefatura Provincial de Tráfico de Valencia."
+    ],
+    "actuacion": [
+      "Comprobar y documentar el estado ITV.",
+      "Formular denuncia con el codificado indicado y remitirla a la Jefatura Provincial de Tráfico de Valencia.",
+      "Informar de la obligación de someter el vehículo a inspección.",
+      "Conceder al titular o arrendatario a largo plazo el plazo de 10 días previsto en el art. 6.9 RD 920/2017 para someter el vehículo a ITV y dejar constancia del requerimiento.",
+      "Comprobar por separado si existen deficiencias técnicas actuales."
+    ],
+    "medidas": [
+      "TR-MED-ITV-CHECK"
+    ],
+    "advertencias": [
+      "La ITV vencida no acredita por sí sola una deficiencia técnica ni justifica la inmovilización.",
+      "La retirada y el depósito exigen un supuesto autónomo del artículo 105 LSV.",
+      "La baja de oficio no la acuerda el agente: si no se acredita la presentación a ITV dentro de los 10 días, la Jefatura de Tráfico inicia el procedimiento."
+    ],
+    "fuentes": [
+      "TR-ITV-SRC-001",
+      "TR-ITV-SRC-002",
+      "TR-ITV-SRC-003",
+      "TR-ITV-SRC-007"
+    ],
+    "fichas_juridicas": [
+      "TR-ITV-FJ-001",
+      "TR-ITV-FJ-004",
+      "TR-ITV-FJ-005",
+      "TR-ITV-FJ-006"
+    ]
+  },
+  {
+    "modulo": "seguridad_vial",
+    "categoria": "seguridad_vial_itv",
+    "responsable": "Titular o arrendatario a largo plazo inscrito",
+    "competencia_denuncia": "Policía Local de Torrent — órgano actuante y formulador de la denuncia",
+    "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
+    "alerta_penal": false,
+    "referencia_penal": null,
+    "estado": "validado",
+    "id": "TR-ITV-OP-002",
+    "titulo": "ITV vencida — estacionado en vía pública",
+    "palabras_clave": [
+      "ITV",
+      "caducada",
+      "vencida",
+      "estacionado",
+      "5A"
+    ],
+    "que_comprobar": [
+      "Fecha en que era exigible la inspección periódica.",
+      "Alta y puesta en circulación del vehículo.",
+      "Estacionamiento en vía pública y circunstancias relevantes para la proporcionalidad.",
+      "Existencia de abandono u otro presupuesto jurídico independiente."
+    ],
+    "resultado": "Vehículo estacionado en vía pública sin haber superado la inspección técnica periódica en el plazo debido.",
+    "norma": "Reglamento General de Vehículos",
+    "articulo": "10.1",
+    "norma_infringida": "Reglamento General de Vehículos",
+    "articulo_infringido": "10.1",
+    "tipificacion_norma": "Ley sobre Tráfico, Circulación de Vehículos a Motor y Seguridad Vial",
+    "tipificacion_articulo": "76.o",
+    "textoDenuncia": "NO HABERSE SOMETIDO EL VEHÍCULO RESEÑADO A LA INSPECCIÓN TÉCNICA PERIÓDICA ESTABLECIDA REGLAMENTARIAMENTE.",
+    "codificado": "VEH 10.1 5A",
+    "calificacion": "grave",
+    "importe_fijo": 200,
+    "importe_reducido": 100,
+    "inmovilizacion": "NO",
+    "motivo_inmovilizacion": "El mero vencimiento de la ITV con el vehículo estacionado no habilita la inmovilización, retirada ni depósito.",
+    "actuacion_breve": [
+      "Comprobar el estado ITV y la situación del vehículo; formular denuncia 5A aplicando proporcionalidad."
+    ],
+    "actuacion": [
+      "Comprobar y documentar el estado ITV y la situación del vehículo.",
+      "Aplicar el criterio de proporcionalidad.",
+      "Formular denuncia con el codificado indicado y remitirla a la Jefatura Provincial de Tráfico de Valencia.",
+      "Conceder al titular o arrendatario a largo plazo el plazo de 10 días previsto en el art. 6.9 RD 920/2017 para someter el vehículo a ITV y dejar constancia del requerimiento."
+    ],
+    "medidas": [
+      "TR-MED-ITV-CHECK"
+    ],
+    "advertencias": [
+      "El mero vencimiento no permite presumir defectos técnicos actuales.",
+      "No procede inmovilización, retirada ni depósito por el solo vencimiento; cada medida requiere su propia causa legal.",
+      "La baja de oficio no la acuerda el agente: si no se acredita la presentación a ITV dentro de los 10 días, la Jefatura de Tráfico inicia el procedimiento."
+    ],
+    "fuentes": [
+      "TR-ITV-SRC-001",
+      "TR-ITV-SRC-002",
+      "TR-ITV-SRC-003",
+      "TR-ITV-SRC-004",
+      "TR-ITV-SRC-007"
+    ],
+    "fichas_juridicas": [
+      "TR-ITV-FJ-001",
+      "TR-ITV-FJ-004",
+      "TR-ITV-FJ-005",
+      "TR-ITV-FJ-006"
+    ]
+  },
+  {
+    "modulo": "seguridad_vial",
+    "categoria": "seguridad_vial_itv",
+    "responsable": "Titular o arrendatario a largo plazo inscrito",
+    "competencia_denuncia": "Policía Local de Torrent — órgano actuante y formulador de la denuncia",
+    "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
+    "alerta_penal": false,
+    "referencia_penal": null,
+    "estado": "validado",
+    "id": "TR-ITV-OP-003",
+    "titulo": "ITV desfavorable — dentro del plazo",
+    "palabras_clave": [
+      "ITV",
+      "desfavorable",
+      "segunda inspección",
+      "taller",
+      "5C"
+    ],
+    "que_comprobar": [
+      "Informe ITV, defectos graves y fecha límite de segunda inspección.",
+      "Origen, destino y finalidad real del desplazamiento.",
+      "Necesidad del traslado al taller o regularización, o de la vuelta a la estación ITV.",
+      "Coherencia de la ruta y ausencia de usos intermedios."
+    ],
+    "resultado": "Dentro del plazo, solo están permitidos los desplazamientos necesarios para subsanar las deficiencias y volver a la inspección. Cualquier otro desplazamiento constituye infracción.",
+    "estado_circulacion": "INHABILITADO, salvo los desplazamientos expresamente permitidos por el art. 11.2.",
+    "norma": "Reglamento General de Vehículos",
+    "articulo": "10.1",
+    "norma_infringida": "Reglamento General de Vehículos",
+    "articulo_infringido": "10.1",
+    "tipificacion_norma": "Ley sobre Tráfico, Circulación de Vehículos a Motor y Seguridad Vial",
+    "tipificacion_articulo": "76.o",
+    "calificacion": null,
+    "inmovilizacion": "CONDICIONADA",
+    "motivo_inmovilizacion": "Solo cuando existan deficiencias actuales que constituyan riesgo especialmente grave para la seguridad vial.",
+    "actuacion_breve": [
+      "Verificar que el trayecto sea necesario para reparar o volver a ITV; si no lo es, formular denuncia 5C."
+    ],
+    "actuacion": [
+      "Comprobar el informe ITV y la fecha límite.",
+      "Comprobar destino y finalidad del desplazamiento.",
+      "Si se dirige al taller o regularización, o vuelve a una estación ITV para nueva inspección dentro del plazo, el desplazamiento está amparado por el art. 11.2.",
+      "Si realiza cualquier otro desplazamiento, aplicar la denuncia correspondiente.",
+      "No acordar inmovilización por el mero resultado desfavorable; aplicar art. 104 solo si concurre una causa concreta."
+    ],
+    "medidas": [
+      "TR-MED-ITV-CHECK",
+      "TR-MED-WARN-NOCIRC"
+    ],
+    "advertencias": [
+      "La ITV desfavorable no genera inmovilización automática.",
+      "El plazo concedido para la segunda inspección no puede superar dos meses desde la primera inspección desfavorable."
+    ],
+    "datos_adicionales": {
+      "encaje_condicional": [
+        {
+          "supuesto": "Trayecto necesario y coherente para subsanar las deficiencias o volver a la ITV",
+          "articulo": "11.2 RD 920/2017",
+          "calificacion": "sin infracción ITV"
+        },
+        {
+          "supuesto": "Cualquier otro desplazamiento",
+          "articulo": "10.1 RGV",
+          "norma_infringida": "Reglamento General de Vehículos",
+          "articulo_infringido": "10.1",
+          "tipificacion_norma": "Ley sobre Tráfico, Circulación de Vehículos a Motor y Seguridad Vial",
+          "tipificacion_articulo": "76.o",
+          "textoDenuncia": "CIRCULAR CON EL VEHÍCULO RESEÑADO CUYA INSPECCIÓN TÉCNICA HA RESULTADO DESFAVORABLE.",
+          "calificacion": "grave",
+          "codificado": "VEH 10.1 5C",
+          "importe_fijo": 200,
+          "importe_reducido": 100
+        }
+      ]
+    },
+    "fuentes": [
+      "TR-ITV-SRC-001",
+      "TR-ITV-SRC-002",
+      "TR-ITV-SRC-003",
+      "TR-ITV-SRC-007"
+    ],
+    "fichas_juridicas": [
+      "TR-ITV-FJ-002",
+      "TR-ITV-FJ-003",
+      "TR-ITV-FJ-004",
+      "TR-ITV-FJ-005",
+      "TR-ITV-FJ-006"
+    ]
+  },
+  {
+    "modulo": "seguridad_vial",
+    "categoria": "seguridad_vial_itv",
+    "responsable": "Titular o arrendatario a largo plazo inscrito",
+    "competencia_denuncia": "Policía Local de Torrent — órgano actuante y formulador de la denuncia",
+    "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
+    "alerta_penal": false,
+    "referencia_penal": null,
+    "estado": "validado",
+    "id": "TR-ITV-OP-004",
+    "titulo": "ITV desfavorable — plazo de segunda inspección superado",
+    "palabras_clave": [
+      "ITV",
+      "desfavorable",
+      "fuera de plazo",
+      "5D",
+      "5E"
+    ],
+    "que_comprobar": [
+      "Primera inspección desfavorable y fecha límite concedida.",
+      "Que se ha superado el plazo máximo para la segunda inspección.",
+      "Si existe circulación efectiva o el vehículo está estacionado/puesto en circulación.",
+      "Deficiencias técnicas actuales, separadamente."
+    ],
+    "resultado": "No se ha superado la segunda inspección dentro del plazo máximo; debe seleccionarse la salida según la situación real del vehículo.",
+    "estado_circulacion": "INHABILITADO para los desplazamientos del art. 11.2 una vez superado el plazo.",
+    "norma": "Reglamento General de Vehículos",
+    "articulo": "10.1",
+    "norma_infringida": "Reglamento General de Vehículos",
+    "articulo_infringido": "10.1",
+    "calificacion": null,
+    "inmovilizacion": "CONDICIONADA",
+    "motivo_inmovilizacion": "Solo cuando existan deficiencias actuales que constituyan riesgo especialmente grave para la seguridad vial.",
+    "actuacion_breve": [
+      "Acreditar el vencimiento del plazo y seleccionar 5D si circula o 5E si está estacionado o puesto en circulación."
+    ],
+    "actuacion": [
+      "Comprobar la fecha de la primera inspección desfavorable y la fecha límite.",
+      "Distinguir circulación efectiva de puesta en circulación/estacionamiento y aplicar la salida sancionadora ya validada.",
+      "No autorizar circulación por medios propios al amparo de la excepción del art. 11.2, porque el plazo concedido ha finalizado.",
+      "Informar de que, si se presenta a ITV fuera de plazo, se realizará una inspección técnica completa.",
+      "No aplicar automáticamente el art. 6.9 RD 920/2017 a este supuesto."
+    ],
+    "medidas": [
+      "TR-MED-ITV-CHECK",
+      "TR-MED-WARN-NOCIRC"
+    ],
+    "advertencias": [
+      "No existe inmovilización automática por el resultado desfavorable ni por superar el plazo.",
+      "Retirada y depósito solo pueden acordarse si concurre un supuesto autónomo del artículo 105 LSV."
+    ],
+    "datos_adicionales": {
+      "encaje_condicional": [
+        {
+          "supuesto": "Vehículo circulando",
+          "articulo": "10.1 RGV",
+          "norma_infringida": "Reglamento General de Vehículos",
+          "articulo_infringido": "10.1",
+          "tipificacion_norma": "Ley sobre Tráfico, Circulación de Vehículos a Motor y Seguridad Vial",
+          "tipificacion_articulo": "77.ll",
+          "textoDenuncia": "CIRCULAR CON EL VEHÍCULO RESEÑADO, CUYA ÚLTIMA INSPECCIÓN TÉCNICA HA RESULTADO DESFAVORABLE, HABIÉNDOSE SUPERADO EL PLAZO MÁXIMO REGLAMENTARIAMENTE ESTABLECIDO PARA SER SOMETIDO A NUEVA INSPECCIÓN.",
+          "calificacion": "muy grave",
+          "codificado": "VEH 10.1 5D",
+          "importe_fijo": 500,
+          "importe_reducido": 250
+        },
+        {
+          "supuesto": "Vehículo estacionado o puesto en circulación",
+          "articulo": "10.1 RGV",
+          "norma_infringida": "Reglamento General de Vehículos",
+          "articulo_infringido": "10.1",
+          "tipificacion_norma": "Ley sobre Tráfico, Circulación de Vehículos a Motor y Seguridad Vial",
+          "tipificacion_articulo": "76.o",
+          "textoDenuncia": "PONER EN CIRCULACIÓN EL VEHÍCULO RESEÑADO, CUYA ÚLTIMA INSPECCIÓN TÉCNICA HA RESULTADO DESFAVORABLE, HABIÉNDOSE SUPERADO EL PLAZO MÁXIMO REGLAMENTARIAMENTE ESTABLECIDO PARA SER SOMETIDO A NUEVA INSPECCIÓN.",
+          "calificacion": "grave",
+          "codificado": "VEH 10.1 5E",
+          "importe_fijo": 200,
+          "importe_reducido": 100
+        }
+      ]
+    },
+    "fuentes": [
+      "TR-ITV-SRC-001",
+      "TR-ITV-SRC-002",
+      "TR-ITV-SRC-003",
+      "TR-ITV-SRC-004",
+      "TR-ITV-SRC-007"
+    ],
+    "fichas_juridicas": [
+      "TR-ITV-FJ-003",
+      "TR-ITV-FJ-004",
+      "TR-ITV-FJ-005",
+      "TR-ITV-FJ-006"
+    ]
+  },
+  {
+    "modulo": "seguridad_vial",
+    "categoria": "seguridad_vial_itv",
+    "responsable": "Titular o arrendatario a largo plazo inscrito",
+    "competencia_denuncia": "Policía Local de Torrent — órgano actuante y formulador de la denuncia",
+    "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
+    "alerta_penal": false,
+    "referencia_penal": null,
+    "estado": "validado",
+    "id": "TR-ITV-OP-005",
+    "titulo": "ITV negativa — circulando",
+    "palabras_clave": [
+      "ITV",
+      "negativa",
+      "circulando",
+      "grúa",
+      "5B"
+    ],
+    "que_comprobar": [
+      "Resultado negativo e informe de defectos muy graves.",
+      "Circulación autopropulsada.",
+      "Estado técnico actual y posible reparación posterior.",
+      "Forma en que el vehículo llegó al lugar."
+    ],
+    "resultado": "Vehículo con resultado ITV negativo circulando por sus propios medios.",
+    "estado_circulacion": "CIRCULACIÓN PROHIBIDA POR MEDIOS PROPIOS; traslado por medios ajenos.",
+    "norma": "Reglamento General de Vehículos",
+    "articulo": "10.1",
+    "norma_infringida": "Reglamento General de Vehículos",
+    "articulo_infringido": "10.1",
+    "tipificacion_norma": "Ley sobre Tráfico, Circulación de Vehículos a Motor y Seguridad Vial",
+    "tipificacion_articulo": "77.ll",
+    "textoDenuncia": "CIRCULAR CON EL VEHÍCULO RESEÑADO CUYA INSPECCIÓN TÉCNICA HA RESULTADO NEGATIVA POR INCUMPLIR EL MISMO LAS CONDICIONES TÉCNICAS QUE GARANTIZAN LA SEGURIDAD VIAL.",
+    "codificado": "VEH 10.1 5B",
+    "calificacion": "muy grave",
+    "importe_fijo": 500,
+    "importe_reducido": 250,
+    "inmovilizacion": "CONDICIONADA",
+    "motivo_inmovilizacion": "Solo cuando las deficiencias actuales constituyan riesgo especialmente grave; la continuación autopropulsada está prohibida en todo caso.",
+    "actuacion_breve": [
+      "Formular denuncia 5B, impedir la continuación autopropulsada y exigir transporte por medios ajenos."
+    ],
+    "actuacion": [
+      "Formular la denuncia correspondiente y remitirla a la Jefatura Provincial de Tráfico de Valencia.",
+      "Impedir la continuación de la circulación por medios propios: el art. 11.3 RD 920/2017 inhabilita al vehículo para circular.",
+      "Exigir que el traslado se realice por medios ajenos al propio vehículo.",
+      "Consultar el informe ITV para identificar el defecto muy grave que produjo el resultado negativo.",
+      "Si el defecto constituye riesgo especialmente grave para la seguridad vial, aplicar inmovilización del art. 104.1.b LSV.",
+      "Si se superan los niveles reglamentarios de gases, humos o ruido, aplicar inmovilización del art. 104.1.h LSV.",
+      "No presentar la retirada o depósito del art. 105 como consecuencia automática; solo si concurre su supuesto propio."
+    ],
+    "medidas": [
+      "TR-MED-ITV-CHECK",
+      "TR-MED-WARN-NOCIRC",
+      "TR-MED-EXT-TRANSPORT",
+      "TR-MED-IMMOB-104B"
+    ],
+    "advertencias": [
+      "La ITV negativa no genera automáticamente retirada ni depósito.",
+      "La inmovilización exige acreditar deficiencias actuales que constituyan riesgo especialmente grave; no deriva automáticamente de la anotación ITV."
+    ],
+    "fuentes": [
+      "TR-ITV-SRC-001",
+      "TR-ITV-SRC-002",
+      "TR-ITV-SRC-003",
+      "TR-ITV-SRC-007"
+    ],
+    "fichas_juridicas": [
+      "TR-ITV-FJ-002",
+      "TR-ITV-FJ-003",
+      "TR-ITV-FJ-004",
+      "TR-ITV-FJ-005",
+      "TR-ITV-FJ-006"
+    ]
+  },
+  {
+    "modulo": "seguridad_vial",
+    "categoria": "seguridad_vial_itv",
+    "responsable": "Titular o arrendatario a largo plazo inscrito",
+    "competencia_denuncia": "Policía Local de Torrent — órgano actuante y formulador de la denuncia",
+    "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
+    "alerta_penal": false,
+    "referencia_penal": null,
+    "estado": "validado",
+    "id": "TR-ITV-OP-006",
+    "titulo": "ITV negativa — puesto en circulación / estacionado",
+    "palabras_clave": [
+      "ITV",
+      "negativa",
+      "estacionado",
+      "grúa",
+      "5F"
+    ],
+    "que_comprobar": [
+      "Resultado negativo e informe de defectos muy graves.",
+      "Ubicación en vía pública e indicios de puesta en circulación.",
+      "Deficiencias técnicas actuales.",
+      "Existencia independiente de peligro, obstáculo u otro presupuesto de retirada."
+    ],
+    "resultado": "Vehículo con última ITV negativa estacionado o puesto en circulación en vía pública.",
+    "estado_circulacion": "CIRCULACIÓN PROHIBIDA POR MEDIOS PROPIOS mientras persista la inhabilitación.",
+    "norma": "Reglamento General de Vehículos",
+    "articulo": "10.1",
+    "norma_infringida": "Reglamento General de Vehículos",
+    "articulo_infringido": "10.1",
+    "tipificacion_norma": "Ley sobre Tráfico, Circulación de Vehículos a Motor y Seguridad Vial",
+    "tipificacion_articulo": "76.o",
+    "textoDenuncia": "PONER EN CIRCULACIÓN EL VEHÍCULO RESEÑADO, CUYA ÚLTIMA INSPECCIÓN TÉCNICA HA RESULTADO NEGATIVA, HABIENDO QUEDADO INHABILITADO PARA CIRCULAR POR LAS VÍAS PÚBLICAS.",
+    "codificado": "VEH 10.1 5F",
+    "calificacion": "grave",
+    "importe_fijo": 200,
+    "importe_reducido": 100,
+    "inmovilizacion": "CONDICIONADA",
+    "motivo_inmovilizacion": "Solo cuando existan deficiencias actuales que constituyan riesgo especialmente grave; la anotación negativa no basta por sí sola.",
+    "actuacion_breve": [
+      "Formular denuncia 5F y advertir que el vehículo solo puede retirarse mediante transporte por medios ajenos."
+    ],
+    "actuacion": [
+      "Formular la denuncia correspondiente cuando concurran los elementos de la salida sancionadora ya validada.",
+      "Advertir expresamente que el vehículo no puede ser retirado circulando por sus propios medios.",
+      "Si debe trasladarse, utilizar medios ajenos al propio vehículo.",
+      "Aplicar inmovilización del art. 104 únicamente si el defecto acreditado encaja en una causa concreta, especialmente 104.1.b o 104.1.h.",
+      "Aplicar retirada y depósito solo si concurre un supuesto propio del art. 105 LSV."
+    ],
+    "medidas": [
+      "TR-MED-ITV-CHECK",
+      "TR-MED-WARN-NOCIRC",
+      "TR-MED-EXT-TRANSPORT"
+    ],
+    "advertencias": [
+      "La anotación negativa no genera automáticamente inmovilización, retirada ni depósito.",
+      "La retirada administrativa exige peligro, obstáculo u otro supuesto tasado del artículo 105 LSV."
+    ],
+    "fuentes": [
+      "TR-ITV-SRC-001",
+      "TR-ITV-SRC-002",
+      "TR-ITV-SRC-003",
+      "TR-ITV-SRC-004",
+      "TR-ITV-SRC-007"
+    ],
+    "fichas_juridicas": [
+      "TR-ITV-FJ-002",
+      "TR-ITV-FJ-003",
+      "TR-ITV-FJ-004",
+      "TR-ITV-FJ-005",
+      "TR-ITV-FJ-006"
+    ]
+  },
+  {
+    "modulo": "seguridad_vial",
+    "categoria": "seguridad_vial_itv",
+    "responsable": "Titular o arrendatario a largo plazo inscrito",
+    "competencia_denuncia": "Policía Local de Torrent — órgano actuante y formulador de la denuncia",
+    "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
+    "alerta_penal": false,
+    "referencia_penal": null,
+    "estado": "validado",
+    "id": "TR-ITV-OP-007",
+    "titulo": "Deficiencias técnicas actuales con riesgo especialmente grave",
+    "palabras_clave": [
+      "deficiencias",
+      "técnicas",
+      "riesgo",
+      "inmovilización",
+      "104",
+      "retirada",
+      "depósito"
+    ],
+    "que_comprobar": [
+      "Deficiencia técnica observable o documentada.",
+      "Riesgo concreto, actual y especialmente grave.",
+      "Relación del defecto con la seguridad vial.",
+      "Estado ITV como dato separado, sin usarlo como prueba sustitutiva del riesgo."
+    ],
+    "resultado": "El vehículo presenta deficiencias técnicas actuales que constituyen riesgo especialmente grave. No es una infracción autónoma: la eventual denuncia exige identificar el defecto técnico concreto.",
+    "norma": "Ley sobre Tráfico, Circulación de Vehículos a Motor y Seguridad Vial",
+    "articulo": "104.1.b",
+    "norma_infringida": null,
+    "articulo_infringido": null,
+    "textoDenuncia": null,
+    "es_infraccion_autonoma": false,
+    "calificacion": null,
+    "inmovilizacion": "SÍ",
+    "motivo_inmovilizacion": "Concurre el presupuesto específico del artículo 104.1.b LSV: deficiencias que constituyen riesgo especialmente grave para la seguridad vial.",
+    "actuacion_breve": [
+      "Describir el defecto y el riesgo, inmovilizar de forma motivada y seleccionar por separado el tipo técnico concreto, si procede denuncia."
+    ],
+    "actuacion": [
+      "Describir técnicamente cada defecto y el riesgo concreto.",
+      "Determinar la norma, el artículo, el texto oficial y el codificado correspondientes al defecto acreditado; esta ficha no formula una denuncia autónoma.",
+      "Motivar la necesidad y proporcionalidad de la inmovilización.",
+      "Comprobar separadamente si concurre un presupuesto tasado para retirada y depósito.",
+      "Evitar una doble sanción por idéntico sujeto, hecho y fundamento."
+    ],
+    "medidas": [
+      "TR-MED-IMMOB-104B",
+      "TR-MED-REMOVE-105",
+      "TR-MED-DEPOSIT-105"
+    ],
+    "advertencias": [
+      "La calificación y el importe solo pueden determinarse después de identificar la deficiencia concreta y su precepto aplicable.",
+      "La retirada, el traslado privado y el depósito son actuaciones diferentes y no se activan por la mera inmovilización."
+    ],
+    "fuentes": [
+      "TR-ITV-SRC-001",
+      "TR-ITV-SRC-002",
+      "TR-ITV-SRC-007"
+    ],
+    "fichas_juridicas": [
+      "TR-ITV-FJ-004",
+      "TR-ITV-FJ-005",
+      "TR-ITV-FJ-006"
+    ]
+  },
+  {
+    "modulo": "seguridad_vial",
+    "categoria": "seguridad_vial_seguro",
+    "norma": "Real Decreto Legislativo 8/2004",
+    "articulo": "2.1",
+    "norma_infringida": "Real Decreto Legislativo 8/2004, texto refundido de la Ley sobre responsabilidad civil y seguro en la circulación de vehículos a motor",
+    "articulo_infringido": "2.1",
+    "tipificacion_norma": "Real Decreto Legislativo 8/2004",
+    "tipificacion_articulo": "3",
+    "tipificacion_etiqueta": "Régimen sancionador",
+    "competencia_denuncia": "Policía Local de Torrent — órgano actuante y formulador",
+    "competencia_instruye": "Jefatura Provincial de Tráfico de Valencia — receptor e instructora",
+    "competencia_resuelve": "Jefe Provincial de Tráfico de Valencia",
+    "alerta_penal": false,
+    "referencia_penal": null,
+    "estado": "validado",
+    "id": "TR-SOA-OP-001",
+    "titulo": "Vehículos convencionales — circulando sin seguro",
+    "palabras_clave": [
+      "seguro",
+      "SOA",
+      "ciclomotor",
+      "motocicleta",
+      "turismo",
+      "tercera categoría",
+      "5F",
+      "5G",
+      "5H",
+      "5I"
+    ],
+    "que_comprobar": [
+      "Que el vehículo está sujeto a seguro obligatorio y no concurre una excepción legal.",
+      "Consulta oficial de seguro en vigor.",
+      "Clase del vehículo: ciclomotor, motocicleta, turismo o tercera categoría.",
+      "Uso o conducción efectiva como medio de transporte."
+    ],
+    "resultado": "Ciclomotor, Motocicleta, Turismo, 3ª Categoría que requiere SOA, circulando sin seguro en vigor.",
+    "responsable": "Propietario; en vehículo inscrito, se presume propietario a quien figure en el registro.",
+    "inmovilizacion": "SÍ",
+    "motivo_inmovilizacion": "Comprobada la carencia de seguro obligatorio, procede la inmovilización del vehículo.",
+    "actuacion_breve": [
+      "Formular la variante ARCI aplicable, prohibir la continuación, inmovilizar y trasladar el vehículo al depósito."
+    ],
+    "actuacion": [
+      "Comprobar la sujeción y la inexistencia de seguro vigente.",
+      "Identificar la clase de vehículo y seleccionar la variante ARCI exacta.",
+      "Formular denuncia y remitirla a la Jefatura Provincial de Tráfico de Valencia.",
+      "Prohibir la continuación, inmovilizar y trasladar el vehículo al depósito."
+    ],
+    "medidas": [
+      "TR-MED-SOA-OPERATIVE"
+    ],
+    "advertencias": [
+      "Comprobada la carencia de seguro obligatorio, se prohíbe la circulación, se inmoviliza y se traslada al depósito.",
+      "No se muestra calificación leve, grave o muy grave: el régimen específico no usa esa etiqueta universal."
+    ],
+    "datos_adicionales": {
+      "encaje_condicional": [
+        {
+          "supuesto": "Ciclomotor — circulando sin seguro",
+          "articulo": "2.1",
+          "norma_infringida": "Real Decreto Legislativo 8/2004, texto refundido de la Ley sobre responsabilidad civil y seguro en la circulación de vehículos a motor",
+          "articulo_infringido": "2.1",
+          "tipificacion_norma": "Real Decreto Legislativo 8/2004",
+          "tipificacion_articulo": "3",
+          "tipificacion_etiqueta": "Régimen sancionador",
+          "textoDenuncia": "CIRCULAR EL VEHÍCULO RESEÑADO SIN QUE CONSTE QUE SU PROPIETARIO TENGA SUSCRITO Y MANTENGA EN VIGOR UN CONTRATO DE SEGURO QUE CUBRA LA RESPONSABILIDAD CIVIL DERIVADA DE SU CIRCULACIÓN. (CICLOMOTORES.)",
+          "calificacion": "",
+          "codificado": "SOA 2.1 5F",
+          "importe_fijo": 1000,
+          "importe_reducido": 500
+        },
+        {
+          "supuesto": "Motocicleta — circulando sin seguro",
+          "articulo": "2.1",
+          "norma_infringida": "Real Decreto Legislativo 8/2004, texto refundido de la Ley sobre responsabilidad civil y seguro en la circulación de vehículos a motor",
+          "articulo_infringido": "2.1",
+          "tipificacion_norma": "Real Decreto Legislativo 8/2004",
+          "tipificacion_articulo": "3",
+          "tipificacion_etiqueta": "Régimen sancionador",
+          "textoDenuncia": "CIRCULAR EL VEHÍCULO RESEÑADO SIN QUE CONSTE QUE SU PROPIETARIO TENGA SUSCRITO Y MANTENGA EN VIGOR UN CONTRATO DE SEGURO QUE CUBRA LA RESPONSABILIDAD CIVIL DERIVADA DE SU CIRCULACIÓN. (MOTOCICLETAS.)",
+          "calificacion": "",
+          "codificado": "SOA 2.1 5G",
+          "importe_fijo": 1250,
+          "importe_reducido": 625
+        },
+        {
+          "supuesto": "Turismo — circulando sin seguro",
+          "articulo": "2.1",
+          "norma_infringida": "Real Decreto Legislativo 8/2004, texto refundido de la Ley sobre responsabilidad civil y seguro en la circulación de vehículos a motor",
+          "articulo_infringido": "2.1",
+          "tipificacion_norma": "Real Decreto Legislativo 8/2004",
+          "tipificacion_articulo": "3",
+          "tipificacion_etiqueta": "Régimen sancionador",
+          "textoDenuncia": "CIRCULAR EL VEHÍCULO RESEÑADO SIN QUE CONSTE QUE SU PROPIETARIO TENGA SUSCRITO Y MANTENGA EN VIGOR UN CONTRATO DE SEGURO QUE CUBRA LA RESPONSABILIDAD CIVIL DERIVADA DE SU CIRCULACIÓN. (TURISMOS.)",
+          "calificacion": "",
+          "codificado": "SOA 2.1 5H",
+          "importe_fijo": 1500,
+          "importe_reducido": 750
+        },
+        {
+          "supuesto": "Vehículo de tercera categoría — circulando sin seguro",
+          "articulo": "2.1",
+          "norma_infringida": "Real Decreto Legislativo 8/2004, texto refundido de la Ley sobre responsabilidad civil y seguro en la circulación de vehículos a motor",
+          "articulo_infringido": "2.1",
+          "tipificacion_norma": "Real Decreto Legislativo 8/2004",
+          "tipificacion_articulo": "3",
+          "tipificacion_etiqueta": "Régimen sancionador",
+          "textoDenuncia": "CIRCULAR EL VEHÍCULO RESEÑADO SIN QUE CONSTE QUE SU PROPIETARIO TENGA SUSCRITO Y MANTENGA EN VIGOR UN CONTRATO DE SEGURO QUE CUBRA LA RESPONSABILIDAD CIVIL DERIVADA DE SU CIRCULACIÓN. (VEHÍCULOS DE TERCERA CATEGORÍA.)",
+          "calificacion": "",
+          "codificado": "SOA 2.1 5I",
+          "importe_fijo": 2800,
+          "importe_reducido": 1400
+        }
+      ]
+    },
+    "fuentes": [
+      "TR-SOA-SRC-001",
+      "TR-SOA-SRC-003",
+      "TR-ITV-SRC-001",
+      "TR-ITV-SRC-007"
+    ],
+    "fichas_juridicas": [
+      "TR-SOA-FJ-001",
+      "TR-SOA-FJ-002",
+      "TR-SOA-FJ-003",
+      "TR-SOA-FJ-005"
+    ]
+  },
+  {
+    "modulo": "seguridad_vial",
+    "categoria": "seguridad_vial_seguro",
+    "norma": "Real Decreto Legislativo 8/2004",
+    "articulo": "2.1",
+    "norma_infringida": "Real Decreto Legislativo 8/2004, texto refundido de la Ley sobre responsabilidad civil y seguro en la circulación de vehículos a motor",
+    "articulo_infringido": "2.1",
+    "tipificacion_norma": "Real Decreto Legislativo 8/2004",
+    "tipificacion_articulo": "3",
+    "tipificacion_etiqueta": "Régimen sancionador",
+    "competencia_denuncia": "Policía Local de Torrent — órgano actuante y formulador",
+    "competencia_instruye": "Jefatura Provincial de Tráfico de Valencia — receptor e instructora",
+    "competencia_resuelve": "Jefe Provincial de Tráfico de Valencia",
+    "alerta_penal": false,
+    "referencia_penal": null,
+    "estado": "validado",
+    "id": "TR-SOA-OP-002",
+    "titulo": "Vehículos convencionales — carece de seguro",
+    "palabras_clave": [
+      "seguro",
+      "SOA",
+      "estacionado",
+      "carecer",
+      "5J",
+      "5K",
+      "5L",
+      "5M"
+    ],
+    "que_comprobar": [
+      "Que el vehículo está sujeto a seguro obligatorio y no concurre excepción legal.",
+      "Consulta oficial de seguro en vigor.",
+      "Clase del vehículo.",
+      "Ausencia de uso o conducción efectiva; el estacionamiento basta para esta modalidad."
+    ],
+    "resultado": "Vehículo convencional que requiere SOA y carece de seguro.",
+    "responsable": "Propietario; en vehículo inscrito, se presume propietario a quien figure en el registro.",
+    "inmovilizacion": "SÍ",
+    "motivo_inmovilizacion": "Comprobada la carencia de seguro obligatorio, procede la inmovilización del vehículo.",
+    "actuacion_breve": [
+      "Formular la variante ARCI aplicable y advertir que no puede ponerse en circulación sin seguro."
+    ],
+    "actuacion": [
+      "Comprobar la sujeción, la clase de vehículo y la inexistencia de seguro.",
+      "Documentar que no existe uso o conducción efectiva.",
+      "Formular denuncia y remitirla a la Jefatura Provincial de Tráfico de Valencia.",
+      "Prohibir la puesta en circulación, inmovilizar y trasladar el vehículo al depósito."
+    ],
+    "medidas": [
+      "TR-MED-SOA-OPERATIVE"
+    ],
+    "advertencias": [
+      "Estacionado, inmovilizado o no utilizado no equivale a vehículo exento de asegurar.",
+      "La baja solo exime si además no se usa como medio de transporte."
+    ],
+    "datos_adicionales": {
+      "encaje_condicional": [
+        {
+          "supuesto": "Ciclomotor — carece de seguro",
+          "articulo": "2.1",
+          "norma_infringida": "Real Decreto Legislativo 8/2004, texto refundido de la Ley sobre responsabilidad civil y seguro en la circulación de vehículos a motor",
+          "articulo_infringido": "2.1",
+          "tipificacion_norma": "Real Decreto Legislativo 8/2004",
+          "tipificacion_articulo": "3",
+          "tipificacion_etiqueta": "Régimen sancionador",
+          "textoDenuncia": "INCUMPLIR EL PROPIETARIO DEL VEHÍCULO RESEÑADO LA OBLIGACIÓN DE SUSCRIBIR Y MANTENER EN VIGOR UN CONTRATO DE SEGURO QUE CUBRA LA RESPONSABILIDAD CIVIL DERIVADA DE SU CIRCULACIÓN. (CICLOMOTORES.)",
+          "calificacion": "",
+          "codificado": "SOA 2.1 5J",
+          "importe_fijo": 650,
+          "importe_reducido": 325
+        },
+        {
+          "supuesto": "Motocicleta — carece de seguro",
+          "articulo": "2.1",
+          "norma_infringida": "Real Decreto Legislativo 8/2004, texto refundido de la Ley sobre responsabilidad civil y seguro en la circulación de vehículos a motor",
+          "articulo_infringido": "2.1",
+          "tipificacion_norma": "Real Decreto Legislativo 8/2004",
+          "tipificacion_articulo": "3",
+          "tipificacion_etiqueta": "Régimen sancionador",
+          "textoDenuncia": "INCUMPLIR EL PROPIETARIO DEL VEHÍCULO RESEÑADO LA OBLIGACIÓN DE SUSCRIBIR Y MANTENER EN VIGOR UN CONTRATO DE SEGURO QUE CUBRA LA RESPONSABILIDAD CIVIL DERIVADA DE SU CIRCULACIÓN. (MOTOCICLETAS.)",
+          "calificacion": "",
+          "codificado": "SOA 2.1 5K",
+          "importe_fijo": 700,
+          "importe_reducido": 350
+        },
+        {
+          "supuesto": "Turismo — carece de seguro",
+          "articulo": "2.1",
+          "norma_infringida": "Real Decreto Legislativo 8/2004, texto refundido de la Ley sobre responsabilidad civil y seguro en la circulación de vehículos a motor",
+          "articulo_infringido": "2.1",
+          "tipificacion_norma": "Real Decreto Legislativo 8/2004",
+          "tipificacion_articulo": "3",
+          "tipificacion_etiqueta": "Régimen sancionador",
+          "textoDenuncia": "INCUMPLIR EL PROPIETARIO DEL VEHÍCULO RESEÑADO LA OBLIGACIÓN DE SUSCRIBIR Y MANTENER EN VIGOR UN CONTRATO DE SEGURO QUE CUBRA LA RESPONSABILIDAD CIVIL DERIVADA DE SU CIRCULACIÓN. (TURISMOS.)",
+          "calificacion": "",
+          "codificado": "SOA 2.1 5L",
+          "importe_fijo": 800,
+          "importe_reducido": 400
+        },
+        {
+          "supuesto": "Vehículo de tercera categoría — carece de seguro",
+          "articulo": "2.1",
+          "norma_infringida": "Real Decreto Legislativo 8/2004, texto refundido de la Ley sobre responsabilidad civil y seguro en la circulación de vehículos a motor",
+          "articulo_infringido": "2.1",
+          "tipificacion_norma": "Real Decreto Legislativo 8/2004",
+          "tipificacion_articulo": "3",
+          "tipificacion_etiqueta": "Régimen sancionador",
+          "textoDenuncia": "INCUMPLIR EL PROPIETARIO DEL VEHÍCULO RESEÑADO LA OBLIGACIÓN DE SUSCRIBIR Y MANTENER EN VIGOR UN CONTRATO DE SEGURO QUE CUBRA LA RESPONSABILIDAD CIVIL DERIVADA DE SU CIRCULACIÓN. (VEHÍCULOS DE TERCERA CATEGORÍA.)",
+          "calificacion": "",
+          "codificado": "SOA 2.1 5M",
+          "importe_fijo": 1500,
+          "importe_reducido": 750
+        }
+      ]
+    },
+    "fuentes": [
+      "TR-SOA-SRC-001",
+      "TR-ITV-SRC-001",
+      "TR-ITV-SRC-007"
+    ],
+    "fichas_juridicas": [
+      "TR-SOA-FJ-001",
+      "TR-SOA-FJ-002",
+      "TR-SOA-FJ-003",
+      "TR-SOA-FJ-005"
+    ]
+  },
+  {
+    "modulo": "seguridad_vial",
+    "categoria": "seguridad_vial_seguro",
+    "norma": "Real Decreto Legislativo 8/2004",
+    "articulo": "2.1",
+    "norma_infringida": "Real Decreto Legislativo 8/2004, texto refundido de la Ley sobre responsabilidad civil y seguro en la circulación de vehículos a motor",
+    "articulo_infringido": "2.1",
+    "tipificacion_norma": "Real Decreto Legislativo 8/2004",
+    "tipificacion_articulo": "3",
+    "tipificacion_etiqueta": "Régimen sancionador",
+    "competencia_denuncia": "Policía Local de Torrent — órgano actuante y formulador",
+    "competencia_instruye": "Jefatura Provincial de Tráfico de Valencia — receptor e instructora",
+    "competencia_resuelve": "Jefe Provincial de Tráfico de Valencia",
+    "alerta_penal": false,
+    "referencia_penal": null,
+    "estado": "validado",
+    "id": "TR-SOA-OP-003",
+    "titulo": "VMP que requiere SOA (VMP >25 Kg y Velocidad hasta 25 km/h) — circulando sin seguro",
+    "palabras_clave": [
+      "VMP",
+      "seguro",
+      "masa",
+      "velocidad",
+      "5N"
+    ],
+    "que_comprobar": [
+      "Velocidad máxima de fabricación y masa máxima en orden de marcha.",
+      "Que supera 25 kg y 14 km/h, o que supera 25 km/h, conforme al régimen aplicable.",
+      "Consulta oficial de seguro.",
+      "Uso o conducción efectiva."
+    ],
+    "resultado": "VMP que requiere SOA, circulando sin seguro en vigor.",
+    "responsable": "Propietario. Si el VMP a motor no está inscrito, consignar además el conductor para el procedimiento DGT, sin sustituir al propietario como obligado material.",
+    "textoDenuncia": "CIRCULAR EL VEHÍCULO RESEÑADO SIN QUE CONSTE QUE SU PROPIETARIO TENGA SUSCRITO Y MANTENGA EN VIGOR UN CONTRATO DE SEGURO QUE CUBRA LA RESPONSABILIDAD CIVIL DERIVADA DE SU CIRCULACIÓN. VELOCIDAD SUPERIOR A 14 KM/H HASTA 25 KM/H Y PESO SUPERIOR A 25 KG.",
+    "codificado": "SOA 2.1 5N",
+    "importe_fijo": 800,
+    "importe_reducido": 400,
+    "inmovilizacion": "SÍ",
+    "motivo_inmovilizacion": "Comprobada la carencia de seguro obligatorio, procede la inmovilización del vehículo.",
+    "actuacion_breve": [
+      "Formular 5N, prohibir la continuación, inmovilizar y trasladar el vehículo al depósito."
+    ],
+    "actuacion": [
+      "Clasificar el vehículo con datos técnicos acreditados.",
+      "Comprobar el seguro y formular 5N.",
+      "Impedir la continuación ordinaria.",
+      "Si no está inscrito, identificar y consignar además al conductor conforme al criterio operativo DGT."
+    ],
+    "medidas": [
+      "TR-MED-SOA-OPERATIVE"
+    ],
+    "advertencias": [
+      "Un valor exactamente de 25 kg exige completar la clasificación; no automatizar la denuncia.",
+      "La obligación no depende de certificado o inscripción cuando se trata de vehículo a motor."
+    ],
+    "fuentes": [
+      "TR-SOA-SRC-001",
+      "TR-SOA-SRC-002",
+      "TR-SOA-SRC-006",
+      "TR-ITV-SRC-001"
+    ],
+    "fichas_juridicas": [
+      "TR-SOA-FJ-003",
+      "TR-SOA-FJ-004",
+      "TR-SOA-FJ-005"
+    ]
+  },
+  {
+    "modulo": "seguridad_vial",
+    "categoria": "seguridad_vial_seguro",
+    "norma": "Real Decreto Legislativo 8/2004",
+    "articulo": "2.1",
+    "norma_infringida": "Real Decreto Legislativo 8/2004, texto refundido de la Ley sobre responsabilidad civil y seguro en la circulación de vehículos a motor",
+    "articulo_infringido": "2.1",
+    "tipificacion_norma": "Real Decreto Legislativo 8/2004",
+    "tipificacion_articulo": "3",
+    "tipificacion_etiqueta": "Régimen sancionador",
+    "competencia_denuncia": "Policía Local de Torrent — órgano actuante y formulador",
+    "competencia_instruye": "Jefatura Provincial de Tráfico de Valencia — receptor e instructora",
+    "competencia_resuelve": "Jefe Provincial de Tráfico de Valencia",
+    "alerta_penal": false,
+    "referencia_penal": null,
+    "estado": "validado",
+    "id": "TR-SOA-OP-004",
+    "titulo": "VMP que requiere SOA (VMP >25 Kg y Velocidad hasta 25 km/h) — carece de seguro",
+    "palabras_clave": [
+      "VMP",
+      "seguro",
+      "estacionado",
+      "masa",
+      "velocidad",
+      "5O"
+    ],
+    "que_comprobar": [
+      "Clasificación técnica de vehículo a motor.",
+      "Consulta oficial de seguro.",
+      "Ausencia de uso o conducción efectiva."
+    ],
+    "resultado": "VMP que requiere SOA y carece de seguro.",
+    "responsable": "Propietario. Si el VMP a motor no está inscrito, consignar además el conductor para el procedimiento DGT, sin sustituir al propietario como obligado material.",
+    "textoDenuncia": "INCUMPLIR EL PROPIETARIO DEL VEHÍCULO RESEÑADO LA OBLIGACIÓN DE SUSCRIBIR Y MANTENER EN VIGOR UN CONTRATO DE SEGURO QUE CUBRA LA RESPONSABILIDAD CIVIL DERIVADA DE SU CIRCULACIÓN. VELOCIDAD SUPERIOR A 14 KM/H HASTA 25 KM/H Y PESO SUPERIOR A 25 KG.",
+    "codificado": "SOA 2.1 5O",
+    "importe_fijo": 610,
+    "importe_reducido": 305,
+    "inmovilizacion": "SÍ",
+    "motivo_inmovilizacion": "Comprobada la carencia de seguro obligatorio, procede la inmovilización del vehículo.",
+    "actuacion_breve": [
+      "Formular 5O y advertir que no puede ponerse en circulación sin seguro."
+    ],
+    "actuacion": [
+      "Clasificar el vehículo con datos técnicos acreditados.",
+      "Comprobar el seguro y formular 5O.",
+      "Impedir una posterior puesta en circulación sin seguro.",
+      "Prohibir la puesta en circulación, inmovilizar y trasladar el vehículo al depósito."
+    ],
+    "medidas": [
+      "TR-MED-SOA-OPERATIVE"
+    ],
+    "advertencias": [
+      "Un valor exactamente de 25 kg exige completar la clasificación.",
+      "VMP no certificado comercializado antes de 22/01/2024: régimen transitorio de circulación e inscripción hasta 22/01/2027, sin alterar esta obligación si es vehículo a motor."
+    ],
+    "fuentes": [
+      "TR-SOA-SRC-001",
+      "TR-SOA-SRC-002",
+      "TR-SOA-SRC-006",
+      "TR-ITV-SRC-001"
+    ],
+    "fichas_juridicas": [
+      "TR-SOA-FJ-003",
+      "TR-SOA-FJ-004",
+      "TR-SOA-FJ-005"
+    ]
+  },
+  {
+    "modulo": "seguridad_vial",
+    "categoria": "seguridad_vial_seguro",
+    "norma": "Real Decreto Legislativo 8/2004",
+    "articulo": "2.1",
+    "norma_infringida": "Real Decreto Legislativo 8/2004, texto refundido de la Ley sobre responsabilidad civil y seguro en la circulación de vehículos a motor",
+    "articulo_infringido": "2.1",
+    "tipificacion_norma": "Real Decreto Legislativo 8/2004",
+    "tipificacion_articulo": "3",
+    "tipificacion_etiqueta": "Régimen sancionador",
+    "competencia_denuncia": "Policía Local de Torrent — órgano actuante y formulador",
+    "competencia_instruye": "Jefatura Provincial de Tráfico de Valencia — receptor e instructora",
+    "competencia_resuelve": "Jefe Provincial de Tráfico de Valencia",
+    "alerta_penal": false,
+    "referencia_penal": null,
+    "estado": "validado",
+    "id": "TR-SOA-OP-005",
+    "titulo": "VPL que requiere SOA (Peso < 25 kg y velocidad hasta 25 km/h O peso > de 25 kg y velocidad hasta 14 km/h) — circulando sin seguro",
+    "palabras_clave": [
+      "VPL",
+      "seguro",
+      "certificado",
+      "inscripción",
+      "etiqueta",
+      "SDA",
+      "5A"
+    ],
+    "que_comprobar": [
+      "Que es VPL: masa y velocidad dentro de la definición aplicable.",
+      "Certificado de circulación, inscripción y etiqueta identificativa.",
+      "Consulta oficial de seguro.",
+      "Uso o conducción efectiva."
+    ],
+    "resultado": "VPL que requiere SOA —con certificado, inscripción y etiqueta— circulando sin seguro en vigor.",
+    "responsable": "Propietario.",
+    "textoDenuncia": "CIRCULAR EL VEHÍCULO PERSONAL LIGERO SIN QUE CONSTE QUE SU PROPIETARIO TENGA SUSCRITO Y MANTENGA EN VIGOR UN CONTRATO DE SEGURO QUE CUBRA LA RESPONSABILIDAD CIVIL DERIVADA DE SU CIRCULACIÓN.",
+    "codificado": "SDA DA1 5A",
+    "importe_fijo": 300,
+    "importe_reducido": 150,
+    "inmovilizacion": "SÍ",
+    "motivo_inmovilizacion": "Comprobada la carencia de seguro obligatorio, procede la inmovilización del vehículo.",
+    "actuacion_breve": [
+      "Formular SDA DA1 5A, prohibir la continuación, inmovilizar y trasladar el vehículo al depósito."
+    ],
+    "actuacion": [
+      "Acreditar la clasificación VPL y los tres requisitos documentales.",
+      "Comprobar el seguro y formular SDA DA1 5A.",
+      "Impedir la continuación ordinaria."
+    ],
+    "medidas": [
+      "TR-MED-SOA-OPERATIVE"
+    ],
+    "advertencias": [
+      "Si falta certificado, inscripción o etiqueta, no formular esta denuncia específica de seguro; completar la comprobación documental separada.",
+      "No confundir VPL con vehículo a motor a efectos del seguro."
+    ],
+    "fuentes": [
+      "TR-SOA-SRC-002",
+      "TR-SOA-SRC-005",
+      "TR-SOA-SRC-006",
+      "TR-SOA-SRC-007",
+      "TR-ITV-SRC-001"
+    ],
+    "fichas_juridicas": [
+      "TR-SOA-FJ-004",
+      "TR-SOA-FJ-005"
+    ]
+  },
+  {
+    "modulo": "seguridad_vial",
+    "categoria": "seguridad_vial_seguro",
+    "norma": "Real Decreto Legislativo 8/2004",
+    "articulo": "2.1",
+    "norma_infringida": "Real Decreto Legislativo 8/2004, texto refundido de la Ley sobre responsabilidad civil y seguro en la circulación de vehículos a motor",
+    "articulo_infringido": "2.1",
+    "tipificacion_norma": "Real Decreto Legislativo 8/2004",
+    "tipificacion_articulo": "3",
+    "tipificacion_etiqueta": "Régimen sancionador",
+    "competencia_denuncia": "Policía Local de Torrent — órgano actuante y formulador",
+    "competencia_instruye": "Jefatura Provincial de Tráfico de Valencia — receptor e instructora",
+    "competencia_resuelve": "Jefe Provincial de Tráfico de Valencia",
+    "alerta_penal": false,
+    "referencia_penal": null,
+    "estado": "validado",
+    "id": "TR-SOA-OP-006",
+    "titulo": "VPL que requiere SOA (Peso < 25 kg y velocidad hasta 25 km/h O peso > de 25 kg y velocidad hasta 14 km/h) — carece de seguro",
+    "palabras_clave": [
+      "VPL",
+      "seguro",
+      "estacionado",
+      "certificado",
+      "inscripción",
+      "etiqueta",
+      "SDA",
+      "5B"
+    ],
+    "que_comprobar": [
+      "Clasificación VPL y requisitos de certificado, inscripción y etiqueta.",
+      "Consulta oficial de seguro.",
+      "Ausencia de uso o conducción efectiva."
+    ],
+    "resultado": "VPL que requiere SOA —con certificado, inscripción y etiqueta— y carece de seguro.",
+    "responsable": "Propietario.",
+    "textoDenuncia": "INCUMPLIR EL PROPIETARIO DE UN VEHÍCULO PERSONAL LIGERO LA OBLIGACIÓN DE SUSCRIBIR Y MANTENER EN VIGOR UN CONTRATO DE SEGURO QUE CUBRA LA RESPONSABILIDAD CIVIL DERIVADA DE SU CIRCULACIÓN.",
+    "codificado": "SDA DA1 5B",
+    "importe_fijo": 200,
+    "importe_reducido": 100,
+    "inmovilizacion": "SÍ",
+    "motivo_inmovilizacion": "Comprobada la carencia de seguro obligatorio, procede la inmovilización del vehículo.",
+    "actuacion_breve": [
+      "Formular SDA DA1 5B y advertir que no puede ponerse en circulación sin seguro."
+    ],
+    "actuacion": [
+      "Acreditar clasificación y requisitos VPL.",
+      "Comprobar el seguro y formular SDA DA1 5B.",
+      "Prohibir la puesta en circulación, inmovilizar y trasladar el vehículo al depósito."
+    ],
+    "medidas": [
+      "TR-MED-SOA-OPERATIVE"
+    ],
+    "advertencias": [
+      "Si falta certificado, inscripción o etiqueta, no formular esta denuncia específica de seguro.",
+      "La normativa documental se comprueba y trata por su vía específica."
+    ],
+    "fuentes": [
+      "TR-SOA-SRC-002",
+      "TR-SOA-SRC-005",
+      "TR-SOA-SRC-006",
+      "TR-SOA-SRC-007",
+      "TR-ITV-SRC-001"
+    ],
+    "fichas_juridicas": [
+      "TR-SOA-FJ-004",
+      "TR-SOA-FJ-005"
+    ]
+  },
+  {
+    "id": "TR-PERM-OP-001",
+    "modulo": "seguridad_vial",
+    "categoria": "seguridad_vial_permisos",
+    "titulo": "Permiso caducado",
+    "situacion": "Conduce con permiso o licencia cuya vigencia ha caducado.",
+    "palabras_clave": [
+      "caducado",
+      "vencido",
+      "prórroga",
+      "5B"
+    ],
+    "que_comprobar": [
+      "Identidad, documento original y fecha de vigencia.",
+      "Que obtuvo permiso y no concurre pérdida de vigencia o privación judicial."
+    ],
+    "resultado": "VÍA ADMINISTRATIVA. Permiso caducado: no autoriza a conducir hasta su prórroga. Sin relevancia penal.",
+    "via": "Administrativa",
+    "norma": "Reglamento General de Conductores",
+    "articulo": "12.4",
+    "textoDenuncia": "CONDUCIR EL VEHÍCULO RESEÑADO CON UNA AUTORIZACIÓN ADMINISTRATIVA PARA CONDUCIR CUYA VIGENCIA HA CADUCADO.",
+    "codificado": "CON 12.4 5B",
+    "calificacion": "grave",
+    "importe_fijo": 200,
+    "importe_reducido": 100,
+    "responsable": "Conductor",
+    "actuacion": [
+      "Detener la conducción y formular denuncia.",
+      "Permitir que otro conductor con permiso válido y clase correcta se haga cargo del vehículo si no concurre otra causa."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent",
+    "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
+    "advertencias": [
+      "No inmovilizar el vehículo por el solo permiso caducado."
+    ],
+    "alerta_penal": false,
+    "fuentes": [
+      "TR-PERM-SRC-001",
+      "TR-ITV-SRC-001",
+      "TR-ITV-SRC-007"
+    ],
+    "fichas_juridicas": [
+      "TR-PERM-FJ-001"
+    ],
+    "estado": "validado"
+  },
+  {
+    "id": "TR-PERM-OP-002",
+    "modulo": "seguridad_vial",
+    "categoria": "seguridad_vial_permisos",
+    "titulo": "Permiso no habilita para el vehículo — categoría distinta de C/D",
+    "situacion": "Posee permiso, pero su clase no habilita para el vehículo conducido y este no requiere C ni D.",
+    "palabras_clave": [
+      "no habilita",
+      "clase B",
+      "categoría",
+      "5C"
+    ],
+    "que_comprobar": [
+      "Clases del permiso y categoría del vehículo.",
+      "Que el vehículo no exige C o D."
+    ],
+    "resultado": "VÍA ADMINISTRATIVA. El permiso existente no habilita para el vehículo. No equivale a no haber obtenido nunca permiso y no activa el artículo 104.1.k.",
+    "via": "Administrativa",
+    "norma": "Reglamento General de Conductores",
+    "articulo": "1.1",
+    "textoDenuncia": "CONDUCIR EL VEHÍCULO RESEÑADO CON UNA AUTORIZACIÓN ADMINISTRATIVA PARA CONDUCIR QUE NO LE HABILITA PARA EL MISMO.",
+    "codificado": "CON 1.1 5C",
+    "calificacion": "muy grave",
+    "puntos": 4,
+    "importe_fijo": 500,
+    "importe_reducido": 250,
+    "responsable": "Conductor",
+    "actuacion": [
+      "Detener la conducción y formular denuncia.",
+      "Permitir que otro conductor correctamente habilitado continúe si no concurre otra causa."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent",
+    "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
+    "advertencias": [
+      "No aplicar el artículo 104.1.k por analogía."
+    ],
+    "alerta_penal": false,
+    "fuentes": [
+      "TR-PERM-SRC-001",
+      "TR-ITV-SRC-001",
+      "TR-ITV-SRC-007"
+    ],
+    "fichas_juridicas": [
+      "TR-PERM-FJ-002"
+    ],
+    "estado": "validado"
+  },
+  {
+    "id": "TR-PERM-OP-003",
+    "modulo": "seguridad_vial",
+    "categoria": "seguridad_vial_permisos",
+    "titulo": "Permiso no habilita para vehículo que requiere C/D",
+    "situacion": "Conduce un vehículo que requiere permiso C o D sin la autorización correspondiente.",
+    "palabras_clave": [
+      "no habilita",
+      "C",
+      "D",
+      "104.1.k",
+      "5C"
+    ],
+    "que_comprobar": [
+      "Categoría técnica del vehículo y permiso exigible.",
+      "Clases en vigor del conductor.",
+      "Posibilidad inmediata de conductor sustituto habilitado."
+    ],
+    "resultado": "VÍA ADMINISTRATIVA. Denuncia 5C y procede inmovilización conforme al artículo 104.1.k mientras ningún conductor con autorización C/D correcta se haga cargo.",
+    "via": "Administrativa",
+    "norma": "Reglamento General de Conductores",
+    "articulo": "1.1",
+    "textoDenuncia": "CONDUCIR EL VEHÍCULO RESEÑADO CON UNA AUTORIZACIÓN ADMINISTRATIVA PARA CONDUCIR QUE NO LE HABILITA PARA EL MISMO.",
+    "codificado": "CON 1.1 5C",
+    "calificacion": "muy grave",
+    "puntos": 4,
+    "importe_fijo": 500,
+    "importe_reducido": 250,
+    "responsable": "Conductor",
+    "actuacion": [
+      "Detener la conducción y formular denuncia.",
+      "Inmovilizar por el artículo 104.1.k.",
+      "Levantar la medida si un conductor con autorización C/D válida y correcta se hace cargo y no concurre otra causa."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent",
+    "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
+    "advertencias": [
+      "La causa es específica de vehículos que requieren C o D."
+    ],
+    "alerta_penal": false,
+    "fuentes": [
+      "TR-PERM-SRC-001",
+      "TR-ITV-SRC-001",
+      "TR-MOV-SRC-001",
+      "TR-ITV-SRC-007"
+    ],
+    "fichas_juridicas": [
+      "TR-PERM-FJ-002"
+    ],
+    "estado": "validado"
+  },
+  {
+    "id": "TR-PERM-OP-004",
+    "modulo": "seguridad_vial",
+    "categoria": "seguridad_vial_permisos",
+    "titulo": "Nunca ha obtenido permiso o licencia",
+    "situacion": "Conduce vehículo de motor o ciclomotor sin haber obtenido nunca permiso o licencia.",
+    "palabras_clave": [
+      "nunca obtenido",
+      "384",
+      "5A"
+    ],
+    "que_comprobar": [
+      "Consulta registral completa.",
+      "Que no existe permiso auténtico español ni extranjero."
+    ],
+    "resultado": "VÍA PENAL PREFERENTE — ART. 384 CP. Formular también denuncia administrativa 5A y dejar su tramitación suspendida.",
+    "via": "Penal preferente y administrativa suspendida",
+    "norma": "Reglamento General de Conductores",
+    "articulo": "1.1",
+    "textoDenuncia": "CONDUCIR EL VEHÍCULO RESEÑADO CARECIENDO DE AUTORIZACIÓN ADMINISTRATIVA PARA CONDUCIR POR NO HABERLA OBTENIDO NUNCA.",
+    "codificado": "CON 1.1 5A",
+    "calificacion": "muy grave",
+    "importe_fijo": 500,
+    "importe_reducido": 250,
+    "responsable": "Conductor",
+    "actuacion": [
+      "Detener la conducción.",
+      "Instruir diligencias por el artículo 384 CP.",
+      "Formular denuncia 5A y dejarla suspendida.",
+      "Permitir conductor sustituto habilitado si no concurre otra causa."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent",
+    "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
+    "destino_diligencias_penales": "Juzgado de Guardia de Torrent",
+    "advertencias": [
+      "Un permiso extranjero auténtico, aunque no sea válido en España, excluye la clasificación de nunca obtenido."
+    ],
+    "alerta_penal": true,
+    "penal_article_id": "CP-384",
+    "regla_transversal": "GEN-JUR-001",
+    "fuentes": [
+      "TR-PERM-SRC-001",
+      "AN-SRC-007",
+      "TR-ITV-SRC-007"
+    ],
+    "fichas_juridicas": [
+      "TR-PERM-FJ-003"
+    ],
+    "estado": "validado"
+  },
+  {
+    "id": "TR-PERM-OP-005",
+    "modulo": "seguridad_vial",
+    "categoria": "seguridad_vial_permisos",
+    "subgrupo": "permisos_perdida_vigencia",
+    "titulo": "Por pérdida de puntos (firme, conocida y ejecutiva)",
+    "situacion": "Conduce tras pérdida de vigencia por agotamiento de puntos, firme, ejecutiva y personalmente conocida.",
+    "palabras_clave": [
+      "puntos",
+      "conocida",
+      "384",
+      "5A"
+    ],
+    "que_comprobar": [
+      "Resolución firme y ejecutiva.",
+      "Notificación o conocimiento personal anterior.",
+      "Que no ha recuperado la autorización."
+    ],
+    "resultado": "VÍA PENAL PREFERENTE — ART. 384 CP. Formular denuncia administrativa 5A y dejarla suspendida.",
+    "via": "Penal preferente y administrativa suspendida",
+    "norma": "Reglamento General de Conductores",
+    "articulo": "1.1",
+    "textoDenuncia": "CONDUCIR EL VEHÍCULO RESEÑADO CARECIENDO DE AUTORIZACIÓN ADMINISTRATIVA PARA CONDUCIR POR PÉRDIDA DE VIGENCIA POR AGOTAMIENTO DEL CRÉDITO TOTAL DE PUNTOS.",
+    "codificado": "CON 1.1 5A",
+    "calificacion": "muy grave",
+    "importe_fijo": 500,
+    "importe_reducido": 250,
+    "responsable": "Conductor",
+    "actuacion": [
+      "Detener la conducción e instruir diligencias por el artículo 384 CP.",
+      "Formular denuncia 5A y dejarla suspendida.",
+      "Permitir conductor sustituto habilitado si no concurre otra causa."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent",
+    "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
+    "destino_diligencias_penales": "Juzgado de Guardia de Torrent",
+    "advertencias": [],
+    "alerta_penal": true,
+    "penal_article_id": "CP-384",
+    "regla_transversal": "GEN-JUR-001",
+    "fuentes": [
+      "TR-PERM-SRC-001",
+      "AN-SRC-007",
+      "TR-ITV-SRC-007"
+    ],
+    "fichas_juridicas": [
+      "TR-PERM-FJ-003"
+    ],
+    "estado": "validado"
+  },
+  {
+    "id": "TR-PERM-OP-006",
+    "modulo": "seguridad_vial",
+    "categoria": "seguridad_vial_permisos",
+    "subgrupo": "permisos_perdida_vigencia",
+    "titulo": "Por pérdida total de puntos (edictal)",
+    "situacion": "La pérdida de vigencia consta notificada edictalmente, sin conocimiento personal previo acreditado.",
+    "palabras_clave": [
+      "puntos",
+      "edictal",
+      "acta",
+      "retirada permiso"
+    ],
+    "que_comprobar": [
+      "Resolución y forma de notificación.",
+      "Ausencia de conocimiento personal previo.",
+      "Permiso físico portado."
+    ],
+    "resultado": "VÍA ADMINISTRATIVA EN ESTA PRIMERA INTERVENCIÓN. No imputar el artículo 384 CP; denunciar, informar personalmente y documentar la notificación.",
+    "via": "Administrativa",
+    "norma": "Reglamento General de Conductores",
+    "articulo": "1.1",
+    "textoDenuncia": "CONDUCIR EL VEHÍCULO RESEÑADO CARECIENDO DE AUTORIZACIÓN ADMINISTRATIVA PARA CONDUCIR POR PÉRDIDA DE VIGENCIA POR AGOTAMIENTO DEL CRÉDITO TOTAL DE PUNTOS.",
+    "codificado": "CON 1.1 5A",
+    "calificacion": "muy grave",
+    "importe_fijo": 500,
+    "importe_reducido": 250,
+    "responsable": "Conductor",
+    "actuacion": [
+      "Detener la conducción y formular denuncia 5A.",
+      "Hacer constar: Consta declaración de pérdida de vigencia dictada por el Jefe Provincial de Tráfico de [provincia], que implica la prohibición de conducir. Se informa personalmente al interesado de dicha circunstancia en este acto.",
+      "Cumplimentar acta, entregar copia y retirar físicamente el permiso si lo porta, conforme al artículo 37.2 RD 818/2009, dejando constancia.",
+      "Remitir a la Jefatura Provincial de Tráfico de Valencia e identificar la Jefatura que dictó la resolución.",
+      "Permitir conductor sustituto habilitado si no concurre otra causa."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent",
+    "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
+    "advertencias": [
+      "Una conducción posterior, ya acreditado el conocimiento personal, se valorará separadamente."
+    ],
+    "alerta_penal": false,
+    "fuentes": [
+      "TR-PERM-SRC-001",
+      "TR-PERM-SRC-004",
+      "TR-ITV-SRC-007"
+    ],
+    "fichas_juridicas": [
+      "TR-PERM-FJ-004"
+    ],
+    "estado": "validado"
+  },
+  {
+    "id": "TR-PERM-OP-007",
+    "modulo": "seguridad_vial",
+    "categoria": "seguridad_vial_permisos",
+    "subgrupo": "permisos_perdida_vigencia",
+    "titulo": "En periodo de recurso",
+    "situacion": "La resolución no permite todavía imputación penal por recurso, plazo de recurso o suspensión de ejecutividad.",
+    "palabras_clave": [
+      "recurso",
+      "ejecutividad",
+      "puntos"
+    ],
+    "que_comprobar": [
+      "Firmeza, ejecutividad y efectos del recurso o suspensión."
+    ],
+    "resultado": "VÍA ADMINISTRATIVA. No imputar el artículo 384 CP mientras falte firmeza o ejecutividad exigible.",
+    "via": "Administrativa",
+    "norma": "Reglamento General de Conductores",
+    "articulo": "1.1",
+    "codificado": "CON 1.1 5A",
+    "calificacion": "muy grave",
+    "importe_fijo": 500,
+    "importe_reducido": 250,
+    "responsable": "Conductor",
+    "actuacion": [
+      "Documentar el estado registral y formular la denuncia administrativa que proceda.",
+      "Detener la conducción cuando la autorización no sea válida y permitir conductor sustituto habilitado."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent",
+    "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
+    "advertencias": [
+      "Verificar el efecto real del recurso; su mera presentación no siempre suspende."
+    ],
+    "alerta_penal": false,
+    "fuentes": [
+      "TR-PERM-SRC-001",
+      "TR-PERM-SRC-004",
+      "TR-ITV-SRC-007"
+    ],
+    "fichas_juridicas": [
+      "TR-PERM-FJ-004"
+    ],
+    "estado": "validado"
+  },
+  {
+    "id": "TR-PERM-OP-008",
+    "modulo": "seguridad_vial",
+    "categoria": "seguridad_vial_permisos",
+    "subgrupo": "permisos_perdida_vigencia",
+    "titulo": "Fuera del plazo de la pérdida de vigencia sin curso ni examen",
+    "situacion": "Han transcurrido seis o tres meses desde la pérdida, pero no se han superado curso y prueba de recuperación.",
+    "palabras_clave": [
+      "seis meses",
+      "tres meses",
+      "curso",
+      "prueba",
+      "puntos"
+    ],
+    "que_comprobar": [
+      "Pérdida firme, ejecutiva y conocida.",
+      "Curso y prueba de recuperación."
+    ],
+    "resultado": "LA AUTORIZACIÓN NO SE RECUPERA AUTOMÁTICAMENTE. Si concurren firmeza, ejecutividad y conocimiento, vía penal preferente del artículo 384 CP y denuncia 5A suspendida.",
+    "via": "Penal preferente y administrativa suspendida",
+    "norma": "Reglamento General de Conductores",
+    "articulo": "1.1",
+    "codificado": "CON 1.1 5A",
+    "calificacion": "muy grave",
+    "importe_fijo": 500,
+    "importe_reducido": 250,
+    "responsable": "Conductor",
+    "actuacion": [
+      "Detener la conducción.",
+      "Instruir diligencias por el artículo 384 CP cuando concurran sus presupuestos.",
+      "Formular denuncia 5A y dejarla suspendida."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent",
+    "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
+    "destino_diligencias_penales": "Juzgado de Guardia de Torrent",
+    "advertencias": [],
+    "alerta_penal": true,
+    "penal_article_id": "CP-384",
+    "regla_transversal": "GEN-JUR-001",
+    "fuentes": [
+      "TR-PERM-SRC-001",
+      "AN-SRC-007",
+      "TR-ITV-SRC-007"
+    ],
+    "fichas_juridicas": [
+      "TR-PERM-FJ-003"
+    ],
+    "estado": "validado"
+  },
+  {
+    "id": "TR-PERM-OP-009",
+    "modulo": "seguridad_vial",
+    "categoria": "seguridad_vial_permisos",
+    "subgrupo": "permisos_suspension_judicial",
+    "titulo": "Conducir dentro del plazo de suspensión judicial",
+    "situacion": "Conduce durante una privación cautelar o definitiva vigente acordada judicialmente.",
+    "palabras_clave": [
+      "privación judicial",
+      "384",
+      "5A"
+    ],
+    "que_comprobar": [
+      "Resolución judicial, notificación y fechas exactas de inicio y fin."
+    ],
+    "resultado": "VÍA PENAL PREFERENTE — ART. 384 CP. Formular denuncia administrativa 5A y dejarla suspendida.",
+    "via": "Penal preferente y administrativa suspendida",
+    "norma": "Reglamento General de Conductores",
+    "articulo": "1.1",
+    "codificado": "CON 1.1 5A",
+    "calificacion": "muy grave",
+    "importe_fijo": 500,
+    "importe_reducido": 250,
+    "responsable": "Conductor",
+    "actuacion": [
+      "Detener la conducción e instruir diligencias por el artículo 384 CP.",
+      "Formular denuncia 5A y dejarla suspendida."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent",
+    "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
+    "destino_diligencias_penales": "Juzgado de Guardia de Torrent",
+    "advertencias": [],
+    "alerta_penal": true,
+    "penal_article_id": "CP-384",
+    "regla_transversal": "GEN-JUR-001",
+    "fuentes": [
+      "TR-PERM-SRC-001",
+      "AN-SRC-007",
+      "TR-ITV-SRC-007"
+    ],
+    "fichas_juridicas": [
+      "TR-PERM-FJ-003"
+    ],
+    "estado": "validado"
+  },
+  {
+    "id": "TR-PERM-OP-010",
+    "modulo": "seguridad_vial",
+    "categoria": "seguridad_vial_permisos",
+    "subgrupo": "permisos_suspension_judicial",
+    "titulo": "Conducir fuera del plazo de suspensión judicial (hasta 2 años) sin haber hecho curso",
+    "situacion": "La privación judicial, exactamente de dos años o inferior, está cumplida, pero no se acredita el curso exigido.",
+    "palabras_clave": [
+      "dos años",
+      "cumplida",
+      "curso",
+      "5D"
+    ],
+    "que_comprobar": [
+      "Duración exacta y cumplimiento total.",
+      "Curso de sensibilización y reeducación vial."
+    ],
+    "resultado": "VÍA ADMINISTRATIVA 5D. La pena está cumplida: no aplicar los artículos 384 ni 468 CP.",
+    "via": "Administrativa",
+    "norma": "Reglamento General de Conductores",
+    "articulo": "1.1",
+    "textoDenuncia": "CONDUCIR EL VEHÍCULO RESEÑADO INCUMPLIENDO LOS REQUISITOS ADMINISTRATIVOS EXIGIDOS PARA HACERLO TRAS HABER CUMPLIDO UNA PENA DE PRIVACIÓN DEL DERECHO A CONDUCIR DE DURACIÓN IGUAL O INFERIOR A DOS AÑOS.",
+    "codificado": "CON 1.1 5D",
+    "calificacion": "grave",
+    "importe_fijo": 200,
+    "importe_reducido": 100,
+    "responsable": "Conductor",
+    "actuacion": [
+      "Detener la conducción y formular denuncia 5D.",
+      "Permitir conductor sustituto habilitado si no concurre otra causa."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent",
+    "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
+    "advertencias": [
+      "Exactamente dos años pertenece a esta rama."
+    ],
+    "alerta_penal": false,
+    "fuentes": [
+      "TR-PERM-SRC-001",
+      "TR-PERM-SRC-003",
+      "TR-ITV-SRC-007"
+    ],
+    "fichas_juridicas": [
+      "TR-PERM-FJ-005"
+    ],
+    "estado": "validado"
+  },
+  {
+    "id": "TR-PERM-OP-011",
+    "modulo": "seguridad_vial",
+    "categoria": "seguridad_vial_permisos",
+    "subgrupo": "permisos_suspension_judicial",
+    "titulo": "Conducir fuera del plazo de suspensión judicial (> 2 años) sin haber recuperado el permiso de conducir",
+    "situacion": "La privación superior a dos años está totalmente cumplida, pero no se ha recuperado el permiso.",
+    "palabras_clave": [
+      "superior dos años",
+      "cumplida",
+      "recuperación",
+      "5A"
+    ],
+    "que_comprobar": [
+      "Duración superior a dos años y cumplimiento total.",
+      "Nueva obtención o recuperación reglamentaria."
+    ],
+    "resultado": "VÍA ADMINISTRATIVA 5A. La pena está cumplida: no aplicar los artículos 384 ni 468 CP.",
+    "via": "Administrativa",
+    "norma": "Reglamento General de Conductores",
+    "articulo": "1.1",
+    "textoDenuncia": "CONDUCIR EL VEHÍCULO RESEÑADO CARECIENDO DE AUTORIZACIÓN ADMINISTRATIVA PARA CONDUCIR, TRAS HABER CUMPLIDO UNA PENA DE PRIVACIÓN DEL DERECHO A CONDUCIR SUPERIOR A DOS AÑOS, SIN HABER RECUPERADO EL PERMISO.",
+    "codificado": "CON 1.1 5A",
+    "calificacion": "muy grave",
+    "importe_fijo": 500,
+    "importe_reducido": 250,
+    "responsable": "Conductor",
+    "actuacion": [
+      "Detener la conducción y formular denuncia 5A.",
+      "Permitir conductor sustituto habilitado si no concurre otra causa."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent",
+    "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
+    "advertencias": [
+      "Criterio de la Consulta FGE 1/2026: no artículo 384 ni quebrantamiento del artículo 468."
+    ],
+    "alerta_penal": false,
+    "fuentes": [
+      "TR-PERM-SRC-001",
+      "TR-PERM-SRC-003",
+      "TR-ITV-SRC-007"
+    ],
+    "fichas_juridicas": [
+      "TR-PERM-FJ-005"
+    ],
+    "estado": "validado"
+  },
+  {
+    "id": "TR-PERM-OP-012",
+    "modulo": "seguridad_vial",
+    "categoria": "seguridad_vial_permisos",
+    "titulo": "Incumplimiento de requisitos administrativos para conducir",
+    "situacion": "Existe autorización de base, pero se incumple un requisito administrativo exigido para conducir.",
+    "palabras_clave": [
+      "requisitos administrativos",
+      "5D"
+    ],
+    "que_comprobar": [
+      "Requisito concreto incumplido y vigencia de la autorización de base."
+    ],
+    "resultado": "VÍA ADMINISTRATIVA. Aplicar exclusivamente la opción 5D cuando el hecho encaje en incumplimiento de requisitos administrativos.",
+    "via": "Administrativa",
+    "norma": "Reglamento General de Conductores",
+    "articulo": "1.1",
+    "codificado": "CON 1.1 5D",
+    "calificacion": "grave",
+    "importe_fijo": 200,
+    "importe_reducido": 100,
+    "responsable": "Conductor",
+    "actuacion": [
+      "Documentar el requisito incumplido y formular denuncia 5D.",
+      "Detener la conducción si no puede continuar legalmente."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent",
+    "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
+    "advertencias": [
+      "No usar esta opción como categoría residual sin identificar el requisito."
+    ],
+    "alerta_penal": false,
+    "fuentes": [
+      "TR-PERM-SRC-001",
+      "TR-ITV-SRC-007"
+    ],
+    "fichas_juridicas": [
+      "TR-PERM-FJ-001"
+    ],
+    "estado": "validado"
+  },
+  {
+    "id": "TR-PERM-OP-013",
+    "modulo": "seguridad_vial",
+    "categoria": "seguridad_vial_permisos",
+    "subgrupo": "permisos_extranjeros",
+    "titulo": "Permiso UE/EEE válido y en vigor",
+    "situacion": "Presenta permiso UE/EEE válido, vigente y habilitante.",
+    "palabras_clave": [
+      "UE",
+      "EEE",
+      "europeo",
+      "seis meses"
+    ],
+    "que_comprobar": [
+      "Autenticidad, vigencia, identidad, edad y categoría."
+    ],
+    "resultado": "SIN INFRACCIÓN POR EL PERMISO. No aplicar el plazo general de seis meses del artículo 21.",
+    "via": "Sin infracción",
+    "norma": "Reglamento General de Conductores",
+    "articulo": "15",
+    "responsable": "Conductor",
+    "actuacion": [
+      "Finalizar la comprobación si el documento es válido y habilitante, sin perjuicio de otras causas independientes."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent",
+    "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
+    "advertencias": [],
+    "alerta_penal": false,
+    "fuentes": [
+      "TR-PERM-SRC-001",
+      "TR-PERM-SRC-006"
+    ],
+    "fichas_juridicas": [
+      "TR-PERM-FJ-006"
+    ],
+    "estado": "validado"
+  },
+  {
+    "id": "TR-PERM-OP-014",
+    "modulo": "seguridad_vial",
+    "categoria": "seguridad_vial_permisos",
+    "subgrupo": "permisos_extranjeros",
+    "titulo": "Permiso de tercer país válido dentro de seis meses",
+    "situacion": "Permiso extranjero reconocido que cumple una vía documental y todos los requisitos del artículo 21 dentro del plazo general.",
+    "palabras_clave": [
+      "tercer país",
+      "seis meses",
+      "artículo 21",
+      "válido"
+    ],
+    "que_comprobar": [
+      "Vía documental reconocida, identidad, original, vigencia, edad y categoría.",
+      "Residencia normal o entrada regular y cómputo de seis meses.",
+      "Especialidades del convenio."
+    ],
+    "resultado": "VÁLIDO ACTUALMENTE EN ESPAÑA. Sin infracción por el permiso mientras cumpla todos los requisitos del artículo 21.",
+    "via": "Sin infracción",
+    "norma": "Reglamento General de Conductores",
+    "articulo": "21",
+    "responsable": "Conductor",
+    "actuacion": [
+      "Documentar las fechas y la vía de reconocimiento comprobadas.",
+      "Finalizar la comprobación si todos los requisitos se cumplen."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent",
+    "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
+    "advertencias": [
+      "La existencia de convenio no sustituye la comprobación de todas las condiciones."
+    ],
+    "alerta_penal": false,
+    "fuentes": [
+      "TR-PERM-SRC-001",
+      "TR-PERM-SRC-005",
+      "TR-PERM-SRC-006"
+    ],
+    "fichas_juridicas": [
+      "TR-PERM-FJ-007"
+    ],
+    "estado": "validado"
+  },
+  {
+    "id": "TR-PERM-OP-015",
+    "modulo": "seguridad_vial",
+    "categoria": "seguridad_vial_permisos",
+    "subgrupo": "permisos_extranjeros",
+    "titulo": "Permiso extranjero ya no válido — susceptible de canje",
+    "situacion": "El permiso extranjero ya no es válido para conducir en España y el permiso concreto reúne los requisitos de canje.",
+    "palabras_clave": [
+      "extranjero",
+      "canjeable",
+      "5B",
+      "seis meses"
+    ],
+    "que_comprobar": [
+      "Pérdida actual de validez en España.",
+      "País, clase, vigencia, convenio, fecha de obtención, residencia y condiciones DGT."
+    ],
+    "resultado": "NO VÁLIDO ACTUALMENTE EN ESPAÑA. VÍA ADMINISTRATIVA 5B por permiso extranjero equivalente susceptible de canje. Sin relevancia penal.",
+    "via": "Administrativa",
+    "norma": "Reglamento General de Conductores",
+    "articulo": "1.1",
+    "textoDenuncia": "CONDUCIR EL VEHÍCULO RESEÑADO CARECIENDO DE AUTORIZACIÓN ADMINISTRATIVA VÁLIDA EN ESPAÑA, SIENDO TITULAR DE UN PERMISO EXTRANJERO EQUIVALENTE, SUSCEPTIBLE DE SER CANJEADO.",
+    "codificado": "CON 1.1 5B",
+    "calificacion": "grave",
+    "importe_fijo": 200,
+    "importe_reducido": 100,
+    "responsable": "Conductor",
+    "actuacion": [
+      "Detener la conducción y formular denuncia 5B.",
+      "Permitir conductor sustituto habilitado si no concurre otra causa."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent",
+    "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
+    "advertencias": [
+      "País con convenio no equivale automáticamente a permiso canjeable."
+    ],
+    "alerta_penal": false,
+    "fuentes": [
+      "TR-PERM-SRC-001",
+      "TR-PERM-SRC-005",
+      "TR-PERM-SRC-006",
+      "TR-ITV-SRC-007"
+    ],
+    "fichas_juridicas": [
+      "TR-PERM-FJ-007"
+    ],
+    "estado": "validado"
+  },
+  {
+    "id": "TR-PERM-OP-016",
+    "modulo": "seguridad_vial",
+    "categoria": "seguridad_vial_permisos",
+    "subgrupo": "permisos_extranjeros",
+    "titulo": "Permiso extranjero ya no válido — no susceptible de canje",
+    "situacion": "El permiso extranjero ya no es válido en España y no cumple las condiciones reglamentarias de canje.",
+    "palabras_clave": [
+      "extranjero",
+      "no canjeable",
+      "5E",
+      "residente"
+    ],
+    "que_comprobar": [
+      "Pérdida actual de validez en España.",
+      "Condición concreta que impide el canje, incluida la fecha de obtención respecto de la residencia legal."
+    ],
+    "resultado": "NO VÁLIDO ACTUALMENTE EN ESPAÑA. VÍA ADMINISTRATIVA 5E por permiso extranjero equivalente no susceptible de canje. No clasificar como nunca obtenido.",
+    "via": "Administrativa",
+    "norma": "Reglamento General de Conductores",
+    "articulo": "1.1",
+    "textoDenuncia": "CONDUCIR EL VEHÍCULO RESEÑADO CARECIENDO DE AUTORIZACIÓN ADMINISTRATIVA DE CONDUCCIÓN VÁLIDA EN ESPAÑA, SIENDO TITULAR DE PERMISO EXTRANJERO EQUIVALENTE NO SUSCEPTIBLE DE CANJE POR INCUMPLIMIENTO DE CONDICIONES Y REQUISITOS REGLAMENTARIAMENTE EXIGIDOS.",
+    "codificado": "CON 1.1 5E",
+    "calificacion": "muy grave",
+    "importe_fijo": 500,
+    "importe_reducido": 250,
+    "responsable": "Conductor",
+    "actuacion": [
+      "Detener la conducción y formular denuncia 5E.",
+      "Permitir conductor sustituto habilitado si no concurre otra causa."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent",
+    "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
+    "advertencias": [
+      "No anticipar esta consecuencia durante un periodo en que el artículo 21 todavía reconozca validez."
+    ],
+    "alerta_penal": false,
+    "fuentes": [
+      "TR-PERM-SRC-001",
+      "TR-PERM-SRC-005",
+      "TR-PERM-SRC-006",
+      "TR-ITV-SRC-007"
+    ],
+    "fichas_juridicas": [
+      "TR-PERM-FJ-007"
+    ],
+    "estado": "validado"
+  },
+  {
+    "id": "TR-PERM-OP-017",
+    "modulo": "seguridad_vial",
+    "categoria": "seguridad_vial_permisos",
+    "subgrupo": "permisos_extranjeros",
+    "titulo": "Presenta únicamente permiso internacional",
+    "situacion": "Presenta permiso internacional sin el permiso nacional extranjero que le sirve de base.",
+    "palabras_clave": [
+      "internacional",
+      "solo",
+      "complementario"
+    ],
+    "que_comprobar": [
+      "Original, vigencia, identidad y existencia del permiso nacional extranjero de base."
+    ],
+    "resultado": "NO ACREDITA POR SÍ SOLO AUTORIZACIÓN VÁLIDA. El permiso internacional es complementario y debe acompañarse del permiso nacional extranjero correspondiente; resolver después por la regla general del artículo 21.",
+    "via": "Pendiente de clasificación administrativa según permiso de base",
+    "norma": "Reglamento General de Conductores",
+    "articulo": "21",
+    "responsable": "Conductor",
+    "actuacion": [
+      "No permitir que continúe la conducción mientras no acredite autorización válida.",
+      "No crear un codificado específico: aplicar, si procede, la salida general que resulte tras comprobar el permiso nacional de base.",
+      "Permitir conductor sustituto habilitado si no concurre otra causa."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent",
+    "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
+    "advertencias": [
+      "EL PERMISO INTERNACIONAL NO ES VÁLIDO POR SÍ SOLO."
+    ],
+    "alerta_penal": false,
+    "fuentes": [
+      "TR-PERM-SRC-001",
+      "TR-PERM-SRC-006"
+    ],
+    "fichas_juridicas": [
+      "TR-PERM-FJ-008"
+    ],
+    "estado": "validado"
+  },
+  {
+    "id": "TR-PERM-OP-018",
+    "modulo": "seguridad_vial",
+    "categoria": "seguridad_vial_permisos",
+    "subgrupo": "permisos_extranjeros",
+    "titulo": "Permiso internacional acompañado de permiso nacional",
+    "situacion": "Presenta permiso internacional y permiso nacional extranjero de base.",
+    "palabras_clave": [
+      "internacional",
+      "nacional",
+      "artículo 21"
+    ],
+    "que_comprobar": [
+      "Originales, identidad y vigencia de ambos documentos.",
+      "Categorías, vía de reconocimiento y todos los requisitos del artículo 21."
+    ],
+    "resultado": "CONTINUAR COMPROBACIONES DEL ARTÍCULO 21. Será válido actualmente en España solo si el permiso nacional de base y los demás requisitos resultan válidos.",
+    "via": "Sin infracción o administrativa según comprobación",
+    "norma": "Reglamento General de Conductores",
+    "articulo": "21",
+    "responsable": "Conductor",
+    "actuacion": [
+      "Comprobar el permiso nacional de base y resolver la validez actual conforme al artículo 21."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent",
+    "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
+    "advertencias": [
+      "La apariencia del permiso internacional no acredita su validez."
+    ],
+    "alerta_penal": false,
+    "fuentes": [
+      "TR-PERM-SRC-001",
+      "TR-PERM-SRC-006"
+    ],
+    "fichas_juridicas": [
+      "TR-PERM-FJ-008"
+    ],
+    "estado": "validado"
+  }
+]

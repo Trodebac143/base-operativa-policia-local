@@ -19,7 +19,7 @@ test("los recursos públicos se resuelven mediante un único helper", async () =
   const layout = await readFile(new URL("../app/layout.tsx", import.meta.url), "utf8");
   assert.match(helper, /NEXT_PUBLIC_BASE_PATH/);
   assert.match(libraryView, /publicPath\(`\/documentos\/\$\{document\.archivo\}`\)/);
-  assert.match(libraryView, /publicPath\(`\/documentos\/\$\{source\.documentoLocal\}`\)/);
+  assert.match(libraryView, /publicPath\(`\/documentos\/\$\{localDocument\.archivo\}`\)/);
   assert.match(layout, /publicPath\("\/favicon\.ico"\)/);
   assert.match(layout, /publicPath\("\/manifest\.webmanifest"\)/);
   assert.match(layout, /apple-touch-icon\.png/);

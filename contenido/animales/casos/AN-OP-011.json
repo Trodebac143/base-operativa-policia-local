@@ -1,0 +1,45 @@
+{
+  "id": "AN-OP-011",
+  "modulo": "animales",
+  "categoria": "animales_sanidad",
+  "titulo": "Tratamiento preventivo obligatorio no realizado",
+  "palabras_clave": [
+    "tratamiento",
+    "preventivo",
+    "obligatorio",
+    "sanidad",
+    "veterinario"
+  ],
+  "que_comprobar": [
+    "Identificar animal y responsable.",
+    "Confirmar que el tratamiento estaba declarado obligatorio.",
+    "Comprobar documentación sanitaria disponible.",
+    "Documentar el incumplimiento concreto."
+  ],
+  "resultado": "No proporcionar al animal un tratamiento preventivo declarado obligatorio.",
+  "norma": "Ley 2/2023 de la Comunitat Valenciana",
+  "articulo": "42.3.t",
+  "calificacion": "grave",
+  "rango_min": 3001,
+  "rango_max": 9000,
+  "actuacion": [
+    "Comprobar la obligación concreta aplicable.",
+    "Documentar tratamiento, fechas y documentación revisada.",
+    "Formular denuncia cuando se acredite el incumplimiento.",
+    "Informar de la obligación de regularización veterinaria."
+  ],
+  "competencia_denuncia": "Policía Local",
+  "competencia_resuelve": "Ayuntamiento de Torrent",
+  "advertencias": [],
+  "alerta_penal": false,
+  "referencia_penal": null,
+  "regla_transversal": null,
+  "fuentes": [
+    "AN-SRC-018",
+    "AN-SRC-026"
+  ],
+  "fichas_juridicas": [
+    "AN-JUR-024"
+  ],
+  "estado": "validado"
+}

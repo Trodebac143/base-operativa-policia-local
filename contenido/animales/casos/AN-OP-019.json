@@ -1,0 +1,53 @@
+{
+  "id": "AN-OP-019",
+  "modulo": "animales",
+  "categoria": "animales_identificacion",
+  "titulo": "No poner a disposición de los agentes la documentación obligatoria de identificación",
+  "palabras_clave": [
+    "documentación",
+    "identificación",
+    "agentes",
+    "requerimiento",
+    "no facilita",
+    "no aporta",
+    "registro",
+    "documentos"
+  ],
+  "que_comprobar": [
+    "Realizar un requerimiento claro de documentación de identificación que resulte obligatoria en el caso concreto.",
+    "Identificar qué documento se solicita y por qué resulta exigible.",
+    "Comprobar si la documentación puede verificarse por medios disponibles antes de concluir que existe incumplimiento.",
+    "Documentar el requerimiento y la respuesta concreta de la persona responsable."
+  ],
+  "resultado": "No poner a disposición de la autoridad competente o de sus agentes la documentación de identificación del animal que haya sido requerida y resulte obligatoria en el caso concreto.",
+  "norma": "Ley 2/2023 de la Comunitat Valenciana",
+  "articulo": "42.2.m",
+  "calificacion": "leve",
+  "rango_min": 100,
+  "rango_max": 3000,
+  "actuacion": [
+    "Identificar al responsable y al animal.",
+    "Precisar el documento obligatorio requerido.",
+    "Realizar y documentar el requerimiento.",
+    "Comprobar, cuando sea posible, la información mediante los sistemas disponibles.",
+    "Hacer constar la respuesta o negativa concreta.",
+    "Formular denuncia cuando se acrediten todos los elementos del tipo."
+  ],
+  "competencia_denuncia": "Policía Local",
+  "competencia_resuelve": "Ayuntamiento de Torrent",
+  "advertencias": [
+    "Para aplicar esta ficha debe existir un requerimiento concreto de documentación obligatoria. Deja constancia del documento solicitado y de la respuesta.",
+    "No confundas falta de exhibición física con inexistencia de la documentación cuando pueda comprobarse por otros medios.",
+    "Si el animal es PPP, consulta primero la rama PPP. No utilices esta ficha para sustituir una infracción PPP específica."
+  ],
+  "alerta_penal": false,
+  "referencia_penal": null,
+  "regla_transversal": null,
+  "fuentes": [
+    "AN-SRC-018"
+  ],
+  "fichas_juridicas": [
+    "AN-JUR-035"
+  ],
+  "estado": "validado"
+}

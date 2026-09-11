@@ -1,0 +1,37 @@
+{
+  "id": "TR-PERM-OP-013",
+  "modulo": "seguridad_vial",
+  "categoria": "seguridad_vial_permisos",
+  "subgrupo": "permisos_extranjeros",
+  "titulo": "Permiso UE/EEE válido y en vigor",
+  "situacion": "Presenta permiso UE/EEE válido, vigente y habilitante.",
+  "palabras_clave": [
+    "UE",
+    "EEE",
+    "europeo",
+    "seis meses"
+  ],
+  "que_comprobar": [
+    "Autenticidad, vigencia, identidad, edad y categoría."
+  ],
+  "resultado": "SIN INFRACCIÓN POR EL PERMISO. No aplicar el plazo general de seis meses del artículo 21.",
+  "via": "Sin infracción",
+  "norma": "Reglamento General de Conductores",
+  "articulo": "15",
+  "responsable": "Conductor",
+  "actuacion": [
+    "Finalizar la comprobación si el documento es válido y habilitante, sin perjuicio de otras causas independientes."
+  ],
+  "competencia_denuncia": "Policía Local de Torrent",
+  "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
+  "advertencias": [],
+  "alerta_penal": false,
+  "fuentes": [
+    "TR-PERM-SRC-001",
+    "TR-PERM-SRC-006"
+  ],
+  "fichas_juridicas": [
+    "TR-PERM-FJ-006"
+  ],
+  "estado": "validado"
+}

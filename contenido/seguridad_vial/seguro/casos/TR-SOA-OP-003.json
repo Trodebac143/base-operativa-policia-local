@@ -1,0 +1,67 @@
+{
+  "modulo": "seguridad_vial",
+  "categoria": "seguridad_vial_seguro",
+  "norma": "Real Decreto Legislativo 8/2004",
+  "articulo": "2.1",
+  "norma_infringida": "Real Decreto Legislativo 8/2004, texto refundido de la Ley sobre responsabilidad civil y seguro en la circulación de vehículos a motor",
+  "articulo_infringido": "2.1",
+  "tipificacion_norma": "Real Decreto Legislativo 8/2004",
+  "tipificacion_articulo": "3",
+  "tipificacion_etiqueta": "Régimen sancionador",
+  "competencia_denuncia": "Policía Local de Torrent — órgano actuante y formulador",
+  "competencia_instruye": "Jefatura Provincial de Tráfico de Valencia — receptor e instructora",
+  "competencia_resuelve": "Jefe Provincial de Tráfico de Valencia",
+  "alerta_penal": false,
+  "referencia_penal": null,
+  "estado": "validado",
+  "id": "TR-SOA-OP-003",
+  "titulo": "VMP que requiere SOA (VMP >25 Kg y Velocidad hasta 25 km/h) — circulando sin seguro",
+  "palabras_clave": [
+    "VMP",
+    "seguro",
+    "masa",
+    "velocidad",
+    "5N"
+  ],
+  "que_comprobar": [
+    "Velocidad máxima de fabricación y masa máxima en orden de marcha.",
+    "Que supera 25 kg y 14 km/h, o que supera 25 km/h, conforme al régimen aplicable.",
+    "Consulta oficial de seguro.",
+    "Uso o conducción efectiva."
+  ],
+  "resultado": "VMP que requiere SOA, circulando sin seguro en vigor.",
+  "responsable": "Propietario. Si el VMP a motor no está inscrito, consignar además el conductor para el procedimiento DGT, sin sustituir al propietario como obligado material.",
+  "textoDenuncia": "CIRCULAR EL VEHÍCULO RESEÑADO SIN QUE CONSTE QUE SU PROPIETARIO TENGA SUSCRITO Y MANTENGA EN VIGOR UN CONTRATO DE SEGURO QUE CUBRA LA RESPONSABILIDAD CIVIL DERIVADA DE SU CIRCULACIÓN. VELOCIDAD SUPERIOR A 14 KM/H HASTA 25 KM/H Y PESO SUPERIOR A 25 KG.",
+  "codificado": "SOA 2.1 5N",
+  "importe_fijo": 800,
+  "importe_reducido": 400,
+  "inmovilizacion": "SÍ",
+  "motivo_inmovilizacion": "Comprobada la carencia de seguro obligatorio, procede la inmovilización del vehículo.",
+  "actuacion_breve": [
+    "Formular 5N, prohibir la continuación, inmovilizar y trasladar el vehículo al depósito."
+  ],
+  "actuacion": [
+    "Clasificar el vehículo con datos técnicos acreditados.",
+    "Comprobar el seguro y formular 5N.",
+    "Impedir la continuación ordinaria.",
+    "Si no está inscrito, identificar y consignar además al conductor conforme al criterio operativo DGT."
+  ],
+  "medidas": [
+    "TR-MED-SOA-OPERATIVE"
+  ],
+  "advertencias": [
+    "Un valor exactamente de 25 kg exige completar la clasificación; no automatizar la denuncia.",
+    "La obligación no depende de certificado o inscripción cuando se trata de vehículo a motor."
+  ],
+  "fuentes": [
+    "TR-SOA-SRC-001",
+    "TR-SOA-SRC-002",
+    "TR-SOA-SRC-006",
+    "TR-ITV-SRC-001"
+  ],
+  "fichas_juridicas": [
+    "TR-SOA-FJ-003",
+    "TR-SOA-FJ-004",
+    "TR-SOA-FJ-005"
+  ]
+}

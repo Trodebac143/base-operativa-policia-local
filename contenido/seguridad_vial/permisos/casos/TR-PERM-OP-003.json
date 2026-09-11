@@ -1,0 +1,51 @@
+{
+  "id": "TR-PERM-OP-003",
+  "modulo": "seguridad_vial",
+  "categoria": "seguridad_vial_permisos",
+  "titulo": "Permiso no habilita para vehículo que requiere C/D",
+  "situacion": "Conduce un vehículo que requiere permiso C o D sin la autorización correspondiente.",
+  "palabras_clave": [
+    "no habilita",
+    "C",
+    "D",
+    "104.1.k",
+    "5C"
+  ],
+  "que_comprobar": [
+    "Categoría técnica del vehículo y permiso exigible.",
+    "Clases en vigor del conductor.",
+    "Posibilidad inmediata de conductor sustituto habilitado."
+  ],
+  "resultado": "VÍA ADMINISTRATIVA. Denuncia 5C y procede inmovilización conforme al artículo 104.1.k mientras ningún conductor con autorización C/D correcta se haga cargo.",
+  "via": "Administrativa",
+  "norma": "Reglamento General de Conductores",
+  "articulo": "1.1",
+  "textoDenuncia": "CONDUCIR EL VEHÍCULO RESEÑADO CON UNA AUTORIZACIÓN ADMINISTRATIVA PARA CONDUCIR QUE NO LE HABILITA PARA EL MISMO.",
+  "codificado": "CON 1.1 5C",
+  "calificacion": "muy grave",
+  "puntos": 4,
+  "importe_fijo": 500,
+  "importe_reducido": 250,
+  "responsable": "Conductor",
+  "actuacion": [
+    "Detener la conducción y formular denuncia.",
+    "Inmovilizar por el artículo 104.1.k.",
+    "Levantar la medida si un conductor con autorización C/D válida y correcta se hace cargo y no concurre otra causa."
+  ],
+  "competencia_denuncia": "Policía Local de Torrent",
+  "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
+  "advertencias": [
+    "La causa es específica de vehículos que requieren C o D."
+  ],
+  "alerta_penal": false,
+  "fuentes": [
+    "TR-PERM-SRC-001",
+    "TR-ITV-SRC-001",
+    "TR-MOV-SRC-001",
+    "TR-ITV-SRC-007"
+  ],
+  "fichas_juridicas": [
+    "TR-PERM-FJ-002"
+  ],
+  "estado": "validado"
+}

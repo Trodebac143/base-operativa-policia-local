@@ -1,0 +1,126 @@
+{
+  "modulo": "seguridad_vial",
+  "categoria": "seguridad_vial_seguro",
+  "norma": "Real Decreto Legislativo 8/2004",
+  "articulo": "2.1",
+  "norma_infringida": "Real Decreto Legislativo 8/2004, texto refundido de la Ley sobre responsabilidad civil y seguro en la circulación de vehículos a motor",
+  "articulo_infringido": "2.1",
+  "tipificacion_norma": "Real Decreto Legislativo 8/2004",
+  "tipificacion_articulo": "3",
+  "tipificacion_etiqueta": "Régimen sancionador",
+  "competencia_denuncia": "Policía Local de Torrent — órgano actuante y formulador",
+  "competencia_instruye": "Jefatura Provincial de Tráfico de Valencia — receptor e instructora",
+  "competencia_resuelve": "Jefe Provincial de Tráfico de Valencia",
+  "alerta_penal": false,
+  "referencia_penal": null,
+  "estado": "validado",
+  "id": "TR-SOA-OP-002",
+  "titulo": "Vehículos convencionales — carece de seguro",
+  "palabras_clave": [
+    "seguro",
+    "SOA",
+    "estacionado",
+    "carecer",
+    "5J",
+    "5K",
+    "5L",
+    "5M"
+  ],
+  "que_comprobar": [
+    "Que el vehículo está sujeto a seguro obligatorio y no concurre excepción legal.",
+    "Consulta oficial de seguro en vigor.",
+    "Clase del vehículo.",
+    "Ausencia de uso o conducción efectiva; el estacionamiento basta para esta modalidad."
+  ],
+  "resultado": "Vehículo convencional que requiere SOA y carece de seguro.",
+  "responsable": "Propietario; en vehículo inscrito, se presume propietario a quien figure en el registro.",
+  "inmovilizacion": "SÍ",
+  "motivo_inmovilizacion": "Comprobada la carencia de seguro obligatorio, procede la inmovilización del vehículo.",
+  "actuacion_breve": [
+    "Formular la variante ARCI aplicable y advertir que no puede ponerse en circulación sin seguro."
+  ],
+  "actuacion": [
+    "Comprobar la sujeción, la clase de vehículo y la inexistencia de seguro.",
+    "Documentar que no existe uso o conducción efectiva.",
+    "Formular denuncia y remitirla a la Jefatura Provincial de Tráfico de Valencia.",
+    "Prohibir la puesta en circulación, inmovilizar y trasladar el vehículo al depósito."
+  ],
+  "medidas": [
+    "TR-MED-SOA-OPERATIVE"
+  ],
+  "advertencias": [
+    "Estacionado, inmovilizado o no utilizado no equivale a vehículo exento de asegurar.",
+    "La baja solo exime si además no se usa como medio de transporte."
+  ],
+  "datos_adicionales": {
+    "encaje_condicional": [
+      {
+        "supuesto": "Ciclomotor — carece de seguro",
+        "articulo": "2.1",
+        "norma_infringida": "Real Decreto Legislativo 8/2004, texto refundido de la Ley sobre responsabilidad civil y seguro en la circulación de vehículos a motor",
+        "articulo_infringido": "2.1",
+        "tipificacion_norma": "Real Decreto Legislativo 8/2004",
+        "tipificacion_articulo": "3",
+        "tipificacion_etiqueta": "Régimen sancionador",
+        "textoDenuncia": "INCUMPLIR EL PROPIETARIO DEL VEHÍCULO RESEÑADO LA OBLIGACIÓN DE SUSCRIBIR Y MANTENER EN VIGOR UN CONTRATO DE SEGURO QUE CUBRA LA RESPONSABILIDAD CIVIL DERIVADA DE SU CIRCULACIÓN. (CICLOMOTORES.)",
+        "calificacion": "",
+        "codificado": "SOA 2.1 5J",
+        "importe_fijo": 650,
+        "importe_reducido": 325
+      },
+      {
+        "supuesto": "Motocicleta — carece de seguro",
+        "articulo": "2.1",
+        "norma_infringida": "Real Decreto Legislativo 8/2004, texto refundido de la Ley sobre responsabilidad civil y seguro en la circulación de vehículos a motor",
+        "articulo_infringido": "2.1",
+        "tipificacion_norma": "Real Decreto Legislativo 8/2004",
+        "tipificacion_articulo": "3",
+        "tipificacion_etiqueta": "Régimen sancionador",
+        "textoDenuncia": "INCUMPLIR EL PROPIETARIO DEL VEHÍCULO RESEÑADO LA OBLIGACIÓN DE SUSCRIBIR Y MANTENER EN VIGOR UN CONTRATO DE SEGURO QUE CUBRA LA RESPONSABILIDAD CIVIL DERIVADA DE SU CIRCULACIÓN. (MOTOCICLETAS.)",
+        "calificacion": "",
+        "codificado": "SOA 2.1 5K",
+        "importe_fijo": 700,
+        "importe_reducido": 350
+      },
+      {
+        "supuesto": "Turismo — carece de seguro",
+        "articulo": "2.1",
+        "norma_infringida": "Real Decreto Legislativo 8/2004, texto refundido de la Ley sobre responsabilidad civil y seguro en la circulación de vehículos a motor",
+        "articulo_infringido": "2.1",
+        "tipificacion_norma": "Real Decreto Legislativo 8/2004",
+        "tipificacion_articulo": "3",
+        "tipificacion_etiqueta": "Régimen sancionador",
+        "textoDenuncia": "INCUMPLIR EL PROPIETARIO DEL VEHÍCULO RESEÑADO LA OBLIGACIÓN DE SUSCRIBIR Y MANTENER EN VIGOR UN CONTRATO DE SEGURO QUE CUBRA LA RESPONSABILIDAD CIVIL DERIVADA DE SU CIRCULACIÓN. (TURISMOS.)",
+        "calificacion": "",
+        "codificado": "SOA 2.1 5L",
+        "importe_fijo": 800,
+        "importe_reducido": 400
+      },
+      {
+        "supuesto": "Vehículo de tercera categoría — carece de seguro",
+        "articulo": "2.1",
+        "norma_infringida": "Real Decreto Legislativo 8/2004, texto refundido de la Ley sobre responsabilidad civil y seguro en la circulación de vehículos a motor",
+        "articulo_infringido": "2.1",
+        "tipificacion_norma": "Real Decreto Legislativo 8/2004",
+        "tipificacion_articulo": "3",
+        "tipificacion_etiqueta": "Régimen sancionador",
+        "textoDenuncia": "INCUMPLIR EL PROPIETARIO DEL VEHÍCULO RESEÑADO LA OBLIGACIÓN DE SUSCRIBIR Y MANTENER EN VIGOR UN CONTRATO DE SEGURO QUE CUBRA LA RESPONSABILIDAD CIVIL DERIVADA DE SU CIRCULACIÓN. (VEHÍCULOS DE TERCERA CATEGORÍA.)",
+        "calificacion": "",
+        "codificado": "SOA 2.1 5M",
+        "importe_fijo": 1500,
+        "importe_reducido": 750
+      }
+    ]
+  },
+  "fuentes": [
+    "TR-SOA-SRC-001",
+    "TR-ITV-SRC-001",
+    "TR-ITV-SRC-007"
+  ],
+  "fichas_juridicas": [
+    "TR-SOA-FJ-001",
+    "TR-SOA-FJ-002",
+    "TR-SOA-FJ-003",
+    "TR-SOA-FJ-005"
+  ]
+}

@@ -63,16 +63,16 @@ test("8 · no hay referencias rotas ni IDs de fuente duplicados", () => {
   assert.equal(usageData.allSourceReferences().filter((reference) => !sourceData.resolveSourceReference(reference)).length, 0);
 });
 
-test("9 · todos los documentos locales de fuentes existen", async () => {
-  const localSources = sourceData.sources.filter((source) => source.documentoLocal);
-  assert.ok(localSources.length >= 3);
-  for (const source of localSources) await access(path.join(root, "public", "documentos", source.documentoLocal));
+test("9 · todos los documentos vinculados a fuentes existen", async () => {
+  const linkedDocuments = documentsData.libraryDocuments.filter((document) => document.fuenteId);
+  assert.ok(linkedDocuments.length >= 3);
+  for (const document of linkedDocuments) await access(path.join(root, "public", "documentos", document.archivo));
 });
 
 test("10 · el Manual VMP sigue disponible en Documentos y Fuentes", () => {
   assert.ok(documentsData.libraryDocuments.some((document) => document.archivo === "Manual Intervención VMP.pdf"));
   const source = sourceData.sources.find((item) => item.id === "TR-VMP-SRC-001");
-  assert.equal(source.documentoLocal, "Manual Intervención VMP.pdf");
+  assert.equal(documentsData.documentForSource(source.id)?.archivo, "Manual Intervención VMP.pdf");
 });
 
 test("11 · los enlaces externos abren otra pestaña con aislamiento", () => {
@@ -105,7 +105,7 @@ test("15 · las fuentes de la intervención penal están registradas, visibles y
   for (const id of ["AN-SRC-007", "SP-SRC-LECRIM", "SP-SRC-LO-1-2004", "SP-SRC-LO-10-2022", "SP-SRC-LO-1-2025", "SP-SRC-LO-1-2026", "SP-SRC-VIOGEN-2"]) {
     const source = sourceData.sources.find((item) => item.id === id);
     assert.ok(source, `Falta ${id}`);
-    assert.ok(source.urlOficial || source.documentoLocal, `${id} no tiene enlace consultable`);
+    assert.ok(source.urlOficial || documentsData.documentForSource(source.id), `${id} no tiene enlace consultable`);
     const html = render(library.LibrarySourcesPanel, { initialQuery: source.nombreCorto ?? source.nombre });
     assert.match(html, /Consultar fuente oficial|Abrir documento/);
   }
@@ -114,6 +114,6 @@ test("15 · las fuentes de la intervención penal están registradas, visibles y
 test("16 · toda fuente utilizada por contenido activo ofrece consulta en Biblioteca", () => {
   for (const reference of usageData.allSourceReferences()) {
     const source = sourceData.resolveSourceReference(reference);
-    assert.ok(source.urlOficial || source.documentoLocal, `${source.id} carece de enlace visible`);
+    assert.ok(source.urlOficial || documentsData.documentForSource(source.id), `${source.id} carece de enlace visible`);
   }
 });

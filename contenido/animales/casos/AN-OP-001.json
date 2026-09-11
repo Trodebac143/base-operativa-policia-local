@@ -1,0 +1,48 @@
+{
+  "id": "AN-OP-001",
+  "modulo": "animales",
+  "categoria": "animales_identificacion",
+  "titulo": "Perro sin identificación obligatoria",
+  "palabras_clave": [
+    "perro",
+    "microchip",
+    "chip",
+    "identificación",
+    "registro"
+  ],
+  "que_comprobar": [
+    "Comprobar la existencia de microchip mediante lector.",
+    "Comprobar que la identificación está correctamente inscrita en el registro correspondiente.",
+    "Identificar al propietario o responsable.",
+    "Documentar qué comprobaciones se han realizado y cuál ha sido el resultado."
+  ],
+  "resultado": "Existe posible infracción si se confirma el incumplimiento de la obligación de identificación. La identificación física (chip) y la inscripción registral forman parte del sistema de identificación.",
+  "norma": "Ley 2/2023 de la Comunitat Valenciana",
+  "articulo": "42.3.mm",
+  "calificacion": "grave",
+  "rango_min": 3001,
+  "rango_max": 9000,
+  "actuacion": [
+    "Comprobar chip y registro.",
+    "Identificar al propietario o responsable.",
+    "Documentar las comprobaciones realizadas y lo averiguado.",
+    "Formular la correspondiente denuncia si se acredita la infracción.",
+    "Informar al propietario de la obligación de identificar y registrar al animal."
+  ],
+  "competencia_denuncia": "Policía Local",
+  "competencia_resuelve": "Ayuntamiento de Torrent",
+  "advertencias": [
+    "No confundir falta de identificación obligatoria con mero incumplimiento censal municipal."
+  ],
+  "alerta_penal": false,
+  "referencia_penal": null,
+  "regla_transversal": null,
+  "fuentes": [
+    "AN-SRC-018",
+    "AN-SRC-023"
+  ],
+  "fichas_juridicas": [
+    "AN-JUR-008"
+  ],
+  "estado": "validado"
+}

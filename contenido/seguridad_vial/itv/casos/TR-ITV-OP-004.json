@@ -1,0 +1,95 @@
+{
+  "modulo": "seguridad_vial",
+  "categoria": "seguridad_vial_itv",
+  "responsable": "Titular o arrendatario a largo plazo inscrito",
+  "competencia_denuncia": "Policía Local de Torrent — órgano actuante y formulador de la denuncia",
+  "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
+  "alerta_penal": false,
+  "referencia_penal": null,
+  "estado": "validado",
+  "id": "TR-ITV-OP-004",
+  "titulo": "ITV desfavorable — plazo de segunda inspección superado",
+  "palabras_clave": [
+    "ITV",
+    "desfavorable",
+    "fuera de plazo",
+    "5D",
+    "5E"
+  ],
+  "que_comprobar": [
+    "Primera inspección desfavorable y fecha límite concedida.",
+    "Que se ha superado el plazo máximo para la segunda inspección.",
+    "Si existe circulación efectiva o el vehículo está estacionado/puesto en circulación.",
+    "Deficiencias técnicas actuales, separadamente."
+  ],
+  "resultado": "No se ha superado la segunda inspección dentro del plazo máximo; debe seleccionarse la salida según la situación real del vehículo.",
+  "estado_circulacion": "INHABILITADO para los desplazamientos del art. 11.2 una vez superado el plazo.",
+  "norma": "Reglamento General de Vehículos",
+  "articulo": "10.1",
+  "norma_infringida": "Reglamento General de Vehículos",
+  "articulo_infringido": "10.1",
+  "calificacion": null,
+  "inmovilizacion": "CONDICIONADA",
+  "motivo_inmovilizacion": "Solo cuando existan deficiencias actuales que constituyan riesgo especialmente grave para la seguridad vial.",
+  "actuacion_breve": [
+    "Acreditar el vencimiento del plazo y seleccionar 5D si circula o 5E si está estacionado o puesto en circulación."
+  ],
+  "actuacion": [
+    "Comprobar la fecha de la primera inspección desfavorable y la fecha límite.",
+    "Distinguir circulación efectiva de puesta en circulación/estacionamiento y aplicar la salida sancionadora ya validada.",
+    "No autorizar circulación por medios propios al amparo de la excepción del art. 11.2, porque el plazo concedido ha finalizado.",
+    "Informar de que, si se presenta a ITV fuera de plazo, se realizará una inspección técnica completa.",
+    "No aplicar automáticamente el art. 6.9 RD 920/2017 a este supuesto."
+  ],
+  "medidas": [
+    "TR-MED-ITV-CHECK",
+    "TR-MED-WARN-NOCIRC"
+  ],
+  "advertencias": [
+    "No existe inmovilización automática por el resultado desfavorable ni por superar el plazo.",
+    "Retirada y depósito solo pueden acordarse si concurre un supuesto autónomo del artículo 105 LSV."
+  ],
+  "datos_adicionales": {
+    "encaje_condicional": [
+      {
+        "supuesto": "Vehículo circulando",
+        "articulo": "10.1 RGV",
+        "norma_infringida": "Reglamento General de Vehículos",
+        "articulo_infringido": "10.1",
+        "tipificacion_norma": "Ley sobre Tráfico, Circulación de Vehículos a Motor y Seguridad Vial",
+        "tipificacion_articulo": "77.ll",
+        "textoDenuncia": "CIRCULAR CON EL VEHÍCULO RESEÑADO, CUYA ÚLTIMA INSPECCIÓN TÉCNICA HA RESULTADO DESFAVORABLE, HABIÉNDOSE SUPERADO EL PLAZO MÁXIMO REGLAMENTARIAMENTE ESTABLECIDO PARA SER SOMETIDO A NUEVA INSPECCIÓN.",
+        "calificacion": "muy grave",
+        "codificado": "VEH 10.1 5D",
+        "importe_fijo": 500,
+        "importe_reducido": 250
+      },
+      {
+        "supuesto": "Vehículo estacionado o puesto en circulación",
+        "articulo": "10.1 RGV",
+        "norma_infringida": "Reglamento General de Vehículos",
+        "articulo_infringido": "10.1",
+        "tipificacion_norma": "Ley sobre Tráfico, Circulación de Vehículos a Motor y Seguridad Vial",
+        "tipificacion_articulo": "76.o",
+        "textoDenuncia": "PONER EN CIRCULACIÓN EL VEHÍCULO RESEÑADO, CUYA ÚLTIMA INSPECCIÓN TÉCNICA HA RESULTADO DESFAVORABLE, HABIÉNDOSE SUPERADO EL PLAZO MÁXIMO REGLAMENTARIAMENTE ESTABLECIDO PARA SER SOMETIDO A NUEVA INSPECCIÓN.",
+        "calificacion": "grave",
+        "codificado": "VEH 10.1 5E",
+        "importe_fijo": 200,
+        "importe_reducido": 100
+      }
+    ]
+  },
+  "fuentes": [
+    "TR-ITV-SRC-001",
+    "TR-ITV-SRC-002",
+    "TR-ITV-SRC-003",
+    "TR-ITV-SRC-004",
+    "TR-ITV-SRC-007"
+  ],
+  "fichas_juridicas": [
+    "TR-ITV-FJ-003",
+    "TR-ITV-FJ-004",
+    "TR-ITV-FJ-005",
+    "TR-ITV-FJ-006"
+  ]
+}

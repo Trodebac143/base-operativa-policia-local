@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { caseFiles, readJson, relativePath } from "./contenido-config.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const errors = [];
@@ -26,16 +27,40 @@ const duplicateIds = (items, label) => {
   return seen;
 };
 
+const loadCases = () => {
+  const items = [];
+  const filesById = new Map();
+  for (const full of caseFiles()) {
+    const relative = relativePath(full);
+    let value;
+    try { value = readJson(full); }
+    catch (error) { errors.push(`CASO · ${relative}\n  Problema: JSON no válido (${error.message})\n  Qué hacer: corrige la sintaxis y vuelve a validar.`); continue; }
+    if (!value || Array.isArray(value) || typeof value !== "object") {
+      errors.push(`CASO · ${relative}\n  Problema: el archivo debe contener un único objeto JSON.\n  Qué hacer: deja un solo caso entre llaves { }.`);
+      continue;
+    }
+    items.push(value);
+    if (value.id) filesById.set(value.id, relative);
+    if (value.id && path.basename(full, ".json") !== value.id) {
+      errors.push(`CASO ${value.id}\n  Problema: el nombre del archivo no coincide con el ID.\n  Archivo: ${relative}\n  Qué hacer: renómbralo como ${value.id}.json.`);
+    }
+  }
+  return { items, filesById };
+};
+
 const modules = reqArray("contenido/estructura/modulos.json");
 const categories = reqArray("contenido/estructura/categorias.json");
 const sources = reqArray("contenido/juridico/fuentes.json");
 const penal = reqArray("contenido/juridico/articulos_penales.json");
 const rules = reqArray("contenido/juridico/reglas_generales_y_comunes.json");
 const documents = reqArray("contenido/biblioteca/documentos.json");
-const animals = reqArray("contenido/animales/casos.json");
-const itv = reqArray("contenido/seguridad_vial/itv/casos.json");
-const seguro = reqArray("contenido/seguridad_vial/seguro/casos.json");
-const permisos = reqArray("contenido/seguridad_vial/permisos/casos.json");
+const documentMetadata = reqArray("contenido/biblioteca/metadatos.json");
+const loadedCases = loadCases();
+const cases = loadedCases.items;
+const animals = cases.filter((item) => item.modulo === "animales");
+const itv = cases.filter((item) => item.categoria === "seguridad_vial_itv");
+const seguro = cases.filter((item) => item.categoria === "seguridad_vial_seguro");
+const permisos = cases.filter((item) => item.categoria === "seguridad_vial_permisos");
 const permisosRules = reqArray("contenido/seguridad_vial/permisos/reglas.json");
 const permisosSheets = reqArray("contenido/seguridad_vial/permisos/fichas_juridicas.json");
 const permisosHelps = reqArray("contenido/seguridad_vial/permisos/ayudas.json");
@@ -59,12 +84,20 @@ const permitHelpIds = duplicateIds(permisosHelps, "Ayudas Permisos");
 const permitGroupIds = duplicateIds(permisosGroups, "Subgrupos Permisos");
 const penalIds = duplicateIds(penal, "Preceptos penales");
 const measureIds = duplicateIds([...trafficMeasures, ...itvMeasures, ...seguroMeasures], "Medidas");
-const cases = [...animals, ...itv, ...seguro, ...permisos];
 const caseIds = duplicateIds(cases, "Casos");
+const generatedCases = reqArray("contenido/_generado/casos.json");
+if (JSON.stringify(generatedCases) !== JSON.stringify(cases)) errors.push("ÍNDICE DE CASOS\n  Problema: el índice técnico no coincide con los archivos editables.\n  Qué hacer: ejecuta npm run contenido:sincronizar y vuelve a validar.");
 
 const normalizeSourceReference = (value) => value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
 const sourceReferenceIndex = new Map();
 const sourceUrlIndex = new Map();
+duplicateIds(documents, "Documentos");
+const documentsBySource = new Map();
+for (const document of documents) {
+  if (!document.fuenteId) continue;
+  if (documentsBySource.has(document.fuenteId)) errors.push(`BIBLIOTECA · ${document.id}\n  Problema: más de un PDF está vinculado a la fuente ${document.fuenteId}.\n  Archivo: contenido/biblioteca/metadatos.json\n  Qué hacer: conserva un único fuenteId por fuente.`);
+  else documentsBySource.set(document.fuenteId, document);
+}
 for (const source of sources) {
   if (!source.nombre) errors.push(`Fuente ${source.id}: falta nombre`);
   for (const reference of [source.id, source.nombre, source.nombreCorto, ...(source.referencias ?? [])]) {
@@ -86,10 +119,7 @@ for (const source of sources) {
       errors.push(`Fuente ${source.id}: urlOficial no válida`);
     }
   }
-  if (source.documentoLocal) {
-    if (!fs.existsSync(path.join(root, "public", "documentos", source.documentoLocal))) errors.push(`Fuente ${source.id}: no existe public/documentos/${source.documentoLocal}`);
-    if (!documents.some((document) => document.archivo === source.documentoLocal)) errors.push(`Fuente ${source.id}: documentoLocal no está registrado en Biblioteca`);
-  }
+  if (Object.hasOwn(source, "documentoLocal")) errors.push(`FUENTE ${source.id}\n  Problema: todavía usa el campo antiguo documentoLocal.\n  Archivo: contenido/juridico/fuentes.json\n  Qué hacer: elimina ese campo y vincula el PDF desde biblioteca/metadatos.json mediante fuenteId.`);
 }
 
 const sourceReferenceKeys = new Set(["sourceId", "fuenteId", "source_id", "fuente_id", "sources", "fuentes", "fuente_manual", "fuentes_v3", "fuentes_juridicas_validadas"]);
@@ -134,20 +164,28 @@ for (const [label, value] of [
 ]) validateSourceReferences(value, label);
 
 for (const source of sources) {
-  if ((sourceReferenceUsage.get(source.id) ?? 0) > 0 && !source.urlOficial && !source.documentoLocal) {
-    errors.push(`Fuente ${source.id}: utilizada por contenido activo pero sin enlace oficial ni documento local visible en Biblioteca → Fuentes`);
+  if ((sourceReferenceUsage.get(source.id) ?? 0) > 0 && !source.urlOficial && !documentsBySource.has(source.id)) {
+    errors.push(`FUENTE ${source.id}\n  Problema: está utilizada, pero no tiene URL oficial ni PDF vinculado.\n  Qué hacer: añade urlOficial a la fuente o fuenteId al documento en contenido/biblioteca/metadatos.json.`);
   }
 }
 
 for (const category of categories) if (!moduleIds.has(category.modulo)) errors.push(`Categoría ${category.id}: módulo desconocido ${category.modulo}`);
 
-const requiredCaseFields = ["id", "modulo", "categoria", "titulo", "que_comprobar", "resultado", "norma", "articulo", "actuacion", "competencia_denuncia", "competencia_resuelve", "fuentes"];
+const requiredCaseFields = ["id", "modulo", "categoria", "titulo", "palabras_clave", "que_comprobar", "resultado", "norma", "articulo", "actuacion", "competencia_denuncia", "competencia_resuelve", "advertencias", "alerta_penal", "fuentes", "estado"];
 for (const item of cases) {
-  for (const field of requiredCaseFields) if (item[field] === undefined || item[field] === null || item[field] === "") errors.push(`${item.id ?? "caso sin id"}: falta ${field}`);
+  const caseFile = loadedCases.filesById.get(item.id) ?? "archivo de caso desconocido";
+  for (const field of requiredCaseFields) if (item[field] === undefined || item[field] === null || item[field] === "") errors.push(`CASO ${item.id ?? "SIN ID"}\n  Problema: falta el campo obligatorio ${field}.\n  Archivo: ${caseFile}\n  Qué hacer: completa el campo siguiendo contenido/_plantillas/caso-operativo.json.`);
   if (!moduleIds.has(item.modulo)) errors.push(`${item.id}: módulo desconocido ${item.modulo}`);
   if (!categoryIds.has(item.categoria)) errors.push(`${item.id}: categoría desconocida ${item.categoria}`);
+  const category = categories.find((candidate) => candidate.id === item.categoria);
+  if (category && category.modulo !== item.modulo) errors.push(`CASO ${item.id}\n  Problema: la categoría ${item.categoria} pertenece al módulo ${category.modulo}, no a ${item.modulo}.\n  Archivo: ${caseFile}\n  Qué hacer: corrige modulo o categoria.`);
   if (!Array.isArray(item.que_comprobar) || !item.que_comprobar.length) errors.push(`${item.id}: que_comprobar debe ser una lista no vacía`);
   if (!Array.isArray(item.actuacion) || !item.actuacion.length) errors.push(`${item.id}: actuacion debe ser una lista no vacía`);
+  if (!Array.isArray(item.palabras_clave)) errors.push(`${item.id}: palabras_clave debe ser una lista`);
+  if (!Array.isArray(item.advertencias)) errors.push(`${item.id}: advertencias debe ser una lista`);
+  if (item.fichas_juridicas !== undefined && !Array.isArray(item.fichas_juridicas)) errors.push(`${item.id}: fichas_juridicas debe ser una lista cuando se utilice`);
+  if (typeof item.alerta_penal !== "boolean") errors.push(`${item.id}: alerta_penal debe ser true o false`);
+  if (!["borrador", "revision", "validado", "bloqueado"].includes(item.estado)) errors.push(`${item.id}: estado no válido`);
   if (!Array.isArray(item.fuentes)) errors.push(`${item.id}: fuentes debe ser una lista`);
   else for (const id of item.fuentes) if (!sourceIds.has(id)) errors.push(`${item.id}: fuente inexistente ${id}`);
   if (item.medidas) for (const id of item.medidas) if (!measureIds.has(id)) errors.push(`${item.id}: medida inexistente ${id}`);
@@ -160,12 +198,7 @@ for (const item of cases) {
 
 for (const group of permisosGroups) {
   if (!group.nombre || !group.descripcion || !Number.isFinite(group.orden)) errors.push(`${group.id}: subgrupo incompleto`);
-  if (!Array.isArray(group.casos) || !group.casos.length) errors.push(`${group.id}: debe contener casos`);
-  else for (const id of group.casos) {
-    const item = permisos.find((candidate) => candidate.id === id);
-    if (!item) errors.push(`${group.id}: caso inexistente ${id}`);
-    else if (item.subgrupo !== group.id) errors.push(`${id}: no declara el subgrupo ${group.id}`);
-  }
+  if (Object.hasOwn(group, "casos")) errors.push(`${group.id}: elimina la lista técnica casos; ahora se genera desde el campo subgrupo de cada caso`);
   if (group.ayudas) for (const id of group.ayudas) if (!permitHelpIds.has(id)) errors.push(`${group.id}: ayuda inexistente ${id}`);
 }
 for (const item of permisos) if (item.subgrupo && !permitGroupIds.has(item.subgrupo)) errors.push(`${item.id}: subgrupo inexistente ${item.subgrupo}`);
@@ -256,14 +289,23 @@ else {
   for (const caseId of referencedSeguroCases) if (!caseIds.has(caseId)) errors.push(`VMP/VPL: caso común de Seguro inexistente ${caseId}`);
 }
 
+if (JSON.stringify(documents) !== JSON.stringify(documentMetadata)) errors.push("BIBLIOTECA\n  Problema: el índice técnico no coincide con los metadatos editables.\n  Qué hacer: ejecuta npm run contenido:sincronizar y vuelve a validar.");
+const documentFiles = new Set();
 for (const doc of documents) {
-  if (!doc.titulo || !doc.archivo) errors.push(`Biblioteca: documento incompleto (${doc.titulo ?? "sin título"})`);
-  else if (!fs.existsSync(path.join(root, "public", "documentos", doc.archivo))) errors.push(`Biblioteca: no existe public/documentos/${doc.archivo}`);
+  if (!doc.id || !doc.titulo || !doc.archivo || !doc.descripcion) errors.push(`BIBLIOTECA · ${doc.id ?? "documento sin ID"}\n  Problema: faltan id, titulo, archivo o descripcion.\n  Archivo: contenido/biblioteca/metadatos.json\n  Qué hacer: completa esos campos.`);
+  if (doc.archivo && (path.basename(doc.archivo) !== doc.archivo || !/\.pdf$/i.test(doc.archivo))) errors.push(`BIBLIOTECA · ${doc.id}\n  Problema: archivo debe ser únicamente el nombre de un PDF.\n  Qué hacer: usa un valor como Documento.pdf, sin carpetas.`);
+  if (documentFiles.has(doc.archivo)) errors.push(`BIBLIOTECA · ${doc.id}\n  Problema: el PDF ${doc.archivo} está registrado más de una vez.\n  Qué hacer: conserva un solo registro.`);
+  documentFiles.add(doc.archivo);
+  if (doc.fuenteId && !sourceIds.has(doc.fuenteId)) errors.push(`BIBLIOTECA · ${doc.id}\n  Problema: la fuente ${doc.fuenteId} no existe.\n  Archivo: contenido/biblioteca/metadatos.json\n  Qué hacer: corrige fuenteId o crea esa fuente.`);
+  if (doc.archivo && !fs.existsSync(path.join(root, "public", "documentos", doc.archivo))) errors.push(`BIBLIOTECA · ${doc.id}\n  Problema: no existe el PDF public/documentos/${doc.archivo}.\n  Qué hacer: copia el PDF o ejecuta npm run contenido:sincronizar para retirar el registro eliminado.`);
+}
+for (const file of fs.readdirSync(path.join(root, "public", "documentos"))) {
+  if (/\.pdf$/i.test(file) && !documentFiles.has(file)) errors.push(`BIBLIOTECA · PDF HUÉRFANO\n  Problema: ${file} no está incluido en el índice.\n  Qué hacer: ejecuta npm run contenido:sincronizar.`);
 }
 
 notes.push(`${cases.length} casos: ${animals.length} Animales + ${itv.length} ITV + ${seguro.length} Seguro + ${permisos.length} Permisos`);
 notes.push(`${sources.length} fuentes jurídicas · ${documents.length} documentos de biblioteca`);
-notes.push(`${[...sourceReferenceUsage.values()].filter(Boolean).length} fuentes referenciadas por contenido activo · ${sources.filter((source) => source.urlOficial).length} con URL oficial · ${sources.filter((source) => source.documentoLocal).length} con documento local`);
+notes.push(`${[...sourceReferenceUsage.values()].filter(Boolean).length} fuentes referenciadas por contenido activo · ${sources.filter((source) => source.urlOficial).length} con URL oficial · ${documents.filter((document) => document.fuenteId).length} con documento local`);
 notes.push(`Seguridad Pública: ${seguridadPublica?.conceptos?.length ?? 0} conceptos operativos`);
 notes.push(`VMP/VPL: ${vmpGuide?.areas?.length ?? 0} áreas operativas · ${vmpGuide?.casos_practicos?.length ?? 0} casos prácticos · ${vmpGuide?.circulacion?.infracciones?.length ?? 0} reglas de circulación`);
 

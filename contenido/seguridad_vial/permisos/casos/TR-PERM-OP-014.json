@@ -1,0 +1,43 @@
+{
+  "id": "TR-PERM-OP-014",
+  "modulo": "seguridad_vial",
+  "categoria": "seguridad_vial_permisos",
+  "subgrupo": "permisos_extranjeros",
+  "titulo": "Permiso de tercer país válido dentro de seis meses",
+  "situacion": "Permiso extranjero reconocido que cumple una vía documental y todos los requisitos del artículo 21 dentro del plazo general.",
+  "palabras_clave": [
+    "tercer país",
+    "seis meses",
+    "artículo 21",
+    "válido"
+  ],
+  "que_comprobar": [
+    "Vía documental reconocida, identidad, original, vigencia, edad y categoría.",
+    "Residencia normal o entrada regular y cómputo de seis meses.",
+    "Especialidades del convenio."
+  ],
+  "resultado": "VÁLIDO ACTUALMENTE EN ESPAÑA. Sin infracción por el permiso mientras cumpla todos los requisitos del artículo 21.",
+  "via": "Sin infracción",
+  "norma": "Reglamento General de Conductores",
+  "articulo": "21",
+  "responsable": "Conductor",
+  "actuacion": [
+    "Documentar las fechas y la vía de reconocimiento comprobadas.",
+    "Finalizar la comprobación si todos los requisitos se cumplen."
+  ],
+  "competencia_denuncia": "Policía Local de Torrent",
+  "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
+  "advertencias": [
+    "La existencia de convenio no sustituye la comprobación de todas las condiciones."
+  ],
+  "alerta_penal": false,
+  "fuentes": [
+    "TR-PERM-SRC-001",
+    "TR-PERM-SRC-005",
+    "TR-PERM-SRC-006"
+  ],
+  "fichas_juridicas": [
+    "TR-PERM-FJ-007"
+  ],
+  "estado": "validado"
+}

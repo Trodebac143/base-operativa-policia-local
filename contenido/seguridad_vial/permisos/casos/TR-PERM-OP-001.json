@@ -1,0 +1,46 @@
+{
+  "id": "TR-PERM-OP-001",
+  "modulo": "seguridad_vial",
+  "categoria": "seguridad_vial_permisos",
+  "titulo": "Permiso caducado",
+  "situacion": "Conduce con permiso o licencia cuya vigencia ha caducado.",
+  "palabras_clave": [
+    "caducado",
+    "vencido",
+    "prórroga",
+    "5B"
+  ],
+  "que_comprobar": [
+    "Identidad, documento original y fecha de vigencia.",
+    "Que obtuvo permiso y no concurre pérdida de vigencia o privación judicial."
+  ],
+  "resultado": "VÍA ADMINISTRATIVA. Permiso caducado: no autoriza a conducir hasta su prórroga. Sin relevancia penal.",
+  "via": "Administrativa",
+  "norma": "Reglamento General de Conductores",
+  "articulo": "12.4",
+  "textoDenuncia": "CONDUCIR EL VEHÍCULO RESEÑADO CON UNA AUTORIZACIÓN ADMINISTRATIVA PARA CONDUCIR CUYA VIGENCIA HA CADUCADO.",
+  "codificado": "CON 12.4 5B",
+  "calificacion": "grave",
+  "importe_fijo": 200,
+  "importe_reducido": 100,
+  "responsable": "Conductor",
+  "actuacion": [
+    "Detener la conducción y formular denuncia.",
+    "Permitir que otro conductor con permiso válido y clase correcta se haga cargo del vehículo si no concurre otra causa."
+  ],
+  "competencia_denuncia": "Policía Local de Torrent",
+  "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
+  "advertencias": [
+    "No inmovilizar el vehículo por el solo permiso caducado."
+  ],
+  "alerta_penal": false,
+  "fuentes": [
+    "TR-PERM-SRC-001",
+    "TR-ITV-SRC-001",
+    "TR-ITV-SRC-007"
+  ],
+  "fichas_juridicas": [
+    "TR-PERM-FJ-001"
+  ],
+  "estado": "validado"
+}

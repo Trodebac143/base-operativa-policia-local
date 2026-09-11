@@ -1,0 +1,52 @@
+{
+  "id": "AN-OP-003",
+  "modulo": "animales",
+  "categoria": "animales_ppp",
+  "titulo": "PPP sin licencia",
+  "palabras_clave": [
+    "PPP",
+    "licencia",
+    "perro peligroso",
+    "potencialmente peligroso"
+  ],
+  "que_comprobar": [
+    "Confirmar que el animal está sometido al régimen PPP.",
+    "Identificar a la persona que lo posee/conduce/controla.",
+    "Comprobar la existencia y vigencia de licencia PPP.",
+    "Documentar la comprobación y su resultado."
+  ],
+  "resultado": "Tener un animal potencialmente peligroso sin licencia administrativa.",
+  "norma": "Ley 50/1999",
+  "articulo": "13.1.b",
+  "calificacion": "muy grave",
+  "rango_min": 2404.06,
+  "rango_max": 15025.3,
+  "actuacion": [
+    "Identificar a la persona y al animal.",
+    "Comprobar la licencia en los sistemas/documentación disponibles.",
+    "Documentar exactamente la carencia comprobada.",
+    "Formular denuncia por el cauce PPP de Torrent.",
+    "Informar de la obligación de disponer de licencia vigente."
+  ],
+  "competencia_denuncia": "Policía Local",
+  "competencia_resuelve": "Ayuntamiento de Torrent",
+  "advertencias": [
+    "Que la persona no lleve consigo la licencia no demuestra que carezca de ella. Comprueba su existencia y vigencia antes de denunciar por «PPP sin licencia».",
+    "La falta de exhibición de la licencia no determina por sí sola la retirada del animal."
+  ],
+  "alerta_penal": false,
+  "referencia_penal": null,
+  "regla_transversal": null,
+  "fuentes": [
+    "AN-SRC-004",
+    "AN-SRC-005",
+    "AN-SRC-027"
+  ],
+  "fichas_juridicas": [
+    "AN-JUR-015"
+  ],
+  "estado": "validado",
+  "datos_adicionales": {
+    "cauce_torrent": "Acta PPP + boletín OCC + art. 7.m + referencia a Ley 50/1999 y artículo infringido."
+  }
+}

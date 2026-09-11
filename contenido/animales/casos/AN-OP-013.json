@@ -1,0 +1,43 @@
+{
+  "id": "AN-OP-013",
+  "modulo": "animales",
+  "categoria": "animales_convivencia",
+  "titulo": "Excrementos no recogidos",
+  "palabras_clave": [
+    "excrementos",
+    "heces",
+    "caca",
+    "limpieza",
+    "vía pública"
+  ],
+  "que_comprobar": [
+    "Constatar el depósito de excrementos en zona de tránsito/uso público.",
+    "Comprobar que el responsable no los recoge o no limpia adecuadamente.",
+    "Identificar al responsable."
+  ],
+  "resultado": "Incumplimiento de la obligación municipal de impedir o retirar/limpiar los excrementos del animal.",
+  "norma": "Ordenanza de Convivencia Ciudadana de Torrent",
+  "articulo": "14",
+  "calificacion": null,
+  "rango_min": null,
+  "rango_max": null,
+  "actuacion": [
+    "Identificar al responsable.",
+    "Documentar lugar, depósito y falta de recogida/limpieza.",
+    "Formular denuncia por el cauce OCC.",
+    "Requerir/informar que debe recoger y limpiar los restos."
+  ],
+  "competencia_denuncia": "Policía Local",
+  "competencia_resuelve": "Ayuntamiento de Torrent",
+  "advertencias": [],
+  "alerta_penal": false,
+  "referencia_penal": null,
+  "regla_transversal": null,
+  "fuentes": [
+    "OCC-TORRENT"
+  ],
+  "fichas_juridicas": [
+    "AN-JUR-001"
+  ],
+  "estado": "validado"
+}

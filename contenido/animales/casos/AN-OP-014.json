@@ -1,0 +1,49 @@
+{
+  "id": "AN-OP-014",
+  "modulo": "animales",
+  "categoria": "animales_convivencia",
+  "titulo": "Perro ordinario suelto o sin control mediante correa",
+  "palabras_clave": [
+    "perro suelto",
+    "sin correa",
+    "correa",
+    "vía pública",
+    "control"
+  ],
+  "que_comprobar": [
+    "Confirmar que no se trata de un PPP.",
+    "Comprobar que el perro está completamente suelto fuera de zona/condición autorizada.",
+    "Identificar al responsable.",
+    "Documentar lugar, distancia, tráfico/personas, obediencia y riesgo."
+  ],
+  "resultado": "Posible infracción municipal por llevar un perro ordinario suelto en vía pública fuera de los supuestos autorizados.",
+  "norma": "Ordenanza Municipal sobre Tenencia de Animales de Torrent",
+  "articulo": "65.4",
+  "calificacion": null,
+  "rango_min": null,
+  "rango_max": null,
+  "actuacion": [
+    "Identificar al responsable.",
+    "Comprobar chip.",
+    "Documentar el grado real de control y las circunstancias.",
+    "Formular denuncia cuando concurra el supuesto.",
+    "Informar de la obligación de conducirlo bajo control mediante correa/sistema equivalente conforme a la normativa vigente."
+  ],
+  "competencia_denuncia": "Policía Local",
+  "competencia_resuelve": "Ayuntamiento de Torrent",
+  "advertencias": [
+    "Si el perro es PPP, no uses esta ficha: selecciona la rama PPP.",
+    "Esta ficha cubre al perro ordinario completamente suelto. Si el animal va sujeto y la duda es únicamente la longitud o el tipo de correa, no denuncies por el art. 65.4 con esta ficha."
+  ],
+  "alerta_penal": false,
+  "referencia_penal": null,
+  "regla_transversal": null,
+  "fuentes": [
+    "OTA-TORRENT",
+    "AN-SRC-018"
+  ],
+  "fichas_juridicas": [
+    "AN-JUR-003"
+  ],
+  "estado": "validado"
+}

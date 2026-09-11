@@ -1,0 +1,68 @@
+{
+  "modulo": "seguridad_vial",
+  "categoria": "seguridad_vial_seguro",
+  "norma": "Real Decreto Legislativo 8/2004",
+  "articulo": "2.1",
+  "norma_infringida": "Real Decreto Legislativo 8/2004, texto refundido de la Ley sobre responsabilidad civil y seguro en la circulación de vehículos a motor",
+  "articulo_infringido": "2.1",
+  "tipificacion_norma": "Real Decreto Legislativo 8/2004",
+  "tipificacion_articulo": "3",
+  "tipificacion_etiqueta": "Régimen sancionador",
+  "competencia_denuncia": "Policía Local de Torrent — órgano actuante y formulador",
+  "competencia_instruye": "Jefatura Provincial de Tráfico de Valencia — receptor e instructora",
+  "competencia_resuelve": "Jefe Provincial de Tráfico de Valencia",
+  "alerta_penal": false,
+  "referencia_penal": null,
+  "estado": "validado",
+  "id": "TR-SOA-OP-006",
+  "titulo": "VPL que requiere SOA (Peso < 25 kg y velocidad hasta 25 km/h O peso > de 25 kg y velocidad hasta 14 km/h) — carece de seguro",
+  "palabras_clave": [
+    "VPL",
+    "seguro",
+    "estacionado",
+    "certificado",
+    "inscripción",
+    "etiqueta",
+    "SDA",
+    "5B"
+  ],
+  "que_comprobar": [
+    "Clasificación VPL y requisitos de certificado, inscripción y etiqueta.",
+    "Consulta oficial de seguro.",
+    "Ausencia de uso o conducción efectiva."
+  ],
+  "resultado": "VPL que requiere SOA —con certificado, inscripción y etiqueta— y carece de seguro.",
+  "responsable": "Propietario.",
+  "textoDenuncia": "INCUMPLIR EL PROPIETARIO DE UN VEHÍCULO PERSONAL LIGERO LA OBLIGACIÓN DE SUSCRIBIR Y MANTENER EN VIGOR UN CONTRATO DE SEGURO QUE CUBRA LA RESPONSABILIDAD CIVIL DERIVADA DE SU CIRCULACIÓN.",
+  "codificado": "SDA DA1 5B",
+  "importe_fijo": 200,
+  "importe_reducido": 100,
+  "inmovilizacion": "SÍ",
+  "motivo_inmovilizacion": "Comprobada la carencia de seguro obligatorio, procede la inmovilización del vehículo.",
+  "actuacion_breve": [
+    "Formular SDA DA1 5B y advertir que no puede ponerse en circulación sin seguro."
+  ],
+  "actuacion": [
+    "Acreditar clasificación y requisitos VPL.",
+    "Comprobar el seguro y formular SDA DA1 5B.",
+    "Prohibir la puesta en circulación, inmovilizar y trasladar el vehículo al depósito."
+  ],
+  "medidas": [
+    "TR-MED-SOA-OPERATIVE"
+  ],
+  "advertencias": [
+    "Si falta certificado, inscripción o etiqueta, no formular esta denuncia específica de seguro.",
+    "La normativa documental se comprueba y trata por su vía específica."
+  ],
+  "fuentes": [
+    "TR-SOA-SRC-002",
+    "TR-SOA-SRC-005",
+    "TR-SOA-SRC-006",
+    "TR-SOA-SRC-007",
+    "TR-ITV-SRC-001"
+  ],
+  "fichas_juridicas": [
+    "TR-SOA-FJ-004",
+    "TR-SOA-FJ-005"
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "id": "TR-PERM-OP-002",
+  "modulo": "seguridad_vial",
+  "categoria": "seguridad_vial_permisos",
+  "titulo": "Permiso no habilita para el vehículo — categoría distinta de C/D",
+  "situacion": "Posee permiso, pero su clase no habilita para el vehículo conducido y este no requiere C ni D.",
+  "palabras_clave": [
+    "no habilita",
+    "clase B",
+    "categoría",
+    "5C"
+  ],
+  "que_comprobar": [
+    "Clases del permiso y categoría del vehículo.",
+    "Que el vehículo no exige C o D."
+  ],
+  "resultado": "VÍA ADMINISTRATIVA. El permiso existente no habilita para el vehículo. No equivale a no haber obtenido nunca permiso y no activa el artículo 104.1.k.",
+  "via": "Administrativa",
+  "norma": "Reglamento General de Conductores",
+  "articulo": "1.1",
+  "textoDenuncia": "CONDUCIR EL VEHÍCULO RESEÑADO CON UNA AUTORIZACIÓN ADMINISTRATIVA PARA CONDUCIR QUE NO LE HABILITA PARA EL MISMO.",
+  "codificado": "CON 1.1 5C",
+  "calificacion": "muy grave",
+  "puntos": 4,
+  "importe_fijo": 500,
+  "importe_reducido": 250,
+  "responsable": "Conductor",
+  "actuacion": [
+    "Detener la conducción y formular denuncia.",
+    "Permitir que otro conductor correctamente habilitado continúe si no concurre otra causa."
+  ],
+  "competencia_denuncia": "Policía Local de Torrent",
+  "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
+  "advertencias": [
+    "No aplicar el artículo 104.1.k por analogía."
+  ],
+  "alerta_penal": false,
+  "fuentes": [
+    "TR-PERM-SRC-001",
+    "TR-ITV-SRC-001",
+    "TR-ITV-SRC-007"
+  ],
+  "fichas_juridicas": [
+    "TR-PERM-FJ-002"
+  ],
+  "estado": "validado"
+}

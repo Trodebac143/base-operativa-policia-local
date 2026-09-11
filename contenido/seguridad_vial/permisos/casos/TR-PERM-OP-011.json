@@ -1,0 +1,47 @@
+{
+  "id": "TR-PERM-OP-011",
+  "modulo": "seguridad_vial",
+  "categoria": "seguridad_vial_permisos",
+  "subgrupo": "permisos_suspension_judicial",
+  "titulo": "Conducir fuera del plazo de suspensión judicial (> 2 años) sin haber recuperado el permiso de conducir",
+  "situacion": "La privación superior a dos años está totalmente cumplida, pero no se ha recuperado el permiso.",
+  "palabras_clave": [
+    "superior dos años",
+    "cumplida",
+    "recuperación",
+    "5A"
+  ],
+  "que_comprobar": [
+    "Duración superior a dos años y cumplimiento total.",
+    "Nueva obtención o recuperación reglamentaria."
+  ],
+  "resultado": "VÍA ADMINISTRATIVA 5A. La pena está cumplida: no aplicar los artículos 384 ni 468 CP.",
+  "via": "Administrativa",
+  "norma": "Reglamento General de Conductores",
+  "articulo": "1.1",
+  "textoDenuncia": "CONDUCIR EL VEHÍCULO RESEÑADO CARECIENDO DE AUTORIZACIÓN ADMINISTRATIVA PARA CONDUCIR, TRAS HABER CUMPLIDO UNA PENA DE PRIVACIÓN DEL DERECHO A CONDUCIR SUPERIOR A DOS AÑOS, SIN HABER RECUPERADO EL PERMISO.",
+  "codificado": "CON 1.1 5A",
+  "calificacion": "muy grave",
+  "importe_fijo": 500,
+  "importe_reducido": 250,
+  "responsable": "Conductor",
+  "actuacion": [
+    "Detener la conducción y formular denuncia 5A.",
+    "Permitir conductor sustituto habilitado si no concurre otra causa."
+  ],
+  "competencia_denuncia": "Policía Local de Torrent",
+  "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
+  "advertencias": [
+    "Criterio de la Consulta FGE 1/2026: no artículo 384 ni quebrantamiento del artículo 468."
+  ],
+  "alerta_penal": false,
+  "fuentes": [
+    "TR-PERM-SRC-001",
+    "TR-PERM-SRC-003",
+    "TR-ITV-SRC-007"
+  ],
+  "fichas_juridicas": [
+    "TR-PERM-FJ-005"
+  ],
+  "estado": "validado"
+}

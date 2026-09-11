@@ -8,11 +8,12 @@ Si solo vas a corregir o mantener contenido jurídico/operativo, trabaja aquí. 
 
 | Quiero cambiar… | Archivo |
 |---|---|
-| Un caso de Animales | `animales/casos.json` |
-| Un caso de ITV | `seguridad_vial/itv/casos.json` |
+| Un caso de Animales | un JSON en `animales/casos/` |
+| Un caso de ITV | un JSON en `seguridad_vial/itv/casos/` |
 | Una medida de ITV | `seguridad_vial/itv/medidas.json` |
 | El árbol de ITV | `seguridad_vial/itv/arbol.json` |
-| Un caso de Seguro | `seguridad_vial/seguro/casos.json` |
+| Un caso de Seguro | un JSON en `seguridad_vial/seguro/casos/` |
+| Un caso de Permisos | un JSON en `seguridad_vial/permisos/casos/` |
 | Las medidas de Seguro | `seguridad_vial/seguro/medidas.json` |
 | La regla común visible de circulación, inmovilización y depósito por Seguro | `seguridad_vial/medidas_por_caso.json` → `_por_categoria.seguridad_vial_seguro` |
 | El árbol de Seguro | `seguridad_vial/seguro/arbol.json` |
@@ -20,7 +21,7 @@ Si solo vas a corregir o mantener contenido jurídico/operativo, trabaja aquí. 
 | La política obligatoria de fuentes | `juridico/POLITICA_FUENTES.md` |
 | Un texto penal literal validado | `juridico/articulos_penales.json` |
 | Reglas comunes | `juridico/reglas_generales_y_comunes.json` |
-| Un documento de la biblioteca | `biblioteca/documentos.json` |
+| Título o descripción de un PDF | `biblioteca/metadatos.json` |
 | Módulos/categorías | `estructura/` — mejor con asistencia técnica si afecta navegación |
 
 ## Regla práctica
@@ -30,9 +31,10 @@ Si solo vas a corregir o mantener contenido jurídico/operativo, trabaja aquí. 
 
 ## Antes de probar
 
-Después de editar, ejecuta:
+Después de editar casos o PDF, ejecuta:
 
 ```bash
+npm run contenido:sincronizar
 npm run validar:contenido
 ```
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { libraryDocuments } from "@/data/documents";
+import { documentForSource, libraryDocuments } from "@/data/documents";
 import { filterSources, sources } from "@/data/sources";
 import { sourceUsage } from "@/data/source-usage";
 import { publicPath } from "@/lib/public-path";
@@ -54,6 +54,7 @@ export function LibrarySourcesPanel({ initialQuery = "" }: { initialQuery?: stri
       <div className="source-library-list">
         {results.map((source) => {
           const usage = sourceUsage(source.id);
+          const localDocument = documentForSource(source.id);
           return (
             <article id={`source-${source.id}`} className="source-library-card" key={source.id}>
               <div className="source-library-heading">
@@ -74,9 +75,9 @@ export function LibrarySourcesPanel({ initialQuery = "" }: { initialQuery?: stri
                   <ul>{usage.map((label) => <li key={label}>{label}</li>)}</ul>
                 </div>
               )}
-              {(source.documentoLocal || source.urlOficial) && (
+              {(localDocument || source.urlOficial) && (
                 <div className="source-library-actions">
-                  {source.documentoLocal && <a href={encodeURI(publicPath(`/documentos/${source.documentoLocal}`))} target="_blank" rel="noopener noreferrer">Abrir documento <span aria-hidden="true">↗</span></a>}
+                  {localDocument && <a href={encodeURI(publicPath(`/documentos/${localDocument.archivo}`))} target="_blank" rel="noopener noreferrer">Abrir documento <span aria-hidden="true">↗</span></a>}
                   {source.urlOficial && <a href={source.urlOficial} target="_blank" rel="noopener noreferrer">Consultar fuente oficial <span aria-hidden="true">↗</span></a>}
                 </div>
               )}

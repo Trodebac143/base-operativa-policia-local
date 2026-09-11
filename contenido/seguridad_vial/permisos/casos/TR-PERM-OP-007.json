@@ -1,0 +1,44 @@
+{
+  "id": "TR-PERM-OP-007",
+  "modulo": "seguridad_vial",
+  "categoria": "seguridad_vial_permisos",
+  "subgrupo": "permisos_perdida_vigencia",
+  "titulo": "En periodo de recurso",
+  "situacion": "La resolución no permite todavía imputación penal por recurso, plazo de recurso o suspensión de ejecutividad.",
+  "palabras_clave": [
+    "recurso",
+    "ejecutividad",
+    "puntos"
+  ],
+  "que_comprobar": [
+    "Firmeza, ejecutividad y efectos del recurso o suspensión."
+  ],
+  "resultado": "VÍA ADMINISTRATIVA. No imputar el artículo 384 CP mientras falte firmeza o ejecutividad exigible.",
+  "via": "Administrativa",
+  "norma": "Reglamento General de Conductores",
+  "articulo": "1.1",
+  "codificado": "CON 1.1 5A",
+  "calificacion": "muy grave",
+  "importe_fijo": 500,
+  "importe_reducido": 250,
+  "responsable": "Conductor",
+  "actuacion": [
+    "Documentar el estado registral y formular la denuncia administrativa que proceda.",
+    "Detener la conducción cuando la autorización no sea válida y permitir conductor sustituto habilitado."
+  ],
+  "competencia_denuncia": "Policía Local de Torrent",
+  "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
+  "advertencias": [
+    "Verificar el efecto real del recurso; su mera presentación no siempre suspende."
+  ],
+  "alerta_penal": false,
+  "fuentes": [
+    "TR-PERM-SRC-001",
+    "TR-PERM-SRC-004",
+    "TR-ITV-SRC-007"
+  ],
+  "fichas_juridicas": [
+    "TR-PERM-FJ-004"
+  ],
+  "estado": "validado"
+}

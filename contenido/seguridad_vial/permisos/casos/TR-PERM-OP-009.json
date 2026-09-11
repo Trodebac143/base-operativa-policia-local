@@ -1,0 +1,45 @@
+{
+  "id": "TR-PERM-OP-009",
+  "modulo": "seguridad_vial",
+  "categoria": "seguridad_vial_permisos",
+  "subgrupo": "permisos_suspension_judicial",
+  "titulo": "Conducir dentro del plazo de suspensión judicial",
+  "situacion": "Conduce durante una privación cautelar o definitiva vigente acordada judicialmente.",
+  "palabras_clave": [
+    "privación judicial",
+    "384",
+    "5A"
+  ],
+  "que_comprobar": [
+    "Resolución judicial, notificación y fechas exactas de inicio y fin."
+  ],
+  "resultado": "VÍA PENAL PREFERENTE — ART. 384 CP. Formular denuncia administrativa 5A y dejarla suspendida.",
+  "via": "Penal preferente y administrativa suspendida",
+  "norma": "Reglamento General de Conductores",
+  "articulo": "1.1",
+  "codificado": "CON 1.1 5A",
+  "calificacion": "muy grave",
+  "importe_fijo": 500,
+  "importe_reducido": 250,
+  "responsable": "Conductor",
+  "actuacion": [
+    "Detener la conducción e instruir diligencias por el artículo 384 CP.",
+    "Formular denuncia 5A y dejarla suspendida."
+  ],
+  "competencia_denuncia": "Policía Local de Torrent",
+  "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
+  "destino_diligencias_penales": "Juzgado de Guardia de Torrent",
+  "advertencias": [],
+  "alerta_penal": true,
+  "penal_article_id": "CP-384",
+  "regla_transversal": "GEN-JUR-001",
+  "fuentes": [
+    "TR-PERM-SRC-001",
+    "AN-SRC-007",
+    "TR-ITV-SRC-007"
+  ],
+  "fichas_juridicas": [
+    "TR-PERM-FJ-003"
+  ],
+  "estado": "validado"
+}

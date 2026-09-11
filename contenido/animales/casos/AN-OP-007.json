@@ -1,0 +1,49 @@
+{
+  "id": "AN-OP-007",
+  "modulo": "animales",
+  "categoria": "animales_ppp",
+  "titulo": "PPP sin sujeción reglamentaria",
+  "palabras_clave": [
+    "PPP",
+    "correa",
+    "sujeción",
+    "correa extensible",
+    "dos metros"
+  ],
+  "que_comprobar": [
+    "Confirmar condición de PPP.",
+    "Comprobar lugar o espacio público.",
+    "Comprobar tipo y longitud de la correa/sistema de sujeción.",
+    "Comprobar el número de PPP conducidos por la misma persona."
+  ],
+  "resultado": "PPP en lugar público sin la sujeción reglamentaria.",
+  "norma": "Ley 50/1999",
+  "articulo": "13.2.d",
+  "calificacion": "grave",
+  "rango_min": 300.52,
+  "rango_max": 2404.05,
+  "actuacion": [
+    "Identificar al conductor y al animal.",
+    "Documentar el sistema de sujeción utilizado y sus características.",
+    "Comprobar que la correa no sea extensible y sea de menos de 2 metros.",
+    "Comprobar que no se conduzca más de un PPP por persona.",
+    "Formular denuncia si se acredita el incumplimiento."
+  ],
+  "competencia_denuncia": "Policía Local",
+  "competencia_resuelve": "Ayuntamiento de Torrent",
+  "advertencias": [
+    "Si concurren falta de bozal y sujeción incorrecta, describe cada incumplimiento por separado en el acta. No dupliques una misma conducta bajo dos conceptos."
+  ],
+  "alerta_penal": false,
+  "referencia_penal": null,
+  "regla_transversal": null,
+  "fuentes": [
+    "AN-SRC-004",
+    "AN-SRC-005",
+    "AN-SRC-027"
+  ],
+  "fichas_juridicas": [
+    "AN-JUR-020"
+  ],
+  "estado": "validado"
+}

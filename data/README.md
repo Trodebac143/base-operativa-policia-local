@@ -5,3 +5,5 @@ Esta carpeta ya no es la zona principal de edición de contenido.
 Los archivos de aquí adaptan y validan los JSON de `../contenido/` para que la aplicación mantenga sus importaciones actuales.
 
 **Para cambios ordinarios de datos, edita `contenido/`.**
+
+`case-catalog.ts` consume un índice generado. No lo mantengas a mano: usa `npm run contenido:sincronizar`.

@@ -1,0 +1,75 @@
+{
+  "modulo": "seguridad_vial",
+  "categoria": "seguridad_vial_itv",
+  "responsable": "Titular o arrendatario a largo plazo inscrito",
+  "competencia_denuncia": "Policía Local de Torrent — órgano actuante y formulador de la denuncia",
+  "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
+  "alerta_penal": false,
+  "referencia_penal": null,
+  "estado": "validado",
+  "id": "TR-ITV-OP-005",
+  "titulo": "ITV negativa — circulando",
+  "palabras_clave": [
+    "ITV",
+    "negativa",
+    "circulando",
+    "grúa",
+    "5B"
+  ],
+  "que_comprobar": [
+    "Resultado negativo e informe de defectos muy graves.",
+    "Circulación autopropulsada.",
+    "Estado técnico actual y posible reparación posterior.",
+    "Forma en que el vehículo llegó al lugar."
+  ],
+  "resultado": "Vehículo con resultado ITV negativo circulando por sus propios medios.",
+  "estado_circulacion": "CIRCULACIÓN PROHIBIDA POR MEDIOS PROPIOS; traslado por medios ajenos.",
+  "norma": "Reglamento General de Vehículos",
+  "articulo": "10.1",
+  "norma_infringida": "Reglamento General de Vehículos",
+  "articulo_infringido": "10.1",
+  "tipificacion_norma": "Ley sobre Tráfico, Circulación de Vehículos a Motor y Seguridad Vial",
+  "tipificacion_articulo": "77.ll",
+  "textoDenuncia": "CIRCULAR CON EL VEHÍCULO RESEÑADO CUYA INSPECCIÓN TÉCNICA HA RESULTADO NEGATIVA POR INCUMPLIR EL MISMO LAS CONDICIONES TÉCNICAS QUE GARANTIZAN LA SEGURIDAD VIAL.",
+  "codificado": "VEH 10.1 5B",
+  "calificacion": "muy grave",
+  "importe_fijo": 500,
+  "importe_reducido": 250,
+  "inmovilizacion": "CONDICIONADA",
+  "motivo_inmovilizacion": "Solo cuando las deficiencias actuales constituyan riesgo especialmente grave; la continuación autopropulsada está prohibida en todo caso.",
+  "actuacion_breve": [
+    "Formular denuncia 5B, impedir la continuación autopropulsada y exigir transporte por medios ajenos."
+  ],
+  "actuacion": [
+    "Formular la denuncia correspondiente y remitirla a la Jefatura Provincial de Tráfico de Valencia.",
+    "Impedir la continuación de la circulación por medios propios: el art. 11.3 RD 920/2017 inhabilita al vehículo para circular.",
+    "Exigir que el traslado se realice por medios ajenos al propio vehículo.",
+    "Consultar el informe ITV para identificar el defecto muy grave que produjo el resultado negativo.",
+    "Si el defecto constituye riesgo especialmente grave para la seguridad vial, aplicar inmovilización del art. 104.1.b LSV.",
+    "Si se superan los niveles reglamentarios de gases, humos o ruido, aplicar inmovilización del art. 104.1.h LSV.",
+    "No presentar la retirada o depósito del art. 105 como consecuencia automática; solo si concurre su supuesto propio."
+  ],
+  "medidas": [
+    "TR-MED-ITV-CHECK",
+    "TR-MED-WARN-NOCIRC",
+    "TR-MED-EXT-TRANSPORT",
+    "TR-MED-IMMOB-104B"
+  ],
+  "advertencias": [
+    "La ITV negativa no genera automáticamente retirada ni depósito.",
+    "La inmovilización exige acreditar deficiencias actuales que constituyan riesgo especialmente grave; no deriva automáticamente de la anotación ITV."
+  ],
+  "fuentes": [
+    "TR-ITV-SRC-001",
+    "TR-ITV-SRC-002",
+    "TR-ITV-SRC-003",
+    "TR-ITV-SRC-007"
+  ],
+  "fichas_juridicas": [
+    "TR-ITV-FJ-002",
+    "TR-ITV-FJ-003",
+    "TR-ITV-FJ-004",
+    "TR-ITV-FJ-005",
+    "TR-ITV-FJ-006"
+  ]
+}

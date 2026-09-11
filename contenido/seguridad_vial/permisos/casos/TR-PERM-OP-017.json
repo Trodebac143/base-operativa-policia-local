@@ -1,0 +1,40 @@
+{
+  "id": "TR-PERM-OP-017",
+  "modulo": "seguridad_vial",
+  "categoria": "seguridad_vial_permisos",
+  "subgrupo": "permisos_extranjeros",
+  "titulo": "Presenta únicamente permiso internacional",
+  "situacion": "Presenta permiso internacional sin el permiso nacional extranjero que le sirve de base.",
+  "palabras_clave": [
+    "internacional",
+    "solo",
+    "complementario"
+  ],
+  "que_comprobar": [
+    "Original, vigencia, identidad y existencia del permiso nacional extranjero de base."
+  ],
+  "resultado": "NO ACREDITA POR SÍ SOLO AUTORIZACIÓN VÁLIDA. El permiso internacional es complementario y debe acompañarse del permiso nacional extranjero correspondiente; resolver después por la regla general del artículo 21.",
+  "via": "Pendiente de clasificación administrativa según permiso de base",
+  "norma": "Reglamento General de Conductores",
+  "articulo": "21",
+  "responsable": "Conductor",
+  "actuacion": [
+    "No permitir que continúe la conducción mientras no acredite autorización válida.",
+    "No crear un codificado específico: aplicar, si procede, la salida general que resulte tras comprobar el permiso nacional de base.",
+    "Permitir conductor sustituto habilitado si no concurre otra causa."
+  ],
+  "competencia_denuncia": "Policía Local de Torrent",
+  "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
+  "advertencias": [
+    "EL PERMISO INTERNACIONAL NO ES VÁLIDO POR SÍ SOLO."
+  ],
+  "alerta_penal": false,
+  "fuentes": [
+    "TR-PERM-SRC-001",
+    "TR-PERM-SRC-006"
+  ],
+  "fichas_juridicas": [
+    "TR-PERM-FJ-008"
+  ],
+  "estado": "validado"
+}

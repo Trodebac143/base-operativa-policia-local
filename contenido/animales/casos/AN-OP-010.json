@@ -1,0 +1,47 @@
+{
+  "id": "AN-OP-010",
+  "modulo": "animales",
+  "categoria": "animales_sanidad",
+  "titulo": "Vacunación antirrábica obligatoria no realizada",
+  "palabras_clave": [
+    "vacuna",
+    "rabia",
+    "antirrábica",
+    "vacunación",
+    "pasaporte"
+  ],
+  "que_comprobar": [
+    "Identificar al animal y responsable.",
+    "Comprobar microchip.",
+    "Revisar pasaporte/documentación sanitaria.",
+    "Confirmar que la vacunación era obligatoria y que no está vigente/realizada."
+  ],
+  "resultado": "Incumplimiento de un tratamiento preventivo declarado obligatorio, cuando la vacunación antirrábica resulte exigible.",
+  "norma": "Ley 2/2023 de la Comunitat Valenciana",
+  "articulo": "42.3.t",
+  "calificacion": "grave",
+  "rango_min": 3001,
+  "rango_max": 9000,
+  "actuacion": [
+    "Comprobar identificación y documentación sanitaria.",
+    "Documentar fecha de última vacunación, vigencia y resultado de la comprobación.",
+    "Formular denuncia si se confirma el incumplimiento.",
+    "Informar de la obligación de regularizar la vacunación con veterinario autorizado."
+  ],
+  "competencia_denuncia": "Policía Local",
+  "competencia_resuelve": "Ayuntamiento de Torrent",
+  "advertencias": [
+    "Antes de denunciar, confirma en la documentación sanitaria que la vacunación antirrábica era obligatoria para ese animal y que no estaba vigente o no se había realizado. Si no puedes acreditar ambos extremos, no cierres la actuación con esta ficha."
+  ],
+  "alerta_penal": false,
+  "referencia_penal": null,
+  "regla_transversal": null,
+  "fuentes": [
+    "AN-SRC-018",
+    "AN-SRC-026"
+  ],
+  "fichas_juridicas": [
+    "AN-JUR-025"
+  ],
+  "estado": "validado"
+}

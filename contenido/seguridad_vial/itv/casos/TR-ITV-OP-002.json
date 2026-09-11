@@ -1,0 +1,69 @@
+{
+  "modulo": "seguridad_vial",
+  "categoria": "seguridad_vial_itv",
+  "responsable": "Titular o arrendatario a largo plazo inscrito",
+  "competencia_denuncia": "Policía Local de Torrent — órgano actuante y formulador de la denuncia",
+  "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
+  "alerta_penal": false,
+  "referencia_penal": null,
+  "estado": "validado",
+  "id": "TR-ITV-OP-002",
+  "titulo": "ITV vencida — estacionado en vía pública",
+  "palabras_clave": [
+    "ITV",
+    "caducada",
+    "vencida",
+    "estacionado",
+    "5A"
+  ],
+  "que_comprobar": [
+    "Fecha en que era exigible la inspección periódica.",
+    "Alta y puesta en circulación del vehículo.",
+    "Estacionamiento en vía pública y circunstancias relevantes para la proporcionalidad.",
+    "Existencia de abandono u otro presupuesto jurídico independiente."
+  ],
+  "resultado": "Vehículo estacionado en vía pública sin haber superado la inspección técnica periódica en el plazo debido.",
+  "norma": "Reglamento General de Vehículos",
+  "articulo": "10.1",
+  "norma_infringida": "Reglamento General de Vehículos",
+  "articulo_infringido": "10.1",
+  "tipificacion_norma": "Ley sobre Tráfico, Circulación de Vehículos a Motor y Seguridad Vial",
+  "tipificacion_articulo": "76.o",
+  "textoDenuncia": "NO HABERSE SOMETIDO EL VEHÍCULO RESEÑADO A LA INSPECCIÓN TÉCNICA PERIÓDICA ESTABLECIDA REGLAMENTARIAMENTE.",
+  "codificado": "VEH 10.1 5A",
+  "calificacion": "grave",
+  "importe_fijo": 200,
+  "importe_reducido": 100,
+  "inmovilizacion": "NO",
+  "motivo_inmovilizacion": "El mero vencimiento de la ITV con el vehículo estacionado no habilita la inmovilización, retirada ni depósito.",
+  "actuacion_breve": [
+    "Comprobar el estado ITV y la situación del vehículo; formular denuncia 5A aplicando proporcionalidad."
+  ],
+  "actuacion": [
+    "Comprobar y documentar el estado ITV y la situación del vehículo.",
+    "Aplicar el criterio de proporcionalidad.",
+    "Formular denuncia con el codificado indicado y remitirla a la Jefatura Provincial de Tráfico de Valencia.",
+    "Conceder al titular o arrendatario a largo plazo el plazo de 10 días previsto en el art. 6.9 RD 920/2017 para someter el vehículo a ITV y dejar constancia del requerimiento."
+  ],
+  "medidas": [
+    "TR-MED-ITV-CHECK"
+  ],
+  "advertencias": [
+    "El mero vencimiento no permite presumir defectos técnicos actuales.",
+    "No procede inmovilización, retirada ni depósito por el solo vencimiento; cada medida requiere su propia causa legal.",
+    "La baja de oficio no la acuerda el agente: si no se acredita la presentación a ITV dentro de los 10 días, la Jefatura de Tráfico inicia el procedimiento."
+  ],
+  "fuentes": [
+    "TR-ITV-SRC-001",
+    "TR-ITV-SRC-002",
+    "TR-ITV-SRC-003",
+    "TR-ITV-SRC-004",
+    "TR-ITV-SRC-007"
+  ],
+  "fichas_juridicas": [
+    "TR-ITV-FJ-001",
+    "TR-ITV-FJ-004",
+    "TR-ITV-FJ-005",
+    "TR-ITV-FJ-006"
+  ]
+}

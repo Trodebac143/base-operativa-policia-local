@@ -1,0 +1,51 @@
+{
+  "id": "TR-PERM-OP-006",
+  "modulo": "seguridad_vial",
+  "categoria": "seguridad_vial_permisos",
+  "subgrupo": "permisos_perdida_vigencia",
+  "titulo": "Por pérdida total de puntos (edictal)",
+  "situacion": "La pérdida de vigencia consta notificada edictalmente, sin conocimiento personal previo acreditado.",
+  "palabras_clave": [
+    "puntos",
+    "edictal",
+    "acta",
+    "retirada permiso"
+  ],
+  "que_comprobar": [
+    "Resolución y forma de notificación.",
+    "Ausencia de conocimiento personal previo.",
+    "Permiso físico portado."
+  ],
+  "resultado": "VÍA ADMINISTRATIVA EN ESTA PRIMERA INTERVENCIÓN. No imputar el artículo 384 CP; denunciar, informar personalmente y documentar la notificación.",
+  "via": "Administrativa",
+  "norma": "Reglamento General de Conductores",
+  "articulo": "1.1",
+  "textoDenuncia": "CONDUCIR EL VEHÍCULO RESEÑADO CARECIENDO DE AUTORIZACIÓN ADMINISTRATIVA PARA CONDUCIR POR PÉRDIDA DE VIGENCIA POR AGOTAMIENTO DEL CRÉDITO TOTAL DE PUNTOS.",
+  "codificado": "CON 1.1 5A",
+  "calificacion": "muy grave",
+  "importe_fijo": 500,
+  "importe_reducido": 250,
+  "responsable": "Conductor",
+  "actuacion": [
+    "Detener la conducción y formular denuncia 5A.",
+    "Hacer constar: Consta declaración de pérdida de vigencia dictada por el Jefe Provincial de Tráfico de [provincia], que implica la prohibición de conducir. Se informa personalmente al interesado de dicha circunstancia en este acto.",
+    "Cumplimentar acta, entregar copia y retirar físicamente el permiso si lo porta, conforme al artículo 37.2 RD 818/2009, dejando constancia.",
+    "Remitir a la Jefatura Provincial de Tráfico de Valencia e identificar la Jefatura que dictó la resolución.",
+    "Permitir conductor sustituto habilitado si no concurre otra causa."
+  ],
+  "competencia_denuncia": "Policía Local de Torrent",
+  "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
+  "advertencias": [
+    "Una conducción posterior, ya acreditado el conocimiento personal, se valorará separadamente."
+  ],
+  "alerta_penal": false,
+  "fuentes": [
+    "TR-PERM-SRC-001",
+    "TR-PERM-SRC-004",
+    "TR-ITV-SRC-007"
+  ],
+  "fichas_juridicas": [
+    "TR-PERM-FJ-004"
+  ],
+  "estado": "validado"
+}

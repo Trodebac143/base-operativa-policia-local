@@ -1,0 +1,54 @@
+{
+  "id": "AN-OP-002",
+  "modulo": "animales",
+  "categoria": "animales_identificacion",
+  "titulo": "Perro o gato no censado",
+  "palabras_clave": [
+    "perro",
+    "gato",
+    "censo",
+    "censado",
+    "censo municipal"
+  ],
+  "que_comprobar": [
+    "Identificar al animal y a su responsable.",
+    "Comprobar si consta en el Censo Municipal de Animales de Compañía o sistema censal municipal aplicable.",
+    "Diferenciar censo municipal de microchip e inscripción registral."
+  ],
+  "resultado": "Posible infracción municipal por posesión de perro o gato no censado.",
+  "norma": "Ordenanza Municipal sobre Tenencia de Animales de Torrent",
+  "articulo": "65.2",
+  "calificacion": null,
+  "rango_min": null,
+  "rango_max": null,
+  "actuacion": [
+    "Identificar al responsable y al animal.",
+    "Documentar la comprobación censal y su resultado.",
+    "Formular denuncia municipal si se acredita la falta de censo.",
+    "Informar de la obligación de regularizar el censo y mantener los datos actualizados."
+  ],
+  "competencia_denuncia": "Policía Local",
+  "competencia_resuelve": "Ayuntamiento de Torrent",
+  "advertencias": [
+    "Esta ficha solo se utiliza para la falta de censo municipal. Si el problema es la ausencia de identificación física (chip) o de inscripción registral, utiliza la ficha específica correspondiente."
+  ],
+  "alerta_penal": false,
+  "referencia_penal": null,
+  "regla_transversal": null,
+  "fuentes": [
+    "OTA-TORRENT"
+  ],
+  "fichas_juridicas": [
+    "AN-JUR-009"
+  ],
+  "estado": "validado",
+  "datos_adicionales": {
+    "articulos_relacionados": [
+      "28",
+      "29",
+      "30",
+      "31",
+      "32"
+    ]
+  }
+}

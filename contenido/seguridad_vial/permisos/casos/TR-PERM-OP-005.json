@@ -1,0 +1,50 @@
+{
+  "id": "TR-PERM-OP-005",
+  "modulo": "seguridad_vial",
+  "categoria": "seguridad_vial_permisos",
+  "subgrupo": "permisos_perdida_vigencia",
+  "titulo": "Por pérdida de puntos (firme, conocida y ejecutiva)",
+  "situacion": "Conduce tras pérdida de vigencia por agotamiento de puntos, firme, ejecutiva y personalmente conocida.",
+  "palabras_clave": [
+    "puntos",
+    "conocida",
+    "384",
+    "5A"
+  ],
+  "que_comprobar": [
+    "Resolución firme y ejecutiva.",
+    "Notificación o conocimiento personal anterior.",
+    "Que no ha recuperado la autorización."
+  ],
+  "resultado": "VÍA PENAL PREFERENTE — ART. 384 CP. Formular denuncia administrativa 5A y dejarla suspendida.",
+  "via": "Penal preferente y administrativa suspendida",
+  "norma": "Reglamento General de Conductores",
+  "articulo": "1.1",
+  "textoDenuncia": "CONDUCIR EL VEHÍCULO RESEÑADO CARECIENDO DE AUTORIZACIÓN ADMINISTRATIVA PARA CONDUCIR POR PÉRDIDA DE VIGENCIA POR AGOTAMIENTO DEL CRÉDITO TOTAL DE PUNTOS.",
+  "codificado": "CON 1.1 5A",
+  "calificacion": "muy grave",
+  "importe_fijo": 500,
+  "importe_reducido": 250,
+  "responsable": "Conductor",
+  "actuacion": [
+    "Detener la conducción e instruir diligencias por el artículo 384 CP.",
+    "Formular denuncia 5A y dejarla suspendida.",
+    "Permitir conductor sustituto habilitado si no concurre otra causa."
+  ],
+  "competencia_denuncia": "Policía Local de Torrent",
+  "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
+  "destino_diligencias_penales": "Juzgado de Guardia de Torrent",
+  "advertencias": [],
+  "alerta_penal": true,
+  "penal_article_id": "CP-384",
+  "regla_transversal": "GEN-JUR-001",
+  "fuentes": [
+    "TR-PERM-SRC-001",
+    "AN-SRC-007",
+    "TR-ITV-SRC-007"
+  ],
+  "fichas_juridicas": [
+    "TR-PERM-FJ-003"
+  ],
+  "estado": "validado"
+}

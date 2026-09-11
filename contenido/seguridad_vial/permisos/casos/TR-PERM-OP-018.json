@@ -1,0 +1,39 @@
+{
+  "id": "TR-PERM-OP-018",
+  "modulo": "seguridad_vial",
+  "categoria": "seguridad_vial_permisos",
+  "subgrupo": "permisos_extranjeros",
+  "titulo": "Permiso internacional acompañado de permiso nacional",
+  "situacion": "Presenta permiso internacional y permiso nacional extranjero de base.",
+  "palabras_clave": [
+    "internacional",
+    "nacional",
+    "artículo 21"
+  ],
+  "que_comprobar": [
+    "Originales, identidad y vigencia de ambos documentos.",
+    "Categorías, vía de reconocimiento y todos los requisitos del artículo 21."
+  ],
+  "resultado": "CONTINUAR COMPROBACIONES DEL ARTÍCULO 21. Será válido actualmente en España solo si el permiso nacional de base y los demás requisitos resultan válidos.",
+  "via": "Sin infracción o administrativa según comprobación",
+  "norma": "Reglamento General de Conductores",
+  "articulo": "21",
+  "responsable": "Conductor",
+  "actuacion": [
+    "Comprobar el permiso nacional de base y resolver la validez actual conforme al artículo 21."
+  ],
+  "competencia_denuncia": "Policía Local de Torrent",
+  "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
+  "advertencias": [
+    "La apariencia del permiso internacional no acredita su validez."
+  ],
+  "alerta_penal": false,
+  "fuentes": [
+    "TR-PERM-SRC-001",
+    "TR-PERM-SRC-006"
+  ],
+  "fichas_juridicas": [
+    "TR-PERM-FJ-008"
+  ],
+  "estado": "validado"
+}

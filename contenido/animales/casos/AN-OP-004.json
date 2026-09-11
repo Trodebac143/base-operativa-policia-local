@@ -1,0 +1,46 @@
+{
+  "id": "AN-OP-004",
+  "modulo": "animales",
+  "categoria": "animales_ppp",
+  "titulo": "PPP sin identificación",
+  "palabras_clave": [
+    "PPP",
+    "microchip",
+    "chip",
+    "identificación"
+  ],
+  "que_comprobar": [
+    "Confirmar condición de PPP.",
+    "Comprobar microchip con lector.",
+    "Comprobar inscripción asociada cuando proceda.",
+    "Identificar al responsable y documentar resultados."
+  ],
+  "resultado": "Incumplimiento de la obligación de identificación del animal potencialmente peligroso.",
+  "norma": "Ley 50/1999",
+  "articulo": "13.2.b",
+  "calificacion": "grave",
+  "rango_min": 300.52,
+  "rango_max": 2404.05,
+  "actuacion": [
+    "Comprobar microchip e identificación registral.",
+    "Identificar al responsable.",
+    "Documentar la ausencia o irregularidad constatada.",
+    "Formular denuncia por el cauce PPP.",
+    "Informar de la obligación de identificar al animal."
+  ],
+  "competencia_denuncia": "Policía Local",
+  "competencia_resuelve": "Ayuntamiento de Torrent",
+  "advertencias": [],
+  "alerta_penal": false,
+  "referencia_penal": null,
+  "regla_transversal": null,
+  "fuentes": [
+    "AN-SRC-004",
+    "AN-SRC-005",
+    "AN-SRC-027"
+  ],
+  "fichas_juridicas": [
+    "AN-JUR-016"
+  ],
+  "estado": "validado"
+}

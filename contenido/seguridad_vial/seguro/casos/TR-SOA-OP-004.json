@@ -1,0 +1,67 @@
+{
+  "modulo": "seguridad_vial",
+  "categoria": "seguridad_vial_seguro",
+  "norma": "Real Decreto Legislativo 8/2004",
+  "articulo": "2.1",
+  "norma_infringida": "Real Decreto Legislativo 8/2004, texto refundido de la Ley sobre responsabilidad civil y seguro en la circulación de vehículos a motor",
+  "articulo_infringido": "2.1",
+  "tipificacion_norma": "Real Decreto Legislativo 8/2004",
+  "tipificacion_articulo": "3",
+  "tipificacion_etiqueta": "Régimen sancionador",
+  "competencia_denuncia": "Policía Local de Torrent — órgano actuante y formulador",
+  "competencia_instruye": "Jefatura Provincial de Tráfico de Valencia — receptor e instructora",
+  "competencia_resuelve": "Jefe Provincial de Tráfico de Valencia",
+  "alerta_penal": false,
+  "referencia_penal": null,
+  "estado": "validado",
+  "id": "TR-SOA-OP-004",
+  "titulo": "VMP que requiere SOA (VMP >25 Kg y Velocidad hasta 25 km/h) — carece de seguro",
+  "palabras_clave": [
+    "VMP",
+    "seguro",
+    "estacionado",
+    "masa",
+    "velocidad",
+    "5O"
+  ],
+  "que_comprobar": [
+    "Clasificación técnica de vehículo a motor.",
+    "Consulta oficial de seguro.",
+    "Ausencia de uso o conducción efectiva."
+  ],
+  "resultado": "VMP que requiere SOA y carece de seguro.",
+  "responsable": "Propietario. Si el VMP a motor no está inscrito, consignar además el conductor para el procedimiento DGT, sin sustituir al propietario como obligado material.",
+  "textoDenuncia": "INCUMPLIR EL PROPIETARIO DEL VEHÍCULO RESEÑADO LA OBLIGACIÓN DE SUSCRIBIR Y MANTENER EN VIGOR UN CONTRATO DE SEGURO QUE CUBRA LA RESPONSABILIDAD CIVIL DERIVADA DE SU CIRCULACIÓN. VELOCIDAD SUPERIOR A 14 KM/H HASTA 25 KM/H Y PESO SUPERIOR A 25 KG.",
+  "codificado": "SOA 2.1 5O",
+  "importe_fijo": 610,
+  "importe_reducido": 305,
+  "inmovilizacion": "SÍ",
+  "motivo_inmovilizacion": "Comprobada la carencia de seguro obligatorio, procede la inmovilización del vehículo.",
+  "actuacion_breve": [
+    "Formular 5O y advertir que no puede ponerse en circulación sin seguro."
+  ],
+  "actuacion": [
+    "Clasificar el vehículo con datos técnicos acreditados.",
+    "Comprobar el seguro y formular 5O.",
+    "Impedir una posterior puesta en circulación sin seguro.",
+    "Prohibir la puesta en circulación, inmovilizar y trasladar el vehículo al depósito."
+  ],
+  "medidas": [
+    "TR-MED-SOA-OPERATIVE"
+  ],
+  "advertencias": [
+    "Un valor exactamente de 25 kg exige completar la clasificación.",
+    "VMP no certificado comercializado antes de 22/01/2024: régimen transitorio de circulación e inscripción hasta 22/01/2027, sin alterar esta obligación si es vehículo a motor."
+  ],
+  "fuentes": [
+    "TR-SOA-SRC-001",
+    "TR-SOA-SRC-002",
+    "TR-SOA-SRC-006",
+    "TR-ITV-SRC-001"
+  ],
+  "fichas_juridicas": [
+    "TR-SOA-FJ-003",
+    "TR-SOA-FJ-004",
+    "TR-SOA-FJ-005"
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "id": "TR-PERM-OP-015",
+  "modulo": "seguridad_vial",
+  "categoria": "seguridad_vial_permisos",
+  "subgrupo": "permisos_extranjeros",
+  "titulo": "Permiso extranjero ya no válido — susceptible de canje",
+  "situacion": "El permiso extranjero ya no es válido para conducir en España y el permiso concreto reúne los requisitos de canje.",
+  "palabras_clave": [
+    "extranjero",
+    "canjeable",
+    "5B",
+    "seis meses"
+  ],
+  "que_comprobar": [
+    "Pérdida actual de validez en España.",
+    "País, clase, vigencia, convenio, fecha de obtención, residencia y condiciones DGT."
+  ],
+  "resultado": "NO VÁLIDO ACTUALMENTE EN ESPAÑA. VÍA ADMINISTRATIVA 5B por permiso extranjero equivalente susceptible de canje. Sin relevancia penal.",
+  "via": "Administrativa",
+  "norma": "Reglamento General de Conductores",
+  "articulo": "1.1",
+  "textoDenuncia": "CONDUCIR EL VEHÍCULO RESEÑADO CARECIENDO DE AUTORIZACIÓN ADMINISTRATIVA VÁLIDA EN ESPAÑA, SIENDO TITULAR DE UN PERMISO EXTRANJERO EQUIVALENTE, SUSCEPTIBLE DE SER CANJEADO.",
+  "codificado": "CON 1.1 5B",
+  "calificacion": "grave",
+  "importe_fijo": 200,
+  "importe_reducido": 100,
+  "responsable": "Conductor",
+  "actuacion": [
+    "Detener la conducción y formular denuncia 5B.",
+    "Permitir conductor sustituto habilitado si no concurre otra causa."
+  ],
+  "competencia_denuncia": "Policía Local de Torrent",
+  "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
+  "advertencias": [
+    "País con convenio no equivale automáticamente a permiso canjeable."
+  ],
+  "alerta_penal": false,
+  "fuentes": [
+    "TR-PERM-SRC-001",
+    "TR-PERM-SRC-005",
+    "TR-PERM-SRC-006",
+    "TR-ITV-SRC-007"
+  ],
+  "fichas_juridicas": [
+    "TR-PERM-FJ-007"
+  ],
+  "estado": "validado"
+}

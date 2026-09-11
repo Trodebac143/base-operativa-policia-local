@@ -1,0 +1,66 @@
+{
+  "modulo": "seguridad_vial",
+  "categoria": "seguridad_vial_itv",
+  "responsable": "Titular o arrendatario a largo plazo inscrito",
+  "competencia_denuncia": "Policía Local de Torrent — órgano actuante y formulador de la denuncia",
+  "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
+  "alerta_penal": false,
+  "referencia_penal": null,
+  "estado": "validado",
+  "id": "TR-ITV-OP-007",
+  "titulo": "Deficiencias técnicas actuales con riesgo especialmente grave",
+  "palabras_clave": [
+    "deficiencias",
+    "técnicas",
+    "riesgo",
+    "inmovilización",
+    "104",
+    "retirada",
+    "depósito"
+  ],
+  "que_comprobar": [
+    "Deficiencia técnica observable o documentada.",
+    "Riesgo concreto, actual y especialmente grave.",
+    "Relación del defecto con la seguridad vial.",
+    "Estado ITV como dato separado, sin usarlo como prueba sustitutiva del riesgo."
+  ],
+  "resultado": "El vehículo presenta deficiencias técnicas actuales que constituyen riesgo especialmente grave. No es una infracción autónoma: la eventual denuncia exige identificar el defecto técnico concreto.",
+  "norma": "Ley sobre Tráfico, Circulación de Vehículos a Motor y Seguridad Vial",
+  "articulo": "104.1.b",
+  "norma_infringida": null,
+  "articulo_infringido": null,
+  "textoDenuncia": null,
+  "es_infraccion_autonoma": false,
+  "calificacion": null,
+  "inmovilizacion": "SÍ",
+  "motivo_inmovilizacion": "Concurre el presupuesto específico del artículo 104.1.b LSV: deficiencias que constituyen riesgo especialmente grave para la seguridad vial.",
+  "actuacion_breve": [
+    "Describir el defecto y el riesgo, inmovilizar de forma motivada y seleccionar por separado el tipo técnico concreto, si procede denuncia."
+  ],
+  "actuacion": [
+    "Describir técnicamente cada defecto y el riesgo concreto.",
+    "Determinar la norma, el artículo, el texto oficial y el codificado correspondientes al defecto acreditado; esta ficha no formula una denuncia autónoma.",
+    "Motivar la necesidad y proporcionalidad de la inmovilización.",
+    "Comprobar separadamente si concurre un presupuesto tasado para retirada y depósito.",
+    "Evitar una doble sanción por idéntico sujeto, hecho y fundamento."
+  ],
+  "medidas": [
+    "TR-MED-IMMOB-104B",
+    "TR-MED-REMOVE-105",
+    "TR-MED-DEPOSIT-105"
+  ],
+  "advertencias": [
+    "La calificación y el importe solo pueden determinarse después de identificar la deficiencia concreta y su precepto aplicable.",
+    "La retirada, el traslado privado y el depósito son actuaciones diferentes y no se activan por la mera inmovilización."
+  ],
+  "fuentes": [
+    "TR-ITV-SRC-001",
+    "TR-ITV-SRC-002",
+    "TR-ITV-SRC-007"
+  ],
+  "fichas_juridicas": [
+    "TR-ITV-FJ-004",
+    "TR-ITV-FJ-005",
+    "TR-ITV-FJ-006"
+  ]
+}

@@ -10,7 +10,7 @@ La secuencia obligatoria es:
 
 1. Reutiliza una entrada existente cuando la norma o fuente ya esté registrada. No crees otra entrada equivalente.
 2. Toda referencia del contenido debe resolverse mediante el `id`, nombre, nombre corto o alias de una única entrada del registro central.
-3. La entrada debe incluir `urlOficial` HTTP(S) o un `documentoLocal` disponible en la Biblioteca. Se prefiere siempre BOE, DOGV, BOP, DGT, ministerio u organismo oficial competente.
+3. La entrada debe incluir `urlOficial` HTTP(S) o estar vinculada desde `biblioteca/metadatos.json` mediante `fuenteId`. Las fuentes no contienen nombres físicos de PDF. Se prefiere siempre BOE, DOGV, BOP, DGT, ministerio u organismo oficial competente.
 4. Si una fuente modifica o sustituye otra, conserva ambas cuando sea necesario para la trazabilidad y actualiza `estado_vigencia_auditoria`.
 5. No se admite una fuente utilizada únicamente por el motor y ausente de Biblioteca / Fuentes.
 
