@@ -17,7 +17,7 @@
     "5A"
   ],
   "que_comprobar": [
-    "Fecha en que era exigible la inspección periódica.",
+    "Fecha máxima en que debía haber pasado lainspección técnica periódica.",
     "Estado ITV en el Registro de Vehículos y documentación disponible.",
     "Circulación efectiva del vehículo."
   ],
@@ -42,16 +42,13 @@
     "Comprobar y documentar el estado ITV.",
     "Formular denuncia con el codificado indicado y remitirla a la Jefatura Provincial de Tráfico de Valencia.",
     "Informar de la obligación de someter el vehículo a inspección.",
-    "Conceder al titular o arrendatario a largo plazo el plazo de 10 días previsto en el art. 6.9 RD 920/2017 para someter el vehículo a ITV y dejar constancia del requerimiento.",
     "Comprobar por separado si existen deficiencias técnicas actuales."
   ],
   "medidas": [
     "TR-MED-ITV-CHECK"
   ],
   "advertencias": [
-    "La ITV vencida no acredita por sí sola una deficiencia técnica ni justifica la inmovilización.",
-    "La retirada y el depósito exigen un supuesto autónomo del artículo 105 LSV.",
-    "La baja de oficio no la acuerda el agente: si no se acredita la presentación a ITV dentro de los 10 días, la Jefatura de Tráfico inicia el procedimiento."
+    "La ITV vencida no acredita por sí sola una deficiencia técnica ni justifica la inmovilización."
   ],
   "fuentes": [
     "TR-ITV-SRC-001",

@@ -25,9 +25,10 @@
     "5O"
   ],
   "que_comprobar": [
-    "Clasificación técnica de vehículo a motor.",
+    "Clasificación técnica de VEHÍCULO A MOTOR.",
+    "Para catalogarse como VMP (vehículo a motor a efectos del seguro) debe superar los 25 kg de masa y los 14 km/h de velocidad máxima, sin superar en ningún caso los 25 km/h.",
     "Consulta oficial de seguro.",
-    "Ausencia de uso o conducción efectiva."
+    "Que carece de seguro, aunque se encuentra estacionado."
   ],
   "resultado": "VMP que requiere SOA y carece de seguro.",
   "responsable": "Propietario. Si el VMP a motor no está inscrito, consignar además el conductor para el procedimiento DGT, sin sustituir al propietario como obligado material.",
@@ -41,17 +42,12 @@
     "Formular 5O y advertir que no puede ponerse en circulación sin seguro."
   ],
   "actuacion": [
-    "Clasificar el vehículo con datos técnicos acreditados.",
-    "Comprobar el seguro y formular 5O.",
-    "Impedir una posterior puesta en circulación sin seguro.",
+    "Clasificar el vehículo con datos técnicos acreditados.(Velocidad máxima y Masa).",
+    "Comprobar el seguro y formular denuncia.",
     "Prohibir la puesta en circulación, inmovilizar y trasladar el vehículo al depósito."
   ],
   "medidas": [
     "TR-MED-SOA-OPERATIVE"
-  ],
-  "advertencias": [
-    "Un valor exactamente de 25 kg exige completar la clasificación.",
-    "VMP no certificado comercializado antes de 22/01/2024: régimen transitorio de circulación e inscripción hasta 22/01/2027, sin alterar esta obligación si es vehículo a motor."
   ],
   "fuentes": [
     "TR-SOA-SRC-001",

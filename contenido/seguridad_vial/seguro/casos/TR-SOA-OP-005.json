@@ -40,19 +40,20 @@
   "inmovilizacion": "SÍ",
   "motivo_inmovilizacion": "Comprobada la carencia de seguro obligatorio, procede la inmovilización del vehículo.",
   "actuacion_breve": [
-    "Formular SDA DA1 5A, prohibir la continuación, inmovilizar y trasladar el vehículo al depósito."
+    "Formular SDA DA1 5A. Susceptible de inmovilización y traslado al depósito, si procede."
   ],
   "actuacion": [
-    "Acreditar la clasificación VPL y los tres requisitos documentales.",
+    "Acreditar la clasificación VPL y los tres requisitos documentales (Certificado, inscripción y etiqueta).",
     "Comprobar el seguro y formular SDA DA1 5A.",
-    "Impedir la continuación ordinaria."
+    "Impedir la continuación ordinaria. Susceptible de inmovilización y traslado al depósito."
   ],
   "medidas": [
     "TR-MED-SOA-OPERATIVE"
   ],
   "advertencias": [
-    "Si falta certificado, inscripción o etiqueta, no formular esta denuncia específica de seguro; completar la comprobación documental separada.",
-    "No confundir VPL con vehículo a motor a efectos del seguro."
+    "VPL no se considera VEHÍCULO A MOTOR a efectos del seguro obligatoio.",
+    "Si falta certificado, inscripción o etiqueta, no formular esta denuncia específica de seguro.",
+    "La normativa documental se comprueba y trata por su vía específica. Dentro de Seguridad vial, bloque VMP /VPL."
   ],
   "fuentes": [
     "TR-SOA-SRC-002",

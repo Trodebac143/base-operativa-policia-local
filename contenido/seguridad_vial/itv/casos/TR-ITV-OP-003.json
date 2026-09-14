@@ -17,7 +17,7 @@
     "5C"
   ],
   "que_comprobar": [
-    "Informe ITV, defectos graves y fecha límite de segunda inspección.",
+    "Informe ITV, que defectos GRAVES (no muy graves) y fecha límite de segunda inspección.",
     "Origen, destino y finalidad real del desplazamiento.",
     "Necesidad del traslado al taller o regularización, o de la vuelta a la estación ITV.",
     "Coherencia de la ruta y ausencia de usos intermedios."
@@ -49,13 +49,13 @@
   ],
   "advertencias": [
     "La ITV desfavorable no genera inmovilización automática.",
-    "El plazo concedido para la segunda inspección no puede superar dos meses desde la primera inspección desfavorable."
+    "El plazo concedido para la segunda inspección no puede superar DOS MESES desde la primera inspección desfavorable."
   ],
   "datos_adicionales": {
     "encaje_condicional": [
       {
         "supuesto": "Trayecto necesario y coherente para subsanar las deficiencias o volver a la ITV",
-        "articulo": "11.2 RD 920/2017",
+        "articulo": "11.2 RD 920/2017: Los defectos calificados como graves son defectos que inhabilitan al vehículo para circular por las vías públicas excepto para su traslado al taller o, en su caso, para la regularización de su situación y vuelta a una Estación ITV para nueva inspección en un plazo no superior a dos meses, contados desde la primera inspección técnica desfavorable.",
         "calificacion": "sin infracción ITV"
       },
       {

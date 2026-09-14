@@ -17,7 +17,7 @@
     "5A"
   ],
   "que_comprobar": [
-    "Fecha en que era exigible la inspección periódica.",
+    "Fecha máxima en que debía haber pasado lainspección técnica periódica.",
     "Alta y puesta en circulación del vehículo.",
     "Estacionamiento en vía pública y circunstancias relevantes para la proporcionalidad.",
     "Existencia de abandono u otro presupuesto jurídico independiente."
@@ -42,16 +42,14 @@
   "actuacion": [
     "Comprobar y documentar el estado ITV y la situación del vehículo.",
     "Aplicar el criterio de proporcionalidad.",
-    "Formular denuncia con el codificado indicado y remitirla a la Jefatura Provincial de Tráfico de Valencia.",
-    "Conceder al titular o arrendatario a largo plazo el plazo de 10 días previsto en el art. 6.9 RD 920/2017 para someter el vehículo a ITV y dejar constancia del requerimiento."
+    "Formular denuncia con el codificado indicado y remitirla a la Jefatura Provincial de Tráfico de Valencia."
   ],
   "medidas": [
     "TR-MED-ITV-CHECK"
   ],
   "advertencias": [
-    "El mero vencimiento no permite presumir defectos técnicos actuales.",
-    "No procede inmovilización, retirada ni depósito por el solo vencimiento; cada medida requiere su propia causa legal.",
-    "La baja de oficio no la acuerda el agente: si no se acredita la presentación a ITV dentro de los 10 días, la Jefatura de Tráfico inicia el procedimiento."
+    "El mero vencimiento no permite presumir defectos técnicos actuales."
+    
   ],
   "fuentes": [
     "TR-ITV-SRC-001",
