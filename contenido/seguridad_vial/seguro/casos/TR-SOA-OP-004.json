@@ -49,6 +49,9 @@
   "medidas": [
     "TR-MED-SOA-OPERATIVE"
   ],
+  "advertencias": [
+        "La obligación NO DEPENDE de certificado o inscripción cuando se trata de vehículo a motor. En este caso SIEMPRE están obligados."
+  ],
   "fuentes": [
     "TR-SOA-SRC-001",
     "TR-SOA-SRC-002",
