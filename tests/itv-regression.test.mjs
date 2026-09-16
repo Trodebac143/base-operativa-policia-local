@@ -63,13 +63,13 @@ test("Seguro Obligatorio integra seis casos y las doce variantes ARCI validadas"
   const { seguroCases, seguroDecisionTree } = await vite.ssrLoadModule("/data/seguro.ts");
   const { CaseSheet } = await vite.ssrLoadModule("/app/page.tsx");
   assert.equal(seguroCases.length, 6);
-  const codes = seguroCases.flatMap((item) => item.datos_adicionales?.encaje_condicional?.map((entry) => entry.codificado) ?? [item.codificado]);
+  const codes = seguroCases.flatMap((item) => (item.datos_adicionales?.variantes_arci ?? item.datos_adicionales?.encaje_condicional)?.map((entry) => entry.codificado) ?? [item.codificado]);
   assert.deepEqual(codes, ["SOA 2.1 5F", "SOA 2.1 5G", "SOA 2.1 5H", "SOA 2.1 5I", "SOA 2.1 5J", "SOA 2.1 5K", "SOA 2.1 5L", "SOA 2.1 5M", "SOA 2.1 5N", "SOA 2.1 5O", "SDA DA1 5A", "SDA DA1 5B"]);
   for (const item of seguroCases) {
     assert.match(item.competencia_denuncia, /Policía Local de Torrent/); assert.equal(item.competencia_instruye, "Jefatura Provincial de Tráfico de Valencia — receptor e instructora"); assert.equal(item.competencia_resuelve, "Jefe Provincial de Tráfico de Valencia");
     assert.equal(item.inmovilizacion, "SÍ");
     const html = renderToStaticMarkup(React.createElement(CaseSheet, { item, copied: false, onCopy() {} }));
-    assert.match(html, /TEXTO LITERAL PARA EL BOLETÍN/); assert.doesNotMatch(html, /MUY GRAVE|PENDING_|TR-SOA-/);
+    assert.match(html, item.datos_adicionales?.variantes_arci?.length ? /TEXTO BASE PARA EL BOLETÍN/ : /TEXTO LITERAL PARA EL BOLETÍN/); assert.doesNotMatch(html, /MUY GRAVE|PENDING_|TR-SOA-/);
   }
   assert.ok(Object.keys(seguroDecisionTree.outcomes).includes("SO-NS-04"));
   const source = await readFile(new URL("../data/seguro.ts", import.meta.url), "utf8");

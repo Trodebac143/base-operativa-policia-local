@@ -1,4 +1,4 @@
-import type { DecisionTree, PoliceMeasure, Rule } from "./types";
+import type { ArciVariant, DecisionTree, OperationalCase, PoliceMeasure, Rule } from "./types";
 import { rawCases } from "./case-catalog";
 import legalSheetsJson from "../contenido/seguridad_vial/seguro/fichas_juridicas.json";
 import measuresJson from "../contenido/seguridad_vial/seguro/medidas.json";
@@ -12,3 +12,4 @@ export const seguroLegalSheets = legalSheetsJson;
 export const seguroMeasures = measuresJson as PoliceMeasure[];
 export const seguroRules = rulesJson as Rule[];
 export const seguroDecisionTree = decisionTreeJson as DecisionTree;
+export const insuranceBulletinText = (item: OperationalCase, variant: ArciVariant) => `${item.textoDenuncia} ${variant.sufijo_boletin}`;

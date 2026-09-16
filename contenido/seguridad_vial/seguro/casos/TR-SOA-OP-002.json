@@ -33,6 +33,7 @@
     "Ausencia de uso o conducción efectiva; el estacionamiento basta para esta modalidad."
   ],
   "resultado": "Vehículo convencional que requiere SOA y carece de seguro.",
+  "textoDenuncia": "INCUMPLIR EL PROPIETARIO DEL VEHÍCULO RESEÑADO LA OBLIGACIÓN DE SUSCRIBIR Y MANTENER EN VIGOR UN CONTRATO DE SEGURO QUE CUBRA LA RESPONSABILIDAD CIVIL DERIVADA DE SU CIRCULACIÓN.",
   "responsable": "Propietario; en vehículo inscrito, se presume propietario a quien figure en el registro.",
   "inmovilizacion": "SÍ",
   "motivo_inmovilizacion": "Comprobada la carencia de seguro obligatorio, procede la inmovilización del vehículo.",
@@ -53,59 +54,31 @@
     "La baja solo exime si además no se usa como medio de transporte."
   ],
   "datos_adicionales": {
-    "encaje_condicional": [
+    "variantes_arci": [
       {
-        "supuesto": "Ciclomotor — carece de seguro",
-        "articulo": "2.1",
-        "norma_infringida": "Real Decreto Legislativo 8/2004, texto refundido de la Ley sobre responsabilidad civil y seguro en la circulación de vehículos a motor",
-        "articulo_infringido": "2.1",
-        "tipificacion_norma": "Real Decreto Legislativo 8/2004",
-        "tipificacion_articulo": "3",
-        "tipificacion_etiqueta": "Régimen sancionador",
-        "textoDenuncia": "INCUMPLIR EL PROPIETARIO DEL VEHÍCULO RESEÑADO LA OBLIGACIÓN DE SUSCRIBIR Y MANTENER EN VIGOR UN CONTRATO DE SEGURO QUE CUBRA LA RESPONSABILIDAD CIVIL DERIVADA DE SU CIRCULACIÓN. (CICLOMOTORES.)",
-        "calificacion": "",
+        "tipo_vehiculo": "Ciclomotor",
+        "sufijo_boletin": "(CICLOMOTORES.)",
         "codificado": "SOA 2.1 5J",
         "importe_fijo": 650,
         "importe_reducido": 325
       },
       {
-        "supuesto": "Motocicleta — carece de seguro",
-        "articulo": "2.1",
-        "norma_infringida": "Real Decreto Legislativo 8/2004, texto refundido de la Ley sobre responsabilidad civil y seguro en la circulación de vehículos a motor",
-        "articulo_infringido": "2.1",
-        "tipificacion_norma": "Real Decreto Legislativo 8/2004",
-        "tipificacion_articulo": "3",
-        "tipificacion_etiqueta": "Régimen sancionador",
-        "textoDenuncia": "INCUMPLIR EL PROPIETARIO DEL VEHÍCULO RESEÑADO LA OBLIGACIÓN DE SUSCRIBIR Y MANTENER EN VIGOR UN CONTRATO DE SEGURO QUE CUBRA LA RESPONSABILIDAD CIVIL DERIVADA DE SU CIRCULACIÓN. (MOTOCICLETAS.)",
-        "calificacion": "",
+        "tipo_vehiculo": "Motocicleta",
+        "sufijo_boletin": "(MOTOCICLETAS.)",
         "codificado": "SOA 2.1 5K",
         "importe_fijo": 700,
         "importe_reducido": 350
       },
       {
-        "supuesto": "Turismo — carece de seguro",
-        "articulo": "2.1",
-        "norma_infringida": "Real Decreto Legislativo 8/2004, texto refundido de la Ley sobre responsabilidad civil y seguro en la circulación de vehículos a motor",
-        "articulo_infringido": "2.1",
-        "tipificacion_norma": "Real Decreto Legislativo 8/2004",
-        "tipificacion_articulo": "3",
-        "tipificacion_etiqueta": "Régimen sancionador",
-        "textoDenuncia": "INCUMPLIR EL PROPIETARIO DEL VEHÍCULO RESEÑADO LA OBLIGACIÓN DE SUSCRIBIR Y MANTENER EN VIGOR UN CONTRATO DE SEGURO QUE CUBRA LA RESPONSABILIDAD CIVIL DERIVADA DE SU CIRCULACIÓN. (TURISMOS.)",
-        "calificacion": "",
+        "tipo_vehiculo": "Turismo",
+        "sufijo_boletin": "(TURISMOS.)",
         "codificado": "SOA 2.1 5L",
         "importe_fijo": 800,
         "importe_reducido": 400
       },
       {
-        "supuesto": "Vehículo de tercera categoría — carece de seguro",
-        "articulo": "2.1",
-        "norma_infringida": "Real Decreto Legislativo 8/2004, texto refundido de la Ley sobre responsabilidad civil y seguro en la circulación de vehículos a motor",
-        "articulo_infringido": "2.1",
-        "tipificacion_norma": "Real Decreto Legislativo 8/2004",
-        "tipificacion_articulo": "3",
-        "tipificacion_etiqueta": "Régimen sancionador",
-        "textoDenuncia": "INCUMPLIR EL PROPIETARIO DEL VEHÍCULO RESEÑADO LA OBLIGACIÓN DE SUSCRIBIR Y MANTENER EN VIGOR UN CONTRATO DE SEGURO QUE CUBRA LA RESPONSABILIDAD CIVIL DERIVADA DE SU CIRCULACIÓN. (VEHÍCULOS DE TERCERA CATEGORÍA.)",
-        "calificacion": "",
+        "tipo_vehiculo": "Vehículo de tercera categoría",
+        "sufijo_boletin": "(VEHÍCULOS DE TERCERA CATEGORÍA.)",
         "codificado": "SOA 2.1 5M",
         "importe_fijo": 1500,
         "importe_reducido": 750

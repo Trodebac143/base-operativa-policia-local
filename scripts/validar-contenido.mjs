@@ -196,6 +196,23 @@ for (const item of cases) {
   if (conditionalPenalId && !penalIds.has(conditionalPenalId)) errors.push(`${item.id}: precepto penal condicional inexistente ${conditionalPenalId}`);
 }
 
+for (const item of seguro.filter((candidate) => ["TR-SOA-OP-001", "TR-SOA-OP-002"].includes(candidate.id))) {
+  const variants = item.datos_adicionales?.variantes_arci;
+  if (typeof item.textoDenuncia !== "string" || !item.textoDenuncia.trim()) errors.push(`${item.id}: falta el texto común del boletín`);
+  if (item.datos_adicionales?.encaje_condicional) errors.push(`${item.id}: elimina las fichas duplicadas de encaje_condicional`);
+  if (!Array.isArray(variants) || variants.length !== 4) { errors.push(`${item.id}: variantes_arci debe contener cuatro vehículos`); continue; }
+  const codes = new Set();
+  const vehicles = new Set();
+  for (const variant of variants) {
+    for (const key of ["tipo_vehiculo", "sufijo_boletin", "codificado"]) if (typeof variant?.[key] !== "string" || !variant[key].trim()) errors.push(`${item.id}: variante ARCI sin ${key}`);
+    for (const key of ["importe_fijo", "importe_reducido"]) if (!Number.isFinite(variant?.[key]) || variant[key] < 0) errors.push(`${item.id}: variante ARCI con ${key} inválido`);
+    for (const key of Object.keys(variant ?? {})) if (!["tipo_vehiculo", "sufijo_boletin", "codificado", "importe_fijo", "importe_reducido"].includes(key)) errors.push(`${item.id}: ${key} no pertenece a una variante ARCI; conserva la información común en el caso`);
+    if (codes.has(variant.codificado)) errors.push(`${item.id}: código ARCI duplicado ${variant.codificado}`);
+    if (vehicles.has(variant.tipo_vehiculo)) errors.push(`${item.id}: tipo de vehículo duplicado ${variant.tipo_vehiculo}`);
+    codes.add(variant.codificado); vehicles.add(variant.tipo_vehiculo);
+  }
+}
+
 for (const group of permisosGroups) {
   if (!group.nombre || !group.descripcion || !Number.isFinite(group.orden)) errors.push(`${group.id}: subgrupo incompleto`);
   if (Object.hasOwn(group, "casos")) errors.push(`${group.id}: elimina la lista técnica casos; ahora se genera desde el campo subgrupo de cada caso`);

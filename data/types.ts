@@ -54,6 +54,7 @@ export type ConditionalFit = {
   importe_reducido?: number;
 };
 export type ConditionalClassification = { si: string; calificacion: string; rango_min?: number | null; rango_max?: number | null };
+export type ArciVariant = { tipo_vehiculo: string; sufijo_boletin: string; codificado: string; importe_fijo: number; importe_reducido: number };
 export type ConditionalPenalRelevance = {
   activa: boolean;
   titulo: string;
@@ -64,6 +65,7 @@ export type ConditionalPenalRelevance = {
 };
 export type AdditionalCaseData = Record<string, unknown> & {
   encaje_condicional?: ConditionalFit[];
+  variantes_arci?: ArciVariant[];
   calificacion_condicional?: ConditionalClassification;
   relevancia_penal_condicional?: ConditionalPenalRelevance;
 };
