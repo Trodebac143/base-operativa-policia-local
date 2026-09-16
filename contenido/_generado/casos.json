@@ -2080,7 +2080,7 @@
     "importe_reducido": 100,
     "responsable": "Conductor",
     "actuacion": [
-      "Detener la conducción y formular denuncia.",
+      "Formular denuncia.",
       "Permitir que otro conductor con permiso válido y clase correcta se haga cargo del vehículo si no concurre otra causa."
     ],
     "competencia_denuncia": "Policía Local de Torrent",
@@ -2133,7 +2133,7 @@
     "competencia_denuncia": "Policía Local de Torrent",
     "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
     "advertencias": [
-      "No aplicar el artículo 104.1.k por analogía."
+      "Inmovilización: No aplicar el artículo 104.1.k por analogía, ya que el vehículo no requiere C ni D y el conductor posee permiso, aunque no habilite para el vehículo."
     ],
     "alerta_penal": false,
     "fuentes": [
@@ -2183,7 +2183,7 @@
     "competencia_denuncia": "Policía Local de Torrent",
     "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
     "advertencias": [
-      "La causa es específica de vehículos que requieren C o D."
+      "Sí cabe inmovilizar en base al art 104.1.k de la LSV al tratarse de vehículos que requieren C o D."
     ],
     "alerta_penal": false,
     "fuentes": [
@@ -2209,8 +2209,7 @@
       "5A"
     ],
     "que_comprobar": [
-      "Consulta registral completa.",
-      "Que no existe permiso auténtico español ni extranjero."
+      "Asegurar la carencia de cualquier permiso o licencia, español o extranjero."
     ],
     "resultado": "VÍA PENAL PREFERENTE — ART. 384 CP. Formular también denuncia administrativa 5A y dejar su tramitación suspendida.",
     "via": "Penal preferente y administrativa suspendida",
@@ -2313,7 +2312,7 @@
     "que_comprobar": [
       "Resolución y forma de notificación.",
       "Ausencia de conocimiento personal previo.",
-      "Permiso físico portado."
+      "Si la persona lleva el permiso de conducir consigo."
     ],
     "resultado": "VÍA ADMINISTRATIVA EN ESTA PRIMERA INTERVENCIÓN. No imputar el artículo 384 CP; denunciar, informar personalmente y documentar la notificación.",
     "via": "Administrativa",
@@ -2328,7 +2327,7 @@
     "actuacion": [
       "Detener la conducción y formular denuncia 5A.",
       "Hacer constar: Consta declaración de pérdida de vigencia dictada por el Jefe Provincial de Tráfico de [provincia], que implica la prohibición de conducir. Se informa personalmente al interesado de dicha circunstancia en este acto.",
-      "Cumplimentar acta, entregar copia y retirar físicamente el permiso si lo porta, conforme al artículo 37.2 RD 818/2009, dejando constancia.",
+      "Cumplimentar acta (Bilioteca-Acta de notificación de pérdida de vigencia), entregar copia y retirar físicamente el permiso si lo porta, conforme al artículo 37.2 RD 818/2009, dejando constancia.",
       "Remitir a la Jefatura Provincial de Tráfico de Valencia e identificar la Jefatura que dictó la resolución.",
       "Permitir conductor sustituto habilitado si no concurre otra causa."
     ],
@@ -2366,6 +2365,7 @@
     "resultado": "VÍA ADMINISTRATIVA. No imputar el artículo 384 CP mientras falte firmeza o ejecutividad exigible.",
     "via": "Administrativa",
     "norma": "Reglamento General de Conductores",
+    "textoDenuncia": "CONDUCIR EL VEHÍCULO RESEÑADO CARECIENDO DE AUTORIZACIÓN ADMINISTRATIVA PARA CONDUCIR POR PÉRDIDA DE VIGENCIA POR AGOTAMIENTO DEL CRÉDITO TOTAL DE PUNTOS.",
     "articulo": "1.1",
     "codificado": "CON 1.1 5A",
     "calificacion": "muy grave",
@@ -2379,7 +2379,7 @@
     "competencia_denuncia": "Policía Local de Torrent",
     "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
     "advertencias": [
-      "Verificar el efecto real del recurso; su mera presentación no siempre suspende."
+      "Verificar el efecto real del recurso; su mera presentación no siempre suspende el procedimiento."
     ],
     "alerta_penal": false,
     "fuentes": [

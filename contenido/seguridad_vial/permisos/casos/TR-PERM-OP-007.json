@@ -16,6 +16,7 @@
   "resultado": "VÍA ADMINISTRATIVA. No imputar el artículo 384 CP mientras falte firmeza o ejecutividad exigible.",
   "via": "Administrativa",
   "norma": "Reglamento General de Conductores",
+  "textoDenuncia": "CONDUCIR EL VEHÍCULO RESEÑADO CARECIENDO DE AUTORIZACIÓN ADMINISTRATIVA PARA CONDUCIR POR PÉRDIDA DE VIGENCIA POR AGOTAMIENTO DEL CRÉDITO TOTAL DE PUNTOS.",
   "articulo": "1.1",
   "codificado": "CON 1.1 5A",
   "calificacion": "muy grave",
@@ -29,7 +30,7 @@
   "competencia_denuncia": "Policía Local de Torrent",
   "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
   "advertencias": [
-    "Verificar el efecto real del recurso; su mera presentación no siempre suspende."
+    "Verificar el efecto real del recurso; su mera presentación no siempre suspende el procedimiento."
   ],
   "alerta_penal": false,
   "fuentes": [

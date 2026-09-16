@@ -25,7 +25,7 @@
   "importe_reducido": 100,
   "responsable": "Conductor",
   "actuacion": [
-    "Detener la conducción y formular denuncia.",
+    "Formular denuncia.",
     "Permitir que otro conductor con permiso válido y clase correcta se haga cargo del vehículo si no concurre otra causa."
   ],
   "competencia_denuncia": "Policía Local de Torrent",

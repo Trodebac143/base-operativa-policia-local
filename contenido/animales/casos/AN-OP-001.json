@@ -31,8 +31,7 @@
   ],
   "competencia_denuncia": "Policía Local",
   "competencia_resuelve": "Ayuntamiento de Torrent",
-  "advertencias": [
-    "No confundir falta de identificación obligatoria con mero incumplimiento censal municipal."
+  "advertencias": ["No confundir falta de identificación obligatoria con mero incumplimiento censal municipal."
   ],
   "alerta_penal": false,
   "referencia_penal": null,
