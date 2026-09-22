@@ -185,7 +185,7 @@ main {
   --module-soft: #f0ebf7;
 }
 
-.modulecard.module-establecimientos_publicos {
+.modulecard.module-policia_administrativa {
   --module-color: var(--module-business);
   --module-soft: #fbf0dc;
 }
@@ -231,7 +231,7 @@ main {
 .module-view-animales { --section-accent: var(--module-animals); }
 .module-view-seguridad_vial { --section-accent: var(--module-road); }
 .module-view-seguridad_publica { --section-accent: var(--module-public); }
-.module-view-establecimientos_publicos { --section-accent: var(--module-business); }
+.module-view-policia_administrativa { --section-accent: var(--module-business); }
 
 .listcards button,
 .library-list article,

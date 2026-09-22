@@ -1,0 +1,30 @@
+{
+  "id": "TER-OP-001",
+  "modulo": "policia_administrativa",
+  "categoria": "policia_administrativa_terrazas",
+  "titulo": "☕ Sin autorización o fuera del periodo",
+  "palabras_clave": ["terraza", "autorización", "periodo", "temporada", "retirada"],
+  "que_comprobar": ["Existencia de autorización municipal", "Periodo autorizado y fecha de la comprobación"],
+  "resultado": "El encaje depende de si no existe autorización o si la instalación funciona fuera del periodo autorizado.",
+  "norma": "Ordenanza de terrazas de Torrent",
+  "articulo": "17, 22, 26, 27.3.b y 28",
+  "responsable": "Persona física o jurídica titular de la instalación (art. 26).",
+  "actuacion": ["Comprobar la autorización y su periodo de vigencia.", "Describir fecha, ubicación, elementos instalados y titular.", "Formular denuncia con la variante seleccionada."],
+  "competencia_denuncia": "Policía Local de Torrent.",
+  "competencia_resuelve": "Junta de Gobierno Local, con posibilidad de delegación en el concejal que tenga atribuidas las competencias indicadas en la ordenanza (art. 30).",
+  "advertencias": [],
+  "alerta_penal": false,
+  "fuentes": ["TER-TORRENT"],
+  "estado": "validado",
+  "datos_adicionales": {"terrazas": {
+    "icon": "☕", "group": "Autorización y espacio", "order": 10,
+    "summary": "Distingue la carencia de autorización del uso fuera del periodo concedido.",
+    "information": ["Periodo anual: 1 de enero a 31 de diciembre.", "Periodo de temporada: 1 de abril a 30 de septiembre (art. 17)."],
+    "fields": [{"id":"situacion","label":"¿Qué consta respecto de la autorización?","type":"choice","options":[{"value":"sin_autorizacion","label":"No existe autorización preceptiva"},{"value":"fuera_periodo","label":"Existe, pero está fuera del periodo autorizado"},{"value":"vigente","label":"Existe y el periodo está vigente"}]}],
+    "outcomes": [
+      {"id":"sin_autorizacion","title":"Terraza sin autorización","when":[{"field":"situacion","equals":"sin_autorizacion"}],"status":"infraccion","classification":"MUY GRAVE","article":"27.3.b","amount":600,"detail":"Instalación de terraza sin autorización municipal preceptiva.","measures":["El art. 22 permite ordenar la retirada inmediata del aprovechamiento sin autorización.","Puede solicitarse auxilio de brigadas municipales para desmontaje y traslado al almacén municipal."]},
+      {"id":"fuera_periodo","title":"Terraza fuera del periodo autorizado","when":[{"field":"situacion","equals":"fuera_periodo"}],"status":"infraccion","classification":"MUY GRAVE","article":"27.3.b","amount":600,"detail":"Funcionamiento de la instalación fuera del periodo concedido. No se añade una medida inmediata que no esté respaldada literalmente para esta variante."},
+      {"id":"vigente","title":"Autorización y periodo vigentes","when":[{"field":"situacion","equals":"vigente"}],"status":"sin_infraccion","detail":"Este bloque no asigna infracción por autorización o periodo."}
+    ]
+  }}
+}

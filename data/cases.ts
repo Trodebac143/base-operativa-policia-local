@@ -10,7 +10,8 @@ import { permisosCases } from "./permisos";
  * Para mantener datos, editar exclusivamente los JSON de contenido/.
  */
 export const animalCases = rawCases.filter((item) => item.modulo === "animales");
-export const cases = [...animalCases, ...itvCases, ...seguroCases, ...permisosCases];
+export const administrativePoliceCases = rawCases.filter((item) => item.modulo === "policia_administrativa");
+export const cases = [...animalCases, ...itvCases, ...seguroCases, ...permisosCases, ...administrativePoliceCases];
 export const warningsPendingReview = auditOperationalWarnings(cases);
 export const penalMessagesPendingReview = auditAmbiguousPenalMessages(cases);
 export const penalBranchStatus = auditPenalBranches(cases);

@@ -61,6 +61,7 @@ const animals = cases.filter((item) => item.modulo === "animales");
 const itv = cases.filter((item) => item.categoria === "seguridad_vial_itv");
 const seguro = cases.filter((item) => item.categoria === "seguridad_vial_seguro");
 const permisos = cases.filter((item) => item.categoria === "seguridad_vial_permisos");
+const terrazas = cases.filter((item) => item.categoria === "policia_administrativa_terrazas");
 const permisosRules = reqArray("contenido/seguridad_vial/permisos/reglas.json");
 const permisosSheets = reqArray("contenido/seguridad_vial/permisos/fichas_juridicas.json");
 const permisosHelps = reqArray("contenido/seguridad_vial/permisos/ayudas.json");
@@ -154,6 +155,7 @@ for (const [label, value] of [
   ["Seguridad Vial/ITV", itv],
   ["Seguridad Vial/Seguro", seguro],
   ["Seguridad Vial/Permisos", permisos],
+  ["Policía Administrativa/Terrazas", terrazas],
   ["Reglas comunes", rules],
   ["Reglas de permisos", permisosRules],
   ["Fichas de permisos", permisosSheets],
@@ -195,6 +197,16 @@ for (const item of cases) {
   const conditionalPenalId = item.datos_adicionales?.relevancia_penal_condicional?.penal_article_id;
   if (conditionalPenalId && !penalIds.has(conditionalPenalId)) errors.push(`${item.id}: precepto penal condicional inexistente ${conditionalPenalId}`);
 }
+
+if (terrazas.length !== 15) errors.push(`Terrazas: se esperaban 15 bloques operativos y hay ${terrazas.length}`);
+for (const item of terrazas) {
+  const data = item.datos_adicionales?.terrazas;
+  if (!data || !data.icon || !data.group || !Number.isFinite(data.order) || !data.summary) errors.push(`${item.id}: configuración guiada de Terrazas incompleta`);
+  if (!Array.isArray(data?.fields) || !data.fields.length) errors.push(`${item.id}: faltan campos guiados de hechos observables`);
+  if (!Array.isArray(data?.outcomes) || !data.outcomes.length) errors.push(`${item.id}: faltan resultados o variantes del bloque`);
+  if (item.fuentes?.length !== 1 || item.fuentes[0] !== "TER-TORRENT") errors.push(`${item.id}: debe usar la fuente central TER-TORRENT`);
+}
+if (terrazas.some((item) => /ocultaci[oó]n.*document|tres infracciones leves|tres infracciones graves/i.test(`${item.titulo} ${item.resultado}`))) errors.push("Terrazas: se ha creado un supuesto excluido como caso autónomo");
 
 for (const item of seguro.filter((candidate) => ["TR-SOA-OP-001", "TR-SOA-OP-002"].includes(candidate.id))) {
   const variants = item.datos_adicionales?.variantes_arci;
@@ -320,7 +332,7 @@ for (const file of fs.readdirSync(path.join(root, "public", "documentos"))) {
   if (/\.pdf$/i.test(file) && !documentFiles.has(file)) errors.push(`BIBLIOTECA · PDF HUÉRFANO\n  Problema: ${file} no está incluido en el índice.\n  Qué hacer: ejecuta npm run contenido:sincronizar.`);
 }
 
-notes.push(`${cases.length} casos: ${animals.length} Animales + ${itv.length} ITV + ${seguro.length} Seguro + ${permisos.length} Permisos`);
+notes.push(`${cases.length} casos: ${animals.length} Animales + ${itv.length} ITV + ${seguro.length} Seguro + ${permisos.length} Permisos + ${terrazas.length} Terrazas`);
 notes.push(`${sources.length} fuentes jurídicas · ${documents.length} documentos de biblioteca`);
 notes.push(`${[...sourceReferenceUsage.values()].filter(Boolean).length} fuentes referenciadas por contenido activo · ${sources.filter((source) => source.urlOficial).length} con URL oficial · ${documents.filter((document) => document.fuenteId).length} con documento local`);
 notes.push(`Seguridad Pública: ${seguridadPublica?.conceptos?.length ?? 0} conceptos operativos`);

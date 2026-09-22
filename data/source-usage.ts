@@ -12,6 +12,7 @@ const animalsJson = rawCases.filter((item) => item.modulo === "animales");
 const itvJson = rawCases.filter((item) => item.categoria === "seguridad_vial_itv");
 const seguroJson = rawCases.filter((item) => item.categoria === "seguridad_vial_seguro");
 const permisosJson = rawCases.filter((item) => item.categoria === "seguridad_vial_permisos");
+const terrazasJson = rawCases.filter((item) => item.categoria === "policia_administrativa_terrazas");
 
 const sourceKeys = new Set([
   "sourceId",
@@ -60,6 +61,7 @@ addUsage(animalsJson, "Animales");
 addUsage(itvJson, "Seguridad Vial → ITV");
 addUsage(seguroJson, "Seguridad Vial → Seguro");
 addUsage(permisosJson, "Seguridad Vial → Permisos de conducir");
+addUsage(terrazasJson, "Policía Administrativa → Terrazas");
 addUsage(permisosRulesJson, "Seguridad Vial → Permisos de conducir");
 addUsage(permisosSheetsJson, "Seguridad Vial → Permisos de conducir");
 addUsage(penalJson, "Seguridad Vial → Permisos de conducir");
@@ -86,6 +88,7 @@ export function allSourceReferences(): string[] {
     ...collectSourceReferences(itvJson),
     ...collectSourceReferences(seguroJson),
     ...collectSourceReferences(permisosJson),
+    ...collectSourceReferences(terrazasJson),
     ...collectSourceReferences(permisosRulesJson),
     ...collectSourceReferences(permisosSheetsJson),
     ...collectSourceReferences(penalJson),

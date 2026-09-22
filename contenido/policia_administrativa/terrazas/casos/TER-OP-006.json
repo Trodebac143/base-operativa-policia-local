@@ -1,0 +1,37 @@
+{
+  "id": "TER-OP-006", "modulo": "policia_administrativa", "categoria": "policia_administrativa_terrazas",
+  "titulo": "🛡️ Protección y delimitación",
+  "palabras_clave": ["valla", "protección", "delimitación", "rastrillo", "bordillo", "suplemento de calzada"],
+  "que_comprobar": ["Ubicación de la terraza", "Delimitación general", "Separación y protección exigible según ubicación"],
+  "resultado": "La ubicación determina qué protección debe comprobarse; no se pregunta al agente si la valla es obligatoria.",
+  "norma": "Ordenanza de terrazas de Torrent", "articulo": "12.3, 13.2, 14.1, 27.1.e, 27.2.c y 28",
+  "responsable": "Persona física o jurídica titular de la instalación (art. 26).",
+  "actuacion": ["Seleccionar primero la ubicación real.", "Comprobar únicamente las condiciones que corresponden a esa ubicación.", "Describir materiales, medidas, aperturas y acceso a calzada."],
+  "competencia_denuncia": "Policía Local de Torrent.",
+  "competencia_resuelve": "Junta de Gobierno Local, con posibilidad de delegación en el concejal que tenga atribuidas las competencias indicadas en la ordenanza (art. 30).",
+  "advertencias": [], "alerta_penal": false, "fuentes": ["TER-TORRENT"], "estado": "validado",
+  "datos_adicionales": {"terrazas": {
+    "icon": "🛡️", "group": "Seguridad y condiciones", "order": 60,
+    "summary": "La guía adapta las exigencias de protección a la ubicación observada.",
+    "information": ["Todo espacio autorizado debe quedar delimitado mediante jardineras, vallas de separación u otros elementos análogos desmontables (art. 14.1).", "La valla específica de 80–150 cm no se impone automáticamente a terrazas adosadas a fachada, calles/paseos peatonales o plazas peatonales."],
+    "fields": [
+      {"id":"ubicacion","label":"¿Dónde está situada la terraza?","type":"choice","options":[{"value":"fachada","label":"Adosada a fachada"},{"value":"rastrillo","label":"En línea de rastrillo o bordillo"},{"value":"calle_peatonal","label":"Calle o paseo peatonal"},{"value":"plaza_peatonal","label":"Plaza peatonal"},{"value":"suplemento","label":"Suplemento de calzada o estacionamiento autorizado"}]},
+      {"id":"delimitacion_fachada","label":"¿Existe delimitación general desmontable?","type":"choice","visible_when":[{"field":"ubicacion","equals":"fachada"}],"options":[{"value":"si","label":"Sí"},{"value":"no","label":"No"}]},
+      {"id":"delimitacion_calle","label":"¿Existe delimitación general desmontable?","type":"choice","visible_when":[{"field":"ubicacion","equals":"calle_peatonal"}],"options":[{"value":"si","label":"Sí"},{"value":"no","label":"No"}]},
+      {"id":"delimitacion_plaza","label":"¿Existe delimitación general desmontable?","type":"choice","visible_when":[{"field":"ubicacion","equals":"plaza_peatonal"}],"options":[{"value":"si","label":"Sí"},{"value":"no","label":"No"}]},
+      {"id":"rastrillo_valla","label":"Estado de la valla obligatoria","type":"choice","visible_when":[{"field":"ubicacion","equals":"rastrillo"}],"options":[{"value":"ausente","label":"No existe"},{"value":"defectuosa","label":"Existe, pero incumple altura, apertura o cierre hacia calzada"},{"value":"correcta","label":"Existe y cumple las características"}]},
+      {"id":"rastrillo_distancia","label":"¿El mobiliario respeta 30 cm desde el rastrillo?","type":"choice","visible_when":[{"field":"ubicacion","equals":"rastrillo"}],"options":[{"value":"si","label":"Sí"},{"value":"no","label":"No; está a menos de 30 cm"}]},
+      {"id":"suplemento_estado","label":"Protección del suplemento","type":"choice","visible_when":[{"field":"ubicacion","equals":"suplemento"}],"options":[{"value":"correcta","label":"Acceso solo desde acera y protección perimetral/barandilla completas"},{"value":"ausente","label":"Falta impedir el acceso desde calzada o falta protección/barandilla"}]}
+    ],
+    "outcomes": [
+      {"id":"caracteristicas","title":"Valla colocada con características diferentes","when":[{"field":"rastrillo_valla","equals":"defectuosa"}],"status":"infraccion","classification":"LEVE","article":"27.1.e","amount":150,"detail":"La valla existe, pero su altura, apertura o configuración no cumple el art. 13.2."},
+      {"id":"distancia","title":"Mobiliario situado a menos de 30 cm del rastrillo","when":[{"field":"rastrillo_distancia","equals":"no"}],"status":"infraccion","classification":"LEVE","article":"27.1.f","amount":150,"detail":"Incumplimiento residual de la distancia del art. 13.2; no se equipara a una característica defectuosa de la valla."},
+      {"id":"ausente_rastrillo","title":"Ausencia de valla obligatoria de separación","when":[{"field":"rastrillo_valla","equals":"ausente"}],"status":"infraccion","classification":"GRAVE","article":"27.2.c","amount":300,"detail":"En línea de rastrillo la valla de protección es obligatoria."},
+      {"id":"ausente_suplemento","title":"Ausencia de separación obligatoria de calzada o aparcamiento","when":[{"field":"suplemento_estado","equals":"ausente"}],"status":"infraccion","classification":"GRAVE","article":"27.2.c","amount":300,"detail":"Falta el acceso exclusivo desde acera o la protección perimetral/barandilla que impide el acceso desde calzada o aparcamiento."},
+      {"id":"general_fachada","title":"Falta delimitación general","when":[{"field":"delimitacion_fachada","equals":"no"}],"status":"infraccion","classification":"LEVE","article":"27.1.f","amount":150,"detail":"Incumplimiento residual del art. 14.1; no se impone la valla específica de bordillo."},
+      {"id":"general_calle","title":"Falta delimitación general","when":[{"field":"delimitacion_calle","equals":"no"}],"status":"infraccion","classification":"LEVE","article":"27.1.f","amount":150,"detail":"Incumplimiento residual del art. 14.1; no se impone la valla específica de bordillo."},
+      {"id":"general_plaza","title":"Falta delimitación general","when":[{"field":"delimitacion_plaza","equals":"no"}],"status":"infraccion","classification":"LEVE","article":"27.1.f","amount":150,"detail":"Incumplimiento residual del art. 14.1; no se impone la valla específica de bordillo."}
+    ],
+    "final_note": "Antes de usar la cláusula residual del art. 27.1.f, la guía separa los hechos con tipificación específica."
+  }}
+}

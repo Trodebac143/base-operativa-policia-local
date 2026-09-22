@@ -14,10 +14,10 @@
     "activo": true
   },
   {
-    "id": "establecimientos_publicos",
-    "nombre": "Establecimientos Públicos",
-    "descripcion": "Actividad y control de establecimientos",
-    "orden": 30,
+    "id": "policia_administrativa",
+    "nombre": "🏛️ Policía Administrativa",
+    "descripcion": "Actuaciones municipales sobre actividades, vía pública, convivencia, comercio, urbanismo y otras materias administrativas.",
+    "orden": 50,
     "activo": true
   },
   {

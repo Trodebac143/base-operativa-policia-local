@@ -2821,5 +2821,2416 @@
       "TR-PERM-FJ-008"
     ],
     "estado": "validado"
+  },
+  {
+    "id": "TER-OP-001",
+    "modulo": "policia_administrativa",
+    "categoria": "policia_administrativa_terrazas",
+    "titulo": "☕ Sin autorización o fuera del periodo",
+    "palabras_clave": [
+      "terraza",
+      "autorización",
+      "periodo",
+      "temporada",
+      "retirada"
+    ],
+    "que_comprobar": [
+      "Existencia de autorización municipal",
+      "Periodo autorizado y fecha de la comprobación"
+    ],
+    "resultado": "El encaje depende de si no existe autorización o si la instalación funciona fuera del periodo autorizado.",
+    "norma": "Ordenanza de terrazas de Torrent",
+    "articulo": "17, 22, 26, 27.3.b y 28",
+    "responsable": "Persona física o jurídica titular de la instalación (art. 26).",
+    "actuacion": [
+      "Comprobar la autorización y su periodo de vigencia.",
+      "Describir fecha, ubicación, elementos instalados y titular.",
+      "Formular denuncia con la variante seleccionada."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent.",
+    "competencia_resuelve": "Junta de Gobierno Local, con posibilidad de delegación en el concejal que tenga atribuidas las competencias indicadas en la ordenanza (art. 30).",
+    "advertencias": [],
+    "alerta_penal": false,
+    "fuentes": [
+      "TER-TORRENT"
+    ],
+    "estado": "validado",
+    "datos_adicionales": {
+      "terrazas": {
+        "icon": "☕",
+        "group": "Autorización y espacio",
+        "order": 10,
+        "summary": "Distingue la carencia de autorización del uso fuera del periodo concedido.",
+        "information": [
+          "Periodo anual: 1 de enero a 31 de diciembre.",
+          "Periodo de temporada: 1 de abril a 30 de septiembre (art. 17)."
+        ],
+        "fields": [
+          {
+            "id": "situacion",
+            "label": "¿Qué consta respecto de la autorización?",
+            "type": "choice",
+            "options": [
+              {
+                "value": "sin_autorizacion",
+                "label": "No existe autorización preceptiva"
+              },
+              {
+                "value": "fuera_periodo",
+                "label": "Existe, pero está fuera del periodo autorizado"
+              },
+              {
+                "value": "vigente",
+                "label": "Existe y el periodo está vigente"
+              }
+            ]
+          }
+        ],
+        "outcomes": [
+          {
+            "id": "sin_autorizacion",
+            "title": "Terraza sin autorización",
+            "when": [
+              {
+                "field": "situacion",
+                "equals": "sin_autorizacion"
+              }
+            ],
+            "status": "infraccion",
+            "classification": "MUY GRAVE",
+            "article": "27.3.b",
+            "amount": 600,
+            "detail": "Instalación de terraza sin autorización municipal preceptiva.",
+            "measures": [
+              "El art. 22 permite ordenar la retirada inmediata del aprovechamiento sin autorización.",
+              "Puede solicitarse auxilio de brigadas municipales para desmontaje y traslado al almacén municipal."
+            ]
+          },
+          {
+            "id": "fuera_periodo",
+            "title": "Terraza fuera del periodo autorizado",
+            "when": [
+              {
+                "field": "situacion",
+                "equals": "fuera_periodo"
+              }
+            ],
+            "status": "infraccion",
+            "classification": "MUY GRAVE",
+            "article": "27.3.b",
+            "amount": 600,
+            "detail": "Funcionamiento de la instalación fuera del periodo concedido. No se añade una medida inmediata que no esté respaldada literalmente para esta variante."
+          },
+          {
+            "id": "vigente",
+            "title": "Autorización y periodo vigentes",
+            "when": [
+              {
+                "field": "situacion",
+                "equals": "vigente"
+              }
+            ],
+            "status": "sin_infraccion",
+            "detail": "Este bloque no asigna infracción por autorización o periodo."
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "TER-OP-002",
+    "modulo": "policia_administrativa",
+    "categoria": "policia_administrativa_terrazas",
+    "titulo": "🕒 Incumplimiento del horario",
+    "palabras_clave": [
+      "terraza",
+      "horario",
+      "media hora",
+      "una hora"
+    ],
+    "que_comprobar": [
+      "Horario que rige la autorización",
+      "Hora de cese exigible y hora comprobada",
+      "Duración literal del exceso"
+    ],
+    "resultado": "La variante se selecciona por el tramo literal de exceso respecto del horario aplicable.",
+    "norma": "Ordenanza de terrazas de Torrent",
+    "articulo": "5, 27.1.b, 27.2.b, 27.3.j y 28",
+    "responsable": "Persona física o jurídica titular de la instalación (art. 26).",
+    "actuacion": [
+      "Determinar primero el horario aplicable.",
+      "Consignar la hora límite y la hora observada.",
+      "Seleccionar literalmente el tramo comprobado, sin reinterpretar los límites de 30 y 60 minutos."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent.",
+    "competencia_resuelve": "Junta de Gobierno Local, con posibilidad de delegación en el concejal que tenga atribuidas las competencias indicadas en la ordenanza (art. 30).",
+    "advertencias": [],
+    "alerta_penal": false,
+    "fuentes": [
+      "TER-TORRENT"
+    ],
+    "estado": "validado",
+    "datos_adicionales": {
+      "terrazas": {
+        "icon": "🕒",
+        "group": "Funcionamiento y convivencia",
+        "order": 20,
+        "summary": "Compara el funcionamiento real con el horario ordinario o el específico aplicable.",
+        "information": [
+          "Horario ordinario: domingo a jueves, 08:00–24:00.",
+          "Viernes, sábado y víspera de festivo: 08:00–01:30 del día siguiente.",
+          "El Ayuntamiento puede establecer otros horarios. Si la autorización contiene uno específico, ese horario prevalece como referencia."
+        ],
+        "fields": [
+          {
+            "id": "referencia",
+            "label": "¿Qué horario sirve de referencia?",
+            "type": "choice",
+            "options": [
+              {
+                "value": "especifico",
+                "label": "Horario específico de la autorización"
+              },
+              {
+                "value": "ordinario",
+                "label": "Horario ordinario del art. 5"
+              }
+            ]
+          },
+          {
+            "id": "hora_limite",
+            "label": "Hora límite aplicable",
+            "type": "text",
+            "placeholder": "Ej.: 24:00 según horario ordinario"
+          },
+          {
+            "id": "hora_observada",
+            "label": "Hora comprobada por los agentes",
+            "type": "text",
+            "placeholder": "Ej.: 00:20"
+          },
+          {
+            "id": "tramo",
+            "label": "¿Cuál es el exceso comprobado?",
+            "type": "choice",
+            "help": "Selecciona la formulación literal; la herramienta no decide qué ocurre exactamente a los 30 o 60 minutos.",
+            "options": [
+              {
+                "value": "menos_media",
+                "label": "Menos de media hora"
+              },
+              {
+                "value": "mas_media_menos_hora",
+                "label": "Más de media hora y menos de una hora"
+              },
+              {
+                "value": "mas_hora",
+                "label": "Más de una hora"
+              },
+              {
+                "value": "sin_exceso",
+                "label": "No se acredita exceso"
+              }
+            ]
+          }
+        ],
+        "outcomes": [
+          {
+            "id": "leve",
+            "title": "Incumplimiento en menos de media hora",
+            "when": [
+              {
+                "field": "referencia",
+                "non_empty": true
+              },
+              {
+                "field": "hora_limite",
+                "non_empty": true
+              },
+              {
+                "field": "hora_observada",
+                "non_empty": true
+              },
+              {
+                "field": "tramo",
+                "equals": "menos_media"
+              }
+            ],
+            "status": "infraccion",
+            "classification": "LEVE",
+            "article": "27.1.b",
+            "amount": 150,
+            "detail": "Incumplimiento literal inferior a media hora."
+          },
+          {
+            "id": "grave",
+            "title": "Más de media hora y menos de una hora",
+            "when": [
+              {
+                "field": "referencia",
+                "non_empty": true
+              },
+              {
+                "field": "hora_limite",
+                "non_empty": true
+              },
+              {
+                "field": "hora_observada",
+                "non_empty": true
+              },
+              {
+                "field": "tramo",
+                "equals": "mas_media_menos_hora"
+              }
+            ],
+            "status": "infraccion",
+            "classification": "GRAVE",
+            "article": "27.2.b",
+            "amount": 300,
+            "detail": "Tramo literal grave."
+          },
+          {
+            "id": "muy_grave",
+            "title": "Más de una hora",
+            "when": [
+              {
+                "field": "referencia",
+                "non_empty": true
+              },
+              {
+                "field": "hora_limite",
+                "non_empty": true
+              },
+              {
+                "field": "hora_observada",
+                "non_empty": true
+              },
+              {
+                "field": "tramo",
+                "equals": "mas_hora"
+              }
+            ],
+            "status": "infraccion",
+            "classification": "MUY GRAVE",
+            "article": "27.3.j",
+            "amount": 600,
+            "detail": "Tramo literal muy grave."
+          },
+          {
+            "id": "sin_exceso",
+            "title": "No se acredita exceso horario",
+            "when": [
+              {
+                "field": "referencia",
+                "non_empty": true
+              },
+              {
+                "field": "hora_limite",
+                "non_empty": true
+              },
+              {
+                "field": "hora_observada",
+                "non_empty": true
+              },
+              {
+                "field": "tramo",
+                "equals": "sin_exceso"
+              }
+            ],
+            "status": "sin_infraccion",
+            "detail": "Este bloque no asigna infracción."
+          }
+        ],
+        "final_note": "No se programa una interpretación para los límites exactos de 30 y 60 minutos; documenta el tiempo y remite la valoración cuando no encaje en una formulación literal."
+      }
+    }
+  },
+  {
+    "id": "TER-OP-003",
+    "modulo": "policia_administrativa",
+    "categoria": "policia_administrativa_terrazas",
+    "titulo": "📄 Autorización y plano",
+    "palabras_clave": [
+      "autorización",
+      "plano",
+      "visible",
+      "requerimiento",
+      "presentación"
+    ],
+    "que_comprobar": [
+      "Documento de autorización",
+      "Plano de detalle",
+      "Exposición en lugar visible",
+      "Presentación tras requerimiento"
+    ],
+    "resultado": "Diferencia la falta de exposición visible de la falta de presentación ante requerimiento.",
+    "norma": "Ordenanza de terrazas de Torrent",
+    "articulo": "3.3, 27.1.c, 27.2.i y 28",
+    "responsable": "Persona física o jurídica titular de la instalación (art. 26).",
+    "actuacion": [
+      "Comprobar conjuntamente autorización y plano de detalle.",
+      "Si se requiere su presentación, hacer constar expresamente el requerimiento y la respuesta.",
+      "Formular la variante acreditada."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent.",
+    "competencia_resuelve": "Junta de Gobierno Local, con posibilidad de delegación en el concejal que tenga atribuidas las competencias indicadas en la ordenanza (art. 30).",
+    "advertencias": [],
+    "alerta_penal": false,
+    "fuentes": [
+      "TER-TORRENT"
+    ],
+    "estado": "validado",
+    "datos_adicionales": {
+      "terrazas": {
+        "icon": "📄",
+        "group": "Autorización y espacio",
+        "order": 30,
+        "summary": "Documento y plano: visibilidad y presentación cuando se requieren.",
+        "fields": [
+          {
+            "id": "hecho",
+            "label": "¿Qué hecho se comprueba?",
+            "type": "choice",
+            "options": [
+              {
+                "value": "no_visible",
+                "label": "No están expuestos en lugar visible"
+              },
+              {
+                "value": "no_presenta",
+                "label": "No los presenta tras requerimiento expreso"
+              },
+              {
+                "value": "correcto",
+                "label": "Están visibles y se presentan"
+              }
+            ]
+          }
+        ],
+        "outcomes": [
+          {
+            "id": "no_visible",
+            "title": "Autorización y plano no expuestos",
+            "when": [
+              {
+                "field": "hecho",
+                "equals": "no_visible"
+              }
+            ],
+            "status": "infraccion",
+            "classification": "LEVE",
+            "article": "27.1.c",
+            "amount": 150,
+            "detail": "Falta de exposición en lugar visible del documento de autorización y el plano."
+          },
+          {
+            "id": "no_presenta",
+            "title": "Falta de presentación tras requerimiento",
+            "when": [
+              {
+                "field": "hecho",
+                "equals": "no_presenta"
+              }
+            ],
+            "status": "infraccion",
+            "classification": "GRAVE",
+            "article": "27.2.i",
+            "amount": 300,
+            "detail": "El requerimiento del agente o funcionario debe constar para aplicar esta variante."
+          },
+          {
+            "id": "correcto",
+            "title": "Documentación comprobada",
+            "when": [
+              {
+                "field": "hecho",
+                "equals": "correcto"
+              }
+            ],
+            "status": "sin_infraccion",
+            "detail": "Este bloque no asigna infracción documental."
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "TER-OP-004",
+    "modulo": "policia_administrativa",
+    "categoria": "policia_administrativa_terrazas",
+    "titulo": "📐 Superficie ocupada",
+    "palabras_clave": [
+      "superficie",
+      "exceso",
+      "veinte por ciento",
+      "retirada"
+    ],
+    "que_comprobar": [
+      "Superficie autorizada",
+      "Superficie realmente ocupada",
+      "Porcentaje de exceso"
+    ],
+    "resultado": "La aplicación calcula el porcentaje y distingue hasta el 20 % inclusive de más del 20 %.",
+    "norma": "Ordenanza de terrazas de Torrent",
+    "articulo": "22, 27.2.d, 27.3.d y 28",
+    "responsable": "Persona física o jurídica titular de la instalación (art. 26).",
+    "actuacion": [
+      "Medir o consignar la superficie autorizada y la realmente ocupada.",
+      "Documentar los límites sobrepasados.",
+      "Formular la variante resultante."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent.",
+    "competencia_resuelve": "Junta de Gobierno Local, con posibilidad de delegación en el concejal que tenga atribuidas las competencias indicadas en la ordenanza (art. 30).",
+    "advertencias": [],
+    "alerta_penal": false,
+    "fuentes": [
+      "TER-TORRENT"
+    ],
+    "estado": "validado",
+    "datos_adicionales": {
+      "terrazas": {
+        "icon": "📐",
+        "group": "Autorización y espacio",
+        "order": 40,
+        "summary": "Calcula el exceso respecto de la superficie autorizada.",
+        "calculation": "excess_percent",
+        "fields": [
+          {
+            "id": "superficie_autorizada",
+            "label": "Superficie autorizada",
+            "type": "number",
+            "unit": "m²",
+            "placeholder": "0,00"
+          },
+          {
+            "id": "superficie_ocupada",
+            "label": "Superficie realmente ocupada",
+            "type": "number",
+            "unit": "m²",
+            "placeholder": "0,00"
+          }
+        ],
+        "outcomes": [
+          {
+            "id": "hasta_20",
+            "title": "Exceso que no supera el 20 %",
+            "when": [
+              {
+                "field": "_band",
+                "equals": "hasta_20"
+              }
+            ],
+            "status": "infraccion",
+            "classification": "GRAVE",
+            "article": "27.2.d",
+            "amount": 300,
+            "detail": "El 20 % exacto se incluye en esta variante porque la ordenanza dice «que no supere el veinte por ciento».",
+            "measures": [
+              "El art. 22 permite ordenar la retirada inmediata de los elementos que sobrepasen los límites autorizados."
+            ]
+          },
+          {
+            "id": "mas_20",
+            "title": "Exceso en más del 20 %",
+            "when": [
+              {
+                "field": "_band",
+                "equals": "mas_20"
+              }
+            ],
+            "status": "infraccion",
+            "classification": "MUY GRAVE",
+            "article": "27.3.d",
+            "amount": 600,
+            "detail": "La ocupación supera en más del 20 % la superficie autorizada.",
+            "measures": [
+              "El art. 22 permite ordenar la retirada inmediata de los elementos que sobrepasen los límites autorizados."
+            ]
+          },
+          {
+            "id": "sin_exceso",
+            "title": "No existe exceso de superficie",
+            "when": [
+              {
+                "field": "_band",
+                "equals": "sin_exceso"
+              }
+            ],
+            "status": "sin_infraccion",
+            "detail": "Las mediciones introducidas no muestran ocupación superior a la autorizada."
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "TER-OP-005",
+    "modulo": "policia_administrativa",
+    "categoria": "policia_administrativa_terrazas",
+    "titulo": "🚶 Anchura libre de paso",
+    "palabras_clave": [
+      "anchura",
+      "paso",
+      "peatones",
+      "reducción",
+      "diez por ciento",
+      "veinticinco por ciento"
+    ],
+    "que_comprobar": [
+      "Anchura autorizada o reflejada en plano",
+      "Anchura realmente libre",
+      "Porcentaje de reducción"
+    ],
+    "resultado": "Calcula la reducción y solo encaja automáticamente en los tramos literales de la ordenanza.",
+    "norma": "Ordenanza de terrazas de Torrent",
+    "articulo": "12.1.a, 13.5, 27.2.h, 27.3.h y 28",
+    "responsable": "Persona física o jurídica titular de la instalación (art. 26).",
+    "actuacion": [
+      "Identificar la anchura exigible según la ubicación y el plano.",
+      "Medir la anchura realmente libre.",
+      "Documentar el porcentaje y seleccionar únicamente el tramo literal aplicable."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent.",
+    "competencia_resuelve": "Junta de Gobierno Local, con posibilidad de delegación en el concejal que tenga atribuidas las competencias indicadas en la ordenanza (art. 30).",
+    "advertencias": [],
+    "alerta_penal": false,
+    "fuentes": [
+      "TER-TORRENT"
+    ],
+    "estado": "validado",
+    "datos_adicionales": {
+      "terrazas": {
+        "icon": "🚶",
+        "group": "Autorización y espacio",
+        "order": 50,
+        "summary": "Compara la anchura autorizada con el paso realmente libre.",
+        "calculation": "passage_reduction_percent",
+        "information": [
+          "Regla general: paso libre mínimo de 1,80 m (art. 12.1.a).",
+          "Calles o paseos peatonales y plazas de los arts. 13.3 y 13.4: paso libre mínimo de 3,50 m (art. 13.5)."
+        ],
+        "fields": [
+          {
+            "id": "anchura_autorizada",
+            "label": "Anchura autorizada o reflejada en plano",
+            "type": "number",
+            "unit": "m",
+            "placeholder": "0,00"
+          },
+          {
+            "id": "anchura_libre",
+            "label": "Anchura realmente libre",
+            "type": "number",
+            "unit": "m",
+            "placeholder": "0,00"
+          }
+        ],
+        "outcomes": [
+          {
+            "id": "grave",
+            "title": "Reducción en más del 10 % y menos del 25 %",
+            "when": [
+              {
+                "field": "_band",
+                "equals": "mas_10_menos_25"
+              }
+            ],
+            "status": "infraccion",
+            "classification": "GRAVE",
+            "article": "27.2.h",
+            "amount": 300,
+            "detail": "Tramo literal grave."
+          },
+          {
+            "id": "muy_grave",
+            "title": "Reducción en más del 25 %",
+            "when": [
+              {
+                "field": "_band",
+                "equals": "mas_25"
+              }
+            ],
+            "status": "infraccion",
+            "classification": "MUY GRAVE",
+            "article": "27.3.h",
+            "amount": 600,
+            "detail": "Tramo literal muy grave."
+          },
+          {
+            "id": "limite",
+            "title": "Resultado situado exactamente en un límite literal",
+            "when": [
+              {
+                "field": "_band",
+                "equals": "limite_literal"
+              }
+            ],
+            "status": "pendiente",
+            "detail": "La herramienta no inventa un tratamiento automático para el 10 % exacto ni el 25 % exacto. Documenta las mediciones para su valoración."
+          },
+          {
+            "id": "fuera",
+            "title": "Fuera de los tramos sancionadores literales de este bloque",
+            "when": [
+              {
+                "field": "_band",
+                "equals": "fuera_tramos"
+              }
+            ],
+            "status": "sin_infraccion",
+            "detail": "Este bloque no asigna automáticamente una infracción por reducción."
+          }
+        ],
+        "final_note": "Los límites del 10 % y del 25 % se mantienen literalmente, sin completar por analogía los puntos exactos no expresados."
+      }
+    }
+  },
+  {
+    "id": "TER-OP-006",
+    "modulo": "policia_administrativa",
+    "categoria": "policia_administrativa_terrazas",
+    "titulo": "🛡️ Protección y delimitación",
+    "palabras_clave": [
+      "valla",
+      "protección",
+      "delimitación",
+      "rastrillo",
+      "bordillo",
+      "suplemento de calzada"
+    ],
+    "que_comprobar": [
+      "Ubicación de la terraza",
+      "Delimitación general",
+      "Separación y protección exigible según ubicación"
+    ],
+    "resultado": "La ubicación determina qué protección debe comprobarse; no se pregunta al agente si la valla es obligatoria.",
+    "norma": "Ordenanza de terrazas de Torrent",
+    "articulo": "12.3, 13.2, 14.1, 27.1.e, 27.2.c y 28",
+    "responsable": "Persona física o jurídica titular de la instalación (art. 26).",
+    "actuacion": [
+      "Seleccionar primero la ubicación real.",
+      "Comprobar únicamente las condiciones que corresponden a esa ubicación.",
+      "Describir materiales, medidas, aperturas y acceso a calzada."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent.",
+    "competencia_resuelve": "Junta de Gobierno Local, con posibilidad de delegación en el concejal que tenga atribuidas las competencias indicadas en la ordenanza (art. 30).",
+    "advertencias": [],
+    "alerta_penal": false,
+    "fuentes": [
+      "TER-TORRENT"
+    ],
+    "estado": "validado",
+    "datos_adicionales": {
+      "terrazas": {
+        "icon": "🛡️",
+        "group": "Seguridad y condiciones",
+        "order": 60,
+        "summary": "La guía adapta las exigencias de protección a la ubicación observada.",
+        "information": [
+          "Todo espacio autorizado debe quedar delimitado mediante jardineras, vallas de separación u otros elementos análogos desmontables (art. 14.1).",
+          "La valla específica de 80–150 cm no se impone automáticamente a terrazas adosadas a fachada, calles/paseos peatonales o plazas peatonales."
+        ],
+        "fields": [
+          {
+            "id": "ubicacion",
+            "label": "¿Dónde está situada la terraza?",
+            "type": "choice",
+            "options": [
+              {
+                "value": "fachada",
+                "label": "Adosada a fachada"
+              },
+              {
+                "value": "rastrillo",
+                "label": "En línea de rastrillo o bordillo"
+              },
+              {
+                "value": "calle_peatonal",
+                "label": "Calle o paseo peatonal"
+              },
+              {
+                "value": "plaza_peatonal",
+                "label": "Plaza peatonal"
+              },
+              {
+                "value": "suplemento",
+                "label": "Suplemento de calzada o estacionamiento autorizado"
+              }
+            ]
+          },
+          {
+            "id": "delimitacion_fachada",
+            "label": "¿Existe delimitación general desmontable?",
+            "type": "choice",
+            "visible_when": [
+              {
+                "field": "ubicacion",
+                "equals": "fachada"
+              }
+            ],
+            "options": [
+              {
+                "value": "si",
+                "label": "Sí"
+              },
+              {
+                "value": "no",
+                "label": "No"
+              }
+            ]
+          },
+          {
+            "id": "delimitacion_calle",
+            "label": "¿Existe delimitación general desmontable?",
+            "type": "choice",
+            "visible_when": [
+              {
+                "field": "ubicacion",
+                "equals": "calle_peatonal"
+              }
+            ],
+            "options": [
+              {
+                "value": "si",
+                "label": "Sí"
+              },
+              {
+                "value": "no",
+                "label": "No"
+              }
+            ]
+          },
+          {
+            "id": "delimitacion_plaza",
+            "label": "¿Existe delimitación general desmontable?",
+            "type": "choice",
+            "visible_when": [
+              {
+                "field": "ubicacion",
+                "equals": "plaza_peatonal"
+              }
+            ],
+            "options": [
+              {
+                "value": "si",
+                "label": "Sí"
+              },
+              {
+                "value": "no",
+                "label": "No"
+              }
+            ]
+          },
+          {
+            "id": "rastrillo_valla",
+            "label": "Estado de la valla obligatoria",
+            "type": "choice",
+            "visible_when": [
+              {
+                "field": "ubicacion",
+                "equals": "rastrillo"
+              }
+            ],
+            "options": [
+              {
+                "value": "ausente",
+                "label": "No existe"
+              },
+              {
+                "value": "defectuosa",
+                "label": "Existe, pero incumple altura, apertura o cierre hacia calzada"
+              },
+              {
+                "value": "correcta",
+                "label": "Existe y cumple las características"
+              }
+            ]
+          },
+          {
+            "id": "rastrillo_distancia",
+            "label": "¿El mobiliario respeta 30 cm desde el rastrillo?",
+            "type": "choice",
+            "visible_when": [
+              {
+                "field": "ubicacion",
+                "equals": "rastrillo"
+              }
+            ],
+            "options": [
+              {
+                "value": "si",
+                "label": "Sí"
+              },
+              {
+                "value": "no",
+                "label": "No; está a menos de 30 cm"
+              }
+            ]
+          },
+          {
+            "id": "suplemento_estado",
+            "label": "Protección del suplemento",
+            "type": "choice",
+            "visible_when": [
+              {
+                "field": "ubicacion",
+                "equals": "suplemento"
+              }
+            ],
+            "options": [
+              {
+                "value": "correcta",
+                "label": "Acceso solo desde acera y protección perimetral/barandilla completas"
+              },
+              {
+                "value": "ausente",
+                "label": "Falta impedir el acceso desde calzada o falta protección/barandilla"
+              }
+            ]
+          }
+        ],
+        "outcomes": [
+          {
+            "id": "caracteristicas",
+            "title": "Valla colocada con características diferentes",
+            "when": [
+              {
+                "field": "rastrillo_valla",
+                "equals": "defectuosa"
+              }
+            ],
+            "status": "infraccion",
+            "classification": "LEVE",
+            "article": "27.1.e",
+            "amount": 150,
+            "detail": "La valla existe, pero su altura, apertura o configuración no cumple el art. 13.2."
+          },
+          {
+            "id": "distancia",
+            "title": "Mobiliario situado a menos de 30 cm del rastrillo",
+            "when": [
+              {
+                "field": "rastrillo_distancia",
+                "equals": "no"
+              }
+            ],
+            "status": "infraccion",
+            "classification": "LEVE",
+            "article": "27.1.f",
+            "amount": 150,
+            "detail": "Incumplimiento residual de la distancia del art. 13.2; no se equipara a una característica defectuosa de la valla."
+          },
+          {
+            "id": "ausente_rastrillo",
+            "title": "Ausencia de valla obligatoria de separación",
+            "when": [
+              {
+                "field": "rastrillo_valla",
+                "equals": "ausente"
+              }
+            ],
+            "status": "infraccion",
+            "classification": "GRAVE",
+            "article": "27.2.c",
+            "amount": 300,
+            "detail": "En línea de rastrillo la valla de protección es obligatoria."
+          },
+          {
+            "id": "ausente_suplemento",
+            "title": "Ausencia de separación obligatoria de calzada o aparcamiento",
+            "when": [
+              {
+                "field": "suplemento_estado",
+                "equals": "ausente"
+              }
+            ],
+            "status": "infraccion",
+            "classification": "GRAVE",
+            "article": "27.2.c",
+            "amount": 300,
+            "detail": "Falta el acceso exclusivo desde acera o la protección perimetral/barandilla que impide el acceso desde calzada o aparcamiento."
+          },
+          {
+            "id": "general_fachada",
+            "title": "Falta delimitación general",
+            "when": [
+              {
+                "field": "delimitacion_fachada",
+                "equals": "no"
+              }
+            ],
+            "status": "infraccion",
+            "classification": "LEVE",
+            "article": "27.1.f",
+            "amount": 150,
+            "detail": "Incumplimiento residual del art. 14.1; no se impone la valla específica de bordillo."
+          },
+          {
+            "id": "general_calle",
+            "title": "Falta delimitación general",
+            "when": [
+              {
+                "field": "delimitacion_calle",
+                "equals": "no"
+              }
+            ],
+            "status": "infraccion",
+            "classification": "LEVE",
+            "article": "27.1.f",
+            "amount": 150,
+            "detail": "Incumplimiento residual del art. 14.1; no se impone la valla específica de bordillo."
+          },
+          {
+            "id": "general_plaza",
+            "title": "Falta delimitación general",
+            "when": [
+              {
+                "field": "delimitacion_plaza",
+                "equals": "no"
+              }
+            ],
+            "status": "infraccion",
+            "classification": "LEVE",
+            "article": "27.1.f",
+            "amount": 150,
+            "detail": "Incumplimiento residual del art. 14.1; no se impone la valla específica de bordillo."
+          }
+        ],
+        "final_note": "Antes de usar la cláusula residual del art. 27.1.f, la guía separa los hechos con tipificación específica."
+      }
+    }
+  },
+  {
+    "id": "TER-OP-007",
+    "modulo": "policia_administrativa",
+    "categoria": "policia_administrativa_terrazas",
+    "titulo": "🛡️ Seguro de la terraza",
+    "palabras_clave": [
+      "seguro",
+      "póliza",
+      "responsabilidad civil",
+      "accidentes",
+      "incendios",
+      "estufas"
+    ],
+    "que_comprobar": [
+      "Existencia de póliza",
+      "Vigencia o pago cuando sea acreditable",
+      "Coberturas del art. 7",
+      "Cobertura específica de estufas"
+    ],
+    "resultado": "Distingue carencia de seguro, falta de acreditación y cobertura específica de estufas.",
+    "norma": "Ordenanza de terrazas de Torrent",
+    "articulo": "7, 8.3.d, 19.3, 27.1.f, 27.2.e y 28",
+    "responsable": "Persona física o jurídica titular de la instalación (art. 26).",
+    "actuacion": [
+      "Comprobar la documentación disponible sin equiparar falta de acreditación inmediata con inexistencia.",
+      "Verificar responsabilidad civil, accidentes, incendios y riesgos del funcionamiento.",
+      "Si hay estufas, revisar su cobertura específica separadamente."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent.",
+    "competencia_resuelve": "Junta de Gobierno Local, con posibilidad de delegación en el concejal que tenga atribuidas las competencias indicadas en la ordenanza (art. 30).",
+    "advertencias": [],
+    "alerta_penal": false,
+    "fuentes": [
+      "TER-TORRENT"
+    ],
+    "estado": "validado",
+    "datos_adicionales": {
+      "terrazas": {
+        "icon": "🛡️",
+        "group": "Seguridad y condiciones",
+        "order": 70,
+        "summary": "Evita confundir una póliza no acreditada o sin cobertura de estufas con carencia total.",
+        "information": [
+          "El art. 7 exige responsabilidad civil, accidentes e incendios y cobertura de riesgos derivados del funcionamiento.",
+          "La cobertura específica de estufas procede del art. 8.3.d y de la documentación del art. 19.3."
+        ],
+        "fields": [
+          {
+            "id": "estado_poliza",
+            "label": "¿Qué se acredita sobre la póliza general?",
+            "type": "choice",
+            "options": [
+              {
+                "value": "completa",
+                "label": "Existe, está vigente y cubre el art. 7"
+              },
+              {
+                "value": "carece",
+                "label": "Se comprueba que carece del seguro del art. 7"
+              },
+              {
+                "value": "no_acreditada",
+                "label": "No puede acreditarse en este momento"
+              },
+              {
+                "value": "incompleta",
+                "label": "Existe, pero se aprecia otra cobertura incompleta"
+              }
+            ]
+          },
+          {
+            "id": "estufas",
+            "label": "¿Hay estufas y están cubiertas?",
+            "type": "choice",
+            "visible_when": [
+              {
+                "field": "estado_poliza",
+                "equals": "completa"
+              }
+            ],
+            "options": [
+              {
+                "value": "sin_estufas",
+                "label": "No hay estufas"
+              },
+              {
+                "value": "cubiertas",
+                "label": "Hay estufas y la póliza las contempla"
+              },
+              {
+                "value": "no_cubiertas",
+                "label": "Hay estufas y la póliza no contempla sus riesgos"
+              }
+            ]
+          }
+        ],
+        "outcomes": [
+          {
+            "id": "carece",
+            "title": "Carece del seguro del art. 7",
+            "when": [
+              {
+                "field": "estado_poliza",
+                "equals": "carece"
+              }
+            ],
+            "status": "infraccion",
+            "classification": "GRAVE",
+            "article": "27.2.e",
+            "amount": 300,
+            "detail": "Carencia comprobada del seguro general exigido por el art. 7."
+          },
+          {
+            "id": "pendiente",
+            "title": "Existencia o vigencia pendiente de comprobación",
+            "when": [
+              {
+                "field": "estado_poliza",
+                "equals": "no_acreditada"
+              }
+            ],
+            "status": "pendiente",
+            "detail": "No se equipara automáticamente «no acreditado ahora» con «no existe». Deja constancia y completa la comprobación."
+          },
+          {
+            "id": "estufas",
+            "title": "Póliza general sin cobertura específica de estufas",
+            "when": [
+              {
+                "field": "estufas",
+                "equals": "no_cubiertas"
+              }
+            ],
+            "status": "infraccion",
+            "classification": "LEVE",
+            "article": "27.1.f",
+            "amount": 150,
+            "detail": "Incumplimiento específico del art. 8.3.d por cláusula residual; no se confunde con falta del seguro del art. 7."
+          },
+          {
+            "id": "incompleta",
+            "title": "Póliza existente con otra cobertura incompleta",
+            "when": [
+              {
+                "field": "estado_poliza",
+                "equals": "incompleta"
+              }
+            ],
+            "status": "pendiente",
+            "detail": "Documenta la cobertura ausente. No se clasifica automáticamente como carencia total del art. 7."
+          },
+          {
+            "id": "correcta",
+            "title": "Seguro comprobado",
+            "when": [
+              {
+                "field": "estufas",
+                "includes_any": [
+                  "sin_estufas",
+                  "cubiertas"
+                ]
+              }
+            ],
+            "status": "sin_infraccion",
+            "detail": "Los datos seleccionados no activan una infracción de seguro."
+          }
+        ],
+        "final_note": "La falta específica de cobertura de estufas nunca activa automáticamente el art. 27.2.e."
+      }
+    }
+  },
+  {
+    "id": "TER-OP-008",
+    "modulo": "policia_administrativa",
+    "categoria": "policia_administrativa_terrazas",
+    "titulo": "🧹 Limpieza y residuos",
+    "palabras_clave": [
+      "limpieza",
+      "ornato",
+      "productos",
+      "envases",
+      "residuos"
+    ],
+    "que_comprobar": [
+      "Limpieza y ornato de instalación y entorno",
+      "Productos, envases o residuos apilados",
+      "Elementos homologados de recogida"
+    ],
+    "resultado": "Un único bloque recoge las tres conductas sin duplicar la ficha común.",
+    "norma": "Ordenanza de terrazas de Torrent",
+    "articulo": "9.1, 27.1.a, 27.1.d, 27.1.f y 28",
+    "responsable": "Persona física o jurídica titular de la instalación (art. 26).",
+    "actuacion": [
+      "Describir el estado de la instalación y su entorno inmediato.",
+      "Identificar productos, envases o residuos y su ubicación.",
+      "Comprobar los elementos homologados de recogida cuando proceda."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent.",
+    "competencia_resuelve": "Junta de Gobierno Local, con posibilidad de delegación en el concejal que tenga atribuidas las competencias indicadas en la ordenanza (art. 30).",
+    "advertencias": [],
+    "alerta_penal": false,
+    "fuentes": [
+      "TER-TORRENT"
+    ],
+    "estado": "validado",
+    "datos_adicionales": {
+      "terrazas": {
+        "icon": "🧹",
+        "group": "Funcionamiento y convivencia",
+        "order": 80,
+        "summary": "Selecciona uno o varios hechos de limpieza, almacenamiento o residuos.",
+        "fields": [
+          {
+            "id": "conductas",
+            "label": "Hechos comprobados",
+            "type": "multi",
+            "options": [
+              {
+                "value": "suciedad",
+                "label": "Falta de ornato o limpieza"
+              },
+              {
+                "value": "apilado",
+                "label": "Productos, envases o residuos almacenados/apilados en vía pública"
+              },
+              {
+                "value": "sin_elementos",
+                "label": "Faltan elementos homologados de recogida y almacenamiento"
+              }
+            ]
+          }
+        ],
+        "outcomes": [
+          {
+            "id": "suciedad",
+            "title": "Falta de ornato o limpieza",
+            "when": [
+              {
+                "field": "conductas",
+                "includes": "suciedad"
+              }
+            ],
+            "status": "infraccion",
+            "classification": "LEVE",
+            "article": "27.1.a",
+            "amount": 150,
+            "detail": "Afecta a la instalación o a su entorno inmediato."
+          },
+          {
+            "id": "apilado",
+            "title": "Almacenamiento o apilado en vía pública",
+            "when": [
+              {
+                "field": "conductas",
+                "includes": "apilado"
+              }
+            ],
+            "status": "infraccion",
+            "classification": "LEVE",
+            "article": "27.1.d",
+            "amount": 150,
+            "detail": "Productos, envases o residuos en la zona de terraza u otro espacio de vía pública."
+          },
+          {
+            "id": "elementos",
+            "title": "Falta de elementos homologados para residuos",
+            "when": [
+              {
+                "field": "conductas",
+                "includes": "sin_elementos"
+              }
+            ],
+            "status": "infraccion",
+            "classification": "LEVE",
+            "article": "27.1.f",
+            "amount": 150,
+            "detail": "Incumplimiento de la obligación del art. 9.1 por cláusula residual."
+          }
+        ],
+        "final_note": "Si concurren varios hechos, documéntalos todos; la aplicación no genera automáticamente varias sanciones."
+      }
+    }
+  },
+  {
+    "id": "TER-OP-009",
+    "modulo": "policia_administrativa",
+    "categoria": "policia_administrativa_terrazas",
+    "titulo": "🪑 Retirada al finalizar",
+    "palabras_clave": [
+      "mobiliario",
+      "toldo",
+      "retirada",
+      "horario",
+      "recogido"
+    ],
+    "que_comprobar": [
+      "Finalización del horario aplicable",
+      "Retirada del mobiliario al interior",
+      "Toldos recogidos y completamente enrollados"
+    ],
+    "resultado": "Permite reflejar toldo y mobiliario simultáneamente sin generar doble sanción automática.",
+    "norma": "Ordenanza de terrazas de Torrent",
+    "articulo": "14.6, 27.2.j, 27.2.k y 28",
+    "responsable": "Persona física o jurídica titular de la instalación (art. 26).",
+    "actuacion": [
+      "Confirmar que el horario aplicable ha finalizado.",
+      "Describir los elementos que permanecen en el exterior.",
+      "Reflejar todas las conductas concurrentes en los hechos."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent.",
+    "competencia_resuelve": "Junta de Gobierno Local, con posibilidad de delegación en el concejal que tenga atribuidas las competencias indicadas en la ordenanza (art. 30).",
+    "advertencias": [],
+    "alerta_penal": false,
+    "fuentes": [
+      "TER-TORRENT"
+    ],
+    "estado": "validado",
+    "datos_adicionales": {
+      "terrazas": {
+        "icon": "🪑",
+        "group": "Funcionamiento y convivencia",
+        "order": 90,
+        "summary": "Comprueba qué elementos permanecen fuera una vez finalizado el horario.",
+        "information": [
+          "Fuera de horario, el espacio debe quedar libre, el mobiliario en el interior y los toldos recogidos y completamente enrollados."
+        ],
+        "fields": [
+          {
+            "id": "horario_finalizado",
+            "label": "¿Ha finalizado el horario aplicable?",
+            "type": "choice",
+            "options": [
+              {
+                "value": "si",
+                "label": "Sí"
+              },
+              {
+                "value": "no",
+                "label": "No"
+              }
+            ]
+          },
+          {
+            "id": "conductas",
+            "label": "¿Qué permanece sin retirar?",
+            "type": "multi",
+            "visible_when": [
+              {
+                "field": "horario_finalizado",
+                "equals": "si"
+              }
+            ],
+            "options": [
+              {
+                "value": "toldo",
+                "label": "Toldo no retirado o recogido"
+              },
+              {
+                "value": "mobiliario",
+                "label": "Mobiliario de terraza no retirado al interior"
+              }
+            ]
+          }
+        ],
+        "outcomes": [
+          {
+            "id": "toldo",
+            "title": "Toldo no retirado o recogido",
+            "when": [
+              {
+                "field": "conductas",
+                "includes": "toldo"
+              }
+            ],
+            "status": "infraccion",
+            "classification": "GRAVE",
+            "article": "27.2.j",
+            "amount": 300,
+            "detail": "El toldo no está recogido y completamente enrollado cuando corresponde."
+          },
+          {
+            "id": "mobiliario",
+            "title": "Mobiliario no retirado",
+            "when": [
+              {
+                "field": "conductas",
+                "includes": "mobiliario"
+              }
+            ],
+            "status": "infraccion",
+            "classification": "GRAVE",
+            "article": "27.2.k",
+            "amount": 300,
+            "detail": "El mobiliario permanece en el exterior al finalizar el horario."
+          },
+          {
+            "id": "en_horario",
+            "title": "El horario no ha finalizado",
+            "when": [
+              {
+                "field": "horario_finalizado",
+                "equals": "no"
+              }
+            ],
+            "status": "sin_infraccion",
+            "detail": "No se aplica este supuesto de retirada al finalizar el horario."
+          }
+        ],
+        "final_note": "La concurrencia de toldo y mobiliario se refleja en los hechos, sin generar automáticamente una doble sanción."
+      }
+    }
+  },
+  {
+    "id": "TER-OP-010",
+    "modulo": "policia_administrativa",
+    "categoria": "policia_administrativa_terrazas",
+    "titulo": "🔊 Molestias acreditadas",
+    "palabras_clave": [
+      "molestias",
+      "vecinos",
+      "transeúntes",
+      "ruido",
+      "queja",
+      "reiterado"
+    ],
+    "que_comprobar": [
+      "Naturaleza y afectados",
+      "Comprobación por agentes",
+      "Antecedentes o requerimientos",
+      "Circunstancias y medición acústica si existe"
+    ],
+    "resultado": "Una queja aislada no se equipara a una molestia acreditada.",
+    "norma": "Ordenanza de terrazas de Torrent",
+    "articulo": "27.2.f, 27.3.f y 28",
+    "responsable": "Persona física o jurídica titular de la instalación (art. 26).",
+    "actuacion": [
+      "Identificar la naturaleza de las molestias y personas afectadas.",
+      "Consignar la comprobación directa, intensidad, antecedentes y requerimientos conocidos.",
+      "Incorporar medición acústica cuando exista."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent.",
+    "competencia_resuelve": "Junta de Gobierno Local, con posibilidad de delegación en el concejal que tenga atribuidas las competencias indicadas en la ordenanza (art. 30).",
+    "advertencias": [],
+    "alerta_penal": false,
+    "fuentes": [
+      "TER-TORRENT"
+    ],
+    "estado": "validado",
+    "datos_adicionales": {
+      "terrazas": {
+        "icon": "🔊",
+        "group": "Funcionamiento y convivencia",
+        "order": 100,
+        "summary": "Exige acreditar las molestias y separa los hechos observados de su calificación.",
+        "fields": [
+          {
+            "id": "comprobacion",
+            "label": "¿Cómo consta la molestia?",
+            "type": "choice",
+            "options": [
+              {
+                "value": "queja",
+                "label": "Solo existe llamada o queja no acreditada"
+              },
+              {
+                "value": "agentes",
+                "label": "Los agentes comprueban hechos derivados del funcionamiento"
+              },
+              {
+                "value": "sin_molestias",
+                "label": "No se comprueban molestias"
+              }
+            ]
+          },
+          {
+            "id": "naturaleza",
+            "label": "Naturaleza, intensidad, afectados y circunstancias observadas",
+            "type": "text",
+            "visible_when": [
+              {
+                "field": "comprobacion",
+                "equals": "agentes"
+              }
+            ],
+            "placeholder": "Describe hechos concretos y personas afectadas"
+          },
+          {
+            "id": "especial_intensidad",
+            "label": "¿Se observan circunstancias de especial intensidad o alcance?",
+            "type": "choice",
+            "visible_when": [
+              {
+                "field": "comprobacion",
+                "equals": "agentes"
+              }
+            ],
+            "options": [
+              {
+                "value": "si",
+                "label": "Sí; quedan descritas en los hechos"
+              },
+              {
+                "value": "no",
+                "label": "No"
+              }
+            ]
+          },
+          {
+            "id": "reiteracion",
+            "label": "¿Constan incumplimientos previos concretos?",
+            "type": "choice",
+            "visible_when": [
+              {
+                "field": "comprobacion",
+                "equals": "agentes"
+              }
+            ],
+            "options": [
+              {
+                "value": "si",
+                "label": "Sí; constan fechas o requerimientos previos"
+              },
+              {
+                "value": "no",
+                "label": "No constan"
+              }
+            ]
+          },
+          {
+            "id": "antecedentes",
+            "label": "Fechas, requerimientos, incumplimientos previos y medición acústica",
+            "type": "text",
+            "visible_when": [
+              {
+                "field": "reiteracion",
+                "equals": "si"
+              }
+            ],
+            "placeholder": "Consigna antecedentes concretos y medición, si existe"
+          }
+        ],
+        "outcomes": [
+          {
+            "id": "grave",
+            "title": "Molestias acreditadas derivadas del funcionamiento",
+            "when": [
+              {
+                "field": "comprobacion",
+                "equals": "agentes"
+              },
+              {
+                "field": "naturaleza",
+                "non_empty": true
+              }
+            ],
+            "unless": [
+              {
+                "field": "especial_intensidad",
+                "equals": "si"
+              },
+              {
+                "field": "reiteracion",
+                "equals": "si"
+              },
+              {
+                "field": "antecedentes",
+                "non_empty": true
+              }
+            ],
+            "status": "infraccion",
+            "classification": "GRAVE",
+            "article": "27.2.f",
+            "amount": 300,
+            "detail": "Encaje base para molestias acreditadas. Solo cede ante la variante muy grave cuando se completan todos sus hechos."
+          },
+          {
+            "id": "muy_grave",
+            "title": "Molestias graves por incumplimiento reiterado y grave",
+            "when": [
+              {
+                "field": "comprobacion",
+                "equals": "agentes"
+              },
+              {
+                "field": "naturaleza",
+                "non_empty": true
+              },
+              {
+                "field": "especial_intensidad",
+                "equals": "si"
+              },
+              {
+                "field": "reiteracion",
+                "equals": "si"
+              },
+              {
+                "field": "antecedentes",
+                "non_empty": true
+              }
+            ],
+            "status": "infraccion",
+            "classification": "MUY GRAVE",
+            "article": "27.3.f",
+            "amount": 600,
+            "detail": "La especial intensidad y la reiteración quedan soportadas por hechos, fechas o requerimientos concretos."
+          },
+          {
+            "id": "queja",
+            "title": "Queja no acreditada",
+            "when": [
+              {
+                "field": "comprobacion",
+                "equals": "queja"
+              }
+            ],
+            "status": "pendiente",
+            "detail": "La simple llamada o queja no asigna automáticamente una infracción. Practica las comprobaciones posibles."
+          },
+          {
+            "id": "sin",
+            "title": "No se comprueban molestias",
+            "when": [
+              {
+                "field": "comprobacion",
+                "equals": "sin_molestias"
+              }
+            ],
+            "status": "sin_infraccion",
+            "detail": "Este bloque no asigna infracción."
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "TER-OP-011",
+    "modulo": "policia_administrativa",
+    "categoria": "policia_administrativa_terrazas",
+    "titulo": "🎵 Elementos prohibidos",
+    "palabras_clave": [
+      "espectáculos",
+      "audio",
+      "vídeo",
+      "televisión",
+      "neveras",
+      "máquinas",
+      "billares",
+      "futbolines"
+    ],
+    "que_comprobar": [
+      "Actuaciones o espectáculos en directo",
+      "Emisión o equipos audiovisuales",
+      "Máquinas y otros elementos prohibidos"
+    ],
+    "resultado": "Una o varias conductas del art. 15 se integran en un único bloque y no generan automáticamente varias sanciones.",
+    "norma": "Ordenanza de terrazas de Torrent",
+    "articulo": "15, 27.3.g y 28",
+    "responsable": "Persona física o jurídica titular de la instalación (art. 26).",
+    "actuacion": [
+      "Seleccionar todas las conductas observadas.",
+      "Describir ubicación, funcionamiento y percepción desde la terraza.",
+      "Formular un único encaje operativo sin multiplicar automáticamente sanciones por cada elemento."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent.",
+    "competencia_resuelve": "Junta de Gobierno Local, con posibilidad de delegación en el concejal que tenga atribuidas las competencias indicadas en la ordenanza (art. 30).",
+    "advertencias": [],
+    "alerta_penal": false,
+    "fuentes": [
+      "TER-TORRENT"
+    ],
+    "estado": "validado",
+    "datos_adicionales": {
+      "terrazas": {
+        "icon": "🎵",
+        "group": "Funcionamiento y convivencia",
+        "order": 110,
+        "summary": "Reúne espectáculos, audiovisuales y máquinas prohibidas en una sola comprobación.",
+        "fields": [
+          {
+            "id": "conductas",
+            "label": "Conductas o elementos observados",
+            "type": "multi",
+            "options": [
+              {
+                "value": "directo",
+                "label": "Actuación o espectáculo en directo"
+              },
+              {
+                "value": "audiovisual",
+                "label": "Equipo audiovisual, televisión o emisión de audio/vídeo en terraza"
+              },
+              {
+                "value": "interior",
+                "label": "Equipo interior visible o audible desde la terraza"
+              },
+              {
+                "value": "nevera",
+                "label": "Nevera"
+              },
+              {
+                "value": "expendedora",
+                "label": "Máquina expendedora"
+              },
+              {
+                "value": "recreativa",
+                "label": "Máquina recreativa"
+              },
+              {
+                "value": "azar",
+                "label": "Juego de azar"
+              },
+              {
+                "value": "billar",
+                "label": "Billar"
+              },
+              {
+                "value": "futbolin",
+                "label": "Futbolín"
+              },
+              {
+                "value": "analogo",
+                "label": "Elemento análogo"
+              }
+            ]
+          }
+        ],
+        "outcomes": [
+          {
+            "id": "prohibidos",
+            "title": "Espectáculo, audiovisual u otro elemento prohibido",
+            "when": [
+              {
+                "field": "conductas",
+                "non_empty": true
+              }
+            ],
+            "status": "infraccion",
+            "classification": "MUY GRAVE",
+            "article": "27.3.g, en relación con el art. 15",
+            "amount": 600,
+            "detail": "Consigna en los hechos todos los elementos seleccionados; su simultaneidad no genera automáticamente varias sanciones."
+          }
+        ],
+        "final_note": "Una selección múltiple describe la intervención; no multiplica automáticamente el número de infracciones."
+      }
+    }
+  },
+  {
+    "id": "TER-OP-012",
+    "modulo": "policia_administrativa",
+    "categoria": "policia_administrativa_terrazas",
+    "titulo": "👮 Intervención e inspección",
+    "palabras_clave": [
+      "inspección",
+      "negativa",
+      "obstaculización",
+      "consideración",
+      "agente"
+    ],
+    "que_comprobar": [
+      "Falta de consideración",
+      "Negativa a la inspección",
+      "Obstaculización de la inspección"
+    ],
+    "resultado": "Recoge todas las conductas observadas sin incluir manipulación documental para obtener autorización.",
+    "norma": "Ordenanza de terrazas de Torrent",
+    "articulo": "27.3.i y 28",
+    "responsable": "Persona física o jurídica titular de la instalación (art. 26).",
+    "actuacion": [
+      "Describir expresiones, actos u omisiones concretas.",
+      "Seleccionar todas las conductas concurrentes.",
+      "No incorporar en este bloque la ocultación o manipulación de documentos para obtener autorización."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent.",
+    "competencia_resuelve": "Junta de Gobierno Local, con posibilidad de delegación en el concejal que tenga atribuidas las competencias indicadas en la ordenanza (art. 30).",
+    "advertencias": [],
+    "alerta_penal": false,
+    "fuentes": [
+      "TER-TORRENT"
+    ],
+    "estado": "validado",
+    "datos_adicionales": {
+      "terrazas": {
+        "icon": "👮",
+        "group": "Control administrativo",
+        "order": 120,
+        "summary": "Hechos que afectan a la relación con el agente y a la labor inspectora.",
+        "fields": [
+          {
+            "id": "conductas",
+            "label": "Conductas observadas",
+            "type": "multi",
+            "options": [
+              {
+                "value": "consideracion",
+                "label": "Falta de consideración al funcionario o agente"
+              },
+              {
+                "value": "negativa",
+                "label": "Negativa a la labor inspectora"
+              },
+              {
+                "value": "obstaculizacion",
+                "label": "Obstaculización de la labor inspectora"
+              }
+            ]
+          },
+          {
+            "id": "descripcion",
+            "label": "Hechos concretos",
+            "type": "text",
+            "placeholder": "Describe palabras, actos, requerimientos y respuesta"
+          }
+        ],
+        "outcomes": [
+          {
+            "id": "inspeccion",
+            "title": "Conducta frente a la intervención o inspección",
+            "when": [
+              {
+                "field": "conductas",
+                "non_empty": true
+              },
+              {
+                "field": "descripcion",
+                "non_empty": true
+              }
+            ],
+            "status": "infraccion",
+            "classification": "MUY GRAVE",
+            "article": "27.3.i",
+            "amount": 600,
+            "detail": "Las opciones concurrentes se reflejan juntas en los hechos, sin generar automáticamente varias sanciones."
+          }
+        ],
+        "final_note": "Se excluye expresamente la ocultación o manipulación documental para obtener autorización."
+      }
+    }
+  },
+  {
+    "id": "TER-OP-013",
+    "modulo": "policia_administrativa",
+    "categoria": "policia_administrativa_terrazas",
+    "titulo": "🔄 Cesión a tercero",
+    "palabras_clave": [
+      "cesión",
+      "subarriendo",
+      "transmisión",
+      "tercero",
+      "establecimiento"
+    ],
+    "que_comprobar": [
+      "Transmisión del establecimiento principal",
+      "Quién explota la terraza",
+      "Vinculación entre terraza y establecimiento"
+    ],
+    "resultado": "Diferencia la transmisión conjunta de la explotación separada de la terraza.",
+    "norma": "Ordenanza de terrazas de Torrent",
+    "articulo": "16.1, 27.3.c y 28",
+    "responsable": "Persona física o jurídica titular de la instalación (art. 26).",
+    "actuacion": [
+      "Identificar al titular y a quien explota el establecimiento y la terraza.",
+      "Comprobar si la transmisión comprende conjuntamente establecimiento y terraza.",
+      "Describir los elementos que acreditan una explotación desvinculada."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent.",
+    "competencia_resuelve": "Junta de Gobierno Local, con posibilidad de delegación en el concejal que tenga atribuidas las competencias indicadas en la ordenanza (art. 30).",
+    "advertencias": [],
+    "alerta_penal": false,
+    "fuentes": [
+      "TER-TORRENT"
+    ],
+    "estado": "validado",
+    "datos_adicionales": {
+      "terrazas": {
+        "icon": "🔄",
+        "group": "Control administrativo",
+        "order": 130,
+        "summary": "Pregunta por la forma real de explotación, no por la existencia de una «cesión ilegal».",
+        "fields": [
+          {
+            "id": "forma",
+            "label": "¿Cómo se realiza la explotación observada?",
+            "type": "choice",
+            "options": [
+              {
+                "value": "conjunta",
+                "label": "Transmisión conjunta del establecimiento y la terraza"
+              },
+              {
+                "value": "separada",
+                "label": "La terraza está cedida o subarrendada a un tercero, separada del establecimiento"
+              },
+              {
+                "value": "sin_cesion",
+                "label": "No se observa explotación por tercero"
+              },
+              {
+                "value": "duda",
+                "label": "No puede determinarse con los datos disponibles"
+              }
+            ]
+          }
+        ],
+        "outcomes": [
+          {
+            "id": "separada",
+            "title": "Explotación de terraza cedida a tercero y desvinculada",
+            "when": [
+              {
+                "field": "forma",
+                "equals": "separada"
+              }
+            ],
+            "status": "infraccion",
+            "classification": "MUY GRAVE",
+            "article": "27.3.c",
+            "amount": 600,
+            "detail": "Cesión o subarriendo de la explotación de la terraza separada del establecimiento principal."
+          },
+          {
+            "id": "conjunta",
+            "title": "Transmisión conjunta",
+            "when": [
+              {
+                "field": "forma",
+                "equals": "conjunta"
+              }
+            ],
+            "status": "informacion",
+            "detail": "Puede ser transmisible conforme al art. 16.1; no se clasifica automáticamente como infracción."
+          },
+          {
+            "id": "sin",
+            "title": "No se observa cesión a tercero",
+            "when": [
+              {
+                "field": "forma",
+                "equals": "sin_cesion"
+              }
+            ],
+            "status": "sin_infraccion",
+            "detail": "Este bloque no asigna infracción."
+          },
+          {
+            "id": "duda",
+            "title": "Titularidad o explotación pendiente de comprobación",
+            "when": [
+              {
+                "field": "forma",
+                "equals": "duda"
+              }
+            ],
+            "status": "pendiente",
+            "detail": "Recaba datos; no califiques como cesión prohibida sin acreditar la desvinculación."
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "TER-OP-014",
+    "modulo": "policia_administrativa",
+    "categoria": "policia_administrativa_terrazas",
+    "titulo": "⛔ Orden de suspensión",
+    "palabras_clave": [
+      "suspensión",
+      "orden previa",
+      "continúa",
+      "precinto",
+      "retirada"
+    ],
+    "que_comprobar": [
+      "Existencia de orden previa de suspensión inmediata",
+      "Constancia o notificación de la orden",
+      "Continuación del funcionamiento"
+    ],
+    "resultado": "Este supuesto parte siempre de una orden previa; la aplicación no decide emitirla.",
+    "norma": "Ordenanza de terrazas de Torrent",
+    "articulo": "24, 27.3.e y 28",
+    "responsable": "Persona física o jurídica titular de la instalación (art. 26).",
+    "actuacion": [
+      "Comprobar y reseñar la orden previa de suspensión.",
+      "Verificar si la instalación continúa funcionando.",
+      "Si continúa, documentar actividad y elementos; el art. 24 prevé retirada o precinto."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent.",
+    "competencia_resuelve": "Junta de Gobierno Local, con posibilidad de delegación en el concejal que tenga atribuidas las competencias indicadas en la ordenanza (art. 30).",
+    "advertencias": [],
+    "alerta_penal": false,
+    "fuentes": [
+      "TER-TORRENT"
+    ],
+    "estado": "validado",
+    "datos_adicionales": {
+      "terrazas": {
+        "icon": "⛔",
+        "group": "Control administrativo",
+        "order": 140,
+        "summary": "Comprueba una orden ya existente y si la instalación sigue funcionando.",
+        "information": [
+          "El art. 24 vincula la suspensión inmediata al incumplimiento de condiciones ambientales. Esta herramienta no decide autónomamente que proceda emitir esa orden."
+        ],
+        "fields": [
+          {
+            "id": "orden",
+            "label": "¿Consta orden previa de suspensión inmediata?",
+            "type": "choice",
+            "options": [
+              {
+                "value": "si",
+                "label": "Sí; consta la orden previa"
+              },
+              {
+                "value": "no",
+                "label": "No consta"
+              }
+            ]
+          },
+          {
+            "id": "continua",
+            "label": "¿La instalación continúa funcionando pese a la orden?",
+            "type": "choice",
+            "visible_when": [
+              {
+                "field": "orden",
+                "equals": "si"
+              }
+            ],
+            "options": [
+              {
+                "value": "si",
+                "label": "Sí"
+              },
+              {
+                "value": "no",
+                "label": "No"
+              }
+            ]
+          }
+        ],
+        "outcomes": [
+          {
+            "id": "incumple",
+            "title": "Continúa pese a la orden de suspensión",
+            "when": [
+              {
+                "field": "orden",
+                "equals": "si"
+              },
+              {
+                "field": "continua",
+                "equals": "si"
+              }
+            ],
+            "status": "infraccion",
+            "classification": "MUY GRAVE",
+            "article": "27.3.e",
+            "amount": 600,
+            "detail": "Incumplimiento de una orden previa de suspensión inmediata.",
+            "measures": [
+              "El art. 24 dispone que, incumplida la suspensión, la instalación debe retirarse o precintarse."
+            ]
+          },
+          {
+            "id": "cumple",
+            "title": "La instalación no continúa funcionando",
+            "when": [
+              {
+                "field": "orden",
+                "equals": "si"
+              },
+              {
+                "field": "continua",
+                "equals": "no"
+              }
+            ],
+            "status": "sin_infraccion",
+            "detail": "No se activa el supuesto de incumplimiento de la orden."
+          },
+          {
+            "id": "sin_orden",
+            "title": "No consta orden previa",
+            "when": [
+              {
+                "field": "orden",
+                "equals": "no"
+              }
+            ],
+            "status": "sin_infraccion",
+            "detail": "No se aplica este supuesto. La herramienta no decide que deba emitirse una orden ambiental de suspensión."
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "TER-OP-015",
+    "modulo": "policia_administrativa",
+    "categoria": "policia_administrativa_terrazas",
+    "titulo": "🧱 Condiciones técnicas",
+    "palabras_clave": [
+      "mobiliario",
+      "estufas",
+      "paso",
+      "accesos",
+      "toldos",
+      "suplemento",
+      "residuos",
+      "placa"
+    ],
+    "que_comprobar": [
+      "Autorización y plano disponibles",
+      "Coincidencia material de la instalación",
+      "Obligación concreta observada"
+    ],
+    "resultado": "Bloque residual guiado para obligaciones visibles sin degradar conductas que tienen bloque específico.",
+    "norma": "Ordenanza de terrazas de Torrent",
+    "articulo": "5, 8, 9, 12, 13, 14, 27.1.f y 28",
+    "responsable": "Persona física o jurídica titular de la instalación (art. 26).",
+    "actuacion": [
+      "Contrastar autorización y plano cuando la condición dependa de ellos.",
+      "Seleccionar los hechos concretos observados.",
+      "Seguir el aviso de bloque específico antes de formular un tipo residual."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent.",
+    "competencia_resuelve": "Junta de Gobierno Local, con posibilidad de delegación en el concejal que tenga atribuidas las competencias indicadas en la ordenanza (art. 30).",
+    "advertencias": [],
+    "alerta_penal": false,
+    "fuentes": [
+      "TER-TORRENT"
+    ],
+    "estado": "validado",
+    "datos_adicionales": {
+      "terrazas": {
+        "icon": "🧱",
+        "group": "Seguridad y condiciones",
+        "order": 150,
+        "summary": "Lista verificable de obligaciones residuales y desvíos automáticos a bloques específicos.",
+        "information": [
+          "El art. 27.1.f solo se usa para hechos sin tipificación específica.",
+          "La coincidencia con una autorización municipal válida no se transforma automáticamente en infracción.",
+          "El acceso desde acera y la protección perimetral/barandilla del suplemento se localizan aquí, pero su posible encaje se resuelve en Protección y delimitación."
+        ],
+        "fields": [
+          {
+            "id": "comparacion",
+            "label": "Respecto de la condición comprobada, ¿qué muestran la autorización y el plano?",
+            "type": "choice",
+            "options": [
+              {
+                "value": "se_aparta",
+                "label": "La instalación se aparta de lo autorizado"
+              },
+              {
+                "value": "no_reflejada",
+                "label": "La condición observada no figura autorizada"
+              },
+              {
+                "value": "coincide",
+                "label": "Coincide con una autorización municipal válida"
+              },
+              {
+                "value": "no_disponible",
+                "label": "No están disponibles para compararlos"
+              },
+              {
+                "value": "no_relevante",
+                "label": "La obligación es directamente comprobable y no depende del plano"
+              }
+            ]
+          },
+          {
+            "id": "hechos_especificos",
+            "label": "Hechos con bloque específico observados",
+            "type": "multi",
+            "help": "La aplicación los desvía; no tienes que decidir su calificación.",
+            "options": [
+              {
+                "value": "autorizacion",
+                "label": "No hay autorización o se usa fuera de periodo → bloque 1"
+              },
+              {
+                "value": "horario",
+                "label": "Exceso de horario → bloque 2"
+              },
+              {
+                "value": "documentos",
+                "label": "Autorización/plano no visibles o no presentados → bloque 3"
+              },
+              {
+                "value": "superficie",
+                "label": "Ocupación superior a la superficie autorizada → bloque 4"
+              },
+              {
+                "value": "reduccion",
+                "label": "Reducción de anchura respecto del plano → bloque 5"
+              },
+              {
+                "value": "proteccion",
+                "label": "Valla/protección obligatoria ausente o defectuosa → bloque 6"
+              },
+              {
+                "value": "suplemento_acceso",
+                "label": "Suplemento sin acceso único desde acera o sin impedir acceso desde calzada → bloque 6"
+              },
+              {
+                "value": "suplemento_barandilla",
+                "label": "Suplemento sin protección perimetral/barandilla → bloque 6"
+              },
+              {
+                "value": "seguro",
+                "label": "Carencia de seguro del art. 7 → bloque 7"
+              },
+              {
+                "value": "limpieza",
+                "label": "Limpieza, apilado o residuos → bloque 8"
+              },
+              {
+                "value": "retirada",
+                "label": "Toldo o mobiliario sin retirar al finalizar → bloque 9"
+              },
+              {
+                "value": "molestias",
+                "label": "Molestias acreditadas → bloque 10"
+              },
+              {
+                "value": "prohibidos",
+                "label": "Espectáculos, audiovisuales o elementos prohibidos → bloque 11"
+              },
+              {
+                "value": "inspeccion",
+                "label": "Negativa u obstaculización inspectora → bloque 12"
+              },
+              {
+                "value": "cesion",
+                "label": "Explotación cedida a tercero → bloque 13"
+              },
+              {
+                "value": "suspension",
+                "label": "Continúa pese a orden de suspensión → bloque 14"
+              }
+            ]
+          },
+          {
+            "id": "incumplimientos",
+            "label": "Otros hechos técnicos observados",
+            "type": "multi",
+            "options": [
+              {
+                "value": "mobiliario_homologado",
+                "label": "Mobiliario no homologado"
+              },
+              {
+                "value": "mobiliario_uniforme",
+                "label": "Falta uniformidad de color o diseño"
+              },
+              {
+                "value": "estufa_homologacion",
+                "label": "Estufa sin homologación acreditada"
+              },
+              {
+                "value": "estufa_altura",
+                "label": "Altura libre bajo estufa inferior a 2,20 m"
+              },
+              {
+                "value": "estufa_extintor",
+                "label": "Extintor inferior a 21A-13B, a más de 15 m o no accesible"
+              },
+              {
+                "value": "estufa_seguro",
+                "label": "Seguro sin cobertura específica de estufas"
+              },
+              {
+                "value": "paso_general",
+                "label": "Paso general inferior a 1,80 m, sin reducción específica respecto del plano"
+              },
+              {
+                "value": "paso_peatonal",
+                "label": "Condición propia de calle, paseo o plaza peatonal incumplida"
+              },
+              {
+                "value": "patio_portal",
+                "label": "Obstaculiza patio o portal"
+              },
+              {
+                "value": "local",
+                "label": "Obstaculiza local comercial"
+              },
+              {
+                "value": "vado",
+                "label": "Dificulta un vado"
+              },
+              {
+                "value": "quicios",
+                "label": "Adosada a fachada sin 0,50 m desde quicios de puertas"
+              },
+              {
+                "value": "emergencia",
+                "label": "Salida de emergencia sin su anchura más 1 m a cada lado"
+              },
+              {
+                "value": "transporte",
+                "label": "Parada de transporte público no completamente libre"
+              },
+              {
+                "value": "peatones",
+                "label": "Paso de peatones no completamente libre"
+              },
+              {
+                "value": "servicios",
+                "label": "Bocas, tapas, registros o servicios municipales no accesibles"
+              },
+              {
+                "value": "toldo_tipo",
+                "label": "Toldo de tipo o material no permitido"
+              },
+              {
+                "value": "toldo_cierre",
+                "label": "Toldo con cierres verticales o cerramiento rígido/translúcido/transparente"
+              },
+              {
+                "value": "toldo_altura",
+                "label": "Toldo fuera de 2,80–3,50 m"
+              },
+              {
+                "value": "toldo_suplemento",
+                "label": "Toldo sobre suplemento de calzada"
+              },
+              {
+                "value": "suplemento_frente",
+                "label": "Suplemento fuera de plazas frente a fachada"
+              },
+              {
+                "value": "suplemento_dimensiones",
+                "label": "Dimensiones fuera de límites del art. 12.3"
+              },
+              {
+                "value": "suplemento_reflectantes",
+                "label": "Sin reflectantes mínimos de 10×20 cm en aristas"
+              },
+              {
+                "value": "suplemento_senal",
+                "label": "Sin señal vertical P-17 en el extremo"
+              },
+              {
+                "value": "suplemento_bateria",
+                "label": "En batería, menos de 1 m respecto de aparcamientos adyacentes"
+              },
+              {
+                "value": "suplemento_servicios",
+                "label": "Impide servicios públicos"
+              },
+              {
+                "value": "residuos",
+                "label": "Sin elementos homologados de recogida/almacenamiento"
+              },
+              {
+                "value": "placa_horario",
+                "label": "Horario no consta en la placa municipal, siendo verificable"
+              }
+            ]
+          }
+        ],
+        "outcomes": [
+          {
+            "id": "residual",
+            "title": "Incumplimiento residual de obligación de la ordenanza",
+            "when": [
+              {
+                "field": "comparacion",
+                "one_of": [
+                  "se_aparta",
+                  "no_reflejada",
+                  "no_relevante"
+                ]
+              },
+              {
+                "field": "hechos_especificos",
+                "empty": true
+              },
+              {
+                "field": "incumplimientos",
+                "non_empty": true
+              }
+            ],
+            "status": "infraccion",
+            "classification": "LEVE",
+            "article": "27.1.f",
+            "amount": 150,
+            "detail": "La obligación concreta seleccionada carece de resultado específico en los otros bloques."
+          },
+          {
+            "id": "especifica",
+            "title": "Continuar en el bloque específico indicado",
+            "when": [
+              {
+                "field": "hechos_especificos",
+                "non_empty": true
+              }
+            ],
+            "status": "informacion",
+            "detail": "No apliques aquí la cláusula residual a esos hechos. Abre el bloque señalado, completa sus datos y utiliza su resultado."
+          },
+          {
+            "id": "coincide",
+            "title": "Coincide con autorización municipal válida",
+            "when": [
+              {
+                "field": "comparacion",
+                "equals": "coincide"
+              }
+            ],
+            "status": "sin_infraccion",
+            "detail": "Este bloque no convierte automáticamente en infracción una condición material que coincide con la autorización."
+          },
+          {
+            "id": "duda",
+            "title": "Comparación documental pendiente",
+            "when": [
+              {
+                "field": "comparacion",
+                "equals": "no_disponible"
+              }
+            ],
+            "status": "pendiente",
+            "detail": "Contrasta autorización y plano antes de sancionar una condición que dependa de ellos."
+          }
+        ],
+        "final_note": "El motor deriva por hechos observables: los hechos con bloque propio nunca se rebajan a la cláusula residual."
+      }
+    }
   }
 ]
