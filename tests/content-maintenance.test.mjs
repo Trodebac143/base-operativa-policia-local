@@ -10,9 +10,10 @@ const caseDirectories = [
   "contenido/seguridad_vial/itv/casos",
   "contenido/seguridad_vial/seguro/casos",
   "contenido/seguridad_vial/permisos/casos",
+  "contenido/policia_administrativa/terrazas/casos",
 ];
 
-test("cada caso editable vive en un único archivo y el índice conserva los 50", async () => {
+test("cada caso editable vive en un único archivo y el índice generado los conserva", async () => {
   const cases = [];
   for (const directory of caseDirectories) {
     const names = (await readdir(path.join(root, directory))).filter((name) => name.endsWith(".json")).sort((left, right) => left.localeCompare(right, "es", { numeric: true }));
@@ -24,7 +25,6 @@ test("cada caso editable vive en un único archivo y el índice conserva los 50"
     }
   }
   const generated = JSON.parse(await readFile(path.join(root, "contenido/_generado/casos.json"), "utf8"));
-  assert.equal(cases.length, 50);
   assert.deepEqual(generated, cases);
 });
 

@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { createServer } from "vite";
+import { APP_VERSION } from "../data/version.ts";
 
 const root = new URL("../", import.meta.url);
 const rootPath = fileURLToPath(root);
@@ -50,12 +51,12 @@ test("el motor impide degradaciones y conclusiones automáticas no respaldadas",
   assert.doesNotMatch(cases.filter((item) => item.categoria === "policia_administrativa_terrazas").map((item) => item.titulo).join(" "), /ocultación|tres infracciones/i);
 });
 
-test("la fuente central abre directamente el PDF oficial y la versión visible es 0.8.0", async () => {
+test("la fuente central abre directamente el PDF oficial y la versión publicada usa la fuente canónica", async () => {
   const sources = await readJson("contenido/juridico/fuentes.json");
   const source = sources.find((item) => item.id === "TER-TORRENT");
   assert.match(source.urlOficial, /^https:\/\/www\.torrent\.es\/.+\.pdf$/i);
-  const version = await readFile(new URL("data/version.ts", root), "utf8");
-  assert.match(version, /APP_VERSION = "0\.8\.0"/);
+  const packageMetadata = await readJson("package.json");
+  assert.equal(packageMetadata.version, APP_VERSION);
 });
 
 test("el motor resuelve porcentajes, poda respuestas y mantiene exclusiones jurídicas", async () => {

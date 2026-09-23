@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { APP_VERSION } from "../data/version.ts";
 
 test("sirve cada navegación HTML sin caché y con versión publicada", async () => {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
@@ -29,6 +30,6 @@ test("sirve cada navegación HTML sin caché y con versión publicada", async ()
   assert.equal(response.headers.get("cache-control"), "no-store, no-cache, must-revalidate, max-age=0");
   assert.equal(response.headers.get("cdn-cache-control"), "no-store");
   assert.equal(response.headers.get("cloudflare-cdn-cache-control"), "no-store");
-  assert.equal(response.headers.get("x-base-operativa-version"), "0.7.0");
+  assert.equal(response.headers.get("x-base-operativa-version"), APP_VERSION);
   assert.doesNotMatch(await response.text(), /codex-preview/i);
 });

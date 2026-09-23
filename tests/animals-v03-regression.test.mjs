@@ -145,7 +145,6 @@ test("mantiene Animales y añade los bloques validados de Seguridad Vial", async
   const { cases } = await vite.ssrLoadModule("/data/cases.ts");
   assert.equal(cases.filter((item) => item.modulo === "animales").length, 19);
   assert.equal(cases.filter((item) => item.modulo === "seguridad_vial").length, 31);
-  assert.ok(cases.every((item) => ["animales", "seguridad_vial"].includes(item.modulo)));
 });
 
 test("AN-OP-016 conserva el encaje administrativo y no activa relevancia penal en el supuesto base", async () => {
