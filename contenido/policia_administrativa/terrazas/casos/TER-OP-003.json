@@ -1,4 +1,114 @@
 {
-  "id":"TER-OP-003","modulo":"policia_administrativa","categoria":"policia_administrativa_terrazas","titulo":"📄 Autorización y plano","palabras_clave":["autorización","plano","visible","requerimiento","presentación"],"que_comprobar":["Documento de autorización","Plano de detalle","Exposición en lugar visible","Presentación tras requerimiento"],"resultado":"Diferencia la falta de exposición visible de la falta de presentación ante requerimiento.","norma":"Ordenanza de terrazas de Torrent","articulo":"3.3, 27.1.c, 27.2.i y 28","responsable":"Persona física o jurídica titular de la instalación (art. 26).","actuacion":["Comprobar conjuntamente autorización y plano de detalle.","Si se requiere su presentación, hacer constar expresamente el requerimiento y la respuesta.","Formular la variante acreditada."],"competencia_denuncia":"Policía Local de Torrent.","competencia_resuelve":"Junta de Gobierno Local, con posibilidad de delegación en el concejal que tenga atribuidas las competencias indicadas en la ordenanza (art. 30).","advertencias":[],"alerta_penal":false,"fuentes":["TER-TORRENT"],"estado":"validado",
-  "datos_adicionales":{"terrazas":{"icon":"📄","group":"Autorización y espacio","order":30,"summary":"Documento y plano: visibilidad y presentación cuando se requieren.","fields":[{"id":"hecho","label":"¿Qué hecho se comprueba?","type":"choice","options":[{"value":"no_visible","label":"No están expuestos en lugar visible"},{"value":"no_presenta","label":"No los presenta tras requerimiento expreso"},{"value":"correcto","label":"Están visibles y se presentan"}]}],"outcomes":[{"id":"no_visible","title":"Autorización y plano no expuestos","when":[{"field":"hecho","equals":"no_visible"}],"status":"infraccion","classification":"LEVE","article":"27.1.c","amount":150,"detail":"Falta de exposición en lugar visible del documento de autorización y el plano."},{"id":"no_presenta","title":"Falta de presentación tras requerimiento","when":[{"field":"hecho","equals":"no_presenta"}],"status":"infraccion","classification":"GRAVE","article":"27.2.i","amount":300,"detail":"El requerimiento del agente o funcionario debe constar para aplicar esta variante."},{"id":"correcto","title":"Documentación comprobada","when":[{"field":"hecho","equals":"correcto"}],"status":"sin_infraccion","detail":"Este bloque no asigna infracción documental."}]}}
+  "id": "TER-OP-003",
+  "modulo": "policia_administrativa",
+  "categoria": "policia_administrativa_terrazas",
+  "titulo": "📄 Autorización y plano",
+  "palabras_clave": [
+    "autorización",
+    "plano",
+    "visible",
+    "requerimiento",
+    "presentación"
+  ],
+  "que_comprobar": [
+    "Documento de autorización",
+    "Plano de detalle",
+    "Exposición en lugar visible",
+    "Presentación tras requerimiento"
+  ],
+  "resultado": "Diferencia la falta de exposición visible de la falta de presentación ante requerimiento.",
+  "norma": "Ordenanza de terrazas de Torrent",
+  "articulo": "3.3, 27.1.c, 27.2.i y 28",
+  "responsable": "Persona física o jurídica titular de la instalación (art. 26).",
+  "actuacion": [
+    "Comprobar conjuntamente autorización y plano de detalle.",
+    "Si se requiere su presentación, hacer constar expresamente el requerimiento y la respuesta.",
+    "Formular el resultado acreditado."
+  ],
+  "competencia_denuncia": "Policía Local de Torrent.",
+  "competencia_resuelve": "Junta de Gobierno Local, con posibilidad de delegación en el concejal que tenga atribuidas las competencias indicadas en la ordenanza (art. 30).",
+  "advertencias": [],
+  "alerta_penal": false,
+  "fuentes": [
+    "TER-TORRENT"
+  ],
+  "estado": "validado",
+  "datos_adicionales": {
+    "terrazas": {
+      "icon": "📄",
+      "group": "Autorización y espacio",
+        "order": 30,
+        "summary": "Documento y plano: visibilidad y presentación cuando se requieren.",
+        "information": [
+          "La autorización debe incluir las dimensiones y limitaciones ambientales; lleva adjunto el plano de detalle sellado (art. 3.3).",
+          "El documento de autorización y el plano deben estar expuestos en lugar visible; su falta de exposición se tipifica en el art. 27.1.c.",
+          "No presentarlos tras requerimiento expreso se tipifica en el art. 27.2.i."
+        ],
+        "fields": [
+        {
+          "id": "hecho",
+          "label": "¿Qué hecho se comprueba?",
+          "type": "choice",
+          "options": [
+            {
+              "value": "no_visible",
+              "label": "No están expuestos en lugar visible"
+            },
+            {
+              "value": "no_presenta",
+              "label": "No los presenta tras requerimiento expreso"
+            },
+            {
+              "value": "correcto",
+              "label": "Están visibles y se presentan"
+            }
+          ]
+        }
+      ],
+      "outcomes": [
+        {
+          "id": "no_visible",
+          "title": "Autorización y plano no expuestos",
+          "when": [
+            {
+              "field": "hecho",
+              "equals": "no_visible"
+            }
+          ],
+          "status": "infraccion",
+          "classification": "LEVE",
+          "article": "27.1.c",
+          "amount": 150,
+          "detail": "Falta de exposición en lugar visible del documento de autorización y el plano."
+        },
+        {
+          "id": "no_presenta",
+          "title": "Falta de presentación tras requerimiento",
+          "when": [
+            {
+              "field": "hecho",
+              "equals": "no_presenta"
+            }
+          ],
+          "status": "infraccion",
+          "classification": "GRAVE",
+          "article": "27.2.i",
+          "amount": 300,
+          "detail": "El requerimiento del agente o funcionario debe constar para aplicar esta infracción."
+        },
+        {
+          "id": "correcto",
+          "title": "Documentación comprobada",
+          "when": [
+            {
+              "field": "hecho",
+              "equals": "correcto"
+            }
+          ],
+          "status": "sin_infraccion",
+          "detail": "La documentación se encuentra expuesta y se presenta tras el requerimiento."
+        }
+      ]
+    }
+  }
 }

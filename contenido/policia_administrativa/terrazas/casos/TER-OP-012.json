@@ -1,4 +1,85 @@
 {
-  "id":"TER-OP-012","modulo":"policia_administrativa","categoria":"policia_administrativa_terrazas","titulo":"👮 Intervención e inspección","palabras_clave":["inspección","negativa","obstaculización","consideración","agente"],"que_comprobar":["Falta de consideración","Negativa a la inspección","Obstaculización de la inspección"],"resultado":"Recoge todas las conductas observadas sin incluir manipulación documental para obtener autorización.","norma":"Ordenanza de terrazas de Torrent","articulo":"27.3.i y 28","responsable":"Persona física o jurídica titular de la instalación (art. 26).","actuacion":["Describir expresiones, actos u omisiones concretas.","Seleccionar todas las conductas concurrentes.","No incorporar en este bloque la ocultación o manipulación de documentos para obtener autorización."],"competencia_denuncia":"Policía Local de Torrent.","competencia_resuelve":"Junta de Gobierno Local, con posibilidad de delegación en el concejal que tenga atribuidas las competencias indicadas en la ordenanza (art. 30).","advertencias":[],"alerta_penal":false,"fuentes":["TER-TORRENT"],"estado":"validado",
-  "datos_adicionales":{"terrazas":{"icon":"👮","group":"Control administrativo","order":120,"summary":"Hechos que afectan a la relación con el agente y a la labor inspectora.","fields":[{"id":"conductas","label":"Conductas observadas","type":"multi","options":[{"value":"consideracion","label":"Falta de consideración al funcionario o agente"},{"value":"negativa","label":"Negativa a la labor inspectora"},{"value":"obstaculizacion","label":"Obstaculización de la labor inspectora"}]},{"id":"descripcion","label":"Hechos concretos","type":"text","placeholder":"Describe palabras, actos, requerimientos y respuesta"}],"outcomes":[{"id":"inspeccion","title":"Conducta frente a la intervención o inspección","when":[{"field":"conductas","non_empty":true},{"field":"descripcion","non_empty":true}],"status":"infraccion","classification":"MUY GRAVE","article":"27.3.i","amount":600,"detail":"Las opciones concurrentes se reflejan juntas en los hechos, sin generar automáticamente varias sanciones."}],"final_note":"Se excluye expresamente la ocultación o manipulación documental para obtener autorización."}}
+  "id": "TER-OP-012",
+  "modulo": "policia_administrativa",
+  "categoria": "policia_administrativa_terrazas",
+  "titulo": "👮 Intervención e inspección",
+  "palabras_clave": [
+    "inspección",
+    "negativa",
+    "obstaculización",
+    "consideración",
+    "agente"
+  ],
+  "que_comprobar": [
+    "Falta de consideración",
+    "Negativa a la inspección",
+    "Obstaculización de la inspección"
+  ],
+  "resultado": "Recoge todas las conductas observadas sin incluir manipulación documental para obtener autorización.",
+  "norma": "Ordenanza de terrazas de Torrent",
+  "articulo": "27.3.i y 28",
+  "responsable": "Persona física o jurídica titular de la instalación (art. 26).",
+  "actuacion": [
+    "Describir expresiones, actos u omisiones concretas.",
+    "Seleccionar todas las conductas concurrentes.",
+    "La ocultación o manipulación de documentos para obtener autorización queda fuera de esta comprobación."
+  ],
+  "competencia_denuncia": "Policía Local de Torrent.",
+  "competencia_resuelve": "Junta de Gobierno Local, con posibilidad de delegación en el concejal que tenga atribuidas las competencias indicadas en la ordenanza (art. 30).",
+  "advertencias": [],
+  "alerta_penal": false,
+  "fuentes": [
+    "TER-TORRENT"
+  ],
+  "estado": "validado",
+  "datos_adicionales": {
+    "terrazas": {
+      "icon": "👮",
+      "group": "Control administrativo",
+      "order": 120,
+      "summary": "Hechos que afectan a la relación con el agente y a la labor inspectora.",
+      "information": [
+        "La falta de consideración, la negativa o la obstaculización de la labor inspectora se tipifican como muy graves en el art. 27.3.i."
+      ],
+      "fields": [
+        {
+          "id": "conductas",
+          "label": "Conductas observadas",
+          "type": "multi",
+          "options": [
+            {
+              "value": "consideracion",
+              "label": "Falta de consideración al funcionario o agente"
+            },
+            {
+              "value": "negativa",
+              "label": "Negativa a la labor inspectora"
+            },
+            {
+              "value": "obstaculizacion",
+              "label": "Obstaculización de la labor inspectora"
+            }
+          ]
+        }
+      ],
+      "outcomes": [
+        {
+          "id": "inspeccion",
+          "title": "Conducta frente a la intervención o inspección",
+          "when": [
+            {
+              "field": "conductas",
+              "non_empty": true
+            }
+          ],
+          "status": "infraccion",
+          "classification": "MUY GRAVE",
+          "article": "27.3.i",
+          "amount": 600,
+          "detail": "Refleja juntas las conductas concurrentes; su concurrencia no implica por sí sola varias sanciones."
+        }
+      ],
+      "final_note": "La ocultación o manipulación de documentos para obtener autorización queda fuera de esta comprobación operativa."
+    }
+  }
 }

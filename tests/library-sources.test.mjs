@@ -14,6 +14,7 @@ after(async () => vite.close());
 const sourceData = await vite.ssrLoadModule("/data/sources.ts");
 const usageData = await vite.ssrLoadModule("/data/source-usage.ts");
 const library = await vite.ssrLoadModule("/app/library-view.tsx");
+const sourceLinks = await vite.ssrLoadModule("/app/source-links.tsx");
 const documentsData = await vite.ssrLoadModule("/data/documents.ts");
 const render = (component, props = {}) => renderToStaticMarkup(React.createElement(component, props));
 
@@ -116,4 +117,17 @@ test("16 · toda fuente utilizada por contenido activo ofrece consulta en Biblio
     const source = sourceData.resolveSourceReference(reference);
     assert.ok(source.urlOficial || documentsData.documentForSource(source.id), `${source.id} carece de enlace visible`);
   }
+});
+
+test("17 · las fichas resuelven fuentes externas, documentos locales y referencias desconocidas", () => {
+  const external = render(sourceLinks.SourceLinks, { sourceIds: ["TER-TORRENT"] });
+  assert.match(external, /href="https:\/\/www\.torrent\.es\/.+\.pdf"/i);
+  assert.match(external, /target="_blank"/);
+  assert.match(external, /rel="noopener noreferrer"/);
+
+  const localSource = documentsData.libraryDocuments.find((document) => document.fuenteId);
+  assert.ok(localSource);
+  const local = render(sourceLinks.SourceLinks, { sourceIds: [localSource.fuenteId] });
+  assert.match(local, /\/documentos\//);
+  assert.equal(render(sourceLinks.SourceLinks, { sourceIds: ["FUENTE-INEXISTENTE"] }), "");
 });

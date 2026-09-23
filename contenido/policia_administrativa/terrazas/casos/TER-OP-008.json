@@ -1,4 +1,133 @@
 {
-  "id":"TER-OP-008","modulo":"policia_administrativa","categoria":"policia_administrativa_terrazas","titulo":"🧹 Limpieza y residuos","palabras_clave":["limpieza","ornato","productos","envases","residuos"],"que_comprobar":["Limpieza y ornato de instalación y entorno","Productos, envases o residuos apilados","Elementos homologados de recogida"],"resultado":"Un único bloque recoge las tres conductas sin duplicar la ficha común.","norma":"Ordenanza de terrazas de Torrent","articulo":"9.1, 27.1.a, 27.1.d, 27.1.f y 28","responsable":"Persona física o jurídica titular de la instalación (art. 26).","actuacion":["Describir el estado de la instalación y su entorno inmediato.","Identificar productos, envases o residuos y su ubicación.","Comprobar los elementos homologados de recogida cuando proceda."],"competencia_denuncia":"Policía Local de Torrent.","competencia_resuelve":"Junta de Gobierno Local, con posibilidad de delegación en el concejal que tenga atribuidas las competencias indicadas en la ordenanza (art. 30).","advertencias":[],"alerta_penal":false,"fuentes":["TER-TORRENT"],"estado":"validado",
-  "datos_adicionales":{"terrazas":{"icon":"🧹","group":"Funcionamiento y convivencia","order":80,"summary":"Selecciona uno o varios hechos de limpieza, almacenamiento o residuos.","fields":[{"id":"conductas","label":"Hechos comprobados","type":"multi","options":[{"value":"suciedad","label":"Falta de ornato o limpieza"},{"value":"apilado","label":"Productos, envases o residuos almacenados/apilados en vía pública"},{"value":"sin_elementos","label":"Faltan elementos homologados de recogida y almacenamiento"}]}],"outcomes":[{"id":"suciedad","title":"Falta de ornato o limpieza","when":[{"field":"conductas","includes":"suciedad"}],"status":"infraccion","classification":"LEVE","article":"27.1.a","amount":150,"detail":"Afecta a la instalación o a su entorno inmediato."},{"id":"apilado","title":"Almacenamiento o apilado en vía pública","when":[{"field":"conductas","includes":"apilado"}],"status":"infraccion","classification":"LEVE","article":"27.1.d","amount":150,"detail":"Productos, envases o residuos en la zona de terraza u otro espacio de vía pública."},{"id":"elementos","title":"Falta de elementos homologados para residuos","when":[{"field":"conductas","includes":"sin_elementos"}],"status":"infraccion","classification":"LEVE","article":"27.1.f","amount":150,"detail":"Incumplimiento de la obligación del art. 9.1 por cláusula residual."}],"final_note":"Si concurren varios hechos, documéntalos todos; la aplicación no genera automáticamente varias sanciones."}}
+  "id": "TER-OP-008",
+  "modulo": "policia_administrativa",
+  "categoria": "policia_administrativa_terrazas",
+  "titulo": "🧹 Limpieza y residuos",
+  "palabras_clave": [
+    "limpieza",
+    "ornato",
+    "productos",
+    "envases",
+    "residuos"
+  ],
+  "que_comprobar": [
+    "Limpieza y ornato de instalación y entorno",
+    "Productos, envases o residuos apilados",
+    "Elementos homologados de recogida"
+  ],
+  "resultado": "Se comprueban conjuntamente limpieza, almacenamiento y elementos de recogida de residuos.",
+  "norma": "Ordenanza de terrazas de Torrent",
+  "articulo": "9.1, 27.1.a, 27.1.d, 27.1.f y 28",
+  "responsable": "Persona física o jurídica titular de la instalación (art. 26).",
+  "actuacion": [
+    "Describir el estado de la instalación y su entorno inmediato.",
+    "Identificar productos, envases o residuos y su ubicación.",
+    "Si existen recipientes, comprobar documentalmente su homologación cuando no sea identificable en la inspección."
+  ],
+  "competencia_denuncia": "Policía Local de Torrent.",
+  "competencia_resuelve": "Junta de Gobierno Local, con posibilidad de delegación en el concejal que tenga atribuidas las competencias indicadas en la ordenanza (art. 30).",
+  "advertencias": [],
+  "alerta_penal": false,
+  "fuentes": [
+    "TER-TORRENT"
+  ],
+  "estado": "validado",
+  "datos_adicionales": {
+    "terrazas": {
+      "icon": "🧹",
+      "group": "Funcionamiento y convivencia",
+      "order": 80,
+      "summary": "Selecciona uno o varios hechos de limpieza, almacenamiento o residuos.",
+      "information": [
+        "El espacio, su entorno, instalaciones y elementos deben mantenerse limpios, seguros, higiénicos y en buen ornato (art. 9.1).",
+        "No se permite almacenar o apilar productos, materiales o residuos junto a la terraza (art. 9.2).",
+        "Deben existir elementos de recogida y almacenamiento denominados «homologados» por la Ordenanza (art. 9.1); si la homologación no es verificable en calle, requiere comprobación documental."
+      ],
+      "fields": [
+        {
+          "id": "conductas",
+          "label": "Hechos comprobados",
+          "type": "multi",
+          "options": [
+            {
+              "value": "suciedad",
+              "label": "Falta de ornato o limpieza"
+            },
+            {
+              "value": "apilado",
+              "label": "Productos, envases o residuos almacenados/apilados en vía pública"
+            },
+            {
+              "value": "sin_elementos",
+              "label": "No existen recipientes o elementos destinados a recoger y almacenar residuos"
+            },
+            {
+              "value": "homologacion_no_comprobable",
+              "label": "Existen elementos, pero la homologación no puede comprobarse en la inspección"
+            }
+          ]
+        }
+      ],
+      "outcomes": [
+        {
+          "id": "suciedad",
+          "title": "Falta de ornato o limpieza",
+          "when": [
+            {
+              "field": "conductas",
+              "includes": "suciedad"
+            }
+          ],
+          "status": "infraccion",
+          "classification": "LEVE",
+          "article": "27.1.a",
+          "amount": 150,
+          "detail": "Afecta a la instalación o a su entorno inmediato."
+        },
+        {
+          "id": "apilado",
+          "title": "Almacenamiento o apilado en vía pública",
+          "when": [
+            {
+              "field": "conductas",
+              "includes": "apilado"
+            }
+          ],
+          "status": "infraccion",
+          "classification": "LEVE",
+          "article": "27.1.d",
+          "amount": 150,
+          "detail": "Productos, envases o residuos en la zona de terraza u otro espacio de vía pública."
+        },
+        {
+          "id": "elementos",
+          "title": "No existen elementos para la recogida y almacenamiento de residuos",
+          "when": [
+            {
+              "field": "conductas",
+              "includes": "sin_elementos"
+            }
+          ],
+          "status": "infraccion",
+          "classification": "LEVE",
+          "article": "27.1.f",
+          "amount": 150,
+          "detail": "Incumplimiento de la obligación del art. 9.1 por cláusula residual."
+        },
+        {
+          "id": "homologacion_pendiente",
+          "title": "Homologación pendiente de comprobación documental",
+          "when": [
+            {
+              "field": "conductas",
+              "includes": "homologacion_no_comprobable"
+            }
+          ],
+          "status": "pendiente",
+          "detail": "La duda visual sobre la homologación no genera por sí sola una infracción. Comprueba la documentación disponible."
+        }
+      ],
+      "final_note": "Si concurren varios hechos, documéntalos conjuntamente; la mera concurrencia no implica por sí sola varias sanciones."
+    }
+  }
 }

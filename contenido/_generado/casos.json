@@ -2845,7 +2845,7 @@
     "actuacion": [
       "Comprobar la autorización y su periodo de vigencia.",
       "Describir fecha, ubicación, elementos instalados y titular.",
-      "Formular denuncia con la variante seleccionada."
+      "Formular denuncia con el resultado acreditado."
     ],
     "competencia_denuncia": "Policía Local de Torrent.",
     "competencia_resuelve": "Junta de Gobierno Local, con posibilidad de delegación en el concejal que tenga atribuidas las competencias indicadas en la ordenanza (art. 30).",
@@ -2862,26 +2862,27 @@
         "order": 10,
         "summary": "Distingue la carencia de autorización del uso fuera del periodo concedido.",
         "information": [
-          "Periodo anual: 1 de enero a 31 de diciembre.",
-          "Periodo de temporada: 1 de abril a 30 de septiembre (art. 17)."
+          "La instalación requiere autorización municipal previa (art. 3.1).",
+          "Periodo anual: 1 de enero a 31 de diciembre; temporada: 1 de abril a 30 de septiembre (art. 17).",
+          "Sin autorización, el art. 22 permite ordenar la retirada inmediata."
         ],
         "fields": [
           {
             "id": "situacion",
-            "label": "¿Qué consta respecto de la autorización?",
+            "label": "¿Qué consta en la documentación o consulta municipal?",
             "type": "choice",
             "options": [
               {
                 "value": "sin_autorizacion",
-                "label": "No existe autorización preceptiva"
+                "label": "No consta autorización municipal"
               },
               {
                 "value": "fuera_periodo",
-                "label": "Existe, pero está fuera del periodo autorizado"
+                "label": "Consta autorización, pero el periodo concedido no está vigente"
               },
               {
                 "value": "vigente",
-                "label": "Existe y el periodo está vigente"
+                "label": "Consta autorización y el periodo concedido está vigente"
               }
             ]
           }
@@ -2919,7 +2920,7 @@
             "classification": "MUY GRAVE",
             "article": "27.3.b",
             "amount": 600,
-            "detail": "Funcionamiento de la instalación fuera del periodo concedido. No se añade una medida inmediata que no esté respaldada literalmente para esta variante."
+            "detail": "Funcionamiento de la instalación fuera del periodo concedido. No consta una medida inmediata específicamente respaldada para este hecho."
           },
           {
             "id": "vigente",
@@ -2931,7 +2932,7 @@
               }
             ],
             "status": "sin_infraccion",
-            "detail": "Este bloque no asigna infracción por autorización o periodo."
+            "detail": "La autorización y el periodo comprobados no muestran infracción por estos hechos."
           }
         ]
       }
@@ -2953,7 +2954,7 @@
       "Hora de cese exigible y hora comprobada",
       "Duración literal del exceso"
     ],
-    "resultado": "La variante se selecciona por el tramo literal de exceso respecto del horario aplicable.",
+    "resultado": "El resultado depende del tramo literal de exceso respecto del horario aplicable.",
     "norma": "Ordenanza de terrazas de Torrent",
     "articulo": "5, 27.1.b, 27.2.b, 27.3.j y 28",
     "responsable": "Persona física o jurídica titular de la instalación (art. 26).",
@@ -2977,43 +2978,70 @@
         "order": 20,
         "summary": "Compara el funcionamiento real con el horario ordinario o el específico aplicable.",
         "information": [
-          "Horario ordinario: domingo a jueves, 08:00–24:00.",
-          "Viernes, sábado y víspera de festivo: 08:00–01:30 del día siguiente.",
-          "El Ayuntamiento puede establecer otros horarios. Si la autorización contiene uno específico, ese horario prevalece como referencia."
+          "Art. 5: domingo a jueves, 08:00–24:00; viernes, sábado y víspera de festivo, 08:00–01:30 del día siguiente.",
+          "El Ayuntamiento puede establecer otro horario y la autorización individual puede contener uno específico.",
+          "Comprueba la placa, la autorización o la resolución cuando consten."
         ],
         "fields": [
           {
-            "id": "referencia",
-            "label": "¿Qué horario sirve de referencia?",
+            "id": "horario_distinto",
+            "label": "¿Consta en la placa, autorización o resolución un horario distinto?",
             "type": "choice",
             "options": [
               {
-                "value": "especifico",
-                "label": "Horario específico de la autorización"
+                "value": "no",
+                "label": "No; aplicar el horario ordinario del art. 5"
               },
               {
-                "value": "ordinario",
-                "label": "Horario ordinario del art. 5"
+                "value": "si",
+                "label": "Sí; consta documentalmente un horario específico"
+              }
+            ]
+          },
+          {
+            "id": "dia",
+            "label": "¿Qué día determina el horario ordinario?",
+            "type": "choice",
+            "visible_when": [
+              {
+                "field": "horario_distinto",
+                "equals": "no"
+              }
+            ],
+            "options": [
+              {
+                "value": "domingo_jueves",
+                "label": "Domingo a jueves",
+                "reference": [
+                  "Hora límite ordinaria: 24:00 (art. 5.1.a)."
+                ]
+              },
+              {
+                "value": "viernes_sabado_vispera",
+                "label": "Viernes, sábado o víspera de festivo",
+                "reference": [
+                  "Hora límite ordinaria: 01:30 del día siguiente (art. 5.1.b)."
+                ]
               }
             ]
           },
           {
             "id": "hora_limite",
-            "label": "Hora límite aplicable",
+            "label": "¿Qué hora límite consta documentalmente?",
             "type": "text",
-            "placeholder": "Ej.: 24:00 según horario ordinario"
-          },
-          {
-            "id": "hora_observada",
-            "label": "Hora comprobada por los agentes",
-            "type": "text",
-            "placeholder": "Ej.: 00:20"
+            "placeholder": "Ej.: 23:30",
+            "visible_when": [
+              {
+                "field": "horario_distinto",
+                "equals": "si"
+              }
+            ]
           },
           {
             "id": "tramo",
-            "label": "¿Cuál es el exceso comprobado?",
+            "label": "¿Cuál es el exceso comprobado respecto del horario aplicable?",
             "type": "choice",
-            "help": "Selecciona la formulación literal; la herramienta no decide qué ocurre exactamente a los 30 o 60 minutos.",
+            "help": "Los límites exactos de 30 y 60 minutos no están comprendidos en las formulaciones literales; documenta el tiempo para su valoración.",
             "options": [
               {
                 "value": "menos_media",
@@ -3040,16 +3068,32 @@
             "title": "Incumplimiento en menos de media hora",
             "when": [
               {
-                "field": "referencia",
-                "non_empty": true
-              },
-              {
-                "field": "hora_limite",
-                "non_empty": true
-              },
-              {
-                "field": "hora_observada",
-                "non_empty": true
+                "any_of": [
+                  {
+                    "all_of": [
+                      {
+                        "field": "horario_distinto",
+                        "equals": "no"
+                      },
+                      {
+                        "field": "dia",
+                        "non_empty": true
+                      }
+                    ]
+                  },
+                  {
+                    "all_of": [
+                      {
+                        "field": "horario_distinto",
+                        "equals": "si"
+                      },
+                      {
+                        "field": "hora_limite",
+                        "non_empty": true
+                      }
+                    ]
+                  }
+                ]
               },
               {
                 "field": "tramo",
@@ -3067,16 +3111,32 @@
             "title": "Más de media hora y menos de una hora",
             "when": [
               {
-                "field": "referencia",
-                "non_empty": true
-              },
-              {
-                "field": "hora_limite",
-                "non_empty": true
-              },
-              {
-                "field": "hora_observada",
-                "non_empty": true
+                "any_of": [
+                  {
+                    "all_of": [
+                      {
+                        "field": "horario_distinto",
+                        "equals": "no"
+                      },
+                      {
+                        "field": "dia",
+                        "non_empty": true
+                      }
+                    ]
+                  },
+                  {
+                    "all_of": [
+                      {
+                        "field": "horario_distinto",
+                        "equals": "si"
+                      },
+                      {
+                        "field": "hora_limite",
+                        "non_empty": true
+                      }
+                    ]
+                  }
+                ]
               },
               {
                 "field": "tramo",
@@ -3094,16 +3154,32 @@
             "title": "Más de una hora",
             "when": [
               {
-                "field": "referencia",
-                "non_empty": true
-              },
-              {
-                "field": "hora_limite",
-                "non_empty": true
-              },
-              {
-                "field": "hora_observada",
-                "non_empty": true
+                "any_of": [
+                  {
+                    "all_of": [
+                      {
+                        "field": "horario_distinto",
+                        "equals": "no"
+                      },
+                      {
+                        "field": "dia",
+                        "non_empty": true
+                      }
+                    ]
+                  },
+                  {
+                    "all_of": [
+                      {
+                        "field": "horario_distinto",
+                        "equals": "si"
+                      },
+                      {
+                        "field": "hora_limite",
+                        "non_empty": true
+                      }
+                    ]
+                  }
+                ]
               },
               {
                 "field": "tramo",
@@ -3121,16 +3197,32 @@
             "title": "No se acredita exceso horario",
             "when": [
               {
-                "field": "referencia",
-                "non_empty": true
-              },
-              {
-                "field": "hora_limite",
-                "non_empty": true
-              },
-              {
-                "field": "hora_observada",
-                "non_empty": true
+                "any_of": [
+                  {
+                    "all_of": [
+                      {
+                        "field": "horario_distinto",
+                        "equals": "no"
+                      },
+                      {
+                        "field": "dia",
+                        "non_empty": true
+                      }
+                    ]
+                  },
+                  {
+                    "all_of": [
+                      {
+                        "field": "horario_distinto",
+                        "equals": "si"
+                      },
+                      {
+                        "field": "hora_limite",
+                        "non_empty": true
+                      }
+                    ]
+                  }
+                ]
               },
               {
                 "field": "tramo",
@@ -3138,10 +3230,10 @@
               }
             ],
             "status": "sin_infraccion",
-            "detail": "Este bloque no asigna infracción."
+            "detail": "No se acredita incumplimiento horario."
           }
         ],
-        "final_note": "No se programa una interpretación para los límites exactos de 30 y 60 minutos; documenta el tiempo y remite la valoración cuando no encaje en una formulación literal."
+        "final_note": "Los límites exactos de 30 y 60 minutos no están comprendidos en las formulaciones literales; documenta el tiempo y remite la valoración cuando no encaje en ellas."
       }
     }
   },
@@ -3170,7 +3262,7 @@
     "actuacion": [
       "Comprobar conjuntamente autorización y plano de detalle.",
       "Si se requiere su presentación, hacer constar expresamente el requerimiento y la respuesta.",
-      "Formular la variante acreditada."
+      "Formular el resultado acreditado."
     ],
     "competencia_denuncia": "Policía Local de Torrent.",
     "competencia_resuelve": "Junta de Gobierno Local, con posibilidad de delegación en el concejal que tenga atribuidas las competencias indicadas en la ordenanza (art. 30).",
@@ -3186,6 +3278,11 @@
         "group": "Autorización y espacio",
         "order": 30,
         "summary": "Documento y plano: visibilidad y presentación cuando se requieren.",
+        "information": [
+          "La autorización debe incluir las dimensiones y limitaciones ambientales; lleva adjunto el plano de detalle sellado (art. 3.3).",
+          "El documento de autorización y el plano deben estar expuestos en lugar visible; su falta de exposición se tipifica en el art. 27.1.c.",
+          "No presentarlos tras requerimiento expreso se tipifica en el art. 27.2.i."
+        ],
         "fields": [
           {
             "id": "hecho",
@@ -3236,7 +3333,7 @@
             "classification": "GRAVE",
             "article": "27.2.i",
             "amount": 300,
-            "detail": "El requerimiento del agente o funcionario debe constar para aplicar esta variante."
+            "detail": "El requerimiento del agente o funcionario debe constar para aplicar esta infracción."
           },
           {
             "id": "correcto",
@@ -3248,7 +3345,7 @@
               }
             ],
             "status": "sin_infraccion",
-            "detail": "Este bloque no asigna infracción documental."
+            "detail": "La documentación se encuentra expuesta y se presenta tras el requerimiento."
           }
         ]
       }
@@ -3270,14 +3367,14 @@
       "Superficie realmente ocupada",
       "Porcentaje de exceso"
     ],
-    "resultado": "La aplicación calcula el porcentaje y distingue hasta el 20 % inclusive de más del 20 %.",
+    "resultado": "Con las dos mediciones se obtiene el porcentaje y se distingue hasta el 20 % inclusive de más del 20 %.",
     "norma": "Ordenanza de terrazas de Torrent",
     "articulo": "22, 27.2.d, 27.3.d y 28",
     "responsable": "Persona física o jurídica titular de la instalación (art. 26).",
     "actuacion": [
       "Medir o consignar la superficie autorizada y la realmente ocupada.",
       "Documentar los límites sobrepasados.",
-      "Formular la variante resultante."
+      "Formular el resultado de las mediciones."
     ],
     "competencia_denuncia": "Policía Local de Torrent.",
     "competencia_resuelve": "Junta de Gobierno Local, con posibilidad de delegación en el concejal que tenga atribuidas las competencias indicadas en la ordenanza (art. 30).",
@@ -3294,6 +3391,11 @@
         "order": 40,
         "summary": "Calcula el exceso respecto de la superficie autorizada.",
         "calculation": "excess_percent",
+        "information": [
+          "La autorización fija las dimensiones del espacio autorizado (art. 3.3).",
+          "Mide la superficie realmente ocupada y compárala con la autorizada; el art. 22 permite retirar los elementos que sobrepasen sus límites.",
+          "Exceso que no supera el 20 %: grave (art. 27.2.d); en más del 20 %: muy grave (art. 27.3.d)."
+        ],
         "fields": [
           {
             "id": "superficie_autorizada",
@@ -3324,7 +3426,7 @@
             "classification": "GRAVE",
             "article": "27.2.d",
             "amount": 300,
-            "detail": "El 20 % exacto se incluye en esta variante porque la ordenanza dice «que no supere el veinte por ciento».",
+            "detail": "El 20 % exacto queda incluido porque la ordenanza dice «que no supere el veinte por ciento».",
             "measures": [
               "El art. 22 permite ordenar la retirada inmediata de los elementos que sobrepasen los límites autorizados."
             ]
@@ -3381,7 +3483,7 @@
       "Anchura realmente libre",
       "Porcentaje de reducción"
     ],
-    "resultado": "Calcula la reducción y solo encaja automáticamente en los tramos literales de la ordenanza.",
+    "resultado": "La reducción se contrasta únicamente con los tramos literales de la ordenanza.",
     "norma": "Ordenanza de terrazas de Torrent",
     "articulo": "12.1.a, 13.5, 27.2.h, 27.3.h y 28",
     "responsable": "Persona física o jurídica titular de la instalación (art. 26).",
@@ -3407,7 +3509,8 @@
         "calculation": "passage_reduction_percent",
         "information": [
           "Regla general: paso libre mínimo de 1,80 m (art. 12.1.a).",
-          "Calles o paseos peatonales y plazas de los arts. 13.3 y 13.4: paso libre mínimo de 3,50 m (art. 13.5)."
+          "Calles o paseos peatonales y plazas de los arts. 13.3 y 13.4: paso libre mínimo de 3,50 m (art. 13.5).",
+          "Reducción en más del 10 % y menos del 25 %: grave (art. 27.2.h); en más del 25 %: muy grave (art. 27.3.h)."
         ],
         "fields": [
           {
@@ -3466,11 +3569,11 @@
               }
             ],
             "status": "pendiente",
-            "detail": "La herramienta no inventa un tratamiento automático para el 10 % exacto ni el 25 % exacto. Documenta las mediciones para su valoración."
+            "detail": "Los puntos exactos del 10 % y del 25 % no se incluyen por analogía; documenta las mediciones para su valoración."
           },
           {
             "id": "fuera",
-            "title": "Fuera de los tramos sancionadores literales de este bloque",
+            "title": "Resultado fuera de los tramos sancionadores literales",
             "when": [
               {
                 "field": "_band",
@@ -3478,7 +3581,7 @@
               }
             ],
             "status": "sin_infraccion",
-            "detail": "Este bloque no asigna automáticamente una infracción por reducción."
+            "detail": "La reducción medida no encaja en los tramos sancionadores literales descritos."
           }
         ],
         "final_note": "Los límites del 10 % y del 25 % se mantienen literalmente, sin completar por analogía los puntos exactos no expresados."
@@ -3528,7 +3631,7 @@
         "summary": "La guía adapta las exigencias de protección a la ubicación observada.",
         "information": [
           "Todo espacio autorizado debe quedar delimitado mediante jardineras, vallas de separación u otros elementos análogos desmontables (art. 14.1).",
-          "La valla específica de 80–150 cm no se impone automáticamente a terrazas adosadas a fachada, calles/paseos peatonales o plazas peatonales."
+          "La valla específica de 80–150 cm no es exigible por esa sola razón a terrazas adosadas a fachada, calles/paseos peatonales o plazas peatonales."
         ],
         "fields": [
           {
@@ -3538,23 +3641,48 @@
             "options": [
               {
                 "value": "fachada",
-                "label": "Adosada a fachada"
+                "label": "Adosada a fachada",
+                "reference": [
+                  "No puede sobrepasar la porción de fachada ocupada por el establecimiento (art. 13.1).",
+                  "Debe dejar al menos 0,50 m desde los quicios de las puertas y no obstaculizar portales, locales o vados (art. 14.4).",
+                  "Requiere delimitación general desmontable; no es exigible por esa sola razón la valla de 80–150 cm del bordillo (art. 14.1)."
+                ]
               },
               {
                 "value": "rastrillo",
-                "label": "En línea de rastrillo o bordillo"
+                "label": "En línea de rastrillo o bordillo",
+                "reference": [
+                  "Mobiliario a 30 cm como mínimo del bordillo; valla obligatoria de 80–150 cm de altura, apertura horizontal máxima de 50 cm y cierre que impida el acceso directo a la calzada (art. 13.2).",
+                  "También se aplica la delimitación general desmontable del art. 14.1."
+                ]
               },
               {
                 "value": "calle_peatonal",
-                "label": "Calle o paseo peatonal"
+                "label": "Calle o paseo peatonal",
+                "reference": [
+                  "Debe ir adosada a la fachada, sin superar sus límites; su anchura no puede exceder un tercio de la calle o paseo (art. 13.3).",
+                  "Si hay establecimientos enfrentados, la ocupación conjunta no puede superar el 50 %; el paso libre mínimo es 3,50 m (arts. 13.3 y 13.5).",
+                  "Requiere delimitación general desmontable (art. 14.1)."
+                ]
               },
               {
                 "value": "plaza_peatonal",
-                "label": "Plaza peatonal"
+                "label": "Plaza peatonal",
+                "reference": [
+                  "Puede ir adosada o paralela a la fachada con corredor de 3–4 m; su longitud será la de la fachada o, en paralelo, hasta el doble (art. 13.4).",
+                  "La ocupación conjunta no puede superar un tercio de la zona peatonal; con establecimientos enfrentados, la anchura conjunta tampoco puede superar un tercio (art. 13.4).",
+                  "Paso libre mínimo de 3,50 m y delimitación general desmontable (arts. 13.5 y 14.1)."
+                ]
               },
               {
                 "value": "suplemento",
-                "label": "Suplemento de calzada o estacionamiento autorizado"
+                "label": "Suplemento de calzada o estacionamiento autorizado",
+                "reference": [
+                  "Solo en plazas frente a la fachada; no puede superar su anchura ni la profundidad del estacionamiento (art. 12.3).",
+                  "Reflectantes mínimos de 10×20 cm en aristas, señal P-17 y, en batería, separación mínima de 1 m (art. 12.3).",
+                  "Acceso únicamente desde la acera, sin acceso desde calzada; protección perimetral y barandilla (art. 12.3).",
+                  "Servicios públicos libres y prohibición de toldo sobre el vuelo de calzada (art. 12.3)."
+                ]
               }
             ]
           },
@@ -3580,8 +3708,96 @@
             ]
           },
           {
+            "id": "fachada_quicios",
+            "label": "¿Se dejan al menos 0,50 m desde los quicios de las puertas?",
+            "type": "choice",
+            "visible_when": [
+              {
+                "field": "ubicacion",
+                "equals": "fachada"
+              }
+            ],
+            "options": [
+              {
+                "value": "si",
+                "label": "Sí"
+              },
+              {
+                "value": "no",
+                "label": "No"
+              },
+              {
+                "value": "sin_puertas",
+                "label": "No hay puertas afectadas"
+              }
+            ]
+          },
+          {
             "id": "delimitacion_calle",
             "label": "¿Existe delimitación general desmontable?",
+            "type": "choice",
+            "visible_when": [
+              {
+                "field": "ubicacion",
+                "equals": "calle_peatonal"
+              }
+            ],
+            "options": [
+              {
+                "value": "si",
+                "label": "Sí"
+              },
+              {
+                "value": "no",
+                "label": "No"
+              }
+            ]
+          },
+          {
+            "id": "calle_disposicion",
+            "label": "¿Está adosada a la fachada y sin superar sus límites?",
+            "type": "choice",
+            "visible_when": [
+              {
+                "field": "ubicacion",
+                "equals": "calle_peatonal"
+              }
+            ],
+            "options": [
+              {
+                "value": "si",
+                "label": "Sí"
+              },
+              {
+                "value": "no",
+                "label": "No"
+              }
+            ]
+          },
+          {
+            "id": "calle_ocupacion",
+            "label": "¿La ocupación respeta el tercio de anchura y, si hay establecimientos enfrentados, el 50 % conjunto?",
+            "type": "choice",
+            "visible_when": [
+              {
+                "field": "ubicacion",
+                "equals": "calle_peatonal"
+              }
+            ],
+            "options": [
+              {
+                "value": "si",
+                "label": "Sí"
+              },
+              {
+                "value": "no",
+                "label": "No"
+              }
+            ]
+          },
+          {
+            "id": "calle_paso",
+            "label": "¿Quedan al menos 3,50 m de paso libre?",
             "type": "choice",
             "visible_when": [
               {
@@ -3622,8 +3838,71 @@
             ]
           },
           {
+            "id": "plaza_disposicion",
+            "label": "¿La disposición adosada o paralela y, en su caso, el corredor de 3–4 m se ajustan al art. 13.4?",
+            "type": "choice",
+            "visible_when": [
+              {
+                "field": "ubicacion",
+                "equals": "plaza_peatonal"
+              }
+            ],
+            "options": [
+              {
+                "value": "si",
+                "label": "Sí"
+              },
+              {
+                "value": "no",
+                "label": "No"
+              }
+            ]
+          },
+          {
+            "id": "plaza_ocupacion",
+            "label": "¿La ocupación y longitud se mantienen dentro de los límites del art. 13.4?",
+            "type": "choice",
+            "visible_when": [
+              {
+                "field": "ubicacion",
+                "equals": "plaza_peatonal"
+              }
+            ],
+            "options": [
+              {
+                "value": "si",
+                "label": "Sí"
+              },
+              {
+                "value": "no",
+                "label": "No"
+              }
+            ]
+          },
+          {
+            "id": "plaza_paso",
+            "label": "¿Quedan al menos 3,50 m de paso libre?",
+            "type": "choice",
+            "visible_when": [
+              {
+                "field": "ubicacion",
+                "equals": "plaza_peatonal"
+              }
+            ],
+            "options": [
+              {
+                "value": "si",
+                "label": "Sí"
+              },
+              {
+                "value": "no",
+                "label": "No"
+              }
+            ]
+          },
+          {
             "id": "rastrillo_valla",
-            "label": "Estado de la valla obligatoria",
+            "label": "¿Existe la valla obligatoria?",
             "type": "choice",
             "visible_when": [
               {
@@ -3633,16 +3912,75 @@
             ],
             "options": [
               {
-                "value": "ausente",
-                "label": "No existe"
+                "value": "si",
+                "label": "Sí"
               },
               {
-                "value": "defectuosa",
-                "label": "Existe, pero incumple altura, apertura o cierre hacia calzada"
+                "value": "no",
+                "label": "No"
+              }
+            ]
+          },
+          {
+            "id": "rastrillo_altura",
+            "label": "¿La altura está entre 80 y 150 cm?",
+            "type": "choice",
+            "visible_when": [
+              {
+                "field": "rastrillo_valla",
+                "equals": "si"
+              }
+            ],
+            "options": [
+              {
+                "value": "si",
+                "label": "Sí"
               },
               {
-                "value": "correcta",
-                "label": "Existe y cumple las características"
+                "value": "no",
+                "label": "No"
+              }
+            ]
+          },
+          {
+            "id": "rastrillo_apertura",
+            "label": "¿La apertura horizontal máxima es de 50 cm o menos?",
+            "type": "choice",
+            "visible_when": [
+              {
+                "field": "rastrillo_valla",
+                "equals": "si"
+              }
+            ],
+            "options": [
+              {
+                "value": "si",
+                "label": "Sí"
+              },
+              {
+                "value": "no",
+                "label": "No"
+              }
+            ]
+          },
+          {
+            "id": "rastrillo_cierre",
+            "label": "¿La valla impide el acceso directo a la calzada?",
+            "type": "choice",
+            "visible_when": [
+              {
+                "field": "rastrillo_valla",
+                "equals": "si"
+              }
+            ],
+            "options": [
+              {
+                "value": "si",
+                "label": "Sí"
+              },
+              {
+                "value": "no",
+                "label": "No"
               }
             ]
           },
@@ -3668,23 +4006,56 @@
             ]
           },
           {
-            "id": "suplemento_estado",
-            "label": "Protección del suplemento",
-            "type": "choice",
+            "id": "suplemento_requisitos",
+            "label": "Hechos observados en el suplemento",
+            "type": "multi",
             "visible_when": [
               {
                 "field": "ubicacion",
                 "equals": "suplemento"
               }
             ],
+            "help": "Marca únicamente cada incumplimiento comprobado.",
             "options": [
               {
-                "value": "correcta",
-                "label": "Acceso solo desde acera y protección perimetral/barandilla completas"
+                "value": "fuera_fachada",
+                "label": "Ocupa plazas que no están frente a la fachada"
               },
               {
-                "value": "ausente",
-                "label": "Falta impedir el acceso desde calzada o falta protección/barandilla"
+                "value": "dimensiones",
+                "label": "Supera la anchura de fachada o la profundidad del estacionamiento"
+              },
+              {
+                "value": "reflectantes",
+                "label": "Faltan reflectantes mínimos de 10×20 cm en las aristas"
+              },
+              {
+                "value": "senal",
+                "label": "Falta la señal vertical P-17 en el extremo"
+              },
+              {
+                "value": "bateria",
+                "label": "En batería, no deja 1 m respecto de aparcamientos adyacentes"
+              },
+              {
+                "value": "acceso_acera",
+                "label": "El acceso no se realiza únicamente desde la acera"
+              },
+              {
+                "value": "acceso_calzada",
+                "label": "No impide físicamente el acceso desde calzada o aparcamiento"
+              },
+              {
+                "value": "proteccion",
+                "label": "Falta protección perimetral o barandilla"
+              },
+              {
+                "value": "servicios",
+                "label": "Impide o dificulta servicios públicos"
+              },
+              {
+                "value": "toldo",
+                "label": "Existe toldo sobre el vuelo de calzada"
               }
             ]
           }
@@ -3695,8 +4066,20 @@
             "title": "Valla colocada con características diferentes",
             "when": [
               {
-                "field": "rastrillo_valla",
-                "equals": "defectuosa"
+                "any_of": [
+                  {
+                    "field": "rastrillo_altura",
+                    "equals": "no"
+                  },
+                  {
+                    "field": "rastrillo_apertura",
+                    "equals": "no"
+                  },
+                  {
+                    "field": "rastrillo_cierre",
+                    "equals": "no"
+                  }
+                ]
               }
             ],
             "status": "infraccion",
@@ -3726,7 +4109,7 @@
             "when": [
               {
                 "field": "rastrillo_valla",
-                "equals": "ausente"
+                "equals": "no"
               }
             ],
             "status": "infraccion",
@@ -3740,8 +4123,12 @@
             "title": "Ausencia de separación obligatoria de calzada o aparcamiento",
             "when": [
               {
-                "field": "suplemento_estado",
-                "equals": "ausente"
+                "field": "suplemento_requisitos",
+                "includes_any": [
+                  "acceso_acera",
+                  "acceso_calzada",
+                  "proteccion"
+                ]
               }
             ],
             "status": "infraccion",
@@ -3749,6 +4136,83 @@
             "article": "27.2.c",
             "amount": 300,
             "detail": "Falta el acceso exclusivo desde acera o la protección perimetral/barandilla que impide el acceso desde calzada o aparcamiento."
+          },
+          {
+            "id": "fachada_quicios",
+            "title": "Separación insuficiente respecto de puertas",
+            "when": [
+              {
+                "field": "fachada_quicios",
+                "equals": "no"
+              }
+            ],
+            "status": "infraccion",
+            "classification": "LEVE",
+            "article": "27.1.f",
+            "amount": 150,
+            "detail": "No se respeta la separación mínima de 0,50 m de los quicios prevista en el art. 14.4."
+          },
+          {
+            "id": "condiciones_peatonales",
+            "title": "Incumplimiento de disposición, ocupación o paso libre",
+            "when": [
+              {
+                "any_of": [
+                  {
+                    "field": "calle_disposicion",
+                    "equals": "no"
+                  },
+                  {
+                    "field": "calle_ocupacion",
+                    "equals": "no"
+                  },
+                  {
+                    "field": "calle_paso",
+                    "equals": "no"
+                  },
+                  {
+                    "field": "plaza_disposicion",
+                    "equals": "no"
+                  },
+                  {
+                    "field": "plaza_ocupacion",
+                    "equals": "no"
+                  },
+                  {
+                    "field": "plaza_paso",
+                    "equals": "no"
+                  }
+                ]
+              }
+            ],
+            "status": "infraccion",
+            "classification": "LEVE",
+            "article": "27.1.f",
+            "amount": 150,
+            "detail": "Incumplimiento comprobado de los arts. 13.3, 13.4 o 13.5, según la ubicación seleccionada."
+          },
+          {
+            "id": "suplemento_tecnico",
+            "title": "Incumplimiento técnico del suplemento",
+            "when": [
+              {
+                "field": "suplemento_requisitos",
+                "includes_any": [
+                  "fuera_fachada",
+                  "dimensiones",
+                  "reflectantes",
+                  "senal",
+                  "bateria",
+                  "servicios",
+                  "toldo"
+                ]
+              }
+            ],
+            "status": "infraccion",
+            "classification": "LEVE",
+            "article": "27.1.f",
+            "amount": 150,
+            "detail": "Incumplimiento comprobado de una condición técnica del suplemento prevista en el art. 12.3."
           },
           {
             "id": "general_fachada",
@@ -3796,7 +4260,7 @@
             "detail": "Incumplimiento residual del art. 14.1; no se impone la valla específica de bordillo."
           }
         ],
-        "final_note": "Antes de usar la cláusula residual del art. 27.1.f, la guía separa los hechos con tipificación específica."
+        "final_note": "Antes de aplicar el art. 27.1.f, comprueba que el hecho no tenga tipificación específica grave o muy grave."
       }
     }
   },
@@ -3922,7 +4386,7 @@
               }
             ],
             "status": "pendiente",
-            "detail": "No se equipara automáticamente «no acreditado ahora» con «no existe». Deja constancia y completa la comprobación."
+            "detail": "«No acreditado ahora» no equivale a «no existe». Deja constancia y completa la comprobación."
           },
           {
             "id": "estufas",
@@ -3949,7 +4413,7 @@
               }
             ],
             "status": "pendiente",
-            "detail": "Documenta la cobertura ausente. No se clasifica automáticamente como carencia total del art. 7."
+            "detail": "Documenta la cobertura ausente. Este hecho no equivale a la carencia total del seguro del art. 7."
           },
           {
             "id": "correcta",
@@ -3967,7 +4431,7 @@
             "detail": "Los datos seleccionados no activan una infracción de seguro."
           }
         ],
-        "final_note": "La falta específica de cobertura de estufas nunca activa automáticamente el art. 27.2.e."
+        "final_note": "La falta específica de cobertura de estufas se encuadra en el art. 27.1.f y no en la carencia de seguro del art. 27.2.e."
       }
     }
   },
@@ -3988,14 +4452,14 @@
       "Productos, envases o residuos apilados",
       "Elementos homologados de recogida"
     ],
-    "resultado": "Un único bloque recoge las tres conductas sin duplicar la ficha común.",
+    "resultado": "Se comprueban conjuntamente limpieza, almacenamiento y elementos de recogida de residuos.",
     "norma": "Ordenanza de terrazas de Torrent",
     "articulo": "9.1, 27.1.a, 27.1.d, 27.1.f y 28",
     "responsable": "Persona física o jurídica titular de la instalación (art. 26).",
     "actuacion": [
       "Describir el estado de la instalación y su entorno inmediato.",
       "Identificar productos, envases o residuos y su ubicación.",
-      "Comprobar los elementos homologados de recogida cuando proceda."
+      "Si existen recipientes, comprobar documentalmente su homologación cuando no sea identificable en la inspección."
     ],
     "competencia_denuncia": "Policía Local de Torrent.",
     "competencia_resuelve": "Junta de Gobierno Local, con posibilidad de delegación en el concejal que tenga atribuidas las competencias indicadas en la ordenanza (art. 30).",
@@ -4011,6 +4475,11 @@
         "group": "Funcionamiento y convivencia",
         "order": 80,
         "summary": "Selecciona uno o varios hechos de limpieza, almacenamiento o residuos.",
+        "information": [
+          "El espacio, su entorno, instalaciones y elementos deben mantenerse limpios, seguros, higiénicos y en buen ornato (art. 9.1).",
+          "No se permite almacenar o apilar productos, materiales o residuos junto a la terraza (art. 9.2).",
+          "Deben existir elementos de recogida y almacenamiento denominados «homologados» por la Ordenanza (art. 9.1); si la homologación no es verificable en calle, requiere comprobación documental."
+        ],
         "fields": [
           {
             "id": "conductas",
@@ -4027,7 +4496,11 @@
               },
               {
                 "value": "sin_elementos",
-                "label": "Faltan elementos homologados de recogida y almacenamiento"
+                "label": "No existen recipientes o elementos destinados a recoger y almacenar residuos"
+              },
+              {
+                "value": "homologacion_no_comprobable",
+                "label": "Existen elementos, pero la homologación no puede comprobarse en la inspección"
               }
             ]
           }
@@ -4065,7 +4538,7 @@
           },
           {
             "id": "elementos",
-            "title": "Falta de elementos homologados para residuos",
+            "title": "No existen elementos para la recogida y almacenamiento de residuos",
             "when": [
               {
                 "field": "conductas",
@@ -4077,9 +4550,21 @@
             "article": "27.1.f",
             "amount": 150,
             "detail": "Incumplimiento de la obligación del art. 9.1 por cláusula residual."
+          },
+          {
+            "id": "homologacion_pendiente",
+            "title": "Homologación pendiente de comprobación documental",
+            "when": [
+              {
+                "field": "conductas",
+                "includes": "homologacion_no_comprobable"
+              }
+            ],
+            "status": "pendiente",
+            "detail": "La duda visual sobre la homologación no genera por sí sola una infracción. Comprueba la documentación disponible."
           }
         ],
-        "final_note": "Si concurren varios hechos, documéntalos todos; la aplicación no genera automáticamente varias sanciones."
+        "final_note": "Si concurren varios hechos, documéntalos conjuntamente; la mera concurrencia no implica por sí sola varias sanciones."
       }
     }
   },
@@ -4124,7 +4609,8 @@
         "order": 90,
         "summary": "Comprueba qué elementos permanecen fuera una vez finalizado el horario.",
         "information": [
-          "Fuera de horario, el espacio debe quedar libre, el mobiliario en el interior y los toldos recogidos y completamente enrollados."
+          "Al finalizar el horario, el espacio debe quedar libre, todo el mobiliario dentro del local y los toldos recogidos y completamente enrollados (art. 14.6).",
+          "Toldo no retirado o recogido: art. 27.2.j; mobiliario no retirado: art. 27.2.k."
         ],
         "fields": [
           {
@@ -4208,7 +4694,7 @@
             "detail": "No se aplica este supuesto de retirada al finalizar el horario."
           }
         ],
-        "final_note": "La concurrencia de toldo y mobiliario se refleja en los hechos, sin generar automáticamente una doble sanción."
+        "final_note": "Consigna conjuntamente el toldo y el mobiliario cuando concurran; esa concurrencia no implica por sí sola una doble sanción."
       }
     }
   },
@@ -4254,6 +4740,11 @@
         "group": "Funcionamiento y convivencia",
         "order": 100,
         "summary": "Exige acreditar las molestias y separa los hechos observados de su calificación.",
+        "information": [
+          "La simple llamada o queja no acreditada no activa por sí sola una clasificación sancionadora.",
+          "Molestias acreditadas derivadas del funcionamiento: grave (art. 27.2.f).",
+          "Molestias graves por incumplimiento reiterado y grave: muy grave (art. 27.3.f)."
+        ],
         "fields": [
           {
             "id": "comprobacion",
@@ -4275,16 +4766,75 @@
             ]
           },
           {
-            "id": "naturaleza",
-            "label": "Naturaleza, intensidad, afectados y circunstancias observadas",
-            "type": "text",
+            "id": "afectados",
+            "label": "¿A quién afectan las molestias comprobadas?",
+            "type": "choice",
             "visible_when": [
               {
                 "field": "comprobacion",
                 "equals": "agentes"
               }
             ],
-            "placeholder": "Describe hechos concretos y personas afectadas"
+            "options": [
+              {
+                "value": "vecinos",
+                "label": "Vecinos"
+              },
+              {
+                "value": "transeuntes",
+                "label": "Transeúntes"
+              },
+              {
+                "value": "ambos",
+                "label": "Vecinos y transeúntes"
+              }
+            ]
+          },
+          {
+            "id": "tipo_molestia",
+            "label": "¿Qué tipo de molestia se comprueba?",
+            "type": "multi",
+            "visible_when": [
+              {
+                "field": "comprobacion",
+                "equals": "agentes"
+              }
+            ],
+            "options": [
+              {
+                "value": "ruido",
+                "label": "Ruido derivado del funcionamiento"
+              },
+              {
+                "value": "ocupacion",
+                "label": "Afectación observable al uso del espacio"
+              },
+              {
+                "value": "otra",
+                "label": "Otra molestia observable vinculada al funcionamiento"
+              }
+            ]
+          },
+          {
+            "id": "medicion",
+            "label": "¿Existe medición acústica?",
+            "type": "choice",
+            "visible_when": [
+              {
+                "field": "tipo_molestia",
+                "includes": "ruido"
+              }
+            ],
+            "options": [
+              {
+                "value": "si",
+                "label": "Sí"
+              },
+              {
+                "value": "no",
+                "label": "No"
+              }
+            ]
           },
           {
             "id": "especial_intensidad",
@@ -4299,7 +4849,7 @@
             "options": [
               {
                 "value": "si",
-                "label": "Sí; quedan descritas en los hechos"
+                "label": "Sí; se comprueban directamente"
               },
               {
                 "value": "no",
@@ -4308,8 +4858,8 @@
             ]
           },
           {
-            "id": "reiteracion",
-            "label": "¿Constan incumplimientos previos concretos?",
+            "id": "actuaciones_previas",
+            "label": "¿Constan requerimientos o actuaciones anteriores documentados?",
             "type": "choice",
             "visible_when": [
               {
@@ -4320,7 +4870,7 @@
             "options": [
               {
                 "value": "si",
-                "label": "Sí; constan fechas o requerimientos previos"
+                "label": "Sí"
               },
               {
                 "value": "no",
@@ -4329,16 +4879,25 @@
             ]
           },
           {
-            "id": "antecedentes",
-            "label": "Fechas, requerimientos, incumplimientos previos y medición acústica",
-            "type": "text",
+            "id": "reiteracion",
+            "label": "¿Consta reiteración documentada del incumplimiento?",
+            "type": "choice",
             "visible_when": [
               {
-                "field": "reiteracion",
+                "field": "actuaciones_previas",
                 "equals": "si"
               }
             ],
-            "placeholder": "Consigna antecedentes concretos y medición, si existe"
+            "options": [
+              {
+                "value": "si",
+                "label": "Sí"
+              },
+              {
+                "value": "no",
+                "label": "No"
+              }
+            ]
           }
         ],
         "outcomes": [
@@ -4351,7 +4910,11 @@
                 "equals": "agentes"
               },
               {
-                "field": "naturaleza",
+                "field": "afectados",
+                "non_empty": true
+              },
+              {
+                "field": "tipo_molestia",
                 "non_empty": true
               }
             ],
@@ -4365,15 +4928,15 @@
                 "equals": "si"
               },
               {
-                "field": "antecedentes",
-                "non_empty": true
+                "field": "actuaciones_previas",
+                "equals": "si"
               }
             ],
             "status": "infraccion",
             "classification": "GRAVE",
             "article": "27.2.f",
             "amount": 300,
-            "detail": "Encaje base para molestias acreditadas. Solo cede ante la variante muy grave cuando se completan todos sus hechos."
+            "detail": "Molestias acreditadas derivadas del funcionamiento, salvo que concurran todos los hechos del supuesto muy grave."
           },
           {
             "id": "muy_grave",
@@ -4384,7 +4947,11 @@
                 "equals": "agentes"
               },
               {
-                "field": "naturaleza",
+                "field": "afectados",
+                "non_empty": true
+              },
+              {
+                "field": "tipo_molestia",
                 "non_empty": true
               },
               {
@@ -4396,8 +4963,8 @@
                 "equals": "si"
               },
               {
-                "field": "antecedentes",
-                "non_empty": true
+                "field": "actuaciones_previas",
+                "equals": "si"
               }
             ],
             "status": "infraccion",
@@ -4416,7 +4983,7 @@
               }
             ],
             "status": "pendiente",
-            "detail": "La simple llamada o queja no asigna automáticamente una infracción. Practica las comprobaciones posibles."
+            "detail": "La simple llamada o queja no acredita por sí sola una infracción. Practica las comprobaciones posibles."
           },
           {
             "id": "sin",
@@ -4428,7 +4995,7 @@
               }
             ],
             "status": "sin_infraccion",
-            "detail": "Este bloque no asigna infracción."
+            "detail": "No se acreditan molestias derivadas del funcionamiento."
           }
         ]
       }
@@ -4454,14 +5021,14 @@
       "Emisión o equipos audiovisuales",
       "Máquinas y otros elementos prohibidos"
     ],
-    "resultado": "Una o varias conductas del art. 15 se integran en un único bloque y no generan automáticamente varias sanciones.",
+    "resultado": "Una o varias conductas del art. 15 se consignan conjuntamente; su concurrencia no implica por sí sola varias sanciones.",
     "norma": "Ordenanza de terrazas de Torrent",
     "articulo": "15, 27.3.g y 28",
     "responsable": "Persona física o jurídica titular de la instalación (art. 26).",
     "actuacion": [
       "Seleccionar todas las conductas observadas.",
       "Describir ubicación, funcionamiento y percepción desde la terraza.",
-      "Formular un único encaje operativo sin multiplicar automáticamente sanciones por cada elemento."
+      "Formular un único encaje operativo; la mera concurrencia de elementos no implica por sí sola varias sanciones."
     ],
     "competencia_denuncia": "Policía Local de Torrent.",
     "competencia_resuelve": "Junta de Gobierno Local, con posibilidad de delegación en el concejal que tenga atribuidas las competencias indicadas en la ordenanza (art. 30).",
@@ -4477,6 +5044,11 @@
         "group": "Funcionamiento y convivencia",
         "order": 110,
         "summary": "Reúne espectáculos, audiovisuales y máquinas prohibidas en una sola comprobación.",
+        "information": [
+          "El art. 15 prohíbe actuaciones y espectáculos en directo, audiovisuales o emisiones en terraza y equipos interiores visibles o audibles desde ella.",
+          "También prohíbe neveras, máquinas expendedoras, recreativas, juegos de azar, billares, futbolines y elementos análogos (art. 15).",
+          "La conducta se tipifica como muy grave en el art. 27.3.g."
+        ],
         "fields": [
           {
             "id": "conductas",
@@ -4540,10 +5112,10 @@
             "classification": "MUY GRAVE",
             "article": "27.3.g, en relación con el art. 15",
             "amount": 600,
-            "detail": "Consigna en los hechos todos los elementos seleccionados; su simultaneidad no genera automáticamente varias sanciones."
+            "detail": "Consigna en los hechos todos los elementos observados; su simultaneidad no implica por sí sola varias sanciones."
           }
         ],
-        "final_note": "Una selección múltiple describe la intervención; no multiplica automáticamente el número de infracciones."
+        "final_note": "Consigna conjuntamente todos los elementos observados; su simultaneidad no implica por sí sola varias sanciones."
       }
     }
   },
@@ -4571,7 +5143,7 @@
     "actuacion": [
       "Describir expresiones, actos u omisiones concretas.",
       "Seleccionar todas las conductas concurrentes.",
-      "No incorporar en este bloque la ocultación o manipulación de documentos para obtener autorización."
+      "La ocultación o manipulación de documentos para obtener autorización queda fuera de esta comprobación."
     ],
     "competencia_denuncia": "Policía Local de Torrent.",
     "competencia_resuelve": "Junta de Gobierno Local, con posibilidad de delegación en el concejal que tenga atribuidas las competencias indicadas en la ordenanza (art. 30).",
@@ -4587,6 +5159,9 @@
         "group": "Control administrativo",
         "order": 120,
         "summary": "Hechos que afectan a la relación con el agente y a la labor inspectora.",
+        "information": [
+          "La falta de consideración, la negativa o la obstaculización de la labor inspectora se tipifican como muy graves en el art. 27.3.i."
+        ],
         "fields": [
           {
             "id": "conductas",
@@ -4606,12 +5181,6 @@
                 "label": "Obstaculización de la labor inspectora"
               }
             ]
-          },
-          {
-            "id": "descripcion",
-            "label": "Hechos concretos",
-            "type": "text",
-            "placeholder": "Describe palabras, actos, requerimientos y respuesta"
           }
         ],
         "outcomes": [
@@ -4622,20 +5191,16 @@
               {
                 "field": "conductas",
                 "non_empty": true
-              },
-              {
-                "field": "descripcion",
-                "non_empty": true
               }
             ],
             "status": "infraccion",
             "classification": "MUY GRAVE",
             "article": "27.3.i",
             "amount": 600,
-            "detail": "Las opciones concurrentes se reflejan juntas en los hechos, sin generar automáticamente varias sanciones."
+            "detail": "Refleja juntas las conductas concurrentes; su concurrencia no implica por sí sola varias sanciones."
           }
         ],
-        "final_note": "Se excluye expresamente la ocultación o manipulación documental para obtener autorización."
+        "final_note": "La ocultación o manipulación de documentos para obtener autorización queda fuera de esta comprobación operativa."
       }
     }
   },
@@ -4679,6 +5244,10 @@
         "group": "Control administrativo",
         "order": 130,
         "summary": "Pregunta por la forma real de explotación, no por la existencia de una «cesión ilegal».",
+        "information": [
+          "La autorización puede transmitirse conjuntamente con el establecimiento, comunicándolo al Ayuntamiento (art. 16.1).",
+          "La explotación de la terraza no puede cederse o subarrendarse a un tercero separada del establecimiento (art. 16.2)."
+        ],
         "fields": [
           {
             "id": "forma",
@@ -4730,7 +5299,7 @@
               }
             ],
             "status": "informacion",
-            "detail": "Puede ser transmisible conforme al art. 16.1; no se clasifica automáticamente como infracción."
+            "detail": "Puede ser transmisible conforme al art. 16.1 y no constituye por sí sola infracción."
           },
           {
             "id": "sin",
@@ -4742,7 +5311,7 @@
               }
             ],
             "status": "sin_infraccion",
-            "detail": "Este bloque no asigna infracción."
+            "detail": "No se acredita explotación por tercero."
           },
           {
             "id": "duda",
@@ -4777,7 +5346,7 @@
       "Constancia o notificación de la orden",
       "Continuación del funcionamiento"
     ],
-    "resultado": "Este supuesto parte siempre de una orden previa; la aplicación no decide emitirla.",
+    "resultado": "Este supuesto requiere una orden previa de suspensión inmediata y la continuidad comprobada del funcionamiento.",
     "norma": "Ordenanza de terrazas de Torrent",
     "articulo": "24, 27.3.e y 28",
     "responsable": "Persona física o jurídica titular de la instalación (art. 26).",
@@ -4801,7 +5370,8 @@
         "order": 140,
         "summary": "Comprueba una orden ya existente y si la instalación sigue funcionando.",
         "information": [
-          "El art. 24 vincula la suspensión inmediata al incumplimiento de condiciones ambientales. Esta herramienta no decide autónomamente que proceda emitir esa orden."
+          "El art. 24 vincula la suspensión inmediata al incumplimiento de condiciones ambientales.",
+          "Continuar funcionando pese a una orden previa de suspensión inmediata se tipifica en el art. 27.3.e."
         ],
         "fields": [
           {
@@ -4890,7 +5460,7 @@
               }
             ],
             "status": "sin_infraccion",
-            "detail": "No se aplica este supuesto. La herramienta no decide que deba emitirse una orden ambiental de suspensión."
+            "detail": "Sin orden previa no se aplica este supuesto; no corresponde valorar aquí la emisión de una orden ambiental."
           }
         ]
       }
@@ -4900,7 +5470,7 @@
     "id": "TER-OP-015",
     "modulo": "policia_administrativa",
     "categoria": "policia_administrativa_terrazas",
-    "titulo": "🧱 Condiciones técnicas",
+    "titulo": "🧱 Condiciones de instalación y seguridad",
     "palabras_clave": [
       "mobiliario",
       "estufas",
@@ -4916,14 +5486,14 @@
       "Coincidencia material de la instalación",
       "Obligación concreta observada"
     ],
-    "resultado": "Bloque residual guiado para obligaciones visibles sin degradar conductas que tienen bloque específico.",
+    "resultado": "Comprobación conjunta de accesos, toldos, estufas y suplementos de calzada.",
     "norma": "Ordenanza de terrazas de Torrent",
     "articulo": "5, 8, 9, 12, 13, 14, 27.1.f y 28",
     "responsable": "Persona física o jurídica titular de la instalación (art. 26).",
     "actuacion": [
       "Contrastar autorización y plano cuando la condición dependa de ellos.",
       "Seleccionar los hechos concretos observados.",
-      "Seguir el aviso de bloque específico antes de formular un tipo residual."
+      "Documentar medidas, ubicación y elementos concretos que fundamentan el resultado."
     ],
     "competencia_denuncia": "Policía Local de Torrent.",
     "competencia_resuelve": "Junta de Gobierno Local, con posibilidad de delegación en el concejal que tenga atribuidas las competencias indicadas en la ordenanza (art. 30).",
@@ -4938,11 +5508,12 @@
         "icon": "🧱",
         "group": "Seguridad y condiciones",
         "order": 150,
-        "summary": "Lista verificable de obligaciones residuales y desvíos automáticos a bloques específicos.",
+        "summary": "Comprueba accesos, toldos, estufas y suplementos sin salir de la ficha.",
         "information": [
-          "El art. 27.1.f solo se usa para hechos sin tipificación específica.",
-          "La coincidencia con una autorización municipal válida no se transforma automáticamente en infracción.",
-          "El acceso desde acera y la protección perimetral/barandilla del suplemento se localizan aquí, pero su posible encaje se resuelve en Protección y delimitación."
+          "Accesos y servicios: portales, locales, vados, emergencias, transporte, pasos peatonales y registros deben quedar libres en los términos del art. 14.4 y 14.5.",
+          "Toldos: solo los tipos permitidos, sin cierres verticales o rígidos, entre 2,80 y 3,50 m y nunca sobre suplemento de calzada (arts. 12.3 y 14.3).",
+          "Estufas: modelo conforme, paso libre de 2,20 m, extintor 21A-13B a menos de 15 m y accesible, y cobertura específica en póliza (art. 8.3).",
+          "Suplementos: frente a fachada, dimensiones del estacionamiento, reflectantes, P-17, separación en batería, acceso desde acera, protección y servicios libres (art. 12.3)."
         ],
         "fields": [
           {
@@ -4973,193 +5544,126 @@
             ]
           },
           {
-            "id": "hechos_especificos",
-            "label": "Hechos con bloque específico observados",
-            "type": "multi",
-            "help": "La aplicación los desvía; no tienes que decidir su calificación.",
-            "options": [
-              {
-                "value": "autorizacion",
-                "label": "No hay autorización o se usa fuera de periodo → bloque 1"
-              },
-              {
-                "value": "horario",
-                "label": "Exceso de horario → bloque 2"
-              },
-              {
-                "value": "documentos",
-                "label": "Autorización/plano no visibles o no presentados → bloque 3"
-              },
-              {
-                "value": "superficie",
-                "label": "Ocupación superior a la superficie autorizada → bloque 4"
-              },
-              {
-                "value": "reduccion",
-                "label": "Reducción de anchura respecto del plano → bloque 5"
-              },
-              {
-                "value": "proteccion",
-                "label": "Valla/protección obligatoria ausente o defectuosa → bloque 6"
-              },
-              {
-                "value": "suplemento_acceso",
-                "label": "Suplemento sin acceso único desde acera o sin impedir acceso desde calzada → bloque 6"
-              },
-              {
-                "value": "suplemento_barandilla",
-                "label": "Suplemento sin protección perimetral/barandilla → bloque 6"
-              },
-              {
-                "value": "seguro",
-                "label": "Carencia de seguro del art. 7 → bloque 7"
-              },
-              {
-                "value": "limpieza",
-                "label": "Limpieza, apilado o residuos → bloque 8"
-              },
-              {
-                "value": "retirada",
-                "label": "Toldo o mobiliario sin retirar al finalizar → bloque 9"
-              },
-              {
-                "value": "molestias",
-                "label": "Molestias acreditadas → bloque 10"
-              },
-              {
-                "value": "prohibidos",
-                "label": "Espectáculos, audiovisuales o elementos prohibidos → bloque 11"
-              },
-              {
-                "value": "inspeccion",
-                "label": "Negativa u obstaculización inspectora → bloque 12"
-              },
-              {
-                "value": "cesion",
-                "label": "Explotación cedida a tercero → bloque 13"
-              },
-              {
-                "value": "suspension",
-                "label": "Continúa pese a orden de suspensión → bloque 14"
-              }
-            ]
-          },
-          {
             "id": "incumplimientos",
-            "label": "Otros hechos técnicos observados",
+            "label": "Hechos de instalación y seguridad comprobados",
             "type": "multi",
+            "help": "Marca únicamente hechos observables o comprobados documentalmente.",
             "options": [
               {
                 "value": "mobiliario_homologado",
-                "label": "Mobiliario no homologado"
+                "label": "Mobiliario: tras comprobación documental, no consta el tipo homologado"
               },
               {
                 "value": "mobiliario_uniforme",
-                "label": "Falta uniformidad de color o diseño"
+                "label": "Mobiliario: falta uniformidad de color o diseño"
               },
               {
                 "value": "estufa_homologacion",
-                "label": "Estufa sin homologación acreditada"
+                "label": "Estufas: tras comprobación documental, el modelo no acredita conformidad"
               },
               {
                 "value": "estufa_altura",
-                "label": "Altura libre bajo estufa inferior a 2,20 m"
+                "label": "Estufas: altura libre inferior a 2,20 m"
               },
               {
                 "value": "estufa_extintor",
-                "label": "Extintor inferior a 21A-13B, a más de 15 m o no accesible"
+                "label": "Estufas: extintor inferior a 21A-13B, a más de 15 m o no accesible"
               },
               {
                 "value": "estufa_seguro",
-                "label": "Seguro sin cobertura específica de estufas"
+                "label": "Estufas: la póliza comprobada no cubre sus riesgos"
               },
               {
                 "value": "paso_general",
-                "label": "Paso general inferior a 1,80 m, sin reducción específica respecto del plano"
+                "label": "Accesos y pasos: paso general inferior a 1,80 m"
               },
               {
                 "value": "paso_peatonal",
-                "label": "Condición propia de calle, paseo o plaza peatonal incumplida"
+                "label": "Accesos y pasos: paso peatonal exigible inferior a 3,50 m"
               },
               {
                 "value": "patio_portal",
-                "label": "Obstaculiza patio o portal"
+                "label": "Accesos y pasos: obstaculiza patio o portal"
               },
               {
                 "value": "local",
-                "label": "Obstaculiza local comercial"
+                "label": "Accesos y pasos: obstaculiza local comercial"
               },
               {
                 "value": "vado",
-                "label": "Dificulta un vado"
+                "label": "Accesos y pasos: dificulta un vado"
               },
               {
                 "value": "quicios",
-                "label": "Adosada a fachada sin 0,50 m desde quicios de puertas"
+                "label": "Accesos y pasos: adosada sin 0,50 m desde quicios de puertas"
               },
               {
                 "value": "emergencia",
-                "label": "Salida de emergencia sin su anchura más 1 m a cada lado"
+                "label": "Accesos y pasos: salida de emergencia sin su anchura más 1 m a cada lado"
               },
               {
                 "value": "transporte",
-                "label": "Parada de transporte público no completamente libre"
+                "label": "Accesos y pasos: parada de transporte público no completamente libre"
               },
               {
                 "value": "peatones",
-                "label": "Paso de peatones no completamente libre"
+                "label": "Accesos y pasos: paso de peatones no completamente libre"
               },
               {
                 "value": "servicios",
-                "label": "Bocas, tapas, registros o servicios municipales no accesibles"
+                "label": "Accesos y pasos: bocas, tapas, registros o servicios no accesibles"
               },
               {
                 "value": "toldo_tipo",
-                "label": "Toldo de tipo o material no permitido"
+                "label": "Toldos: tipo o material no permitido"
               },
               {
                 "value": "toldo_cierre",
-                "label": "Toldo con cierres verticales o cerramiento rígido/translúcido/transparente"
+                "label": "Toldos: cierre vertical o cerramiento rígido, translúcido o transparente"
               },
               {
                 "value": "toldo_altura",
-                "label": "Toldo fuera de 2,80–3,50 m"
+                "label": "Toldos: altura fuera de 2,80–3,50 m"
               },
               {
                 "value": "toldo_suplemento",
-                "label": "Toldo sobre suplemento de calzada"
+                "label": "Toldos: instalado sobre suplemento de calzada"
               },
               {
                 "value": "suplemento_frente",
-                "label": "Suplemento fuera de plazas frente a fachada"
+                "label": "Suplemento: ocupa plazas que no están frente a fachada"
               },
               {
                 "value": "suplemento_dimensiones",
-                "label": "Dimensiones fuera de límites del art. 12.3"
+                "label": "Suplemento: dimensiones fuera de los límites del art. 12.3"
               },
               {
                 "value": "suplemento_reflectantes",
-                "label": "Sin reflectantes mínimos de 10×20 cm en aristas"
+                "label": "Suplemento: sin reflectantes mínimos de 10×20 cm en aristas"
               },
               {
                 "value": "suplemento_senal",
-                "label": "Sin señal vertical P-17 en el extremo"
+                "label": "Suplemento: sin señal vertical P-17 en el extremo"
               },
               {
                 "value": "suplemento_bateria",
-                "label": "En batería, menos de 1 m respecto de aparcamientos adyacentes"
+                "label": "Suplemento: en batería, menos de 1 m respecto de aparcamientos adyacentes"
+              },
+              {
+                "value": "suplemento_acceso",
+                "label": "Suplemento: el acceso no se realiza únicamente desde la acera"
+              },
+              {
+                "value": "suplemento_calzada",
+                "label": "Suplemento: no impide el acceso desde calzada o aparcamiento"
+              },
+              {
+                "value": "suplemento_proteccion",
+                "label": "Suplemento: falta protección perimetral o barandilla"
               },
               {
                 "value": "suplemento_servicios",
-                "label": "Impide servicios públicos"
-              },
-              {
-                "value": "residuos",
-                "label": "Sin elementos homologados de recogida/almacenamiento"
-              },
-              {
-                "value": "placa_horario",
-                "label": "Horario no consta en la placa municipal, siendo verificable"
+                "label": "Suplemento: impide o dificulta servicios públicos"
               }
             ]
           }
@@ -5178,10 +5682,6 @@
                 ]
               },
               {
-                "field": "hechos_especificos",
-                "empty": true
-              },
-              {
                 "field": "incumplimientos",
                 "non_empty": true
               }
@@ -5190,19 +5690,7 @@
             "classification": "LEVE",
             "article": "27.1.f",
             "amount": 150,
-            "detail": "La obligación concreta seleccionada carece de resultado específico en los otros bloques."
-          },
-          {
-            "id": "especifica",
-            "title": "Continuar en el bloque específico indicado",
-            "when": [
-              {
-                "field": "hechos_especificos",
-                "non_empty": true
-              }
-            ],
-            "status": "informacion",
-            "detail": "No apliques aquí la cláusula residual a esos hechos. Abre el bloque señalado, completa sus datos y utiliza su resultado."
+            "detail": "Incumplimiento de una condición concreta de los arts. 8, 12, 13 o 14 sin tipificación específica distinta."
           },
           {
             "id": "coincide",
@@ -5214,7 +5702,7 @@
               }
             ],
             "status": "sin_infraccion",
-            "detail": "Este bloque no convierte automáticamente en infracción una condición material que coincide con la autorización."
+            "detail": "La coincidencia con una autorización municipal válida no se tipifica como infracción por estas condiciones materiales."
           },
           {
             "id": "duda",
@@ -5228,8 +5716,7 @@
             "status": "pendiente",
             "detail": "Contrasta autorización y plano antes de sancionar una condición que dependa de ellos."
           }
-        ],
-        "final_note": "El motor deriva por hechos observables: los hechos con bloque propio nunca se rebajan a la cláusula residual."
+        ]
       }
     }
   }

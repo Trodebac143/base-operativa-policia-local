@@ -1,4 +1,118 @@
 {
-  "id":"TER-OP-011","modulo":"policia_administrativa","categoria":"policia_administrativa_terrazas","titulo":"🎵 Elementos prohibidos","palabras_clave":["espectáculos","audio","vídeo","televisión","neveras","máquinas","billares","futbolines"],"que_comprobar":["Actuaciones o espectáculos en directo","Emisión o equipos audiovisuales","Máquinas y otros elementos prohibidos"],"resultado":"Una o varias conductas del art. 15 se integran en un único bloque y no generan automáticamente varias sanciones.","norma":"Ordenanza de terrazas de Torrent","articulo":"15, 27.3.g y 28","responsable":"Persona física o jurídica titular de la instalación (art. 26).","actuacion":["Seleccionar todas las conductas observadas.","Describir ubicación, funcionamiento y percepción desde la terraza.","Formular un único encaje operativo sin multiplicar automáticamente sanciones por cada elemento."],"competencia_denuncia":"Policía Local de Torrent.","competencia_resuelve":"Junta de Gobierno Local, con posibilidad de delegación en el concejal que tenga atribuidas las competencias indicadas en la ordenanza (art. 30).","advertencias":[],"alerta_penal":false,"fuentes":["TER-TORRENT"],"estado":"validado",
-  "datos_adicionales":{"terrazas":{"icon":"🎵","group":"Funcionamiento y convivencia","order":110,"summary":"Reúne espectáculos, audiovisuales y máquinas prohibidas en una sola comprobación.","fields":[{"id":"conductas","label":"Conductas o elementos observados","type":"multi","options":[{"value":"directo","label":"Actuación o espectáculo en directo"},{"value":"audiovisual","label":"Equipo audiovisual, televisión o emisión de audio/vídeo en terraza"},{"value":"interior","label":"Equipo interior visible o audible desde la terraza"},{"value":"nevera","label":"Nevera"},{"value":"expendedora","label":"Máquina expendedora"},{"value":"recreativa","label":"Máquina recreativa"},{"value":"azar","label":"Juego de azar"},{"value":"billar","label":"Billar"},{"value":"futbolin","label":"Futbolín"},{"value":"analogo","label":"Elemento análogo"}]}],"outcomes":[{"id":"prohibidos","title":"Espectáculo, audiovisual u otro elemento prohibido","when":[{"field":"conductas","non_empty":true}],"status":"infraccion","classification":"MUY GRAVE","article":"27.3.g, en relación con el art. 15","amount":600,"detail":"Consigna en los hechos todos los elementos seleccionados; su simultaneidad no genera automáticamente varias sanciones."}],"final_note":"Una selección múltiple describe la intervención; no multiplica automáticamente el número de infracciones."}}
+  "id": "TER-OP-011",
+  "modulo": "policia_administrativa",
+  "categoria": "policia_administrativa_terrazas",
+  "titulo": "🎵 Elementos prohibidos",
+  "palabras_clave": [
+    "espectáculos",
+    "audio",
+    "vídeo",
+    "televisión",
+    "neveras",
+    "máquinas",
+    "billares",
+    "futbolines"
+  ],
+  "que_comprobar": [
+    "Actuaciones o espectáculos en directo",
+    "Emisión o equipos audiovisuales",
+    "Máquinas y otros elementos prohibidos"
+  ],
+  "resultado": "Una o varias conductas del art. 15 se consignan conjuntamente; su concurrencia no implica por sí sola varias sanciones.",
+  "norma": "Ordenanza de terrazas de Torrent",
+  "articulo": "15, 27.3.g y 28",
+  "responsable": "Persona física o jurídica titular de la instalación (art. 26).",
+  "actuacion": [
+    "Seleccionar todas las conductas observadas.",
+    "Describir ubicación, funcionamiento y percepción desde la terraza.",
+    "Formular un único encaje operativo; la mera concurrencia de elementos no implica por sí sola varias sanciones."
+  ],
+  "competencia_denuncia": "Policía Local de Torrent.",
+  "competencia_resuelve": "Junta de Gobierno Local, con posibilidad de delegación en el concejal que tenga atribuidas las competencias indicadas en la ordenanza (art. 30).",
+  "advertencias": [],
+  "alerta_penal": false,
+  "fuentes": [
+    "TER-TORRENT"
+  ],
+  "estado": "validado",
+  "datos_adicionales": {
+    "terrazas": {
+      "icon": "🎵",
+      "group": "Funcionamiento y convivencia",
+      "order": 110,
+      "summary": "Reúne espectáculos, audiovisuales y máquinas prohibidas en una sola comprobación.",
+      "information": [
+        "El art. 15 prohíbe actuaciones y espectáculos en directo, audiovisuales o emisiones en terraza y equipos interiores visibles o audibles desde ella.",
+        "También prohíbe neveras, máquinas expendedoras, recreativas, juegos de azar, billares, futbolines y elementos análogos (art. 15).",
+        "La conducta se tipifica como muy grave en el art. 27.3.g."
+      ],
+      "fields": [
+        {
+          "id": "conductas",
+          "label": "Conductas o elementos observados",
+          "type": "multi",
+          "options": [
+            {
+              "value": "directo",
+              "label": "Actuación o espectáculo en directo"
+            },
+            {
+              "value": "audiovisual",
+              "label": "Equipo audiovisual, televisión o emisión de audio/vídeo en terraza"
+            },
+            {
+              "value": "interior",
+              "label": "Equipo interior visible o audible desde la terraza"
+            },
+            {
+              "value": "nevera",
+              "label": "Nevera"
+            },
+            {
+              "value": "expendedora",
+              "label": "Máquina expendedora"
+            },
+            {
+              "value": "recreativa",
+              "label": "Máquina recreativa"
+            },
+            {
+              "value": "azar",
+              "label": "Juego de azar"
+            },
+            {
+              "value": "billar",
+              "label": "Billar"
+            },
+            {
+              "value": "futbolin",
+              "label": "Futbolín"
+            },
+            {
+              "value": "analogo",
+              "label": "Elemento análogo"
+            }
+          ]
+        }
+      ],
+      "outcomes": [
+        {
+          "id": "prohibidos",
+          "title": "Espectáculo, audiovisual u otro elemento prohibido",
+          "when": [
+            {
+              "field": "conductas",
+              "non_empty": true
+            }
+          ],
+          "status": "infraccion",
+          "classification": "MUY GRAVE",
+          "article": "27.3.g, en relación con el art. 15",
+          "amount": 600,
+          "detail": "Consigna en los hechos todos los elementos observados; su simultaneidad no implica por sí sola varias sanciones."
+        }
+      ],
+      "final_note": "Consigna conjuntamente todos los elementos observados; su simultaneidad no implica por sí sola varias sanciones."
+    }
+  }
 }

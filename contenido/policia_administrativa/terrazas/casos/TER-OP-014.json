@@ -1,4 +1,137 @@
 {
-  "id":"TER-OP-014","modulo":"policia_administrativa","categoria":"policia_administrativa_terrazas","titulo":"⛔ Orden de suspensión","palabras_clave":["suspensión","orden previa","continúa","precinto","retirada"],"que_comprobar":["Existencia de orden previa de suspensión inmediata","Constancia o notificación de la orden","Continuación del funcionamiento"],"resultado":"Este supuesto parte siempre de una orden previa; la aplicación no decide emitirla.","norma":"Ordenanza de terrazas de Torrent","articulo":"24, 27.3.e y 28","responsable":"Persona física o jurídica titular de la instalación (art. 26).","actuacion":["Comprobar y reseñar la orden previa de suspensión.","Verificar si la instalación continúa funcionando.","Si continúa, documentar actividad y elementos; el art. 24 prevé retirada o precinto."],"competencia_denuncia":"Policía Local de Torrent.","competencia_resuelve":"Junta de Gobierno Local, con posibilidad de delegación en el concejal que tenga atribuidas las competencias indicadas en la ordenanza (art. 30).","advertencias":[],"alerta_penal":false,"fuentes":["TER-TORRENT"],"estado":"validado",
-  "datos_adicionales":{"terrazas":{"icon":"⛔","group":"Control administrativo","order":140,"summary":"Comprueba una orden ya existente y si la instalación sigue funcionando.","information":["El art. 24 vincula la suspensión inmediata al incumplimiento de condiciones ambientales. Esta herramienta no decide autónomamente que proceda emitir esa orden."],"fields":[{"id":"orden","label":"¿Consta orden previa de suspensión inmediata?","type":"choice","options":[{"value":"si","label":"Sí; consta la orden previa"},{"value":"no","label":"No consta"}]},{"id":"continua","label":"¿La instalación continúa funcionando pese a la orden?","type":"choice","visible_when":[{"field":"orden","equals":"si"}],"options":[{"value":"si","label":"Sí"},{"value":"no","label":"No"}]}],"outcomes":[{"id":"incumple","title":"Continúa pese a la orden de suspensión","when":[{"field":"orden","equals":"si"},{"field":"continua","equals":"si"}],"status":"infraccion","classification":"MUY GRAVE","article":"27.3.e","amount":600,"detail":"Incumplimiento de una orden previa de suspensión inmediata.","measures":["El art. 24 dispone que, incumplida la suspensión, la instalación debe retirarse o precintarse."]},{"id":"cumple","title":"La instalación no continúa funcionando","when":[{"field":"orden","equals":"si"},{"field":"continua","equals":"no"}],"status":"sin_infraccion","detail":"No se activa el supuesto de incumplimiento de la orden."},{"id":"sin_orden","title":"No consta orden previa","when":[{"field":"orden","equals":"no"}],"status":"sin_infraccion","detail":"No se aplica este supuesto. La herramienta no decide que deba emitirse una orden ambiental de suspensión."}]}}
+  "id": "TER-OP-014",
+  "modulo": "policia_administrativa",
+  "categoria": "policia_administrativa_terrazas",
+  "titulo": "⛔ Orden de suspensión",
+  "palabras_clave": [
+    "suspensión",
+    "orden previa",
+    "continúa",
+    "precinto",
+    "retirada"
+  ],
+  "que_comprobar": [
+    "Existencia de orden previa de suspensión inmediata",
+    "Constancia o notificación de la orden",
+    "Continuación del funcionamiento"
+  ],
+  "resultado": "Este supuesto requiere una orden previa de suspensión inmediata y la continuidad comprobada del funcionamiento.",
+  "norma": "Ordenanza de terrazas de Torrent",
+  "articulo": "24, 27.3.e y 28",
+  "responsable": "Persona física o jurídica titular de la instalación (art. 26).",
+  "actuacion": [
+    "Comprobar y reseñar la orden previa de suspensión.",
+    "Verificar si la instalación continúa funcionando.",
+    "Si continúa, documentar actividad y elementos; el art. 24 prevé retirada o precinto."
+  ],
+  "competencia_denuncia": "Policía Local de Torrent.",
+  "competencia_resuelve": "Junta de Gobierno Local, con posibilidad de delegación en el concejal que tenga atribuidas las competencias indicadas en la ordenanza (art. 30).",
+  "advertencias": [],
+  "alerta_penal": false,
+  "fuentes": [
+    "TER-TORRENT"
+  ],
+  "estado": "validado",
+  "datos_adicionales": {
+    "terrazas": {
+      "icon": "⛔",
+      "group": "Control administrativo",
+      "order": 140,
+      "summary": "Comprueba una orden ya existente y si la instalación sigue funcionando.",
+      "information": [
+        "El art. 24 vincula la suspensión inmediata al incumplimiento de condiciones ambientales.",
+        "Continuar funcionando pese a una orden previa de suspensión inmediata se tipifica en el art. 27.3.e."
+      ],
+      "fields": [
+        {
+          "id": "orden",
+          "label": "¿Consta orden previa de suspensión inmediata?",
+          "type": "choice",
+          "options": [
+            {
+              "value": "si",
+              "label": "Sí; consta la orden previa"
+            },
+            {
+              "value": "no",
+              "label": "No consta"
+            }
+          ]
+        },
+        {
+          "id": "continua",
+          "label": "¿La instalación continúa funcionando pese a la orden?",
+          "type": "choice",
+          "visible_when": [
+            {
+              "field": "orden",
+              "equals": "si"
+            }
+          ],
+          "options": [
+            {
+              "value": "si",
+              "label": "Sí"
+            },
+            {
+              "value": "no",
+              "label": "No"
+            }
+          ]
+        }
+      ],
+      "outcomes": [
+        {
+          "id": "incumple",
+          "title": "Continúa pese a la orden de suspensión",
+          "when": [
+            {
+              "field": "orden",
+              "equals": "si"
+            },
+            {
+              "field": "continua",
+              "equals": "si"
+            }
+          ],
+          "status": "infraccion",
+          "classification": "MUY GRAVE",
+          "article": "27.3.e",
+          "amount": 600,
+          "detail": "Incumplimiento de una orden previa de suspensión inmediata.",
+          "measures": [
+            "El art. 24 dispone que, incumplida la suspensión, la instalación debe retirarse o precintarse."
+          ]
+        },
+        {
+          "id": "cumple",
+          "title": "La instalación no continúa funcionando",
+          "when": [
+            {
+              "field": "orden",
+              "equals": "si"
+            },
+            {
+              "field": "continua",
+              "equals": "no"
+            }
+          ],
+          "status": "sin_infraccion",
+          "detail": "No se activa el supuesto de incumplimiento de la orden."
+        },
+        {
+          "id": "sin_orden",
+          "title": "No consta orden previa",
+          "when": [
+            {
+              "field": "orden",
+              "equals": "no"
+            }
+          ],
+          "status": "sin_infraccion",
+          "detail": "Sin orden previa no se aplica este supuesto; no corresponde valorar aquí la emisión de una orden ambiental."
+        }
+      ]
+    }
+  }
 }

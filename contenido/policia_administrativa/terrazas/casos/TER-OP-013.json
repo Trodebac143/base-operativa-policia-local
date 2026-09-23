@@ -1,4 +1,125 @@
 {
-  "id":"TER-OP-013","modulo":"policia_administrativa","categoria":"policia_administrativa_terrazas","titulo":"🔄 Cesión a tercero","palabras_clave":["cesión","subarriendo","transmisión","tercero","establecimiento"],"que_comprobar":["Transmisión del establecimiento principal","Quién explota la terraza","Vinculación entre terraza y establecimiento"],"resultado":"Diferencia la transmisión conjunta de la explotación separada de la terraza.","norma":"Ordenanza de terrazas de Torrent","articulo":"16.1, 27.3.c y 28","responsable":"Persona física o jurídica titular de la instalación (art. 26).","actuacion":["Identificar al titular y a quien explota el establecimiento y la terraza.","Comprobar si la transmisión comprende conjuntamente establecimiento y terraza.","Describir los elementos que acreditan una explotación desvinculada."],"competencia_denuncia":"Policía Local de Torrent.","competencia_resuelve":"Junta de Gobierno Local, con posibilidad de delegación en el concejal que tenga atribuidas las competencias indicadas en la ordenanza (art. 30).","advertencias":[],"alerta_penal":false,"fuentes":["TER-TORRENT"],"estado":"validado",
-  "datos_adicionales":{"terrazas":{"icon":"🔄","group":"Control administrativo","order":130,"summary":"Pregunta por la forma real de explotación, no por la existencia de una «cesión ilegal».","fields":[{"id":"forma","label":"¿Cómo se realiza la explotación observada?","type":"choice","options":[{"value":"conjunta","label":"Transmisión conjunta del establecimiento y la terraza"},{"value":"separada","label":"La terraza está cedida o subarrendada a un tercero, separada del establecimiento"},{"value":"sin_cesion","label":"No se observa explotación por tercero"},{"value":"duda","label":"No puede determinarse con los datos disponibles"}]}],"outcomes":[{"id":"separada","title":"Explotación de terraza cedida a tercero y desvinculada","when":[{"field":"forma","equals":"separada"}],"status":"infraccion","classification":"MUY GRAVE","article":"27.3.c","amount":600,"detail":"Cesión o subarriendo de la explotación de la terraza separada del establecimiento principal."},{"id":"conjunta","title":"Transmisión conjunta","when":[{"field":"forma","equals":"conjunta"}],"status":"informacion","detail":"Puede ser transmisible conforme al art. 16.1; no se clasifica automáticamente como infracción."},{"id":"sin","title":"No se observa cesión a tercero","when":[{"field":"forma","equals":"sin_cesion"}],"status":"sin_infraccion","detail":"Este bloque no asigna infracción."},{"id":"duda","title":"Titularidad o explotación pendiente de comprobación","when":[{"field":"forma","equals":"duda"}],"status":"pendiente","detail":"Recaba datos; no califiques como cesión prohibida sin acreditar la desvinculación."}]}}
+  "id": "TER-OP-013",
+  "modulo": "policia_administrativa",
+  "categoria": "policia_administrativa_terrazas",
+  "titulo": "🔄 Cesión a tercero",
+  "palabras_clave": [
+    "cesión",
+    "subarriendo",
+    "transmisión",
+    "tercero",
+    "establecimiento"
+  ],
+  "que_comprobar": [
+    "Transmisión del establecimiento principal",
+    "Quién explota la terraza",
+    "Vinculación entre terraza y establecimiento"
+  ],
+  "resultado": "Diferencia la transmisión conjunta de la explotación separada de la terraza.",
+  "norma": "Ordenanza de terrazas de Torrent",
+  "articulo": "16.1, 27.3.c y 28",
+  "responsable": "Persona física o jurídica titular de la instalación (art. 26).",
+  "actuacion": [
+    "Identificar al titular y a quien explota el establecimiento y la terraza.",
+    "Comprobar si la transmisión comprende conjuntamente establecimiento y terraza.",
+    "Describir los elementos que acreditan una explotación desvinculada."
+  ],
+  "competencia_denuncia": "Policía Local de Torrent.",
+  "competencia_resuelve": "Junta de Gobierno Local, con posibilidad de delegación en el concejal que tenga atribuidas las competencias indicadas en la ordenanza (art. 30).",
+  "advertencias": [],
+  "alerta_penal": false,
+  "fuentes": [
+    "TER-TORRENT"
+  ],
+  "estado": "validado",
+  "datos_adicionales": {
+    "terrazas": {
+      "icon": "🔄",
+      "group": "Control administrativo",
+      "order": 130,
+      "summary": "Pregunta por la forma real de explotación, no por la existencia de una «cesión ilegal».",
+      "information": [
+        "La autorización puede transmitirse conjuntamente con el establecimiento, comunicándolo al Ayuntamiento (art. 16.1).",
+        "La explotación de la terraza no puede cederse o subarrendarse a un tercero separada del establecimiento (art. 16.2)."
+      ],
+      "fields": [
+        {
+          "id": "forma",
+          "label": "¿Cómo se realiza la explotación observada?",
+          "type": "choice",
+          "options": [
+            {
+              "value": "conjunta",
+              "label": "Transmisión conjunta del establecimiento y la terraza"
+            },
+            {
+              "value": "separada",
+              "label": "La terraza está cedida o subarrendada a un tercero, separada del establecimiento"
+            },
+            {
+              "value": "sin_cesion",
+              "label": "No se observa explotación por tercero"
+            },
+            {
+              "value": "duda",
+              "label": "No puede determinarse con los datos disponibles"
+            }
+          ]
+        }
+      ],
+      "outcomes": [
+        {
+          "id": "separada",
+          "title": "Explotación de terraza cedida a tercero y desvinculada",
+          "when": [
+            {
+              "field": "forma",
+              "equals": "separada"
+            }
+          ],
+          "status": "infraccion",
+          "classification": "MUY GRAVE",
+          "article": "27.3.c",
+          "amount": 600,
+          "detail": "Cesión o subarriendo de la explotación de la terraza separada del establecimiento principal."
+        },
+        {
+          "id": "conjunta",
+          "title": "Transmisión conjunta",
+          "when": [
+            {
+              "field": "forma",
+              "equals": "conjunta"
+            }
+          ],
+          "status": "informacion",
+          "detail": "Puede ser transmisible conforme al art. 16.1 y no constituye por sí sola infracción."
+        },
+        {
+          "id": "sin",
+          "title": "No se observa cesión a tercero",
+          "when": [
+            {
+              "field": "forma",
+              "equals": "sin_cesion"
+            }
+          ],
+          "status": "sin_infraccion",
+          "detail": "No se acredita explotación por tercero."
+        },
+        {
+          "id": "duda",
+          "title": "Titularidad o explotación pendiente de comprobación",
+          "when": [
+            {
+              "field": "forma",
+              "equals": "duda"
+            }
+          ],
+          "status": "pendiente",
+          "detail": "Recaba datos; no califiques como cesión prohibida sin acreditar la desvinculación."
+        }
+      ]
+    }
+  }
 }

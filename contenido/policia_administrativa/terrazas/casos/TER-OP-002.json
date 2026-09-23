@@ -1,12 +1,299 @@
 {
-  "id":"TER-OP-002","modulo":"policia_administrativa","categoria":"policia_administrativa_terrazas","titulo":"🕒 Incumplimiento del horario","palabras_clave":["terraza","horario","media hora","una hora"],
-  "que_comprobar":["Horario que rige la autorización","Hora de cese exigible y hora comprobada","Duración literal del exceso"],
-  "resultado":"La variante se selecciona por el tramo literal de exceso respecto del horario aplicable.","norma":"Ordenanza de terrazas de Torrent","articulo":"5, 27.1.b, 27.2.b, 27.3.j y 28","responsable":"Persona física o jurídica titular de la instalación (art. 26).",
-  "actuacion":["Determinar primero el horario aplicable.","Consignar la hora límite y la hora observada.","Seleccionar literalmente el tramo comprobado, sin reinterpretar los límites de 30 y 60 minutos."],"competencia_denuncia":"Policía Local de Torrent.","competencia_resuelve":"Junta de Gobierno Local, con posibilidad de delegación en el concejal que tenga atribuidas las competencias indicadas en la ordenanza (art. 30).","advertencias":[],"alerta_penal":false,"fuentes":["TER-TORRENT"],"estado":"validado",
-  "datos_adicionales":{"terrazas":{"icon":"🕒","group":"Funcionamiento y convivencia","order":20,"summary":"Compara el funcionamiento real con el horario ordinario o el específico aplicable.",
-    "information":["Horario ordinario: domingo a jueves, 08:00–24:00.","Viernes, sábado y víspera de festivo: 08:00–01:30 del día siguiente.","El Ayuntamiento puede establecer otros horarios. Si la autorización contiene uno específico, ese horario prevalece como referencia."],
-    "fields":[{"id":"referencia","label":"¿Qué horario sirve de referencia?","type":"choice","options":[{"value":"especifico","label":"Horario específico de la autorización"},{"value":"ordinario","label":"Horario ordinario del art. 5"}]},{"id":"hora_limite","label":"Hora límite aplicable","type":"text","placeholder":"Ej.: 24:00 según horario ordinario"},{"id":"hora_observada","label":"Hora comprobada por los agentes","type":"text","placeholder":"Ej.: 00:20"},{"id":"tramo","label":"¿Cuál es el exceso comprobado?","type":"choice","help":"Selecciona la formulación literal; la herramienta no decide qué ocurre exactamente a los 30 o 60 minutos.","options":[{"value":"menos_media","label":"Menos de media hora"},{"value":"mas_media_menos_hora","label":"Más de media hora y menos de una hora"},{"value":"mas_hora","label":"Más de una hora"},{"value":"sin_exceso","label":"No se acredita exceso"}]}],
-    "outcomes":[{"id":"leve","title":"Incumplimiento en menos de media hora","when":[{"field":"referencia","non_empty":true},{"field":"hora_limite","non_empty":true},{"field":"hora_observada","non_empty":true},{"field":"tramo","equals":"menos_media"}],"status":"infraccion","classification":"LEVE","article":"27.1.b","amount":150,"detail":"Incumplimiento literal inferior a media hora."},{"id":"grave","title":"Más de media hora y menos de una hora","when":[{"field":"referencia","non_empty":true},{"field":"hora_limite","non_empty":true},{"field":"hora_observada","non_empty":true},{"field":"tramo","equals":"mas_media_menos_hora"}],"status":"infraccion","classification":"GRAVE","article":"27.2.b","amount":300,"detail":"Tramo literal grave."},{"id":"muy_grave","title":"Más de una hora","when":[{"field":"referencia","non_empty":true},{"field":"hora_limite","non_empty":true},{"field":"hora_observada","non_empty":true},{"field":"tramo","equals":"mas_hora"}],"status":"infraccion","classification":"MUY GRAVE","article":"27.3.j","amount":600,"detail":"Tramo literal muy grave."},{"id":"sin_exceso","title":"No se acredita exceso horario","when":[{"field":"referencia","non_empty":true},{"field":"hora_limite","non_empty":true},{"field":"hora_observada","non_empty":true},{"field":"tramo","equals":"sin_exceso"}],"status":"sin_infraccion","detail":"Este bloque no asigna infracción."}],
-    "final_note":"No se programa una interpretación para los límites exactos de 30 y 60 minutos; documenta el tiempo y remite la valoración cuando no encaje en una formulación literal."
-  }}
+  "id": "TER-OP-002",
+  "modulo": "policia_administrativa",
+  "categoria": "policia_administrativa_terrazas",
+  "titulo": "🕒 Incumplimiento del horario",
+  "palabras_clave": [
+    "terraza",
+    "horario",
+    "media hora",
+    "una hora"
+  ],
+  "que_comprobar": [
+    "Horario que rige la autorización",
+    "Hora de cese exigible y hora comprobada",
+    "Duración literal del exceso"
+  ],
+  "resultado": "El resultado depende del tramo literal de exceso respecto del horario aplicable.",
+  "norma": "Ordenanza de terrazas de Torrent",
+  "articulo": "5, 27.1.b, 27.2.b, 27.3.j y 28",
+  "responsable": "Persona física o jurídica titular de la instalación (art. 26).",
+  "actuacion": [
+    "Determinar primero el horario aplicable.",
+    "Consignar la hora límite y la hora observada.",
+    "Seleccionar literalmente el tramo comprobado, sin reinterpretar los límites de 30 y 60 minutos."
+  ],
+  "competencia_denuncia": "Policía Local de Torrent.",
+  "competencia_resuelve": "Junta de Gobierno Local, con posibilidad de delegación en el concejal que tenga atribuidas las competencias indicadas en la ordenanza (art. 30).",
+  "advertencias": [],
+  "alerta_penal": false,
+  "fuentes": [
+    "TER-TORRENT"
+  ],
+  "estado": "validado",
+  "datos_adicionales": {
+    "terrazas": {
+      "icon": "🕒",
+      "group": "Funcionamiento y convivencia",
+      "order": 20,
+      "summary": "Compara el funcionamiento real con el horario ordinario o el específico aplicable.",
+      "information": [
+        "Art. 5: domingo a jueves, 08:00–24:00; viernes, sábado y víspera de festivo, 08:00–01:30 del día siguiente.",
+        "El Ayuntamiento puede establecer otro horario y la autorización individual puede contener uno específico.",
+        "Comprueba la placa, la autorización o la resolución cuando consten."
+      ],
+      "fields": [
+        {
+          "id": "horario_distinto",
+          "label": "¿Consta en la placa, autorización o resolución un horario distinto?",
+          "type": "choice",
+          "options": [
+            {
+              "value": "no",
+              "label": "No; aplicar el horario ordinario del art. 5"
+            },
+            {
+              "value": "si",
+              "label": "Sí; consta documentalmente un horario específico"
+            }
+          ]
+        },
+        {
+          "id": "dia",
+          "label": "¿Qué día determina el horario ordinario?",
+          "type": "choice",
+          "visible_when": [
+            {
+              "field": "horario_distinto",
+              "equals": "no"
+            }
+          ],
+          "options": [
+            {
+              "value": "domingo_jueves",
+              "label": "Domingo a jueves",
+              "reference": [
+                "Hora límite ordinaria: 24:00 (art. 5.1.a)."
+              ]
+            },
+            {
+              "value": "viernes_sabado_vispera",
+              "label": "Viernes, sábado o víspera de festivo",
+              "reference": [
+                "Hora límite ordinaria: 01:30 del día siguiente (art. 5.1.b)."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "hora_limite",
+          "label": "¿Qué hora límite consta documentalmente?",
+          "type": "text",
+          "placeholder": "Ej.: 23:30",
+          "visible_when": [
+            {
+              "field": "horario_distinto",
+              "equals": "si"
+            }
+          ]
+        },
+        {
+          "id": "tramo",
+          "label": "¿Cuál es el exceso comprobado respecto del horario aplicable?",
+          "type": "choice",
+          "help": "Los límites exactos de 30 y 60 minutos no están comprendidos en las formulaciones literales; documenta el tiempo para su valoración.",
+          "options": [
+            {
+              "value": "menos_media",
+              "label": "Menos de media hora"
+            },
+            {
+              "value": "mas_media_menos_hora",
+              "label": "Más de media hora y menos de una hora"
+            },
+            {
+              "value": "mas_hora",
+              "label": "Más de una hora"
+            },
+            {
+              "value": "sin_exceso",
+              "label": "No se acredita exceso"
+            }
+          ]
+        }
+      ],
+      "outcomes": [
+        {
+          "id": "leve",
+          "title": "Incumplimiento en menos de media hora",
+          "when": [
+            {
+              "any_of": [
+                {
+                  "all_of": [
+                    {
+                      "field": "horario_distinto",
+                      "equals": "no"
+                    },
+                    {
+                      "field": "dia",
+                      "non_empty": true
+                    }
+                  ]
+                },
+                {
+                  "all_of": [
+                    {
+                      "field": "horario_distinto",
+                      "equals": "si"
+                    },
+                    {
+                      "field": "hora_limite",
+                      "non_empty": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "field": "tramo",
+              "equals": "menos_media"
+            }
+          ],
+          "status": "infraccion",
+          "classification": "LEVE",
+          "article": "27.1.b",
+          "amount": 150,
+          "detail": "Incumplimiento literal inferior a media hora."
+        },
+        {
+          "id": "grave",
+          "title": "Más de media hora y menos de una hora",
+          "when": [
+            {
+              "any_of": [
+                {
+                  "all_of": [
+                    {
+                      "field": "horario_distinto",
+                      "equals": "no"
+                    },
+                    {
+                      "field": "dia",
+                      "non_empty": true
+                    }
+                  ]
+                },
+                {
+                  "all_of": [
+                    {
+                      "field": "horario_distinto",
+                      "equals": "si"
+                    },
+                    {
+                      "field": "hora_limite",
+                      "non_empty": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "field": "tramo",
+              "equals": "mas_media_menos_hora"
+            }
+          ],
+          "status": "infraccion",
+          "classification": "GRAVE",
+          "article": "27.2.b",
+          "amount": 300,
+          "detail": "Tramo literal grave."
+        },
+        {
+          "id": "muy_grave",
+          "title": "Más de una hora",
+          "when": [
+            {
+              "any_of": [
+                {
+                  "all_of": [
+                    {
+                      "field": "horario_distinto",
+                      "equals": "no"
+                    },
+                    {
+                      "field": "dia",
+                      "non_empty": true
+                    }
+                  ]
+                },
+                {
+                  "all_of": [
+                    {
+                      "field": "horario_distinto",
+                      "equals": "si"
+                    },
+                    {
+                      "field": "hora_limite",
+                      "non_empty": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "field": "tramo",
+              "equals": "mas_hora"
+            }
+          ],
+          "status": "infraccion",
+          "classification": "MUY GRAVE",
+          "article": "27.3.j",
+          "amount": 600,
+          "detail": "Tramo literal muy grave."
+        },
+        {
+          "id": "sin_exceso",
+          "title": "No se acredita exceso horario",
+          "when": [
+            {
+              "any_of": [
+                {
+                  "all_of": [
+                    {
+                      "field": "horario_distinto",
+                      "equals": "no"
+                    },
+                    {
+                      "field": "dia",
+                      "non_empty": true
+                    }
+                  ]
+                },
+                {
+                  "all_of": [
+                    {
+                      "field": "horario_distinto",
+                      "equals": "si"
+                    },
+                    {
+                      "field": "hora_limite",
+                      "non_empty": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "field": "tramo",
+              "equals": "sin_exceso"
+            }
+          ],
+          "status": "sin_infraccion",
+          "detail": "No se acredita incumplimiento horario."
+        }
+      ],
+      "final_note": "Los límites exactos de 30 y 60 minutos no están comprendidos en las formulaciones literales; documenta el tiempo y remite la valoración cuando no encaje en ellas."
+    }
+  }
 }

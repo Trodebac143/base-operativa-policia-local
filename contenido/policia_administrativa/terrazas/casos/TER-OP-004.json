@@ -1,4 +1,114 @@
 {
-  "id":"TER-OP-004","modulo":"policia_administrativa","categoria":"policia_administrativa_terrazas","titulo":"📐 Superficie ocupada","palabras_clave":["superficie","exceso","veinte por ciento","retirada"],"que_comprobar":["Superficie autorizada","Superficie realmente ocupada","Porcentaje de exceso"],"resultado":"La aplicación calcula el porcentaje y distingue hasta el 20 % inclusive de más del 20 %.","norma":"Ordenanza de terrazas de Torrent","articulo":"22, 27.2.d, 27.3.d y 28","responsable":"Persona física o jurídica titular de la instalación (art. 26).","actuacion":["Medir o consignar la superficie autorizada y la realmente ocupada.","Documentar los límites sobrepasados.","Formular la variante resultante."],"competencia_denuncia":"Policía Local de Torrent.","competencia_resuelve":"Junta de Gobierno Local, con posibilidad de delegación en el concejal que tenga atribuidas las competencias indicadas en la ordenanza (art. 30).","advertencias":[],"alerta_penal":false,"fuentes":["TER-TORRENT"],"estado":"validado",
-  "datos_adicionales":{"terrazas":{"icon":"📐","group":"Autorización y espacio","order":40,"summary":"Calcula el exceso respecto de la superficie autorizada.","calculation":"excess_percent","fields":[{"id":"superficie_autorizada","label":"Superficie autorizada","type":"number","unit":"m²","placeholder":"0,00"},{"id":"superficie_ocupada","label":"Superficie realmente ocupada","type":"number","unit":"m²","placeholder":"0,00"}],"outcomes":[{"id":"hasta_20","title":"Exceso que no supera el 20 %","when":[{"field":"_band","equals":"hasta_20"}],"status":"infraccion","classification":"GRAVE","article":"27.2.d","amount":300,"detail":"El 20 % exacto se incluye en esta variante porque la ordenanza dice «que no supere el veinte por ciento».","measures":["El art. 22 permite ordenar la retirada inmediata de los elementos que sobrepasen los límites autorizados."]},{"id":"mas_20","title":"Exceso en más del 20 %","when":[{"field":"_band","equals":"mas_20"}],"status":"infraccion","classification":"MUY GRAVE","article":"27.3.d","amount":600,"detail":"La ocupación supera en más del 20 % la superficie autorizada.","measures":["El art. 22 permite ordenar la retirada inmediata de los elementos que sobrepasen los límites autorizados."]},{"id":"sin_exceso","title":"No existe exceso de superficie","when":[{"field":"_band","equals":"sin_exceso"}],"status":"sin_infraccion","detail":"Las mediciones introducidas no muestran ocupación superior a la autorizada."}]}}
+  "id": "TER-OP-004",
+  "modulo": "policia_administrativa",
+  "categoria": "policia_administrativa_terrazas",
+  "titulo": "📐 Superficie ocupada",
+  "palabras_clave": [
+    "superficie",
+    "exceso",
+    "veinte por ciento",
+    "retirada"
+  ],
+  "que_comprobar": [
+    "Superficie autorizada",
+    "Superficie realmente ocupada",
+    "Porcentaje de exceso"
+  ],
+  "resultado": "Con las dos mediciones se obtiene el porcentaje y se distingue hasta el 20 % inclusive de más del 20 %.",
+  "norma": "Ordenanza de terrazas de Torrent",
+  "articulo": "22, 27.2.d, 27.3.d y 28",
+  "responsable": "Persona física o jurídica titular de la instalación (art. 26).",
+  "actuacion": [
+    "Medir o consignar la superficie autorizada y la realmente ocupada.",
+    "Documentar los límites sobrepasados.",
+    "Formular el resultado de las mediciones."
+  ],
+  "competencia_denuncia": "Policía Local de Torrent.",
+  "competencia_resuelve": "Junta de Gobierno Local, con posibilidad de delegación en el concejal que tenga atribuidas las competencias indicadas en la ordenanza (art. 30).",
+  "advertencias": [],
+  "alerta_penal": false,
+  "fuentes": [
+    "TER-TORRENT"
+  ],
+  "estado": "validado",
+  "datos_adicionales": {
+    "terrazas": {
+      "icon": "📐",
+      "group": "Autorización y espacio",
+      "order": 40,
+        "summary": "Calcula el exceso respecto de la superficie autorizada.",
+        "calculation": "excess_percent",
+        "information": [
+          "La autorización fija las dimensiones del espacio autorizado (art. 3.3).",
+          "Mide la superficie realmente ocupada y compárala con la autorizada; el art. 22 permite retirar los elementos que sobrepasen sus límites.",
+          "Exceso que no supera el 20 %: grave (art. 27.2.d); en más del 20 %: muy grave (art. 27.3.d)."
+        ],
+        "fields": [
+        {
+          "id": "superficie_autorizada",
+          "label": "Superficie autorizada",
+          "type": "number",
+          "unit": "m²",
+          "placeholder": "0,00"
+        },
+        {
+          "id": "superficie_ocupada",
+          "label": "Superficie realmente ocupada",
+          "type": "number",
+          "unit": "m²",
+          "placeholder": "0,00"
+        }
+      ],
+      "outcomes": [
+        {
+          "id": "hasta_20",
+          "title": "Exceso que no supera el 20 %",
+          "when": [
+            {
+              "field": "_band",
+              "equals": "hasta_20"
+            }
+          ],
+          "status": "infraccion",
+          "classification": "GRAVE",
+          "article": "27.2.d",
+          "amount": 300,
+          "detail": "El 20 % exacto queda incluido porque la ordenanza dice «que no supere el veinte por ciento».",
+          "measures": [
+            "El art. 22 permite ordenar la retirada inmediata de los elementos que sobrepasen los límites autorizados."
+          ]
+        },
+        {
+          "id": "mas_20",
+          "title": "Exceso en más del 20 %",
+          "when": [
+            {
+              "field": "_band",
+              "equals": "mas_20"
+            }
+          ],
+          "status": "infraccion",
+          "classification": "MUY GRAVE",
+          "article": "27.3.d",
+          "amount": 600,
+          "detail": "La ocupación supera en más del 20 % la superficie autorizada.",
+          "measures": [
+            "El art. 22 permite ordenar la retirada inmediata de los elementos que sobrepasen los límites autorizados."
+          ]
+        },
+        {
+          "id": "sin_exceso",
+          "title": "No existe exceso de superficie",
+          "when": [
+            {
+              "field": "_band",
+              "equals": "sin_exceso"
+            }
+          ],
+          "status": "sin_infraccion",
+          "detail": "Las mediciones introducidas no muestran ocupación superior a la autorizada."
+        }
+      ]
+    }
+  }
 }

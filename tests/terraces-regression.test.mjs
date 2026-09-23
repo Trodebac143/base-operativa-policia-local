@@ -3,6 +3,8 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { createServer } from "vite";
+import React from "react";
+import { renderToStaticMarkup } from "react-dom/server";
 import { APP_VERSION } from "../data/version.ts";
 
 const root = new URL("../", import.meta.url);
@@ -20,6 +22,7 @@ test("Terrazas publica quince bloques JSON sobre el ID real de Policía Administ
   assert.ok(terraces.every((item) => item.fuentes.length === 1 && item.fuentes[0] === "TER-TORRENT"));
   assert.ok(terraces.every((item) => Array.isArray(item.advertencias)));
   assert.ok(terraces.every((item) => item.datos_adicionales?.terrazas?.fields?.length && item.datos_adicionales?.terrazas?.outcomes?.length));
+  assert.ok(terraces.every((item) => item.datos_adicionales.terrazas.information?.length), "todas las fichas incluyen referencia operativa");
 });
 
 test("las variantes sancionadoras preservan artículos, importes y límites literales", async () => {
@@ -40,14 +43,17 @@ test("el motor impide degradaciones y conclusiones automáticas no respaldadas",
   const byId = new Map(cases.map((item) => [item.id, item]));
   const protection = byId.get("TER-OP-006").datos_adicionales.terrazas;
   assert.equal(protection.fields.find((field) => field.id === "rastrillo_valla").type, "choice");
-  assert.ok(protection.outcomes.find((item) => item.id === "ausente_rastrillo").when.some((condition) => condition.equals === "ausente"));
+  assert.ok(protection.outcomes.find((item) => item.id === "ausente_rastrillo").when.some((condition) => condition.equals === "no"));
   const insurance = byId.get("TER-OP-007").datos_adicionales.terrazas;
   assert.equal(insurance.outcomes.find((item) => item.id === "pendiente").status, "pendiente");
   assert.equal(insurance.outcomes.find((item) => item.id === "estufas").article, "27.1.f");
   const nuisances = byId.get("TER-OP-010").datos_adicionales.terrazas;
   assert.equal(nuisances.outcomes.find((item) => item.id === "grave").unless.length, 3);
   const residual = byId.get("TER-OP-015").datos_adicionales.terrazas;
-  assert.ok(residual.outcomes.find((item) => item.id === "residual").when.some((condition) => condition.field === "hechos_especificos" && condition.empty));
+  assert.equal(residual.fields.some((field) => field.id === "hechos_especificos"), false);
+  assert.equal(residual.fields.some((field) => field.type === "text"), false);
+  assert.equal(nuisances.fields.some((field) => field.type === "text"), false);
+  assert.equal(byId.get("TER-OP-012").datos_adicionales.terrazas.fields.some((field) => field.type === "text"), false);
   assert.doesNotMatch(cases.filter((item) => item.categoria === "policia_administrativa_terrazas").map((item) => item.titulo).join(" "), /ocultación|tres infracciones/i);
 });
 
@@ -65,6 +71,10 @@ test("el motor resuelve porcentajes, poda respuestas y mantiene exclusiones jur�
   const byId = new Map(cases.map((item) => [item.id, item]));
   const outcomeIds = (id, answers) => resolveTerraceState(byId.get(id), answers).outcomes.map((item) => item.id);
 
+  assert.deepEqual(outcomeIds("TER-OP-002", { horario_distinto: "no", tramo: "menos_media" }), []);
+  assert.deepEqual(outcomeIds("TER-OP-002", { horario_distinto: "no", dia: "domingo_jueves", tramo: "menos_media" }), ["leve"]);
+  assert.deepEqual(outcomeIds("TER-OP-002", { horario_distinto: "si", tramo: "mas_hora" }), []);
+  assert.deepEqual(outcomeIds("TER-OP-002", { horario_distinto: "si", hora_limite: "23:30", tramo: "mas_hora" }), ["muy_grave"]);
   assert.deepEqual(outcomeIds("TER-OP-004", { superficie_autorizada: "100" }), []);
   assert.deepEqual(outcomeIds("TER-OP-004", { superficie_autorizada: "100", superficie_ocupada: "120" }), ["hasta_20"]);
   assert.deepEqual(outcomeIds("TER-OP-004", { superficie_autorizada: "100", superficie_ocupada: "120.01" }), ["mas_20"]);
@@ -73,18 +83,31 @@ test("el motor resuelve porcentajes, poda respuestas y mantiene exclusiones jur�
 
   const protection = byId.get("TER-OP-006");
   let protectionAnswers = updateTerraceAnswer(protection, {}, "ubicacion", "rastrillo");
-  protectionAnswers = updateTerraceAnswer(protection, protectionAnswers, "rastrillo_valla", "ausente");
+  protectionAnswers = updateTerraceAnswer(protection, protectionAnswers, "rastrillo_valla", "no");
   assert.deepEqual(resolveTerraceState(protection, protectionAnswers).outcomes.map((item) => item.id), ["ausente_rastrillo"]);
   protectionAnswers = updateTerraceAnswer(protection, protectionAnswers, "ubicacion", "fachada");
   assert.equal(protectionAnswers.rastrillo_valla, undefined);
   assert.deepEqual(resolveTerraceState(protection, protectionAnswers).outcomes, []);
-  assert.deepEqual(outcomeIds("TER-OP-006", { ubicacion: "rastrillo", rastrillo_valla: "defectuosa" }), ["caracteristicas"]);
+  assert.deepEqual(outcomeIds("TER-OP-006", { ubicacion: "rastrillo", rastrillo_valla: "si", rastrillo_altura: "no" }), ["caracteristicas"]);
 
   assert.deepEqual(outcomeIds("TER-OP-007", { estado_poliza: "no_acreditada" }), ["pendiente"]);
   assert.deepEqual(outcomeIds("TER-OP-007", { estado_poliza: "completa", estufas: "no_cubiertas" }), ["estufas"]);
-  assert.deepEqual(outcomeIds("TER-OP-015", { comparacion: "no_relevante", hechos_especificos: ["proteccion"], incumplimientos: ["mobiliario_homologado"] }), ["especifica"]);
+  assert.deepEqual(outcomeIds("TER-OP-015", { comparacion: "no_relevante", incumplimientos: ["mobiliario_homologado"] }), ["residual"]);
 
-  const nuisanceBase = { comprobacion: "agentes", naturaleza: "Ruido comprobado que afecta a dos viviendas", especial_intensidad: "si" };
+  const nuisanceBase = { comprobacion: "agentes", afectados: "vecinos", tipo_molestia: ["ruido"], especial_intensidad: "si" };
   assert.deepEqual(outcomeIds("TER-OP-010", { ...nuisanceBase, reiteracion: "no" }), ["grave"]);
-  assert.deepEqual(outcomeIds("TER-OP-010", { ...nuisanceBase, reiteracion: "si", antecedentes: "Requerimientos de 1 y 8 de septiembre" }), ["muy_grave"]);
+  assert.deepEqual(outcomeIds("TER-OP-010", { ...nuisanceBase, actuaciones_previas: "si", reiteracion: "si" }), ["muy_grave"]);
+});
+
+test("la ficha muestra horario, referencia contextual y fuente directa sin textos internos", async () => {
+  const { cases } = await vite.ssrLoadModule("/data/cases.ts");
+  const { TerraceCaseSheet } = await vite.ssrLoadModule("/app/terraces.tsx");
+  const schedule = cases.find((item) => item.id === "TER-OP-002");
+  const html = renderToStaticMarkup(React.createElement(TerraceCaseSheet, { item: schedule, copied: false, onCopy() {} }));
+  assert.match(html, /domingo a jueves, 08:00–24:00/);
+  assert.match(html, /¿Consta en la placa, autorización o resolución un horario distinto\?/);
+  assert.match(html, /Ordenanza reguladora de la instalación y funcionamiento de las terrazas/);
+  assert.match(html, /target="_blank"/);
+  assert.doesNotMatch(html, /BLOQUE GUIADO|Variantes del bloque|Referencia literal|Resultado orientativo|Actuación y trazabilidad/);
+  assert.doesNotMatch(html, /Selecciona o introduce los hechos|El encaje aparece|funcionamiento interno|motor de decisión/);
 });

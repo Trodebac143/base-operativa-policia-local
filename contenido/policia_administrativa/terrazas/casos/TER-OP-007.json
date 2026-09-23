@@ -1,4 +1,171 @@
 {
-  "id":"TER-OP-007","modulo":"policia_administrativa","categoria":"policia_administrativa_terrazas","titulo":"🛡️ Seguro de la terraza","palabras_clave":["seguro","póliza","responsabilidad civil","accidentes","incendios","estufas"],"que_comprobar":["Existencia de póliza","Vigencia o pago cuando sea acreditable","Coberturas del art. 7","Cobertura específica de estufas"],"resultado":"Distingue carencia de seguro, falta de acreditación y cobertura específica de estufas.","norma":"Ordenanza de terrazas de Torrent","articulo":"7, 8.3.d, 19.3, 27.1.f, 27.2.e y 28","responsable":"Persona física o jurídica titular de la instalación (art. 26).","actuacion":["Comprobar la documentación disponible sin equiparar falta de acreditación inmediata con inexistencia.","Verificar responsabilidad civil, accidentes, incendios y riesgos del funcionamiento.","Si hay estufas, revisar su cobertura específica separadamente."],"competencia_denuncia":"Policía Local de Torrent.","competencia_resuelve":"Junta de Gobierno Local, con posibilidad de delegación en el concejal que tenga atribuidas las competencias indicadas en la ordenanza (art. 30).","advertencias":[],"alerta_penal":false,"fuentes":["TER-TORRENT"],"estado":"validado",
-  "datos_adicionales":{"terrazas":{"icon":"🛡️","group":"Seguridad y condiciones","order":70,"summary":"Evita confundir una póliza no acreditada o sin cobertura de estufas con carencia total.","information":["El art. 7 exige responsabilidad civil, accidentes e incendios y cobertura de riesgos derivados del funcionamiento.","La cobertura específica de estufas procede del art. 8.3.d y de la documentación del art. 19.3."],"fields":[{"id":"estado_poliza","label":"¿Qué se acredita sobre la póliza general?","type":"choice","options":[{"value":"completa","label":"Existe, está vigente y cubre el art. 7"},{"value":"carece","label":"Se comprueba que carece del seguro del art. 7"},{"value":"no_acreditada","label":"No puede acreditarse en este momento"},{"value":"incompleta","label":"Existe, pero se aprecia otra cobertura incompleta"}]},{"id":"estufas","label":"¿Hay estufas y están cubiertas?","type":"choice","visible_when":[{"field":"estado_poliza","equals":"completa"}],"options":[{"value":"sin_estufas","label":"No hay estufas"},{"value":"cubiertas","label":"Hay estufas y la póliza las contempla"},{"value":"no_cubiertas","label":"Hay estufas y la póliza no contempla sus riesgos"}]}],"outcomes":[{"id":"carece","title":"Carece del seguro del art. 7","when":[{"field":"estado_poliza","equals":"carece"}],"status":"infraccion","classification":"GRAVE","article":"27.2.e","amount":300,"detail":"Carencia comprobada del seguro general exigido por el art. 7."},{"id":"pendiente","title":"Existencia o vigencia pendiente de comprobación","when":[{"field":"estado_poliza","equals":"no_acreditada"}],"status":"pendiente","detail":"No se equipara automáticamente «no acreditado ahora» con «no existe». Deja constancia y completa la comprobación."},{"id":"estufas","title":"Póliza general sin cobertura específica de estufas","when":[{"field":"estufas","equals":"no_cubiertas"}],"status":"infraccion","classification":"LEVE","article":"27.1.f","amount":150,"detail":"Incumplimiento específico del art. 8.3.d por cláusula residual; no se confunde con falta del seguro del art. 7."},{"id":"incompleta","title":"Póliza existente con otra cobertura incompleta","when":[{"field":"estado_poliza","equals":"incompleta"}],"status":"pendiente","detail":"Documenta la cobertura ausente. No se clasifica automáticamente como carencia total del art. 7."},{"id":"correcta","title":"Seguro comprobado","when":[{"field":"estufas","includes_any":["sin_estufas","cubiertas"]}],"status":"sin_infraccion","detail":"Los datos seleccionados no activan una infracción de seguro."}],"final_note":"La falta específica de cobertura de estufas nunca activa automáticamente el art. 27.2.e."}}
+  "id": "TER-OP-007",
+  "modulo": "policia_administrativa",
+  "categoria": "policia_administrativa_terrazas",
+  "titulo": "🛡️ Seguro de la terraza",
+  "palabras_clave": [
+    "seguro",
+    "póliza",
+    "responsabilidad civil",
+    "accidentes",
+    "incendios",
+    "estufas"
+  ],
+  "que_comprobar": [
+    "Existencia de póliza",
+    "Vigencia o pago cuando sea acreditable",
+    "Coberturas del art. 7",
+    "Cobertura específica de estufas"
+  ],
+  "resultado": "Distingue carencia de seguro, falta de acreditación y cobertura específica de estufas.",
+  "norma": "Ordenanza de terrazas de Torrent",
+  "articulo": "7, 8.3.d, 19.3, 27.1.f, 27.2.e y 28",
+  "responsable": "Persona física o jurídica titular de la instalación (art. 26).",
+  "actuacion": [
+    "Comprobar la documentación disponible sin equiparar falta de acreditación inmediata con inexistencia.",
+    "Verificar responsabilidad civil, accidentes, incendios y riesgos del funcionamiento.",
+    "Si hay estufas, revisar su cobertura específica separadamente."
+  ],
+  "competencia_denuncia": "Policía Local de Torrent.",
+  "competencia_resuelve": "Junta de Gobierno Local, con posibilidad de delegación en el concejal que tenga atribuidas las competencias indicadas en la ordenanza (art. 30).",
+  "advertencias": [],
+  "alerta_penal": false,
+  "fuentes": [
+    "TER-TORRENT"
+  ],
+  "estado": "validado",
+  "datos_adicionales": {
+    "terrazas": {
+      "icon": "🛡️",
+      "group": "Seguridad y condiciones",
+      "order": 70,
+      "summary": "Evita confundir una póliza no acreditada o sin cobertura de estufas con carencia total.",
+      "information": [
+        "El art. 7 exige responsabilidad civil, accidentes e incendios y cobertura de riesgos derivados del funcionamiento.",
+        "La cobertura específica de estufas procede del art. 8.3.d y de la documentación del art. 19.3."
+      ],
+      "fields": [
+        {
+          "id": "estado_poliza",
+          "label": "¿Qué se acredita sobre la póliza general?",
+          "type": "choice",
+          "options": [
+            {
+              "value": "completa",
+              "label": "Existe, está vigente y cubre el art. 7"
+            },
+            {
+              "value": "carece",
+              "label": "Se comprueba que carece del seguro del art. 7"
+            },
+            {
+              "value": "no_acreditada",
+              "label": "No puede acreditarse en este momento"
+            },
+            {
+              "value": "incompleta",
+              "label": "Existe, pero se aprecia otra cobertura incompleta"
+            }
+          ]
+        },
+        {
+          "id": "estufas",
+          "label": "¿Hay estufas y están cubiertas?",
+          "type": "choice",
+          "visible_when": [
+            {
+              "field": "estado_poliza",
+              "equals": "completa"
+            }
+          ],
+          "options": [
+            {
+              "value": "sin_estufas",
+              "label": "No hay estufas"
+            },
+            {
+              "value": "cubiertas",
+              "label": "Hay estufas y la póliza las contempla"
+            },
+            {
+              "value": "no_cubiertas",
+              "label": "Hay estufas y la póliza no contempla sus riesgos"
+            }
+          ]
+        }
+      ],
+      "outcomes": [
+        {
+          "id": "carece",
+          "title": "Carece del seguro del art. 7",
+          "when": [
+            {
+              "field": "estado_poliza",
+              "equals": "carece"
+            }
+          ],
+          "status": "infraccion",
+          "classification": "GRAVE",
+          "article": "27.2.e",
+          "amount": 300,
+          "detail": "Carencia comprobada del seguro general exigido por el art. 7."
+        },
+        {
+          "id": "pendiente",
+          "title": "Existencia o vigencia pendiente de comprobación",
+          "when": [
+            {
+              "field": "estado_poliza",
+              "equals": "no_acreditada"
+            }
+          ],
+          "status": "pendiente",
+          "detail": "«No acreditado ahora» no equivale a «no existe». Deja constancia y completa la comprobación."
+        },
+        {
+          "id": "estufas",
+          "title": "Póliza general sin cobertura específica de estufas",
+          "when": [
+            {
+              "field": "estufas",
+              "equals": "no_cubiertas"
+            }
+          ],
+          "status": "infraccion",
+          "classification": "LEVE",
+          "article": "27.1.f",
+          "amount": 150,
+          "detail": "Incumplimiento específico del art. 8.3.d por cláusula residual; no se confunde con falta del seguro del art. 7."
+        },
+        {
+          "id": "incompleta",
+          "title": "Póliza existente con otra cobertura incompleta",
+          "when": [
+            {
+              "field": "estado_poliza",
+              "equals": "incompleta"
+            }
+          ],
+          "status": "pendiente",
+          "detail": "Documenta la cobertura ausente. Este hecho no equivale a la carencia total del seguro del art. 7."
+        },
+        {
+          "id": "correcta",
+          "title": "Seguro comprobado",
+          "when": [
+            {
+              "field": "estufas",
+              "includes_any": [
+                "sin_estufas",
+                "cubiertas"
+              ]
+            }
+          ],
+          "status": "sin_infraccion",
+          "detail": "Los datos seleccionados no activan una infracción de seguro."
+        }
+      ],
+      "final_note": "La falta específica de cobertura de estufas se encuadra en el art. 27.1.f y no en la carencia de seguro del art. 27.2.e."
+    }
+  }
 }

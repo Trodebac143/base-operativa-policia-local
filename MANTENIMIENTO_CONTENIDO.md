@@ -52,3 +52,13 @@ Ejecuta `npm run validar:contenido`. Es un comando de solo lectura: no cambia ar
 No edites `app/`, `data/`, `components/`, `scripts/`, `contenido/_generado/` ni `contenido/biblioteca/documentos.json`. Son motor o archivos técnicos regenerables.
 
 Para cambios ordinarios sí se editan los PDF, `contenido/biblioteca/metadatos.json`, los JSON individuales de `casos/`, las fuentes y las definiciones reales de módulos o categorías.
+
+## 10. Criterios permanentes de ficha operativa
+
+- La ficha explica primero la regla imprescindible y su artículo exacto; después pregunta por hechos observables, no por conclusiones jurídicas.
+- No se exige al agente recordar o deducir información que la aplicación ya puede mostrar.
+- La referencia operativa debe ser breve y el recorrido autosuficiente, sin secciones vacías ni explicaciones sobre el motor, IDs o reutilización interna.
+- Toda fuente resoluble se abre directamente desde la ficha mediante el identificador declarado en `fuentes`; las URL no se duplican en los casos.
+- Se evita el texto libre si no alimenta una decisión o una salida operativa concreta.
+- La parte común se presenta una sola vez y solo se separan variantes cuando cambia el resultado.
+- Si un término como «homologado», «certificado», «autorizado» o «reglamentario» no puede verificarse en calle, se indica la comprobación documental y no se obliga a adivinar.

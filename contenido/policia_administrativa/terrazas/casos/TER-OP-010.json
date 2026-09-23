@@ -3,31 +3,265 @@
   "modulo": "policia_administrativa",
   "categoria": "policia_administrativa_terrazas",
   "titulo": "🔊 Molestias acreditadas",
-  "palabras_clave": ["molestias", "vecinos", "transeúntes", "ruido", "queja", "reiterado"],
-  "que_comprobar": ["Naturaleza y afectados", "Comprobación por agentes", "Antecedentes o requerimientos", "Circunstancias y medición acústica si existe"],
+  "palabras_clave": [
+    "molestias",
+    "vecinos",
+    "transeúntes",
+    "ruido",
+    "queja",
+    "reiterado"
+  ],
+  "que_comprobar": [
+    "Naturaleza y afectados",
+    "Comprobación por agentes",
+    "Antecedentes o requerimientos",
+    "Circunstancias y medición acústica si existe"
+  ],
   "resultado": "Una queja aislada no se equipara a una molestia acreditada.",
   "norma": "Ordenanza de terrazas de Torrent",
   "articulo": "27.2.f, 27.3.f y 28",
   "responsable": "Persona física o jurídica titular de la instalación (art. 26).",
-  "actuacion": ["Identificar la naturaleza de las molestias y personas afectadas.", "Consignar la comprobación directa, intensidad, antecedentes y requerimientos conocidos.", "Incorporar medición acústica cuando exista."],
+  "actuacion": [
+    "Identificar la naturaleza de las molestias y personas afectadas.",
+    "Consignar la comprobación directa, intensidad, antecedentes y requerimientos conocidos.",
+    "Incorporar medición acústica cuando exista."
+  ],
   "competencia_denuncia": "Policía Local de Torrent.",
   "competencia_resuelve": "Junta de Gobierno Local, con posibilidad de delegación en el concejal que tenga atribuidas las competencias indicadas en la ordenanza (art. 30).",
-  "advertencias": [], "alerta_penal": false, "fuentes": ["TER-TORRENT"], "estado": "validado",
-  "datos_adicionales": {"terrazas": {
-    "icon": "🔊", "group": "Funcionamiento y convivencia", "order": 100,
-    "summary": "Exige acreditar las molestias y separa los hechos observados de su calificación.",
-    "fields": [
-      {"id":"comprobacion","label":"¿Cómo consta la molestia?","type":"choice","options":[{"value":"queja","label":"Solo existe llamada o queja no acreditada"},{"value":"agentes","label":"Los agentes comprueban hechos derivados del funcionamiento"},{"value":"sin_molestias","label":"No se comprueban molestias"}]},
-      {"id":"naturaleza","label":"Naturaleza, intensidad, afectados y circunstancias observadas","type":"text","visible_when":[{"field":"comprobacion","equals":"agentes"}],"placeholder":"Describe hechos concretos y personas afectadas"},
-      {"id":"especial_intensidad","label":"¿Se observan circunstancias de especial intensidad o alcance?","type":"choice","visible_when":[{"field":"comprobacion","equals":"agentes"}],"options":[{"value":"si","label":"Sí; quedan descritas en los hechos"},{"value":"no","label":"No"}]},
-      {"id":"reiteracion","label":"¿Constan incumplimientos previos concretos?","type":"choice","visible_when":[{"field":"comprobacion","equals":"agentes"}],"options":[{"value":"si","label":"Sí; constan fechas o requerimientos previos"},{"value":"no","label":"No constan"}]},
-      {"id":"antecedentes","label":"Fechas, requerimientos, incumplimientos previos y medición acústica","type":"text","visible_when":[{"field":"reiteracion","equals":"si"}],"placeholder":"Consigna antecedentes concretos y medición, si existe"}
-    ],
-    "outcomes": [
-      {"id":"grave","title":"Molestias acreditadas derivadas del funcionamiento","when":[{"field":"comprobacion","equals":"agentes"},{"field":"naturaleza","non_empty":true}],"unless":[{"field":"especial_intensidad","equals":"si"},{"field":"reiteracion","equals":"si"},{"field":"antecedentes","non_empty":true}],"status":"infraccion","classification":"GRAVE","article":"27.2.f","amount":300,"detail":"Encaje base para molestias acreditadas. Solo cede ante la variante muy grave cuando se completan todos sus hechos."},
-      {"id":"muy_grave","title":"Molestias graves por incumplimiento reiterado y grave","when":[{"field":"comprobacion","equals":"agentes"},{"field":"naturaleza","non_empty":true},{"field":"especial_intensidad","equals":"si"},{"field":"reiteracion","equals":"si"},{"field":"antecedentes","non_empty":true}],"status":"infraccion","classification":"MUY GRAVE","article":"27.3.f","amount":600,"detail":"La especial intensidad y la reiteración quedan soportadas por hechos, fechas o requerimientos concretos."},
-      {"id":"queja","title":"Queja no acreditada","when":[{"field":"comprobacion","equals":"queja"}],"status":"pendiente","detail":"La simple llamada o queja no asigna automáticamente una infracción. Practica las comprobaciones posibles."},
-      {"id":"sin","title":"No se comprueban molestias","when":[{"field":"comprobacion","equals":"sin_molestias"}],"status":"sin_infraccion","detail":"Este bloque no asigna infracción."}
-    ]
-  }}
+  "advertencias": [],
+  "alerta_penal": false,
+  "fuentes": [
+    "TER-TORRENT"
+  ],
+  "estado": "validado",
+  "datos_adicionales": {
+    "terrazas": {
+      "icon": "🔊",
+      "group": "Funcionamiento y convivencia",
+      "order": 100,
+      "summary": "Exige acreditar las molestias y separa los hechos observados de su calificación.",
+      "information": [
+        "La simple llamada o queja no acreditada no activa por sí sola una clasificación sancionadora.",
+        "Molestias acreditadas derivadas del funcionamiento: grave (art. 27.2.f).",
+        "Molestias graves por incumplimiento reiterado y grave: muy grave (art. 27.3.f)."
+      ],
+      "fields": [
+        {
+          "id": "comprobacion",
+          "label": "¿Cómo consta la molestia?",
+          "type": "choice",
+          "options": [
+            {
+              "value": "queja",
+              "label": "Solo existe llamada o queja no acreditada"
+            },
+            {
+              "value": "agentes",
+              "label": "Los agentes comprueban hechos derivados del funcionamiento"
+            },
+            {
+              "value": "sin_molestias",
+              "label": "No se comprueban molestias"
+            }
+          ]
+        },
+        {
+          "id": "afectados",
+          "label": "¿A quién afectan las molestias comprobadas?",
+          "type": "choice",
+          "visible_when": [
+            {
+              "field": "comprobacion",
+              "equals": "agentes"
+            }
+          ],
+          "options": [
+            { "value": "vecinos", "label": "Vecinos" },
+            { "value": "transeuntes", "label": "Transeúntes" },
+            { "value": "ambos", "label": "Vecinos y transeúntes" }
+          ]
+        },
+        {
+          "id": "tipo_molestia",
+          "label": "¿Qué tipo de molestia se comprueba?",
+          "type": "multi",
+          "visible_when": [
+            { "field": "comprobacion", "equals": "agentes" }
+          ],
+          "options": [
+            { "value": "ruido", "label": "Ruido derivado del funcionamiento" },
+            { "value": "ocupacion", "label": "Afectación observable al uso del espacio" },
+            { "value": "otra", "label": "Otra molestia observable vinculada al funcionamiento" }
+          ]
+        },
+        {
+          "id": "medicion",
+          "label": "¿Existe medición acústica?",
+          "type": "choice",
+          "visible_when": [
+            { "field": "tipo_molestia", "includes": "ruido" }
+          ],
+          "options": [
+            { "value": "si", "label": "Sí" },
+            { "value": "no", "label": "No" }
+          ]
+        },
+        {
+          "id": "especial_intensidad",
+          "label": "¿Se observan circunstancias de especial intensidad o alcance?",
+          "type": "choice",
+          "visible_when": [
+            {
+              "field": "comprobacion",
+              "equals": "agentes"
+            }
+          ],
+          "options": [
+            {
+              "value": "si",
+              "label": "Sí; se comprueban directamente"
+            },
+            {
+              "value": "no",
+              "label": "No"
+            }
+          ]
+        },
+        {
+          "id": "actuaciones_previas",
+          "label": "¿Constan requerimientos o actuaciones anteriores documentados?",
+          "type": "choice",
+          "visible_when": [
+            {
+              "field": "comprobacion",
+              "equals": "agentes"
+            }
+          ],
+          "options": [
+            {
+              "value": "si",
+              "label": "Sí"
+            },
+            {
+              "value": "no",
+              "label": "No constan"
+            }
+          ]
+        },
+        {
+          "id": "reiteracion",
+          "label": "¿Consta reiteración documentada del incumplimiento?",
+          "type": "choice",
+          "visible_when": [
+            {
+              "field": "actuaciones_previas",
+              "equals": "si"
+            }
+          ],
+          "options": [
+            { "value": "si", "label": "Sí" },
+            { "value": "no", "label": "No" }
+          ]
+        }
+      ],
+      "outcomes": [
+        {
+          "id": "grave",
+          "title": "Molestias acreditadas derivadas del funcionamiento",
+          "when": [
+            {
+              "field": "comprobacion",
+              "equals": "agentes"
+            },
+            {
+              "field": "afectados",
+              "non_empty": true
+            },
+            {
+              "field": "tipo_molestia",
+              "non_empty": true
+            }
+          ],
+          "unless": [
+            {
+              "field": "especial_intensidad",
+              "equals": "si"
+            },
+            {
+              "field": "reiteracion",
+              "equals": "si"
+            },
+            {
+              "field": "actuaciones_previas",
+              "equals": "si"
+            }
+          ],
+          "status": "infraccion",
+          "classification": "GRAVE",
+          "article": "27.2.f",
+          "amount": 300,
+          "detail": "Molestias acreditadas derivadas del funcionamiento, salvo que concurran todos los hechos del supuesto muy grave."
+        },
+        {
+          "id": "muy_grave",
+          "title": "Molestias graves por incumplimiento reiterado y grave",
+          "when": [
+            {
+              "field": "comprobacion",
+              "equals": "agentes"
+            },
+            {
+              "field": "afectados",
+              "non_empty": true
+            },
+            {
+              "field": "tipo_molestia",
+              "non_empty": true
+            },
+            {
+              "field": "especial_intensidad",
+              "equals": "si"
+            },
+            {
+              "field": "reiteracion",
+              "equals": "si"
+            },
+            {
+              "field": "actuaciones_previas",
+              "equals": "si"
+            }
+          ],
+          "status": "infraccion",
+          "classification": "MUY GRAVE",
+          "article": "27.3.f",
+          "amount": 600,
+          "detail": "La especial intensidad y la reiteración quedan soportadas por hechos, fechas o requerimientos concretos."
+        },
+        {
+          "id": "queja",
+          "title": "Queja no acreditada",
+          "when": [
+            {
+              "field": "comprobacion",
+              "equals": "queja"
+            }
+          ],
+          "status": "pendiente",
+          "detail": "La simple llamada o queja no acredita por sí sola una infracción. Practica las comprobaciones posibles."
+        },
+        {
+          "id": "sin",
+          "title": "No se comprueban molestias",
+          "when": [
+            {
+              "field": "comprobacion",
+              "equals": "sin_molestias"
+            }
+          ],
+          "status": "sin_infraccion",
+          "detail": "No se acreditan molestias derivadas del funcionamiento."
+        }
+      ]
+    }
+  }
 }

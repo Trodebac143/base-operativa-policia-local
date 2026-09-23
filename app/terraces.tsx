@@ -1,13 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { resolveCaseSources } from "@/data/sources";
 import type { OperationalCase } from "@/data/types";
+import { SourceLinks } from "./source-links";
 
 type TerraceAnswer = string | string[];
 type TerraceAnswers = Record<string, TerraceAnswer>;
-type TerraceOption = { value: string; label: string; detail?: string };
-type TerraceCondition = { field: string; equals?: string; not_equals?: string; one_of?: string[]; includes?: string; includes_any?: string[]; non_empty?: boolean; empty?: boolean };
+type TerraceOption = { value: string; label: string; detail?: string; reference?: string[] };
+type TerraceCondition = { field?: string; equals?: string; not_equals?: string; one_of?: string[]; includes?: string; includes_any?: string[]; non_empty?: boolean; empty?: boolean; any_of?: TerraceCondition[]; all_of?: TerraceCondition[] };
 type TerraceField = {
   id: string;
   label: string;
@@ -16,6 +16,7 @@ type TerraceField = {
   help?: string;
   unit?: string;
   placeholder?: string;
+  reference?: string[];
   visible_when?: TerraceCondition[];
 };
 type TerraceOutcome = {
@@ -49,7 +50,10 @@ const GROUPS = ["Autorización y espacio", "Seguridad y condiciones", "Funcionam
 const terraceData = (item: OperationalCase): TerraceData | undefined => (item.datos_adicionales as { terrazas?: TerraceData } | undefined)?.terrazas;
 const asTerraceCase = (item: OperationalCase): item is TerraceCase => Boolean(terraceData(item));
 
-function conditionMatches(condition: TerraceCondition, answers: TerraceAnswers) {
+function conditionMatches(condition: TerraceCondition, answers: TerraceAnswers): boolean {
+  if (condition.any_of) return condition.any_of.some((candidate) => conditionMatches(candidate, answers));
+  if (condition.all_of) return condition.all_of.every((candidate) => conditionMatches(candidate, answers));
+  if (!condition.field) return false;
   const answer = answers[condition.field];
   if (condition.equals !== undefined) return answer === condition.equals;
   if (condition.not_equals !== undefined) return answer !== undefined && answer !== condition.not_equals;
@@ -129,7 +133,7 @@ export function resolveTerraceState(item: OperationalCase, answers: TerraceAnswe
 export function TerracesCategoryView({ cases, onOpenCase }: { cases: OperationalCase[]; onOpenCase: (item: OperationalCase) => void }) {
   const terraceCases = cases.filter(asTerraceCase).sort((left, right) => terraceData(left)!.order - terraceData(right)!.order);
   return <section className="terraces-home">
-    <div className="sectionhead"><span className="kicker">🏛️ POLICÍA ADMINISTRATIVA</span><h2>☕ Terrazas</h2><p>Selecciona el hecho observado. Cada bloque reúne la comprobación común y sus variantes sancionadoras.</p></div>
+    <div className="sectionhead"><span className="kicker">🏛️ POLICÍA ADMINISTRATIVA</span><h2>☕ Terrazas</h2><p>Selecciona la situación que necesitas comprobar y sigue los hechos observables.</p></div>
     <aside className="terrace-common" aria-label="Criterios comunes de terrazas">
       <strong>Criterios comunes</strong>
       <div><span>Responsable · titular de la instalación (art. 26)</span><span>Leve · 150 €</span><span>Grave · 300 €</span><span>Muy grave · 600 €</span></div>
@@ -152,9 +156,6 @@ export function TerraceCaseSheet({ item }: { item: OperationalCase; copied: bool
   const [answers, setAnswers] = useState<TerraceAnswers>({});
   if (!data) return null;
   const { answers: resolvedAnswers, outcomes } = resolveTerraceState(item, answers);
-  const hasAnswers = Object.values(answers).some((answer) => Array.isArray(answer) ? answer.length > 0 : answer.trim().length > 0);
-  const linkedSources = resolveCaseSources(item.fuentes);
-
   const setAnswer = (field: string, value: TerraceAnswer) => setAnswers((current) => updateTerraceAnswer(item, current, field, value));
   const toggle = (field: string, value: string) => setAnswers((current) => {
     const previous = Array.isArray(current[field]) ? current[field] as string[] : [];
@@ -162,7 +163,7 @@ export function TerraceCaseSheet({ item }: { item: OperationalCase; copied: bool
   });
 
   return <article className="terrace-sheet">
-    <div className="sheettitle"><div><span className="kicker">BLOQUE GUIADO · TERRAZAS</span><h2>{data.icon} {item.titulo.replace(/^\S+\s/, "")}</h2><p>{data.summary}</p></div></div>
+    <div className="sheettitle"><div><h2>{data.icon} {item.titulo.replace(/^\S+\s/, "")}</h2><p>{data.summary}</p></div></div>
     {!!data.information?.length && <section className="terrace-reference"><h3>Referencia operativa</h3><ul>{data.information.map((entry) => <li key={entry}>{entry}</li>)}</ul></section>}
     <section className="terrace-check"><div className="terrace-section-title"><span>1</span><div><h3>Hechos observados</h3><p>Completa únicamente lo comprobado en la intervención.</p></div></div>
       <div className="terrace-fields">{data.fields.map((field) => {
@@ -171,31 +172,50 @@ export function TerraceCaseSheet({ item }: { item: OperationalCase; copied: bool
       })}</div>
       {resolvedAnswers._calculation && <div className="terrace-calculation"><span>Porcentaje calculado</span><strong>{resolvedAnswers._calculation} %</strong><small>Comprueba las mediciones consignadas antes de usar el encaje.</small></div>}
     </section>
-    <section className="terrace-result"><div className="terrace-section-title"><span>2</span><div><h3>Resultado orientativo</h3><p>El encaje aparece solo a partir de los hechos seleccionados.</p></div></div>
-      {!hasAnswers && <p className="terrace-placeholder">Selecciona o introduce los hechos para obtener un resultado.</p>}
-      {hasAnswers && !outcomes.length && <div className="terrace-outcome pending"><strong>Sin encaje automático</strong><p>Los datos introducidos no activan una variante cerrada. Documenta los hechos y evita asignar una infracción por analogía.</p></div>}
+    {!!outcomes.length && <section className="terrace-result"><div className="terrace-section-title"><span>2</span><div><h3>Resultado</h3></div></div>
       {outcomes.map((outcome) => <OutcomeCard key={outcome.id} outcome={outcome} />)}
-      {outcomes.length > 1 && <p className="terrace-multiple-note">Se reflejan todos los hechos concurrentes; la herramienta no genera automáticamente varias sanciones.</p>}
-    </section>
-    <section className="terrace-variants"><div className="terrace-section-title"><span>3</span><div><h3>Variantes del bloque</h3><p>Referencia literal sin duplicar la parte común.</p></div></div><div>{data.outcomes.filter((outcome) => outcome.classification).map((outcome) => <article key={outcome.id}><strong>{outcome.title}</strong><span>{outcome.classification} · art. {outcome.article} · {euro.format(outcome.amount ?? 0)}</span></article>)}</div></section>
-    <section className="terrace-actions"><div className="terrace-section-title"><span>4</span><div><h3>Actuación y trazabilidad</h3></div></div><ol>{item.actuacion.map((entry) => <li key={entry}>{entry}</li>)}</ol>{data.final_note && <p className="terrace-final-note">{data.final_note}</p>}
+      {outcomes.length > 1 && <p className="terrace-multiple-note">Consigna todos los hechos concurrentes en una sola actuación; la mera concurrencia no implica por sí sola varias sanciones.</p>}
+    </section>}
+    <section className="terrace-actions"><div className="terrace-section-title"><span>3</span><div><h3>Actuación policial</h3></div></div><ol>{item.actuacion.map((entry) => <li key={entry}>{entry}</li>)}</ol>{data.final_note && <p className="terrace-final-note">{data.final_note}</p>}
       <dl><div><dt>Responsable</dt><dd>{item.responsable}</dd></div><div><dt>Órgano actuante</dt><dd>{item.competencia_denuncia}</dd></div><div><dt>Órgano sancionador</dt><dd>{item.competencia_resuelve}</dd></div></dl>
-      <div className="terrace-sources"><strong>Fuente</strong>{linkedSources.map((source) => source.urlOficial ? <a key={source.id} href={source.urlOficial} target="_blank" rel="noopener noreferrer">{source.nombreCorto ?? source.nombre} ↗</a> : <span key={source.id}>{source.nombre}</span>)}</div>
     </section>
+    <SourceLinks sourceIds={item.fuentes} className="case-sources terrace-sources" />
     <button type="button" className="terrace-reset" onClick={() => setAnswers({})}>Limpiar comprobación</button>
   </article>;
 }
 
 function TerraceFieldControl({ field, value, onChange, onToggle }: { field: TerraceField; value?: TerraceAnswer; onChange: (value: string) => void; onToggle: (value: string) => void }) {
   const inputId = `terrace-${field.id}`;
+  const selectedOption = field.options?.find((option) => option.value === value);
   return <fieldset className={`terrace-field terrace-field-${field.type}`}><legend>{field.label}</legend>{field.help && <p>{field.help}</p>}
+    {!!field.reference?.length && <OperationalReference entries={field.reference} />}
     {field.type === "choice" && <div className="terrace-options">{field.options?.map((option) => <button type="button" key={option.value} className={value === option.value ? "selected" : ""} aria-pressed={value === option.value} onClick={() => onChange(option.value)}><strong>{option.label}</strong>{option.detail && <small>{option.detail}</small>}</button>)}</div>}
-    {field.type === "multi" && <div className="terrace-multi">{field.options?.map((option) => { const checked = Array.isArray(value) && value.includes(option.value); return <label key={option.value}><input type="checkbox" checked={checked} onChange={() => onToggle(option.value)} /><span><strong>{option.label}</strong>{option.detail && <small>{option.detail}</small>}</span></label>; })}</div>}
+    {!!selectedOption?.reference?.length && <OperationalReference entries={selectedOption.reference} />}
+    {field.type === "multi" && <TerraceMultiOptions options={field.options ?? []} value={value} onToggle={onToggle} />}
     {field.type === "number" && <label className="terrace-input" htmlFor={inputId}><input id={inputId} type="number" min="0" step="0.01" inputMode="decimal" value={typeof value === "string" ? value : ""} onChange={(event) => onChange(event.target.value)} placeholder={field.placeholder} /><span>{field.unit}</span></label>}
     {field.type === "text" && <textarea id={inputId} value={typeof value === "string" ? value : ""} onChange={(event) => onChange(event.target.value)} placeholder={field.placeholder} rows={3} />}
   </fieldset>;
 }
 
+function TerraceMultiOptions({ options, value, onToggle }: { options: TerraceOption[]; value?: TerraceAnswer; onToggle: (value: string) => void }) {
+  const hasSections = options.filter((option) => option.label.includes(":")).length >= 2;
+  const grouped = new Map<string, TerraceOption[]>();
+  for (const option of options) {
+    const separator = hasSections ? option.label.indexOf(":") : -1;
+    const section = separator > 0 ? option.label.slice(0, separator) : "";
+    const label = separator > 0 ? option.label.slice(separator + 1).trim() : option.label;
+    grouped.set(section, [...(grouped.get(section) ?? []), { ...option, label }]);
+  }
+  return <div className="terrace-multi-groups">{[...grouped.entries()].map(([section, entries]) => <section key={section || "items"}>
+    {section && <h4>{section}</h4>}
+    <div className="terrace-multi">{entries.map((option) => { const checked = Array.isArray(value) && value.includes(option.value); return <label key={option.value}><input type="checkbox" checked={checked} onChange={() => onToggle(option.value)} /><span><strong>{option.label}</strong>{option.detail && <small>{option.detail}</small>}</span></label>; })}</div>
+  </section>)}</div>;
+}
+
+function OperationalReference({ entries }: { entries: string[] }) {
+  return <aside className="terrace-inline-reference"><strong>Qué exige la Ordenanza</strong><ul>{entries.map((entry) => <li key={entry}>{entry}</li>)}</ul></aside>;
+}
+
 function OutcomeCard({ outcome }: { outcome: TerraceOutcome }) {
-  return <article className={`terrace-outcome ${outcome.status}`}><div><span>{outcome.status === "infraccion" ? "POSIBLE INFRACCIÓN" : outcome.status === "pendiente" ? "PENDIENTE" : outcome.status === "sin_infraccion" ? "SIN ENCAJE AUTOMÁTICO" : "INFORMACIÓN"}</span><h4>{outcome.title}</h4></div>{outcome.classification && <p className="terrace-sanction"><strong>{outcome.classification}</strong><span>Art. {outcome.article}</span><b>{euro.format(outcome.amount ?? 0)}</b></p>}<p>{outcome.detail}</p>{!!outcome.measures?.length && <ul>{outcome.measures.map((measure) => <li key={measure}>{measure}</li>)}</ul>}</article>;
+  return <article className={`terrace-outcome ${outcome.status}`}><div><span>{outcome.status === "infraccion" ? "POSIBLE INFRACCIÓN" : outcome.status === "pendiente" ? "COMPROBACIÓN PENDIENTE" : outcome.status === "sin_infraccion" ? "SIN INFRACCIÓN EN ESTE SUPUESTO" : "INFORMACIÓN"}</span><h4>{outcome.title}</h4></div>{outcome.classification && <p className="terrace-sanction"><strong>{outcome.classification}</strong><span>Art. {outcome.article}</span><b>{euro.format(outcome.amount ?? 0)}</b></p>}<p>{outcome.detail}</p>{!!outcome.measures?.length && <ul>{outcome.measures.map((measure) => <li key={measure}>{measure}</li>)}</ul>}</article>;
 }

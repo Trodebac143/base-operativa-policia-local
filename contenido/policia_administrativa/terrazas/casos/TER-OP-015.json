@@ -2,39 +2,253 @@
   "id": "TER-OP-015",
   "modulo": "policia_administrativa",
   "categoria": "policia_administrativa_terrazas",
-  "titulo": "🧱 Condiciones técnicas",
-  "palabras_clave": ["mobiliario", "estufas", "paso", "accesos", "toldos", "suplemento", "residuos", "placa"],
-  "que_comprobar": ["Autorización y plano disponibles", "Coincidencia material de la instalación", "Obligación concreta observada"],
-  "resultado": "Bloque residual guiado para obligaciones visibles sin degradar conductas que tienen bloque específico.",
+  "titulo": "🧱 Condiciones de instalación y seguridad",
+  "palabras_clave": [
+    "mobiliario",
+    "estufas",
+    "paso",
+    "accesos",
+    "toldos",
+    "suplemento",
+    "residuos",
+    "placa"
+  ],
+  "que_comprobar": [
+    "Autorización y plano disponibles",
+    "Coincidencia material de la instalación",
+    "Obligación concreta observada"
+  ],
+  "resultado": "Comprobación conjunta de accesos, toldos, estufas y suplementos de calzada.",
   "norma": "Ordenanza de terrazas de Torrent",
   "articulo": "5, 8, 9, 12, 13, 14, 27.1.f y 28",
   "responsable": "Persona física o jurídica titular de la instalación (art. 26).",
-  "actuacion": ["Contrastar autorización y plano cuando la condición dependa de ellos.", "Seleccionar los hechos concretos observados.", "Seguir el aviso de bloque específico antes de formular un tipo residual."],
+  "actuacion": [
+    "Contrastar autorización y plano cuando la condición dependa de ellos.",
+    "Seleccionar los hechos concretos observados.",
+    "Documentar medidas, ubicación y elementos concretos que fundamentan el resultado."
+  ],
   "competencia_denuncia": "Policía Local de Torrent.",
   "competencia_resuelve": "Junta de Gobierno Local, con posibilidad de delegación en el concejal que tenga atribuidas las competencias indicadas en la ordenanza (art. 30).",
-  "advertencias": [], "alerta_penal": false, "fuentes": ["TER-TORRENT"], "estado": "validado",
-  "datos_adicionales": {"terrazas": {
-    "icon": "🧱", "group": "Seguridad y condiciones", "order": 150,
-    "summary": "Lista verificable de obligaciones residuales y desvíos automáticos a bloques específicos.",
-    "information": ["El art. 27.1.f solo se usa para hechos sin tipificación específica.", "La coincidencia con una autorización municipal válida no se transforma automáticamente en infracción.", "El acceso desde acera y la protección perimetral/barandilla del suplemento se localizan aquí, pero su posible encaje se resuelve en Protección y delimitación."],
-    "fields": [
-      {"id":"comparacion","label":"Respecto de la condición comprobada, ¿qué muestran la autorización y el plano?","type":"choice","options":[{"value":"se_aparta","label":"La instalación se aparta de lo autorizado"},{"value":"no_reflejada","label":"La condición observada no figura autorizada"},{"value":"coincide","label":"Coincide con una autorización municipal válida"},{"value":"no_disponible","label":"No están disponibles para compararlos"},{"value":"no_relevante","label":"La obligación es directamente comprobable y no depende del plano"}]},
-      {"id":"hechos_especificos","label":"Hechos con bloque específico observados","type":"multi","help":"La aplicación los desvía; no tienes que decidir su calificación.","options":[{"value":"autorizacion","label":"No hay autorización o se usa fuera de periodo → bloque 1"},{"value":"horario","label":"Exceso de horario → bloque 2"},{"value":"documentos","label":"Autorización/plano no visibles o no presentados → bloque 3"},{"value":"superficie","label":"Ocupación superior a la superficie autorizada → bloque 4"},{"value":"reduccion","label":"Reducción de anchura respecto del plano → bloque 5"},{"value":"proteccion","label":"Valla/protección obligatoria ausente o defectuosa → bloque 6"},{"value":"suplemento_acceso","label":"Suplemento sin acceso único desde acera o sin impedir acceso desde calzada → bloque 6"},{"value":"suplemento_barandilla","label":"Suplemento sin protección perimetral/barandilla → bloque 6"},{"value":"seguro","label":"Carencia de seguro del art. 7 → bloque 7"},{"value":"limpieza","label":"Limpieza, apilado o residuos → bloque 8"},{"value":"retirada","label":"Toldo o mobiliario sin retirar al finalizar → bloque 9"},{"value":"molestias","label":"Molestias acreditadas → bloque 10"},{"value":"prohibidos","label":"Espectáculos, audiovisuales o elementos prohibidos → bloque 11"},{"value":"inspeccion","label":"Negativa u obstaculización inspectora → bloque 12"},{"value":"cesion","label":"Explotación cedida a tercero → bloque 13"},{"value":"suspension","label":"Continúa pese a orden de suspensión → bloque 14"}]},
-      {"id":"incumplimientos","label":"Otros hechos técnicos observados","type":"multi","options":[
-        {"value":"mobiliario_homologado","label":"Mobiliario no homologado"},{"value":"mobiliario_uniforme","label":"Falta uniformidad de color o diseño"},{"value":"estufa_homologacion","label":"Estufa sin homologación acreditada"},{"value":"estufa_altura","label":"Altura libre bajo estufa inferior a 2,20 m"},{"value":"estufa_extintor","label":"Extintor inferior a 21A-13B, a más de 15 m o no accesible"},{"value":"estufa_seguro","label":"Seguro sin cobertura específica de estufas"},
-        {"value":"paso_general","label":"Paso general inferior a 1,80 m, sin reducción específica respecto del plano"},{"value":"paso_peatonal","label":"Condición propia de calle, paseo o plaza peatonal incumplida"},{"value":"patio_portal","label":"Obstaculiza patio o portal"},{"value":"local","label":"Obstaculiza local comercial"},{"value":"vado","label":"Dificulta un vado"},{"value":"quicios","label":"Adosada a fachada sin 0,50 m desde quicios de puertas"},
-        {"value":"emergencia","label":"Salida de emergencia sin su anchura más 1 m a cada lado"},{"value":"transporte","label":"Parada de transporte público no completamente libre"},{"value":"peatones","label":"Paso de peatones no completamente libre"},{"value":"servicios","label":"Bocas, tapas, registros o servicios municipales no accesibles"},
-        {"value":"toldo_tipo","label":"Toldo de tipo o material no permitido"},{"value":"toldo_cierre","label":"Toldo con cierres verticales o cerramiento rígido/translúcido/transparente"},{"value":"toldo_altura","label":"Toldo fuera de 2,80–3,50 m"},{"value":"toldo_suplemento","label":"Toldo sobre suplemento de calzada"},
-        {"value":"suplemento_frente","label":"Suplemento fuera de plazas frente a fachada"},{"value":"suplemento_dimensiones","label":"Dimensiones fuera de límites del art. 12.3"},{"value":"suplemento_reflectantes","label":"Sin reflectantes mínimos de 10×20 cm en aristas"},{"value":"suplemento_senal","label":"Sin señal vertical P-17 en el extremo"},{"value":"suplemento_bateria","label":"En batería, menos de 1 m respecto de aparcamientos adyacentes"},{"value":"suplemento_servicios","label":"Impide servicios públicos"},
-        {"value":"residuos","label":"Sin elementos homologados de recogida/almacenamiento"},{"value":"placa_horario","label":"Horario no consta en la placa municipal, siendo verificable"}
-      ]}
-    ],
-    "outcomes": [
-      {"id":"residual","title":"Incumplimiento residual de obligación de la ordenanza","when":[{"field":"comparacion","one_of":["se_aparta","no_reflejada","no_relevante"]},{"field":"hechos_especificos","empty":true},{"field":"incumplimientos","non_empty":true}],"status":"infraccion","classification":"LEVE","article":"27.1.f","amount":150,"detail":"La obligación concreta seleccionada carece de resultado específico en los otros bloques."},
-      {"id":"especifica","title":"Continuar en el bloque específico indicado","when":[{"field":"hechos_especificos","non_empty":true}],"status":"informacion","detail":"No apliques aquí la cláusula residual a esos hechos. Abre el bloque señalado, completa sus datos y utiliza su resultado."},
-      {"id":"coincide","title":"Coincide con autorización municipal válida","when":[{"field":"comparacion","equals":"coincide"}],"status":"sin_infraccion","detail":"Este bloque no convierte automáticamente en infracción una condición material que coincide con la autorización."},
-      {"id":"duda","title":"Comparación documental pendiente","when":[{"field":"comparacion","equals":"no_disponible"}],"status":"pendiente","detail":"Contrasta autorización y plano antes de sancionar una condición que dependa de ellos."}
-    ],
-    "final_note": "El motor deriva por hechos observables: los hechos con bloque propio nunca se rebajan a la cláusula residual."
-  }}
+  "advertencias": [],
+  "alerta_penal": false,
+  "fuentes": [
+    "TER-TORRENT"
+  ],
+  "estado": "validado",
+  "datos_adicionales": {
+    "terrazas": {
+      "icon": "🧱",
+      "group": "Seguridad y condiciones",
+      "order": 150,
+      "summary": "Comprueba accesos, toldos, estufas y suplementos sin salir de la ficha.",
+      "information": [
+        "Accesos y servicios: portales, locales, vados, emergencias, transporte, pasos peatonales y registros deben quedar libres en los términos del art. 14.4 y 14.5.",
+        "Toldos: solo los tipos permitidos, sin cierres verticales o rígidos, entre 2,80 y 3,50 m y nunca sobre suplemento de calzada (arts. 12.3 y 14.3).",
+        "Estufas: modelo conforme, paso libre de 2,20 m, extintor 21A-13B a menos de 15 m y accesible, y cobertura específica en póliza (art. 8.3).",
+        "Suplementos: frente a fachada, dimensiones del estacionamiento, reflectantes, P-17, separación en batería, acceso desde acera, protección y servicios libres (art. 12.3)."
+      ],
+      "fields": [
+        {
+          "id": "comparacion",
+          "label": "Respecto de la condición comprobada, ¿qué muestran la autorización y el plano?",
+          "type": "choice",
+          "options": [
+            {
+              "value": "se_aparta",
+              "label": "La instalación se aparta de lo autorizado"
+            },
+            {
+              "value": "no_reflejada",
+              "label": "La condición observada no figura autorizada"
+            },
+            {
+              "value": "coincide",
+              "label": "Coincide con una autorización municipal válida"
+            },
+            {
+              "value": "no_disponible",
+              "label": "No están disponibles para compararlos"
+            },
+            {
+              "value": "no_relevante",
+              "label": "La obligación es directamente comprobable y no depende del plano"
+            }
+          ]
+        },
+        {
+          "id": "incumplimientos",
+          "label": "Hechos de instalación y seguridad comprobados",
+          "type": "multi",
+          "help": "Marca únicamente hechos observables o comprobados documentalmente.",
+          "options": [
+            {
+              "value": "mobiliario_homologado",
+              "label": "Mobiliario: tras comprobación documental, no consta el tipo homologado"
+            },
+            {
+              "value": "mobiliario_uniforme",
+              "label": "Mobiliario: falta uniformidad de color o diseño"
+            },
+            {
+              "value": "estufa_homologacion",
+              "label": "Estufas: tras comprobación documental, el modelo no acredita conformidad"
+            },
+            {
+              "value": "estufa_altura",
+              "label": "Estufas: altura libre inferior a 2,20 m"
+            },
+            {
+              "value": "estufa_extintor",
+              "label": "Estufas: extintor inferior a 21A-13B, a más de 15 m o no accesible"
+            },
+            {
+              "value": "estufa_seguro",
+              "label": "Estufas: la póliza comprobada no cubre sus riesgos"
+            },
+            {
+              "value": "paso_general",
+              "label": "Accesos y pasos: paso general inferior a 1,80 m"
+            },
+            {
+              "value": "paso_peatonal",
+              "label": "Accesos y pasos: paso peatonal exigible inferior a 3,50 m"
+            },
+            {
+              "value": "patio_portal",
+              "label": "Accesos y pasos: obstaculiza patio o portal"
+            },
+            {
+              "value": "local",
+              "label": "Accesos y pasos: obstaculiza local comercial"
+            },
+            {
+              "value": "vado",
+              "label": "Accesos y pasos: dificulta un vado"
+            },
+            {
+              "value": "quicios",
+              "label": "Accesos y pasos: adosada sin 0,50 m desde quicios de puertas"
+            },
+            {
+              "value": "emergencia",
+              "label": "Accesos y pasos: salida de emergencia sin su anchura más 1 m a cada lado"
+            },
+            {
+              "value": "transporte",
+              "label": "Accesos y pasos: parada de transporte público no completamente libre"
+            },
+            {
+              "value": "peatones",
+              "label": "Accesos y pasos: paso de peatones no completamente libre"
+            },
+            {
+              "value": "servicios",
+              "label": "Accesos y pasos: bocas, tapas, registros o servicios no accesibles"
+            },
+            {
+              "value": "toldo_tipo",
+              "label": "Toldos: tipo o material no permitido"
+            },
+            {
+              "value": "toldo_cierre",
+              "label": "Toldos: cierre vertical o cerramiento rígido, translúcido o transparente"
+            },
+            {
+              "value": "toldo_altura",
+              "label": "Toldos: altura fuera de 2,80–3,50 m"
+            },
+            {
+              "value": "toldo_suplemento",
+              "label": "Toldos: instalado sobre suplemento de calzada"
+            },
+            {
+              "value": "suplemento_frente",
+              "label": "Suplemento: ocupa plazas que no están frente a fachada"
+            },
+            {
+              "value": "suplemento_dimensiones",
+              "label": "Suplemento: dimensiones fuera de los límites del art. 12.3"
+            },
+            {
+              "value": "suplemento_reflectantes",
+              "label": "Suplemento: sin reflectantes mínimos de 10×20 cm en aristas"
+            },
+            {
+              "value": "suplemento_senal",
+              "label": "Suplemento: sin señal vertical P-17 en el extremo"
+            },
+            {
+              "value": "suplemento_bateria",
+              "label": "Suplemento: en batería, menos de 1 m respecto de aparcamientos adyacentes"
+            },
+            {
+              "value": "suplemento_acceso",
+              "label": "Suplemento: el acceso no se realiza únicamente desde la acera"
+            },
+            {
+              "value": "suplemento_calzada",
+              "label": "Suplemento: no impide el acceso desde calzada o aparcamiento"
+            },
+            {
+              "value": "suplemento_proteccion",
+              "label": "Suplemento: falta protección perimetral o barandilla"
+            },
+            {
+              "value": "suplemento_servicios",
+              "label": "Suplemento: impide o dificulta servicios públicos"
+            }
+          ]
+        }
+      ],
+      "outcomes": [
+        {
+          "id": "residual",
+          "title": "Incumplimiento residual de obligación de la ordenanza",
+          "when": [
+            {
+              "field": "comparacion",
+              "one_of": [
+                "se_aparta",
+                "no_reflejada",
+                "no_relevante"
+              ]
+            },
+            {
+              "field": "incumplimientos",
+              "non_empty": true
+            }
+          ],
+          "status": "infraccion",
+          "classification": "LEVE",
+          "article": "27.1.f",
+          "amount": 150,
+          "detail": "Incumplimiento de una condición concreta de los arts. 8, 12, 13 o 14 sin tipificación específica distinta."
+        },
+        {
+          "id": "coincide",
+          "title": "Coincide con autorización municipal válida",
+          "when": [
+            {
+              "field": "comparacion",
+              "equals": "coincide"
+            }
+          ],
+          "status": "sin_infraccion",
+          "detail": "La coincidencia con una autorización municipal válida no se tipifica como infracción por estas condiciones materiales."
+        },
+        {
+          "id": "duda",
+          "title": "Comparación documental pendiente",
+          "when": [
+            {
+              "field": "comparacion",
+              "equals": "no_disponible"
+            }
+          ],
+          "status": "pendiente",
+          "detail": "Contrasta autorización y plano antes de sancionar una condición que dependa de ellos."
+        }
+      ]
+    }
+  }
 }
