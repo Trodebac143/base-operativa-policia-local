@@ -165,12 +165,13 @@ function QuestionControl({ question, value, onChange }: { question: InspectionQu
   return <label className="establishment-question establishment-input" htmlFor={id}><span>{question.etiqueta}</span>{question.tipo === "texto_largo" ? <textarea id={id} rows={4} value={typeof value === "string" ? value : ""} placeholder={question.placeholder} onChange={(event) => onChange(event.target.value)} /> : <span className="establishment-input-row"><input id={id} type={inputType} min={inputType === "number" ? "0" : undefined} inputMode={inputType === "number" ? "numeric" : undefined} value={typeof value === "string" ? value : ""} placeholder={question.placeholder} onChange={(event) => onChange(event.target.value)} />{question.unidad && <small>{question.unidad}</small>}</span>}</label>;
 }
 
-function InspectionResult({ resolution, draft, showDraft, onShowDraft }: { resolution: ReturnType<typeof resolveEstablishmentInspection>; draft: string; showDraft: boolean; onShowDraft: () => void }) {
+export function InspectionResult({ resolution, draft, showDraft, onShowDraft }: { resolution: ReturnType<typeof resolveEstablishmentInspection>; draft: string; showDraft: boolean; onShowDraft: () => void }) {
   if (!resolution.incidencias.length) return <section className="establishment-result empty-result" aria-live="polite"><span className="kicker">RESULTADO DE LA INSPECCIÓN</span><h3>Sin irregularidades marcadas</h3><p>Los controles correctos o no comprobados no generan propuesta de infracción ni documento.</p></section>;
   return <section className="establishment-result" aria-live="polite">
     <div className="establishment-result-heading"><span className="kicker">RESULTADO DE LA INSPECCIÓN</span><h3>Incidencias por vía documental</h3></div>
     <div className="establishment-result-groups">{resolution.grupos.map((group) => <article key={group.via} className={`establishment-result-group route-${group.via.toLowerCase()}`}>
       <h4>{group.via === "LEY_14_2010" ? "🔵" : group.via === "MUNICIPAL" ? "🟠" : "⚪"} {group.titulo}</h4>
+      {group.via === "ESPECIFICA" && <aside className="establishment-related-route"><strong>⚠️ OTRA VÍA / MATERIA RELACIONADA</strong><span>Este hecho debe analizarse por su regulación propia y no se integra en la vía de la Ley 14/2010.</span></aside>}
       <div className="establishment-incidents">{group.incidencias.map((incident) => <section key={`${incident.controlId}-${incident.id}`}>
         <strong>{incident.controlIcono} {incident.titulo}</strong>
         <p>{incident.norma} · {incident.articulo === "PENDIENTE DE VALIDACIÓN JURÍDICA" ? incident.articulo : `art. ${incident.articulo}`}</p>

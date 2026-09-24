@@ -255,3 +255,23 @@ test("31 · la inspección conserva estado en la sesión sin contaminar el estad
   assert.match(source, /sessionStorage\.setItem\(STORAGE_KEY, JSON\.stringify\(state\)\)/);
   assert.match(source, /sessionStorage\.removeItem\(STORAGE_KEY\)/);
 });
+
+test("32 · Ley 14/2010, normativa municipal y normativa específica se mantienen en tres grupos", () => {
+  const resolution = engine.resolveEstablishmentInspection({
+    licencia_actividad: irregular({ actividad_distinta: "si", actividad_autorizada: "Café", actividad_observada: "Discoteca" }),
+    ruido: irregular({ fuente_ruido: "Equipo musical" }),
+    tabaco: irregular({ hecho_tabaco: ["consumo"], lugar_tabaco: "Zona interior" }),
+  });
+  assert.deepEqual(resolution.grupos.map((group) => group.via), ["LEY_14_2010", "MUNICIPAL", "ESPECIFICA"]);
+  assert.deepEqual(resolution.grupos.map((group) => group.incidencias.length), [1, 1, 1]);
+});
+
+test("33 · la salida de normativa específica avisa que corresponde a otra vía", () => {
+  const resolution = engine.resolveEstablishmentInspection({
+    tabaco: irregular({ hecho_tabaco: ["consumo"], lugar_tabaco: "Zona interior" }),
+  });
+  const html = render(view.InspectionResult, { resolution, draft: "", showDraft: false, onShowDraft() {} });
+  assert.match(html, /Otra vía \/ materia relacionada/i);
+  assert.match(html, /regulación propia/);
+  assert.doesNotMatch(html, /Ley 14\/2010[\s\S]*Otra vía \/ materia relacionada[\s\S]*Ley 14\/2010/);
+});
