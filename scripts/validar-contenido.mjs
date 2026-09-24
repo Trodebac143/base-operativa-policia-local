@@ -75,7 +75,6 @@ const seguroTree = load("contenido/seguridad_vial/seguro/arbol.json");
 const seguridadPublica = load("contenido/seguridad_publica/operativa.json");
 const vmpGuide = load("contenido/seguridad_vial/vmp/guia.json");
 const alcoholemia = load("contenido/seguridad_vial/alcoholemia.json");
-const establecimientos = load("contenido/policia_administrativa/establecimientos/inspeccion.json");
 
 const moduleIds = duplicateIds(modules, "Módulos");
 const categoryIds = duplicateIds(categories, "Categorías");
@@ -157,7 +156,6 @@ for (const [label, value] of [
   ["Seguridad Vial/Seguro", seguro],
   ["Seguridad Vial/Permisos", permisos],
   ["Policía Administrativa/Terrazas", terrazas],
-  ["Policía Administrativa/Establecimientos públicos", establecimientos],
   ["Reglas comunes", rules],
   ["Reglas de permisos", permisosRules],
   ["Fichas de permisos", permisosSheets],
@@ -209,32 +207,6 @@ for (const item of terrazas) {
   if (item.fuentes?.length !== 1 || item.fuentes[0] !== "TER-TORRENT") errors.push(`${item.id}: debe usar la fuente central TER-TORRENT`);
 }
 if (terrazas.some((item) => /ocultaci[oó]n.*document|tres infracciones leves|tres infracciones graves/i.test(`${item.titulo} ${item.resultado}`))) errors.push("Terrazas: se ha creado un supuesto excluido como caso autónomo");
-
-if (!establecimientos || Array.isArray(establecimientos) || typeof establecimientos !== "object") errors.push("Establecimientos públicos: estructura de inspección no válida");
-else {
-  if (establecimientos.categoria !== "policia_administrativa_establecimientos_actividades" || !categoryIds.has(establecimientos.categoria)) errors.push("Establecimientos públicos: categoría no enlazada al ID existente");
-  if (!Array.isArray(establecimientos.fuentes) || establecimientos.fuentes.length !== 2) errors.push("Establecimientos públicos: deben constar las dos fuentes centrales aportadas");
-  if (!Array.isArray(establecimientos.controles) || establecimientos.controles.length < 15) errors.push("Establecimientos públicos: se requieren al menos quince controles");
-  else {
-    duplicateIds(establecimientos.controles, "Controles de Establecimientos públicos");
-    const origins = new Set(["AUTONÓMICA", "MUNICIPAL", "MIXTA", "NORMATIVA ESPECÍFICA"]);
-    for (const control of establecimientos.controles) {
-      for (const field of ["icono", "titulo", "origen", "referencia", "resumen"]) if (!control[field]) errors.push(`Establecimientos públicos/${control.id ?? "sin id"}: falta ${field}`);
-      if (!origins.has(control.origen)) errors.push(`Establecimientos públicos/${control.id}: origen no válido ${control.origen}`);
-      if (!Array.isArray(control.preguntas) || !control.preguntas.length) errors.push(`Establecimientos públicos/${control.id}: faltan preguntas observables`);
-      else {
-        duplicateIds(control.preguntas, `Preguntas Establecimientos/${control.id}`);
-        for (const question of control.preguntas) if (!question.etiqueta || !question.tipo || !question.anexo) errors.push(`Establecimientos públicos/${control.id}/${question.id ?? "sin id"}: pregunta incompleta`);
-      }
-      if (!Array.isArray(control.resultados) || !control.resultados.length) errors.push(`Establecimientos públicos/${control.id}: falta resultado`);
-      else for (const result of control.resultados) {
-        for (const field of ["titulo", "via", "norma", "articulo", "clasificacion"]) if (!result[field]) errors.push(`Establecimientos públicos/${control.id}/${result.id ?? "sin id"}: falta ${field}`);
-        if (!Array.isArray(result.cuando) || !result.cuando.length) errors.push(`Establecimientos públicos/${control.id}/${result.id}: faltan condiciones`);
-        if (!Array.isArray(result.anexo_campos) || !Array.isArray(result.recordatorios) || !result.recordatorios.length) errors.push(`Establecimientos públicos/${control.id}/${result.id}: configuración de ANEXO incompleta`);
-      }
-    }
-  }
-}
 
 for (const item of seguro.filter((candidate) => ["TR-SOA-OP-001", "TR-SOA-OP-002"].includes(candidate.id))) {
   const variants = item.datos_adicionales?.variantes_arci;
@@ -365,7 +337,6 @@ notes.push(`${sources.length} fuentes jurídicas · ${documents.length} document
 notes.push(`${[...sourceReferenceUsage.values()].filter(Boolean).length} fuentes referenciadas por contenido activo · ${sources.filter((source) => source.urlOficial).length} con URL oficial · ${documents.filter((document) => document.fuenteId).length} con documento local`);
 notes.push(`Seguridad Pública: ${seguridadPublica?.conceptos?.length ?? 0} conceptos operativos`);
 notes.push(`VMP/VPL: ${vmpGuide?.areas?.length ?? 0} áreas operativas · ${vmpGuide?.casos_practicos?.length ?? 0} casos prácticos · ${vmpGuide?.circulacion?.infracciones?.length ?? 0} reglas de circulación`);
-notes.push(`Establecimientos públicos: ${establecimientos?.controles?.length ?? 0} controles de inspección`);
 
 if (errors.length) {
   console.error("\n❌ CONTENIDO NO VÁLIDO\n");

@@ -6,7 +6,6 @@ import permisosSheetsJson from "../contenido/seguridad_vial/permisos/fichas_juri
 import alcoholemiaJson from "../contenido/seguridad_vial/alcoholemia.json";
 import seguridadPublicaJson from "../contenido/seguridad_publica/operativa.json";
 import vmpGuideJson from "../contenido/seguridad_vial/vmp/guia.json";
-import establishmentsJson from "../contenido/policia_administrativa/establecimientos/inspeccion.json";
 import { resolveSourceReference } from "./sources";
 
 const animalsJson = rawCases.filter((item) => item.modulo === "animales");
@@ -63,7 +62,6 @@ addUsage(itvJson, "Seguridad Vial → ITV");
 addUsage(seguroJson, "Seguridad Vial → Seguro");
 addUsage(permisosJson, "Seguridad Vial → Permisos de conducir");
 addUsage(terrazasJson, "Policía Administrativa → Terrazas");
-addUsage(establishmentsJson, "Policía Administrativa → Establecimientos públicos");
 addUsage(permisosRulesJson, "Seguridad Vial → Permisos de conducir");
 addUsage(permisosSheetsJson, "Seguridad Vial → Permisos de conducir");
 addUsage(penalJson, "Seguridad Vial → Permisos de conducir");
@@ -91,7 +89,6 @@ export function allSourceReferences(): string[] {
     ...collectSourceReferences(seguroJson),
     ...collectSourceReferences(permisosJson),
     ...collectSourceReferences(terrazasJson),
-    ...collectSourceReferences(establishmentsJson),
     ...collectSourceReferences(permisosRulesJson),
     ...collectSourceReferences(permisosSheetsJson),
     ...collectSourceReferences(penalJson),

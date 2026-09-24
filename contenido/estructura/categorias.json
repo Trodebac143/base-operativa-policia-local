@@ -185,8 +185,7 @@
   {
     "id": "policia_administrativa_establecimientos_actividades",
     "modulo": "policia_administrativa",
-    "nombre": "🏬 Establecimientos públicos",
-    "descripcion": "Inspección policial guiada de establecimientos públicos.",
+    "nombre": "🏬 Establecimientos y actividades",
     "orden": 60,
     "activo": true
   }
