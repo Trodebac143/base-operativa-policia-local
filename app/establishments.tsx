@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   buildAnnexDraft,
+  buildAnnexSections,
   controlsForFilter,
   EMPTY_INSPECTION_ITEM,
   establishmentsInspection,
@@ -165,12 +166,14 @@ function QuestionControl({ question, value, onChange }: { question: InspectionQu
   return <label className="establishment-question establishment-input" htmlFor={id}><span>{question.etiqueta}</span>{question.tipo === "texto_largo" ? <textarea id={id} rows={4} value={typeof value === "string" ? value : ""} placeholder={question.placeholder} onChange={(event) => onChange(event.target.value)} /> : <span className="establishment-input-row"><input id={id} type={inputType} min={inputType === "number" ? "0" : undefined} inputMode={inputType === "number" ? "numeric" : undefined} value={typeof value === "string" ? value : ""} placeholder={question.placeholder} onChange={(event) => onChange(event.target.value)} />{question.unidad && <small>{question.unidad}</small>}</span>}</label>;
 }
 
-function InspectionResult({ resolution, draft, showDraft, onShowDraft }: { resolution: ReturnType<typeof resolveEstablishmentInspection>; draft: string; showDraft: boolean; onShowDraft: () => void }) {
+export function InspectionResult({ resolution, draft, showDraft, onShowDraft }: { resolution: ReturnType<typeof resolveEstablishmentInspection>; draft: string; showDraft: boolean; onShowDraft: () => void }) {
   if (!resolution.incidencias.length) return <section className="establishment-result empty-result" aria-live="polite"><span className="kicker">RESULTADO DE LA INSPECCIÓN</span><h3>Sin irregularidades marcadas</h3><p>Los controles correctos o no comprobados no generan propuesta de infracción ni documento.</p></section>;
+  const annexSections = buildAnnexSections(resolution);
   return <section className="establishment-result" aria-live="polite">
     <div className="establishment-result-heading"><span className="kicker">RESULTADO DE LA INSPECCIÓN</span><h3>Incidencias por vía documental</h3></div>
-    <div className="establishment-result-groups">{resolution.grupos.map((group) => <article key={group.via} className={`establishment-result-group route-${group.via.toLowerCase()}`}>
+    <div className="establishment-result-groups">{resolution.grupos.map((group) => <article key={`${group.via}-${group.documento}`} className={`establishment-result-group route-${group.via.toLowerCase()}`}>
       <h4>{group.via === "LEY_14_2010" ? "🔵" : group.via === "MUNICIPAL" ? "🟠" : "⚪"} {group.titulo}</h4>
+      {group.via === "ESPECIFICA" && <aside className="establishment-related-route"><strong>⚠️ OTRA VÍA / MATERIA RELACIONADA</strong><span>Este hecho debe analizarse por su regulación propia y no se integra en la vía de la Ley 14/2010.</span></aside>}
       <div className="establishment-incidents">{group.incidencias.map((incident) => <section key={`${incident.controlId}-${incident.id}`}>
         <strong>{incident.controlIcono} {incident.titulo}</strong>
         <p>{incident.norma} · {incident.articulo === "PENDIENTE DE VALIDACIÓN JURÍDICA" ? incident.articulo : `art. ${incident.articulo}`}</p>
@@ -180,7 +183,7 @@ function InspectionResult({ resolution, draft, showDraft, onShowDraft }: { resol
     </article>)}</div>
     <section className="establishment-annex">
       <h4>📝 ANEXO — recuerda hacer constar</h4>
-      {resolution.incidencias.map((incident) => <div key={`${incident.controlId}-${incident.id}`}><strong>{incident.controlIcono} {incident.controlTitulo}</strong><ul>{incident.recordatorios.map((entry) => <li key={entry}>{entry}</li>)}{incident.datosAnexo.map((datum) => <li key={`${datum.etiqueta}-${datum.valor}`}><b>{datum.etiqueta}:</b> {datum.valor}</li>)}</ul></div>)}
+      {annexSections.map((section) => <div key={section.controlId}><strong>{section.controlIcono} {section.controlTitulo}</strong><ul>{section.recordatorios.map((entry) => <li key={entry}>{entry}</li>)}{section.datosAnexo.map((datum) => <li key={`${datum.etiqueta}-${datum.valor}`}><b>{datum.etiqueta}:</b> {datum.valor}</li>)}</ul></div>)}
       <button type="button" onClick={onShowDraft}>Preparar borrador del ANEXO</button>
       {showDraft && (draft ? <div className="establishment-draft"><strong>Borrador para revisar</strong><pre>{draft}</pre><p>Revisa el texto antes de transcribirlo. La calificación jurídica se mantiene separada.</p></div> : <div className="establishment-draft empty-draft"><strong>Sin datos para redactar</strong><p>Marca o introduce hechos comprobados. El borrador no completa información ausente.</p></div>)}
     </section>

@@ -213,7 +213,8 @@ if (terrazas.some((item) => /ocultaci[oó]n.*document|tres infracciones leves|tr
 if (!establecimientos || Array.isArray(establecimientos) || typeof establecimientos !== "object") errors.push("Establecimientos públicos: estructura de inspección no válida");
 else {
   if (establecimientos.categoria !== "policia_administrativa_establecimientos_actividades" || !categoryIds.has(establecimientos.categoria)) errors.push("Establecimientos públicos: categoría no enlazada al ID existente");
-  if (!Array.isArray(establecimientos.fuentes) || establecimientos.fuentes.length !== 2) errors.push("Establecimientos públicos: deben constar las dos fuentes centrales aportadas");
+  const establishmentSources = ["PA-EST-SRC-LEY-14-2010", "PA-EST-SRC-DECRETO-143-2015", "PA-EST-SRC-ORDEN-3-2025", "PA-EST-SRC-LEY-28-2005", "OCC-TORRENT"];
+  if (!Array.isArray(establecimientos.fuentes) || establishmentSources.some((id) => !establecimientos.fuentes.includes(id))) errors.push("Establecimientos públicos: deben constar todas las fuentes centrales utilizadas");
   if (!Array.isArray(establecimientos.controles) || establecimientos.controles.length < 15) errors.push("Establecimientos públicos: se requieren al menos quince controles");
   else {
     duplicateIds(establecimientos.controles, "Controles de Establecimientos públicos");
