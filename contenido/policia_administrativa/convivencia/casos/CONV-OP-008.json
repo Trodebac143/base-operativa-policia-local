@@ -1,0 +1,7 @@
+{
+  "id": "CONV-OP-008", "modulo": "policia_administrativa", "categoria": "policia_administrativa_convivencia", "titulo": "Carteles, adhesivos u octavillas sin autorización",
+  "palabras_clave": ["carteles", "adhesivos", "octavillas", "publicidad"], "que_comprobar": ["Qué se coloca o reparte", "Lugar", "Existencia de autorización"],
+  "resultado": "Infracción ordinaria de limpieza viaria.", "norma": "Ordenanza de Residuos Urbanos y Limpieza Viaria de Torrent", "articulo": "23", "calificacion": "LEVE", "rango_max": 600,
+  "actuacion": ["Formular denuncia municipal."], "competencia_denuncia": "Policía Local de Torrent.", "competencia_resuelve": "Ayuntamiento de Torrent.", "advertencias": [], "alerta_penal": false, "fuentes": ["ORL-TORRENT"], "estado": "validado",
+  "datos_adicionales": { "convivencia": { "grupo": "Limpieza y uso del espacio público", "orden": 80, "condiciones": [{"id":"sectorial","etiqueta":"¿Consta regulación sectorial específica?","opciones":[{"valor":"no","etiqueta":"No consta"},{"valor":"si","etiqueta":"Sí, consta regulación específica"}]}], "salidas": [{"cuando":{"sectorial":"no"},"calificacion":"LEVE","sancion":"hasta 600 €"},{"cuando":{"sectorial":"si"},"calificacion":"LEVE","sancion":"hasta 600 €","otraVia":"Regulación sectorial específica aplicable."}] } }
+}

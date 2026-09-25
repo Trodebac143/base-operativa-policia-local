@@ -186,10 +186,11 @@ test("21 · la composición de escritorio mantiene filtros y resultados compacto
   assert.match(css, /\.establishment-result-group dl \{[^}]*grid-template-columns: 1fr 1fr/);
 });
 
-test("22 · Terrazas y el resto de Policía Administrativa mantienen sus categorías", async () => {
+test("22 · Terrazas, Convivencia y Establecimientos mantienen la estructura administrativa", async () => {
   const categories = await readJson("contenido/estructura/categorias.json");
   assert.ok(categories.some((item) => item.id === "policia_administrativa_terrazas" && item.nombre === "☕ Terrazas"));
-  assert.deepEqual(categories.filter((item) => item.modulo === "policia_administrativa").map((item) => item.orden), [10, 20, 30, 40, 50, 60]);
+  assert.deepEqual(categories.filter((item) => item.modulo === "policia_administrativa").map((item) => item.orden), [10, 20, 30, 40, 60]);
+  assert.equal(categories.some((item) => item.id === "policia_administrativa_mercados"), false);
 });
 
 test("23 · las fuentes están registradas, enlazadas y visibles desde la inspección", async () => {

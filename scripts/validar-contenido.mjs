@@ -63,6 +63,7 @@ const seguro = cases.filter((item) => item.categoria === "seguridad_vial_seguro"
 const permisos = cases.filter((item) => item.categoria === "seguridad_vial_permisos");
 const terrazas = cases.filter((item) => item.categoria === "policia_administrativa_terrazas");
 const ventaNoSedentaria = cases.filter((item) => item.categoria === "policia_administrativa_venta_no_sedentaria");
+const convivencia = cases.filter((item) => item.categoria === "policia_administrativa_convivencia");
 const permisosRules = reqArray("contenido/seguridad_vial/permisos/reglas.json");
 const permisosSheets = reqArray("contenido/seguridad_vial/permisos/fichas_juridicas.json");
 const permisosHelps = reqArray("contenido/seguridad_vial/permisos/ayudas.json");
@@ -160,6 +161,7 @@ for (const [label, value] of [
   ["Seguridad Vial/Permisos", permisos],
   ["Policía Administrativa/Terrazas", terrazas],
   ["Policía Administrativa/Venta no sedentaria", ventaNoSedentaria],
+  ["Policía Administrativa/Convivencia", convivencia],
   ["Policía Administrativa/Establecimientos públicos", establecimientos],
   ["Reglas comunes", rules],
   ["Reglas de permisos", permisosRules],
@@ -271,6 +273,20 @@ const expectedVnsGroups = ["Autorización y condiciones del puesto", "Documentac
 if (new Set(ventaNoSedentaria.map((item) => item.datos_adicionales?.venta_no_sedentaria?.grupo)).size !== 3 || !expectedVnsGroups.every((group) => ventaNoSedentaria.some((item) => item.datos_adicionales?.venta_no_sedentaria?.grupo === group))) errors.push("Venta no sedentaria: deben existir exactamente los tres grupos operativos");
 if (vnsRegimen?.rangos?.LEVE !== "Apercibimiento; multa de 75 a 200 €; o suspensión de la autorización hasta tres meses." || vnsRegimen?.rangos?.GRAVE !== "Multa de 201 a 400 €; o suspensión entre tres meses y un día y seis meses." || vnsRegimen?.rangos?.["MUY GRAVE"] !== "Multa de 401 a 700 €; suspensión entre seis meses y un día y un año; o revocación definitiva y cese.") errors.push("Venta no sedentaria: rangos sancionadores comunes incorrectos");
 
+const expectedConvivenciaIds = Array.from({ length: 10 }, (_, index) => `CONV-OP-${String(index + 1).padStart(3, "0")}`);
+if (convivencia.length !== 10) errors.push(`Convivencia: se esperaban 10 casos y hay ${convivencia.length}`);
+if (convivencia.map((item) => item.id).sort().join("|") !== expectedConvivenciaIds.join("|")) errors.push("Convivencia: IDs CONV-OP-001 a CONV-OP-010 incompletos o incorrectos");
+const expectedConvivenciaGroups = ["Convivencia y molestias", "Limpieza y uso del espacio público", "Riesgos / incidencias"];
+for (const item of convivencia) {
+  const data = item.datos_adicionales?.convivencia;
+  if (!data?.grupo || !Number.isFinite(data.orden)) errors.push(`${item.id}: falta grupo u orden operativo de Convivencia`);
+  if (item.modulo !== "policia_administrativa" || item.estado !== "validado") errors.push(`${item.id}: debe ser un caso validado de Policía Administrativa`);
+  if (item.competencia_resuelve !== "Ayuntamiento de Torrent.") errors.push(`${item.id}: competencia sancionadora incorrecta`);
+  if (!item.fuentes?.length || !item.fuentes.every((id) => ["OCC-TORRENT", "ORL-TORRENT"].includes(id))) errors.push(`${item.id}: fuente de Convivencia incorrecta`);
+}
+if (new Set(convivencia.map((item) => item.datos_adicionales?.convivencia?.grupo)).size !== 3 || !expectedConvivenciaGroups.every((group) => convivencia.some((item) => item.datos_adicionales?.convivencia?.grupo === group))) errors.push("Convivencia: deben existir exactamente los tres grupos operativos");
+if (!sourceIds.has("OCC-TORRENT") || !sourceIds.has("ORL-TORRENT")) errors.push("Convivencia: faltan las dos fuentes municipales centrales");
+
 for (const group of permisosGroups) {
   if (!group.nombre || !group.descripcion || !Number.isFinite(group.orden)) errors.push(`${group.id}: subgrupo incompleto`);
   if (Object.hasOwn(group, "casos")) errors.push(`${group.id}: elimina la lista técnica casos; ahora se genera desde el campo subgrupo de cada caso`);
@@ -378,7 +394,7 @@ for (const file of fs.readdirSync(path.join(root, "public", "documentos"))) {
   if (/\.pdf$/i.test(file) && !documentFiles.has(file)) errors.push(`BIBLIOTECA · PDF HUÉRFANO\n  Problema: ${file} no está incluido en el índice.\n  Qué hacer: ejecuta npm run contenido:sincronizar.`);
 }
 
-notes.push(`${cases.length} casos: ${animals.length} Animales + ${itv.length} ITV + ${seguro.length} Seguro + ${permisos.length} Permisos + ${terrazas.length} Terrazas + ${ventaNoSedentaria.length} Venta no sedentaria`);
+notes.push(`${cases.length} casos: ${animals.length} Animales + ${itv.length} ITV + ${seguro.length} Seguro + ${permisos.length} Permisos + ${terrazas.length} Terrazas + ${ventaNoSedentaria.length} Venta no sedentaria + ${convivencia.length} Convivencia`);
 notes.push(`${sources.length} fuentes jurídicas · ${documents.length} documentos de biblioteca`);
 notes.push(`${[...sourceReferenceUsage.values()].filter(Boolean).length} fuentes referenciadas por contenido activo · ${sources.filter((source) => source.urlOficial).length} con URL oficial · ${documents.filter((document) => document.fuenteId).length} con documento local`);
 notes.push(`Seguridad Pública: ${seguridadPublica?.conceptos?.length ?? 0} conceptos operativos`);

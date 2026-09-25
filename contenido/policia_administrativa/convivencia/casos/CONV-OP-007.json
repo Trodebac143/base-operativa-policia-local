@@ -1,0 +1,7 @@
+{
+  "id": "CONV-OP-007", "modulo": "policia_administrativa", "categoria": "policia_administrativa_convivencia", "titulo": "Lavar o reparar vehículos en espacio público",
+  "palabras_clave": ["lavar", "reparar", "vehículo", "vía pública"], "que_comprobar": ["Lavado o reparación efectiva", "Lugar", "Si se trata de actuación de emergencia necesaria"],
+  "resultado": "Infracción ordinaria de limpieza viaria LEVE, salvo mayor entidad.", "norma": "Ordenanza de Residuos Urbanos y Limpieza Viaria de Torrent", "articulo": "23", "calificacion": "LEVE", "rango_max": 600,
+  "actuacion": ["Formular denuncia municipal."], "competencia_denuncia": "Policía Local de Torrent.", "competencia_resuelve": "Ayuntamiento de Torrent.", "advertencias": [], "alerta_penal": false, "fuentes": ["ORL-TORRENT"], "estado": "validado",
+  "datos_adicionales": { "convivencia": { "grupo": "Limpieza y uso del espacio público", "orden": 70 } }
+}

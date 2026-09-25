@@ -1,0 +1,7 @@
+{
+  "id": "CONV-OP-010", "modulo": "policia_administrativa", "categoria": "policia_administrativa_convivencia", "titulo": "Fuegos o pirotecnia sin autorización",
+  "palabras_clave": ["fuego", "pirotecnia", "El Vedat", "vegetación"], "que_comprobar": ["Lugar", "Tipo de fuego o artificio", "Autorización", "Zona boscosa, vegetación abundante o El Vedat"],
+  "resultado": "Uso de fuego o pirotecnia sin autorización.", "norma": "Ordenanza de Convivencia de Torrent", "articulo": "7.b", "importe_fijo": 250,
+  "actuacion": ["Formular denuncia municipal."], "competencia_denuncia": "Policía Local de Torrent.", "competencia_resuelve": "Ayuntamiento de Torrent.", "advertencias": [], "alerta_penal": false, "fuentes": ["OCC-TORRENT"], "estado": "validado",
+  "datos_adicionales": { "convivencia": { "grupo": "Riesgos / incidencias", "orden": 100, "condiciones": [{"id":"situacion","etiqueta":"¿Qué situación se ha comprobado?","opciones":[{"valor":"general","etiqueta":"Sin autorización, supuesto general"},{"valor":"boscosa","etiqueta":"Sin autorización en zona boscosa, vegetación abundante o El Vedat"},{"valor":"autorizado","etiqueta":"Consta autorización"}]}], "salidas": [{"cuando":{"situacion":"general"},"articulo":"7.b","sancion":"250 €"},{"cuando":{"situacion":"boscosa"},"articulo":"7.c","sancion":"500 €","otraVia":"Si existe incendio, riesgo forestal relevante, daño o posible delito: Seguridad Pública."},{"cuando":{"situacion":"autorizado"},"sinInfraccion":true,"resultado":"No se aprecia esta infracción si consta autorización aplicable."}] } }
+}

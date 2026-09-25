@@ -1,0 +1,7 @@
+{
+  "id": "CONV-OP-006", "modulo": "policia_administrativa", "categoria": "policia_administrativa_convivencia", "titulo": "Pintadas o grafitis",
+  "palabras_clave": ["pintadas", "grafitis", "spray", "daños"], "que_comprobar": ["Superficie afectada", "Extensión", "Daño observable"],
+  "resultado": "Infracción ordinaria de limpieza viaria.", "norma": "Ordenanza de Residuos Urbanos y Limpieza Viaria de Torrent", "articulo": "23", "calificacion": "LEVE", "rango_max": 600,
+  "actuacion": ["Formular denuncia municipal."], "competencia_denuncia": "Policía Local de Torrent.", "competencia_resuelve": "Ayuntamiento de Torrent.", "advertencias": [], "alerta_penal": false, "fuentes": ["ORL-TORRENT"], "estado": "validado",
+  "datos_adicionales": { "convivencia": { "grupo": "Limpieza y uso del espacio público", "orden": 60, "condiciones": [{"id":"danos","etiqueta":"¿Constan daños con posible relevancia penal?","opciones":[{"valor":"no","etiqueta":"No consta"},{"valor":"si","etiqueta":"Sí, hay daño relevante observable"}]}], "salidas": [{"cuando":{"danos":"no"},"calificacion":"LEVE","sancion":"hasta 600 €"},{"cuando":{"danos":"si"},"calificacion":"LEVE","sancion":"hasta 600 €","otraVia":"Seguridad Pública → Delitos contra el patrimonio / daños."}] } }
+}

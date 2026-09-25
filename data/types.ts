@@ -84,12 +84,33 @@ export type VentaNoSedentariaData = {
   condiciones?: VentaNoSedentariaCondition[];
   salidas?: VentaNoSedentariaOutcome[];
 };
+export type ConvivenciaCondition = {
+  id: string;
+  etiqueta: string;
+  opciones: { valor: string; etiqueta: string }[];
+};
+export type ConvivenciaOutcome = {
+  cuando: Record<string, string>;
+  resultado?: string;
+  articulo?: string;
+  calificacion?: string;
+  sancion?: string;
+  otraVia?: string;
+  sinInfraccion?: boolean;
+};
+export type ConvivenciaData = {
+  grupo: string;
+  orden: number;
+  condiciones?: ConvivenciaCondition[];
+  salidas?: ConvivenciaOutcome[];
+};
 export type AdditionalCaseData = Record<string, unknown> & {
   encaje_condicional?: ConditionalFit[];
   variantes_arci?: ArciVariant[];
   calificacion_condicional?: ConditionalClassification;
   relevancia_penal_condicional?: ConditionalPenalRelevance;
   venta_no_sedentaria?: VentaNoSedentariaData;
+  convivencia?: ConvivenciaData;
 };
 export type OperationalCase = { id: string; modulo: string; categoria: string; titulo: string; situacion?: string; via?: string; estado_circulacion?: string; palabras_clave: string[]; que_comprobar: string[]; resultado: string; norma: string; articulo: string; norma_infringida?: string | null; articulo_infringido?: string | null; tipificacion_norma?: string | null; tipificacion_articulo?: string | null; tipificacion_etiqueta?: string | null; textoDenuncia?: string | null; es_infraccion_autonoma?: boolean; inmovilizacion?: ImmobilizationStatus | null; motivo_inmovilizacion?: string | null; medida_operativa?: TrafficMeasurePlan; actuacion_breve?: string[]; codificado?: string | null; calificacion?: string | null; puntos?: number | null; rango_min?: number | null; rango_max?: number | null; importe_fijo?: number | null; importe_reducido?: number | null; responsable?: string | null; medidas?: string[]; actuacion: string[]; competencia_denuncia: string; competencia_instruye?: string | null; competencia_resuelve: string; destino_diligencias_penales?: string | null; penal_article_id?: string | null; advertencias: string[]; alerta_penal: boolean; referencia_penal?: string | null; regla_transversal?: string | null; ayudas?: string[]; enlaces_operativos?: OperationalLink[]; fuentes: string[]; fichas_juridicas?: string[]; estado: CaseStatus; datos_adicionales?: AdditionalCaseData };
 export type PermitOperationalCase = OperationalCase & { subgrupo?: string };

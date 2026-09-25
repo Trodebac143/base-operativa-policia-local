@@ -1,0 +1,7 @@
+{
+  "id": "CONV-OP-004", "modulo": "policia_administrativa", "categoria": "policia_administrativa_convivencia", "titulo": "Objetos que obstaculizan aceras o calzada",
+  "palabras_clave": ["obstáculo", "acera", "calzada", "ocupación"], "que_comprobar": ["Objeto", "Ubicación", "Impedimento real a la libre circulación"],
+  "resultado": "Obstaculización de la vía o del espacio de uso público.", "norma": "Ordenanza de Convivencia de Torrent", "articulo": "8.f", "importe_fijo": 60.10,
+  "actuacion": ["Formular denuncia municipal."], "competencia_denuncia": "Policía Local de Torrent.", "competencia_resuelve": "Ayuntamiento de Torrent.", "advertencias": [], "alerta_penal": false, "fuentes": ["OCC-TORRENT"], "estado": "validado",
+  "datos_adicionales": { "convivencia": { "grupo": "Limpieza y uso del espacio público", "orden": 40, "condiciones": [{"id":"vinculo","etiqueta":"¿Existe autorización u ocupación vinculada a otra actividad?","opciones":[{"valor":"no","etiqueta":"No consta"},{"valor":"terraza","etiqueta":"Terraza"},{"valor":"obra","etiqueta":"Obra"},{"valor":"actividad","etiqueta":"Actividad"}]}], "salidas": [{"cuando":{"vinculo":"no"},"sancion":"60,10 €"},{"cuando":{"vinculo":"terraza"},"sancion":"60,10 €","otraVia":"Terrazas."},{"cuando":{"vinculo":"obra"},"sancion":"60,10 €","otraVia":"Urbanismo."},{"cuando":{"vinculo":"actividad"},"sancion":"60,10 €","otraVia":"Establecimientos públicos."}] } }
+}

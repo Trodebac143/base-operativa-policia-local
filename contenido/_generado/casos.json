@@ -2823,6 +2823,717 @@
     "estado": "validado"
   },
   {
+    "id": "CONV-OP-001",
+    "modulo": "policia_administrativa",
+    "categoria": "policia_administrativa_convivencia",
+    "titulo": "Gritos, escándalos o molestias innecesarias",
+    "palabras_clave": [
+      "gritos",
+      "escándalo",
+      "molestias",
+      "ruido"
+    ],
+    "que_comprobar": [
+      "Conducta concreta observada",
+      "Lugar",
+      "Molestias directamente apreciadas"
+    ],
+    "resultado": "Conducta contraria a las normas básicas de convivencia.",
+    "norma": "Ordenanza de Convivencia de Torrent",
+    "articulo": "7.a",
+    "importe_fijo": 90.15,
+    "actuacion": [
+      "Formular denuncia municipal."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent.",
+    "competencia_resuelve": "Ayuntamiento de Torrent.",
+    "advertencias": [],
+    "alerta_penal": false,
+    "fuentes": [
+      "OCC-TORRENT"
+    ],
+    "estado": "validado",
+    "datos_adicionales": {
+      "convivencia": {
+        "grupo": "Convivencia y molestias",
+        "orden": 10,
+        "condiciones": [
+          {
+            "id": "cruce",
+            "etiqueta": "¿Concurren además pelea, agresión, amenaza, resistencia u otra conducta penal?",
+            "opciones": [
+              {
+                "valor": "no",
+                "etiqueta": "No consta"
+              },
+              {
+                "valor": "si",
+                "etiqueta": "Sí, hay hechos adicionales"
+              }
+            ]
+          }
+        ],
+        "salidas": [
+          {
+            "cuando": {
+              "cruce": "no"
+            },
+            "sancion": "90,15 €"
+          },
+          {
+            "cuando": {
+              "cruce": "si"
+            },
+            "sancion": "90,15 €",
+            "otraVia": "Seguridad Pública."
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "CONV-OP-002",
+    "modulo": "policia_administrativa",
+    "categoria": "policia_administrativa_convivencia",
+    "titulo": "Juegos molestos, peligrosos o uso indebido de fuentes",
+    "palabras_clave": [
+      "juegos",
+      "fuentes",
+      "molestias",
+      "peligro"
+    ],
+    "que_comprobar": [
+      "Conducta realizada",
+      "Lugar",
+      "Molestia o peligro directamente observable"
+    ],
+    "resultado": "Conducta contraria a las normas básicas de convivencia.",
+    "norma": "Ordenanza de Convivencia de Torrent",
+    "articulo": "7.g",
+    "importe_fijo": 30.05,
+    "actuacion": [
+      "Formular denuncia municipal."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent.",
+    "competencia_resuelve": "Ayuntamiento de Torrent.",
+    "advertencias": [],
+    "alerta_penal": false,
+    "fuentes": [
+      "OCC-TORRENT"
+    ],
+    "estado": "validado",
+    "datos_adicionales": {
+      "convivencia": {
+        "grupo": "Convivencia y molestias",
+        "orden": 20,
+        "condiciones": [
+          {
+            "id": "conducta",
+            "etiqueta": "¿Qué conducta se observa?",
+            "opciones": [
+              {
+                "valor": "juego",
+                "etiqueta": "Juego molesto o peligroso"
+              },
+              {
+                "valor": "fuente",
+                "etiqueta": "Uso indebido de fuente"
+              }
+            ]
+          }
+        ],
+        "salidas": [
+          {
+            "cuando": {
+              "conducta": "juego"
+            },
+            "articulo": "7.g",
+            "sancion": "30,05 €"
+          },
+          {
+            "cuando": {
+              "conducta": "fuente"
+            },
+            "articulo": "8.h",
+            "sancion": "30,05 €",
+            "otraVia": "Si hay daños relevantes, Seguridad Pública → Delitos contra el patrimonio / daños."
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "CONV-OP-003",
+    "modulo": "policia_administrativa",
+    "categoria": "policia_administrativa_convivencia",
+    "titulo": "Obras fuera del horario permitido",
+    "palabras_clave": [
+      "obras",
+      "horario",
+      "ruido",
+      "autorización"
+    ],
+    "que_comprobar": [
+      "Fecha",
+      "Hora",
+      "Existencia de autorización excepcional"
+    ],
+    "resultado": "Realización de obras fuera del horario permitido.",
+    "norma": "Ordenanza de Convivencia de Torrent",
+    "articulo": "10",
+    "importe_fijo": 150,
+    "actuacion": [
+      "Formular denuncia municipal."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent.",
+    "competencia_resuelve": "Ayuntamiento de Torrent.",
+    "advertencias": [],
+    "alerta_penal": false,
+    "fuentes": [
+      "OCC-TORRENT"
+    ],
+    "estado": "validado",
+    "datos_adicionales": {
+      "convivencia": {
+        "grupo": "Convivencia y molestias",
+        "orden": 30,
+        "condiciones": [
+          {
+            "id": "situacion",
+            "etiqueta": "¿Qué horario y autorización constan?",
+            "opciones": [
+              {
+                "valor": "invierno_fuera",
+                "etiqueta": "Octubre–marzo: fuera de 08:00–18:00, sin autorización excepcional"
+              },
+              {
+                "valor": "verano_fuera",
+                "etiqueta": "Abril–septiembre: fuera de 08:00–20:00, sin autorización excepcional"
+              },
+              {
+                "valor": "permitido",
+                "etiqueta": "Dentro del horario o con autorización excepcional"
+              }
+            ]
+          }
+        ],
+        "salidas": [
+          {
+            "cuando": {
+              "situacion": "invierno_fuera"
+            },
+            "sancion": "150 €"
+          },
+          {
+            "cuando": {
+              "situacion": "verano_fuera"
+            },
+            "sancion": "150 €"
+          },
+          {
+            "cuando": {
+              "situacion": "permitido"
+            },
+            "sinInfraccion": true,
+            "resultado": "No se aprecia esta infracción si la obra está dentro del horario aplicable o consta autorización excepcional."
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "CONV-OP-004",
+    "modulo": "policia_administrativa",
+    "categoria": "policia_administrativa_convivencia",
+    "titulo": "Objetos que obstaculizan aceras o calzada",
+    "palabras_clave": [
+      "obstáculo",
+      "acera",
+      "calzada",
+      "ocupación"
+    ],
+    "que_comprobar": [
+      "Objeto",
+      "Ubicación",
+      "Impedimento real a la libre circulación"
+    ],
+    "resultado": "Obstaculización de la vía o del espacio de uso público.",
+    "norma": "Ordenanza de Convivencia de Torrent",
+    "articulo": "8.f",
+    "importe_fijo": 60.1,
+    "actuacion": [
+      "Formular denuncia municipal."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent.",
+    "competencia_resuelve": "Ayuntamiento de Torrent.",
+    "advertencias": [],
+    "alerta_penal": false,
+    "fuentes": [
+      "OCC-TORRENT"
+    ],
+    "estado": "validado",
+    "datos_adicionales": {
+      "convivencia": {
+        "grupo": "Limpieza y uso del espacio público",
+        "orden": 40,
+        "condiciones": [
+          {
+            "id": "vinculo",
+            "etiqueta": "¿Existe autorización u ocupación vinculada a otra actividad?",
+            "opciones": [
+              {
+                "valor": "no",
+                "etiqueta": "No consta"
+              },
+              {
+                "valor": "terraza",
+                "etiqueta": "Terraza"
+              },
+              {
+                "valor": "obra",
+                "etiqueta": "Obra"
+              },
+              {
+                "valor": "actividad",
+                "etiqueta": "Actividad"
+              }
+            ]
+          }
+        ],
+        "salidas": [
+          {
+            "cuando": {
+              "vinculo": "no"
+            },
+            "sancion": "60,10 €"
+          },
+          {
+            "cuando": {
+              "vinculo": "terraza"
+            },
+            "sancion": "60,10 €",
+            "otraVia": "Terrazas."
+          },
+          {
+            "cuando": {
+              "vinculo": "obra"
+            },
+            "sancion": "60,10 €",
+            "otraVia": "Urbanismo."
+          },
+          {
+            "cuando": {
+              "vinculo": "actividad"
+            },
+            "sancion": "60,10 €",
+            "otraVia": "Establecimientos públicos."
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "CONV-OP-005",
+    "modulo": "policia_administrativa",
+    "categoria": "policia_administrativa_convivencia",
+    "titulo": "Escupir o realizar necesidades fisiológicas",
+    "palabras_clave": [
+      "escupir",
+      "necesidades fisiológicas",
+      "higiene",
+      "limpieza"
+    ],
+    "que_comprobar": [
+      "Conducta directamente observada",
+      "Lugar"
+    ],
+    "resultado": "Infracción de limpieza viaria LEVE, salvo circunstancias que jurídicamente justifiquen otra entidad.",
+    "norma": "Ordenanza de Residuos Urbanos y Limpieza Viaria de Torrent",
+    "articulo": "23",
+    "calificacion": "LEVE",
+    "rango_max": 600,
+    "actuacion": [
+      "Formular denuncia municipal."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent.",
+    "competencia_resuelve": "Ayuntamiento de Torrent.",
+    "advertencias": [],
+    "alerta_penal": false,
+    "fuentes": [
+      "ORL-TORRENT"
+    ],
+    "estado": "validado",
+    "datos_adicionales": {
+      "convivencia": {
+        "grupo": "Limpieza y uso del espacio público",
+        "orden": 50
+      }
+    }
+  },
+  {
+    "id": "CONV-OP-006",
+    "modulo": "policia_administrativa",
+    "categoria": "policia_administrativa_convivencia",
+    "titulo": "Pintadas o grafitis",
+    "palabras_clave": [
+      "pintadas",
+      "grafitis",
+      "spray",
+      "daños"
+    ],
+    "que_comprobar": [
+      "Superficie afectada",
+      "Extensión",
+      "Daño observable"
+    ],
+    "resultado": "Infracción ordinaria de limpieza viaria.",
+    "norma": "Ordenanza de Residuos Urbanos y Limpieza Viaria de Torrent",
+    "articulo": "23",
+    "calificacion": "LEVE",
+    "rango_max": 600,
+    "actuacion": [
+      "Formular denuncia municipal."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent.",
+    "competencia_resuelve": "Ayuntamiento de Torrent.",
+    "advertencias": [],
+    "alerta_penal": false,
+    "fuentes": [
+      "ORL-TORRENT"
+    ],
+    "estado": "validado",
+    "datos_adicionales": {
+      "convivencia": {
+        "grupo": "Limpieza y uso del espacio público",
+        "orden": 60,
+        "condiciones": [
+          {
+            "id": "danos",
+            "etiqueta": "¿Constan daños con posible relevancia penal?",
+            "opciones": [
+              {
+                "valor": "no",
+                "etiqueta": "No consta"
+              },
+              {
+                "valor": "si",
+                "etiqueta": "Sí, hay daño relevante observable"
+              }
+            ]
+          }
+        ],
+        "salidas": [
+          {
+            "cuando": {
+              "danos": "no"
+            },
+            "calificacion": "LEVE",
+            "sancion": "hasta 600 €"
+          },
+          {
+            "cuando": {
+              "danos": "si"
+            },
+            "calificacion": "LEVE",
+            "sancion": "hasta 600 €",
+            "otraVia": "Seguridad Pública → Delitos contra el patrimonio / daños."
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "CONV-OP-007",
+    "modulo": "policia_administrativa",
+    "categoria": "policia_administrativa_convivencia",
+    "titulo": "Lavar o reparar vehículos en espacio público",
+    "palabras_clave": [
+      "lavar",
+      "reparar",
+      "vehículo",
+      "vía pública"
+    ],
+    "que_comprobar": [
+      "Lavado o reparación efectiva",
+      "Lugar",
+      "Si se trata de actuación de emergencia necesaria"
+    ],
+    "resultado": "Infracción ordinaria de limpieza viaria LEVE, salvo mayor entidad.",
+    "norma": "Ordenanza de Residuos Urbanos y Limpieza Viaria de Torrent",
+    "articulo": "23",
+    "calificacion": "LEVE",
+    "rango_max": 600,
+    "actuacion": [
+      "Formular denuncia municipal."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent.",
+    "competencia_resuelve": "Ayuntamiento de Torrent.",
+    "advertencias": [],
+    "alerta_penal": false,
+    "fuentes": [
+      "ORL-TORRENT"
+    ],
+    "estado": "validado",
+    "datos_adicionales": {
+      "convivencia": {
+        "grupo": "Limpieza y uso del espacio público",
+        "orden": 70
+      }
+    }
+  },
+  {
+    "id": "CONV-OP-008",
+    "modulo": "policia_administrativa",
+    "categoria": "policia_administrativa_convivencia",
+    "titulo": "Carteles, adhesivos u octavillas sin autorización",
+    "palabras_clave": [
+      "carteles",
+      "adhesivos",
+      "octavillas",
+      "publicidad"
+    ],
+    "que_comprobar": [
+      "Qué se coloca o reparte",
+      "Lugar",
+      "Existencia de autorización"
+    ],
+    "resultado": "Infracción ordinaria de limpieza viaria.",
+    "norma": "Ordenanza de Residuos Urbanos y Limpieza Viaria de Torrent",
+    "articulo": "23",
+    "calificacion": "LEVE",
+    "rango_max": 600,
+    "actuacion": [
+      "Formular denuncia municipal."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent.",
+    "competencia_resuelve": "Ayuntamiento de Torrent.",
+    "advertencias": [],
+    "alerta_penal": false,
+    "fuentes": [
+      "ORL-TORRENT"
+    ],
+    "estado": "validado",
+    "datos_adicionales": {
+      "convivencia": {
+        "grupo": "Limpieza y uso del espacio público",
+        "orden": 80,
+        "condiciones": [
+          {
+            "id": "sectorial",
+            "etiqueta": "¿Consta regulación sectorial específica?",
+            "opciones": [
+              {
+                "valor": "no",
+                "etiqueta": "No consta"
+              },
+              {
+                "valor": "si",
+                "etiqueta": "Sí, consta regulación específica"
+              }
+            ]
+          }
+        ],
+        "salidas": [
+          {
+            "cuando": {
+              "sectorial": "no"
+            },
+            "calificacion": "LEVE",
+            "sancion": "hasta 600 €"
+          },
+          {
+            "cuando": {
+              "sectorial": "si"
+            },
+            "calificacion": "LEVE",
+            "sancion": "hasta 600 €",
+            "otraVia": "Regulación sectorial específica aplicable."
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "CONV-OP-009",
+    "modulo": "policia_administrativa",
+    "categoria": "policia_administrativa_convivencia",
+    "titulo": "Abandono o depósito incorrecto de residuos",
+    "palabras_clave": [
+      "abandono",
+      "residuos",
+      "contenedor",
+      "depósito"
+    ],
+    "que_comprobar": [
+      "Tipo de residuo",
+      "Lugar y contenedor utilizado",
+      "Cantidad, horario y entidad del hecho"
+    ],
+    "resultado": "El resultado depende de los hechos observables acreditados.",
+    "norma": "Ordenanza de Residuos Urbanos y Limpieza Viaria de Torrent",
+    "articulo": "23",
+    "actuacion": [
+      "Formular denuncia municipal."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent.",
+    "competencia_resuelve": "Ayuntamiento de Torrent.",
+    "advertencias": [],
+    "alerta_penal": false,
+    "fuentes": [
+      "ORL-TORRENT"
+    ],
+    "estado": "validado",
+    "datos_adicionales": {
+      "convivencia": {
+        "grupo": "Limpieza y uso del espacio público",
+        "orden": 90,
+        "condiciones": [
+          {
+            "id": "hecho",
+            "etiqueta": "¿Qué hecho observable consta?",
+            "opciones": [
+              {
+                "valor": "escasa",
+                "etiqueta": "Depósito de entidad escasa"
+              },
+              {
+                "valor": "entidad",
+                "etiqueta": "Cuantía o entidad mayor acreditada"
+              },
+              {
+                "valor": "peligroso",
+                "etiqueta": "Residuo peligroso o grave peligro ambiental o sanitario"
+              },
+              {
+                "valor": "insuficiente",
+                "etiqueta": "Datos aún insuficientes"
+              }
+            ]
+          }
+        ],
+        "salidas": [
+          {
+            "cuando": {
+              "hecho": "escasa"
+            },
+            "articulo": "23",
+            "calificacion": "LEVE",
+            "resultado": "Depósito incorrecto de entidad escasa.",
+            "sancion": "hasta 600 €"
+          },
+          {
+            "cuando": {
+              "hecho": "entidad"
+            },
+            "articulo": "22",
+            "calificacion": "GRAVE",
+            "resultado": "Cuantía o entidad mayor acreditada.",
+            "sancion": "601–900 €"
+          },
+          {
+            "cuando": {
+              "hecho": "peligroso"
+            },
+            "articulo": "24",
+            "calificacion": "MUY GRAVE",
+            "resultado": "Residuo peligroso o grave peligro ambiental o sanitario acreditado.",
+            "sancion": "901–6.000 €"
+          },
+          {
+            "cuando": {
+              "hecho": "insuficiente"
+            },
+            "sinInfraccion": true,
+            "resultado": "Faltan datos observables para determinar la clasificación aplicable."
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "CONV-OP-010",
+    "modulo": "policia_administrativa",
+    "categoria": "policia_administrativa_convivencia",
+    "titulo": "Fuegos o pirotecnia sin autorización",
+    "palabras_clave": [
+      "fuego",
+      "pirotecnia",
+      "El Vedat",
+      "vegetación"
+    ],
+    "que_comprobar": [
+      "Lugar",
+      "Tipo de fuego o artificio",
+      "Autorización",
+      "Zona boscosa, vegetación abundante o El Vedat"
+    ],
+    "resultado": "Uso de fuego o pirotecnia sin autorización.",
+    "norma": "Ordenanza de Convivencia de Torrent",
+    "articulo": "7.b",
+    "importe_fijo": 250,
+    "actuacion": [
+      "Formular denuncia municipal."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent.",
+    "competencia_resuelve": "Ayuntamiento de Torrent.",
+    "advertencias": [],
+    "alerta_penal": false,
+    "fuentes": [
+      "OCC-TORRENT"
+    ],
+    "estado": "validado",
+    "datos_adicionales": {
+      "convivencia": {
+        "grupo": "Riesgos / incidencias",
+        "orden": 100,
+        "condiciones": [
+          {
+            "id": "situacion",
+            "etiqueta": "¿Qué situación se ha comprobado?",
+            "opciones": [
+              {
+                "valor": "general",
+                "etiqueta": "Sin autorización, supuesto general"
+              },
+              {
+                "valor": "boscosa",
+                "etiqueta": "Sin autorización en zona boscosa, vegetación abundante o El Vedat"
+              },
+              {
+                "valor": "autorizado",
+                "etiqueta": "Consta autorización"
+              }
+            ]
+          }
+        ],
+        "salidas": [
+          {
+            "cuando": {
+              "situacion": "general"
+            },
+            "articulo": "7.b",
+            "sancion": "250 €"
+          },
+          {
+            "cuando": {
+              "situacion": "boscosa"
+            },
+            "articulo": "7.c",
+            "sancion": "500 €",
+            "otraVia": "Si existe incendio, riesgo forestal relevante, daño o posible delito: Seguridad Pública."
+          },
+          {
+            "cuando": {
+              "situacion": "autorizado"
+            },
+            "sinInfraccion": true,
+            "resultado": "No se aprecia esta infracción si consta autorización aplicable."
+          }
+        ]
+      }
+    }
+  },
+  {
     "id": "TER-OP-001",
     "modulo": "policia_administrativa",
     "categoria": "policia_administrativa_terrazas",

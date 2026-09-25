@@ -1,0 +1,7 @@
+{
+  "id": "CONV-OP-002", "modulo": "policia_administrativa", "categoria": "policia_administrativa_convivencia", "titulo": "Juegos molestos, peligrosos o uso indebido de fuentes",
+  "palabras_clave": ["juegos", "fuentes", "molestias", "peligro"], "que_comprobar": ["Conducta realizada", "Lugar", "Molestia o peligro directamente observable"],
+  "resultado": "Conducta contraria a las normas básicas de convivencia.", "norma": "Ordenanza de Convivencia de Torrent", "articulo": "7.g", "importe_fijo": 30.05,
+  "actuacion": ["Formular denuncia municipal."], "competencia_denuncia": "Policía Local de Torrent.", "competencia_resuelve": "Ayuntamiento de Torrent.", "advertencias": [], "alerta_penal": false, "fuentes": ["OCC-TORRENT"], "estado": "validado",
+  "datos_adicionales": { "convivencia": { "grupo": "Convivencia y molestias", "orden": 20, "condiciones": [{"id":"conducta","etiqueta":"¿Qué conducta se observa?","opciones":[{"valor":"juego","etiqueta":"Juego molesto o peligroso"},{"valor":"fuente","etiqueta":"Uso indebido de fuente"}]}], "salidas": [{"cuando":{"conducta":"juego"},"articulo":"7.g","sancion":"30,05 €"},{"cuando":{"conducta":"fuente"},"articulo":"8.h","sancion":"30,05 €","otraVia":"Si hay daños relevantes, Seguridad Pública → Delitos contra el patrimonio / daños."}] } }
+}

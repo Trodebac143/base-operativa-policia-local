@@ -156,8 +156,8 @@
   {
     "id": "policia_administrativa_venta_no_sedentaria",
     "modulo": "policia_administrativa",
-    "nombre": "🛒 Venta no sedentaria",
-    "descripcion": "Catálogo rápido de situaciones en mercados y venta ambulante.",
+    "nombre": "🛒 Venta no sedentaria / Mercados",
+    "descripcion": "Situaciones operativas de mercados, venta ambulante y otras modalidades de venta no sedentaria.",
     "orden": 20,
     "activo": true
   },
@@ -173,14 +173,8 @@
     "id": "policia_administrativa_convivencia",
     "modulo": "policia_administrativa",
     "nombre": "🤝 Convivencia",
+    "descripcion": "Conductas municipales de convivencia, limpieza y uso del espacio público.",
     "orden": 40,
-    "activo": true
-  },
-  {
-    "id": "policia_administrativa_mercados",
-    "modulo": "policia_administrativa",
-    "nombre": "🏪 Mercados",
-    "orden": 50,
     "activo": true
   },
   {

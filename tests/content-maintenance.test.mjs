@@ -10,6 +10,7 @@ const caseDirectories = [
   "contenido/seguridad_vial/itv/casos",
   "contenido/seguridad_vial/seguro/casos",
   "contenido/seguridad_vial/permisos/casos",
+  "contenido/policia_administrativa/convivencia/casos",
   "contenido/policia_administrativa/terrazas/casos",
   "contenido/policia_administrativa/venta_no_sedentaria/casos",
 ];

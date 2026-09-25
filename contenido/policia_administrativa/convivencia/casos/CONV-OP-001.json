@@ -1,0 +1,7 @@
+{
+  "id": "CONV-OP-001", "modulo": "policia_administrativa", "categoria": "policia_administrativa_convivencia", "titulo": "Gritos, escándalos o molestias innecesarias",
+  "palabras_clave": ["gritos", "escándalo", "molestias", "ruido"], "que_comprobar": ["Conducta concreta observada", "Lugar", "Molestias directamente apreciadas"],
+  "resultado": "Conducta contraria a las normas básicas de convivencia.", "norma": "Ordenanza de Convivencia de Torrent", "articulo": "7.a", "importe_fijo": 90.15,
+  "actuacion": ["Formular denuncia municipal."], "competencia_denuncia": "Policía Local de Torrent.", "competencia_resuelve": "Ayuntamiento de Torrent.", "advertencias": [], "alerta_penal": false, "fuentes": ["OCC-TORRENT"], "estado": "validado",
+  "datos_adicionales": { "convivencia": { "grupo": "Convivencia y molestias", "orden": 10, "condiciones": [{"id":"cruce","etiqueta":"¿Concurren además pelea, agresión, amenaza, resistencia u otra conducta penal?","opciones":[{"valor":"no","etiqueta":"No consta"},{"valor":"si","etiqueta":"Sí, hay hechos adicionales"}]}], "salidas": [{"cuando":{"cruce":"no"},"sancion":"90,15 €"},{"cuando":{"cruce":"si"},"sancion":"90,15 €","otraVia":"Seguridad Pública."}] } }
+}

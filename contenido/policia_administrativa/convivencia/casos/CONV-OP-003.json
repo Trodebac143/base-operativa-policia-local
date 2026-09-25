@@ -1,0 +1,7 @@
+{
+  "id": "CONV-OP-003", "modulo": "policia_administrativa", "categoria": "policia_administrativa_convivencia", "titulo": "Obras fuera del horario permitido",
+  "palabras_clave": ["obras", "horario", "ruido", "autorización"], "que_comprobar": ["Fecha", "Hora", "Existencia de autorización excepcional"],
+  "resultado": "Realización de obras fuera del horario permitido.", "norma": "Ordenanza de Convivencia de Torrent", "articulo": "10", "importe_fijo": 150,
+  "actuacion": ["Formular denuncia municipal."], "competencia_denuncia": "Policía Local de Torrent.", "competencia_resuelve": "Ayuntamiento de Torrent.", "advertencias": [], "alerta_penal": false, "fuentes": ["OCC-TORRENT"], "estado": "validado",
+  "datos_adicionales": { "convivencia": { "grupo": "Convivencia y molestias", "orden": 30, "condiciones": [{"id":"situacion","etiqueta":"¿Qué horario y autorización constan?","opciones":[{"valor":"invierno_fuera","etiqueta":"Octubre–marzo: fuera de 08:00–18:00, sin autorización excepcional"},{"valor":"verano_fuera","etiqueta":"Abril–septiembre: fuera de 08:00–20:00, sin autorización excepcional"},{"valor":"permitido","etiqueta":"Dentro del horario o con autorización excepcional"}]}], "salidas": [{"cuando":{"situacion":"invierno_fuera"},"sancion":"150 €"},{"cuando":{"situacion":"verano_fuera"},"sancion":"150 €"},{"cuando":{"situacion":"permitido"},"sinInfraccion":true,"resultado":"No se aprecia esta infracción si la obra está dentro del horario aplicable o consta autorización excepcional."}] } }
+}
