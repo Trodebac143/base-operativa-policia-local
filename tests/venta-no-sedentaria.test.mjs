@@ -47,6 +47,8 @@ test("el catálogo no adelanta artículos y la ficha muestra solo bloques operat
   assert.match(categoryHtml, /Documentación y obligaciones/);
   assert.match(categoryHtml, /Inspección e incidencias/);
   assert.doesNotMatch(categoryHtml, /39\.4\.b|401 a 700/);
+  assert.equal((categoryHtml.match(/vns-card-icon/g) ?? []).length, 14, "las catorce tarjetas incluyen un contenedor de icono");
+  assert.equal((categoryHtml.match(/vns-group-title-icon/g) ?? []).length, 3, "los tres grupos incluyen apoyo iconográfico");
   const html = renderToStaticMarkup(React.createElement(VentaNoSedentariaCaseSheet, { item: vns.find((item) => item.id === "VNS-OP-001") }));
   for (const title of ["QUÉ COMPROBAR", "RESULTADO", "ACTUACIÓN", "MEDIDA", "COMPETENCIA"]) assert.match(html, new RegExp(title));
   assert.match(html, /Ordenanza reguladora de la Venta No Sedentaria/);
