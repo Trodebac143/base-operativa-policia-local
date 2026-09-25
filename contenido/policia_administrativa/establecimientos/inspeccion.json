@@ -5,11 +5,14 @@
   "descripcion": "Supervisión policial guiada de hechos observables y documentación comprobada en el establecimiento.",
   "fuentes": [
     "PA-EST-SRC-LEY-14-2010",
-    "PA-EST-SRC-DECRETO-143-2015"
+    "PA-EST-SRC-DECRETO-143-2015",
+    "PA-EST-SRC-ORDEN-3-2025",
+    "PA-EST-SRC-LEY-28-2005",
+    "OCC-TORRENT"
   ],
   "reglas_comunes": {
     "anexo": "El ANEXO debe describir de forma precisa los hechos directamente observados. Solo se incorporan los datos consignados por el agente.",
-    "competencia": "Las infracciones leves de la Ley 14/2010 corresponden al municipio. Las graves y muy graves corresponden a la Administración autonómica salvo delegación expresa, que no consta validada para Torrent.",
+    "competencia": "Las infracciones leves de la Ley 14/2010 corresponden al Ayuntamiento de Torrent. Las graves y muy graves corresponden a la Generalitat Valenciana; Torrent no tiene delegadas esas competencias sancionadoras.",
     "acumulacion": "Si una misma acta recoge varias infracciones de la Ley 14/2010, el art. 56.6 atribuye la competencia al órgano correspondiente a la infracción de mayor gravedad. No se separa una Acta L cuando ya procede Acta G por la misma inspección."
   },
   "controles": [
@@ -18,17 +21,22 @@
       "icono": "📄",
       "titulo": "Licencia, título y actividad",
       "origen": "AUTONÓMICA",
-      "referencia": "Ley 14/2010 · arts. 15 y 51.3",
-      "resumen": "Título exhibido y correspondencia entre actividad autorizada y observada.",
+      "referencia": "Ley 14/2010 · arts. 51.1, 51.2, 51.3 y 51.34",
+      "resumen": "Existencia del título, actividad y condiciones documentadas.",
       "preguntas": [
-        { "id": "titulo_exhibido", "etiqueta": "¿Se exhibe título habilitante o documento equivalente?", "tipo": "opcion", "opciones": [{ "valor": "si", "etiqueta": "Sí" }, { "valor": "no", "etiqueta": "No" }, { "valor": "no_acreditable", "etiqueta": "No puede acreditarse ahora" }], "anexo": "Título habilitante exhibido" },
+        { "id": "existencia_titulo", "etiqueta": "Existencia del título según la documentación o consulta realizada", "tipo": "opcion", "opciones": [{ "valor": "consta", "etiqueta": "Consta título habilitante" }, { "valor": "no_consta", "etiqueta": "Se acredita que carece de título" }, { "valor": "no_determinada", "etiqueta": "No puede determinarse ahora" }], "anexo": "Existencia del título" },
         { "id": "actividad_autorizada", "etiqueta": "Actividad que figura autorizada", "tipo": "texto", "placeholder": "Denominación que consta en el título", "anexo": "Actividad que figura autorizada" },
         { "id": "actividad_observada", "etiqueta": "Actividad realmente observada", "tipo": "texto", "placeholder": "Actividad, servicios, mobiliario o productos observados", "anexo": "Actividad observada" },
-        { "id": "actividad_distinta", "etiqueta": "¿Los hechos muestran una actividad distinta de la autorizada?", "tipo": "opcion", "opciones": [{ "valor": "si", "etiqueta": "Sí" }, { "valor": "no", "etiqueta": "No" }, { "valor": "duda", "etiqueta": "No puede determinarse" }], "anexo": "Correspondencia entre actividad autorizada y observada" }
+        { "id": "actividad_coincide", "etiqueta": "Comparación entre la actividad del título y la observada", "tipo": "opcion", "opciones": [{ "valor": "si", "etiqueta": "Coinciden" }, { "valor": "no", "etiqueta": "No coinciden" }, { "valor": "no_determinada", "etiqueta": "No puede determinarse" }], "anexo": "Correspondencia entre actividad autorizada y observada" },
+        { "id": "valoracion_cambio", "etiqueta": "Constancia técnica o documental sobre cambios observados", "tipo": "opcion", "opciones": [{ "valor": "sustancial_acreditada", "etiqueta": "Documento técnico identifica modificación sustancial" }, { "valor": "no_sustancial_acreditada", "etiqueta": "Documento técnico identifica modificación no sustancial" }, { "valor": "sin_valoracion", "etiqueta": "No consta valoración técnica" }], "anexo": "Valoración técnica o documental del cambio" },
+        { "id": "condiciones_titulo", "etiqueta": "Cumplimiento de las condiciones que constan en el título", "tipo": "opcion", "opciones": [{ "valor": "cumplidas", "etiqueta": "Coinciden con lo comprobado" }, { "valor": "incumplimiento_documentado", "etiqueta": "Se documenta una condición incumplida" }, { "valor": "no_determinado", "etiqueta": "No puede determinarse" }], "anexo": "Condiciones del título comprobadas" },
+        { "id": "hechos_cambio_condiciones", "etiqueta": "Elementos y condiciones concretas observadas", "tipo": "texto", "placeholder": "Describir únicamente elementos, cambios y condiciones comprobados", "anexo": "Hechos relativos a cambios o condiciones" }
       ],
       "resultados": [
-        { "id": "actividad_distinta", "titulo": "Actividad distinta de la autorizada", "via": "LEY_14_2010", "norma": "Ley 14/2010", "articulo": "51.3", "clasificacion": "GRAVE", "cuando": [{ "campo": "actividad_distinta", "igual": "si" }], "anexo_campos": ["actividad_autorizada", "actividad_observada"], "recordatorios": ["Identificar el título examinado y describir separadamente la actividad autorizada y la efectivamente observada."] },
-        { "id": "licencia_pendiente", "titulo": "Incidencia relativa al título o a la actividad", "via": "LEY_14_2010", "norma": "Ley 14/2010 · art. 15", "articulo": "PENDIENTE DE VALIDACIÓN JURÍDICA", "clasificacion": "PENDIENTE", "cuando": [{ "campo": "_irregular", "igual": "si" }], "anexo_campos": ["titulo_exhibido", "actividad_autorizada", "actividad_observada", "actividad_distinta"], "recordatorios": ["Describir qué documento se exhibe o por qué no puede comprobarse y los hechos objetivos que permiten identificar la actividad."] }
+        { "id": "sin_titulo", "titulo": "Carencia acreditada de licencia, autorización o título habilitante", "via": "LEY_14_2010", "norma": "Ley 14/2010", "articulo": "51.1", "clasificacion": "GRAVE", "cuando": [{ "campo": "existencia_titulo", "igual": "no_consta" }], "anexo_campos": ["existencia_titulo", "actividad_observada"], "recordatorios": ["Precisar la consulta o documentación que permite acreditar la carencia y describir la actividad observada."] },
+        { "id": "actividad_distinta", "titulo": "Actividad distinta de la autorizada", "via": "LEY_14_2010", "norma": "Ley 14/2010", "articulo": "51.3", "clasificacion": "GRAVE", "cuando": [{ "campo": "existencia_titulo", "igual": "consta" }, { "campo": "actividad_coincide", "igual": "no" }, { "campo": "actividad_autorizada", "no_vacio": true }, { "campo": "actividad_observada", "no_vacio": true }], "anexo_campos": ["existencia_titulo", "actividad_autorizada", "actividad_observada", "actividad_coincide"], "recordatorios": ["Identificar el título examinado y describir separadamente la actividad autorizada y la efectivamente observada."] },
+        { "id": "modificacion_sustancial", "titulo": "Modificación sustancial acreditada documentalmente", "via": "LEY_14_2010", "norma": "Ley 14/2010", "articulo": "51.2", "clasificacion": "GRAVE", "cuando": [{ "campo": "valoracion_cambio", "igual": "sustancial_acreditada" }, { "campo": "hechos_cambio_condiciones", "no_vacio": true }], "anexo_campos": ["valoracion_cambio", "hechos_cambio_condiciones"], "recordatorios": ["Identificar el documento o valoración técnica y describir los cambios materiales observados."] },
+        { "id": "condiciones_no_sustanciales", "titulo": "Incumplimiento o modificación no sustancial de condiciones", "via": "LEY_14_2010", "norma": "Ley 14/2010", "articulo": "51.34", "clasificacion": "GRAVE", "cuando": [{ "campo": "hechos_cambio_condiciones", "no_vacio": true }], "cuando_alguno": [{ "campo": "valoracion_cambio", "igual": "no_sustancial_acreditada" }, { "campo": "condiciones_titulo", "igual": "incumplimiento_documentado" }], "anexo_campos": ["valoracion_cambio", "condiciones_titulo", "hechos_cambio_condiciones"], "recordatorios": ["Identificar la condición o valoración documental y describir el hecho objetivo comprobado."] }
       ]
     },
     {
@@ -42,34 +50,41 @@
         { "id": "aforo_autorizado", "etiqueta": "Aforo máximo que consta autorizado", "tipo": "numero", "unidad": "personas", "anexo": "Aforo autorizado" },
         { "id": "personas_contabilizadas", "etiqueta": "Personas contabilizadas", "tipo": "numero", "unidad": "personas", "anexo": "Personas contabilizadas" },
         { "id": "metodo_recuento", "etiqueta": "Método de recuento", "tipo": "opcion", "opciones": [{ "valor": "recuento_directo", "etiqueta": "Recuento directo" }, { "valor": "control_acceso", "etiqueta": "Control de acceso" }, { "valor": "otro", "etiqueta": "Otro método comprobable" }], "anexo": "Método de recuento" },
-        { "id": "circunstancias_aforo", "etiqueta": "Circunstancias observadas en accesos o salidas", "tipo": "texto", "placeholder": "Solo hechos concretos relevantes", "anexo": "Circunstancias observadas en accesos o salidas" }
+        { "id": "hora_aforo", "etiqueta": "Hora del recuento", "tipo": "hora", "anexo": "Hora del recuento" },
+        { "id": "circunstancias_aforo", "etiqueta": "Circunstancias observadas en accesos o salidas", "tipo": "texto", "placeholder": "Obstáculos, puertas operativas y demás hechos concretos", "anexo": "Circunstancias observadas en accesos o salidas" },
+        { "id": "valoracion_riesgo_aforo", "etiqueta": "Conclusión que consta en el soporte técnico examinado", "tipo": "opcion", "opciones": [{ "valor": "grave_riesgo_acreditado", "etiqueta": "El soporte técnico identifica grave riesgo" }, { "valor": "sin_grave_riesgo_acreditado", "etiqueta": "El soporte técnico no identifica grave riesgo" }, { "valor": "no_determinada", "etiqueta": "No consta soporte técnico concluyente" }], "anexo": "Conclusión del soporte técnico" },
+        { "id": "soporte_riesgo_aforo", "etiqueta": "Documento o valoración técnica examinada", "tipo": "texto", "placeholder": "Tipo, fecha, autor o referencia identificable", "anexo": "Soporte técnico examinado" }
       ],
       "resultados": [
-        { "id": "exceso_aforo", "titulo": "Exceso sobre el aforo autorizado", "via": "LEY_14_2010", "norma": "Ley 14/2010", "articulo": "51.6", "clasificacion": "GRAVE", "cuando": [{ "campo": "personas_contabilizadas", "mayor_que_campo": "aforo_autorizado" }], "anexo_campos": ["aforo_autorizado", "personas_contabilizadas", "metodo_recuento", "circunstancias_aforo"], "recordatorios": ["Hacer constar el aforo del título, el número contabilizado, el método empleado y las circunstancias objetivas de accesos y salidas."] },
-        { "id": "aforo_pendiente", "titulo": "Incidencia de aforo no determinable con los datos consignados", "via": "LEY_14_2010", "norma": "Ley 14/2010", "articulo": "PENDIENTE DE VALIDACIÓN JURÍDICA", "clasificacion": "PENDIENTE", "cuando": [{ "campo": "_irregular", "igual": "si" }], "anexo_campos": ["aforo_autorizado", "personas_contabilizadas", "metodo_recuento", "circunstancias_aforo"], "recordatorios": ["Consignar las cifras y el método de recuento; no calificar automáticamente un supuesto de riesgo sin criterios jurídicos validados."] }
+        { "id": "exceso_aforo_grave_riesgo", "titulo": "Exceso de aforo con grave riesgo acreditado", "via": "LEY_14_2010", "norma": "Ley 14/2010", "articulo": "52.4", "clasificacion": "MUY GRAVE", "cuando": [{ "campo": "personas_contabilizadas", "mayor_que_campo": "aforo_autorizado" }, { "campo": "valoracion_riesgo_aforo", "igual": "grave_riesgo_acreditado" }, { "campo": "soporte_riesgo_aforo", "no_vacio": true }], "anexo_campos": ["aforo_autorizado", "personas_contabilizadas", "metodo_recuento", "hora_aforo", "circunstancias_aforo", "valoracion_riesgo_aforo", "soporte_riesgo_aforo"], "recordatorios": ["Hacer constar cifras, método, hora, accesos, salidas, obstáculos y la referencia del soporte técnico que acredita el grave riesgo."] },
+        { "id": "exceso_aforo", "titulo": "Exceso sobre el aforo autorizado sin grave riesgo acreditado", "via": "LEY_14_2010", "norma": "Ley 14/2010", "articulo": "51.6", "clasificacion": "GRAVE", "cuando": [{ "campo": "personas_contabilizadas", "mayor_que_campo": "aforo_autorizado" }], "cuando_alguno": [{ "campo": "valoracion_riesgo_aforo", "ninguno_de": ["grave_riesgo_acreditado"] }, { "campo": "soporte_riesgo_aforo", "vacio": true }], "anexo_campos": ["aforo_autorizado", "personas_contabilizadas", "metodo_recuento", "hora_aforo", "circunstancias_aforo", "valoracion_riesgo_aforo", "soporte_riesgo_aforo"], "recordatorios": ["Hacer constar el aforo del título, el número contabilizado, el método, la hora y las circunstancias objetivas de accesos y salidas."] }
       ]
     },
     {
       "id": "horario",
       "icono": "🕒",
       "titulo": "Horario",
-      "origen": "MIXTA",
-      "referencia": "Ley 14/2010 y regulación aplicable · tipificación pendiente",
+      "origen": "AUTONÓMICA",
+      "referencia": "Orden 3/2025 (horarios 2026) · arts. 50.10 y 51.18 Ley 14/2010",
       "resumen": "Hora comprobada y funcionamiento objetivo del establecimiento.",
       "preguntas": [
+        { "id": "incidencia_horario", "etiqueta": "Momento de la comprobación respecto del horario aplicable", "tipo": "multiple", "opciones": [{ "valor": "apertura_anticipada", "etiqueta": "Antes de la hora de apertura aplicable" }, { "valor": "cierre_superado", "etiqueta": "Después de la hora de cierre aplicable" }, { "valor": "supuesto_especial", "etiqueta": "Supuesto especial no cubierto por el horario general" }], "anexo": "Momento respecto del horario aplicable" },
         { "id": "tipo_establecimiento", "etiqueta": "Tipo de establecimiento que consta", "tipo": "texto", "placeholder": "Solo si resulta necesario para el horario", "anexo": "Tipo de establecimiento" },
         { "id": "hora_comprobacion", "etiqueta": "Hora concreta de comprobación", "tipo": "hora", "anexo": "Hora de comprobación" },
         { "id": "clientes_presentes", "etiqueta": "Clientes presentes", "tipo": "numero", "unidad": "personas", "anexo": "Clientes presentes" },
         { "id": "funcionamiento_horario", "etiqueta": "Hechos observados", "tipo": "multiple", "opciones": [{ "valor": "sirviendo", "etiqueta": "Continúa el servicio de consumiciones" }, { "valor": "luces", "etiqueta": "Iluminación de actividad encendida" }, { "valor": "puertas_abiertas", "etiqueta": "Puertas abiertas al público" }, { "valor": "acceso_clientes", "etiqueta": "Se permite el acceso de clientes" }], "anexo": "Funcionamiento observado" }
       ],
-      "resultados": [{ "id": "horario_pendiente", "titulo": "Posible incumplimiento de horario", "via": "LEY_14_2010", "norma": "Ley 14/2010 y regulación horaria aplicable", "articulo": "PENDIENTE DE VALIDACIÓN JURÍDICA", "clasificacion": "PENDIENTE", "cuando": [{ "campo": "_irregular", "igual": "si" }], "anexo_campos": ["tipo_establecimiento", "hora_comprobacion", "clientes_presentes", "funcionamiento_horario"], "recordatorios": ["Precisar hora, presencia de público, servicio, iluminación, puertas y accesos observados."] }]
+      "resultados": [
+        { "id": "incumplimiento_horario", "titulo": "Incumplimiento del horario de apertura o cierre", "via": "LEY_14_2010", "norma": "Ley 14/2010 y Orden 3/2025 para 2026", "articulo": "51.18", "clasificacion": "GRAVE", "cuando": [{ "campo": "incidencia_horario", "contiene_alguno": ["apertura_anticipada", "cierre_superado"] }, { "campo": "tipo_establecimiento", "no_vacio": true }, { "campo": "hora_comprobacion", "no_vacio": true }, { "campo": "funcionamiento_horario", "no_vacio": true }], "anexo_campos": ["incidencia_horario", "tipo_establecimiento", "hora_comprobacion", "clientes_presentes", "funcionamiento_horario"], "recordatorios": ["Precisar el horario aplicable, la hora, presencia de público, servicio, iluminación, puertas y accesos observados."] },
+        { "id": "horario_especial_pendiente", "titulo": "Supuesto horario especial no cubierto por el régimen general", "via": "LEY_14_2010", "norma": "Regulación horaria especial por determinar", "articulo": "PENDIENTE DE VALIDACIÓN JURÍDICA", "clasificacion": "PENDIENTE", "cuando": [{ "campo": "incidencia_horario", "contiene": "supuesto_especial" }], "anexo_campos": ["incidencia_horario", "tipo_establecimiento", "hora_comprobacion", "clientes_presentes", "funcionamiento_horario"], "recordatorios": ["Identificar el supuesto especial y conservar los hechos sin aplicar automáticamente el horario general."] }
+      ]
     },
     {
       "id": "musica",
       "icono": "🔊",
       "titulo": "Música y medios audiovisuales",
       "origen": "MIXTA",
-      "referencia": "Ley 14/2010 · art. 19; tipificación pendiente",
+      "referencia": "Ley 14/2010 · arts. 19 y 51.30 · posible vía acústica separada",
       "resumen": "Equipos, funcionamiento, autorización y trascendencia exterior.",
       "preguntas": [
         { "id": "equipos_sonido", "etiqueta": "Equipos instalados o utilizados", "tipo": "texto", "placeholder": "Tipo, número y ubicación cuando sea relevante", "anexo": "Equipos y ubicación" },
@@ -77,168 +92,225 @@
         { "id": "autorizacion_musical", "etiqueta": "¿Consta autorización o ambientación musical?", "tipo": "opcion", "opciones": [{ "valor": "si", "etiqueta": "Sí" }, { "valor": "no", "etiqueta": "No" }, { "valor": "no_comprobada", "etiqueta": "No comprobada" }], "anexo": "Autorización o ambientación musical" },
         { "id": "sonido_exterior", "etiqueta": "¿El sonido trasciende al exterior?", "tipo": "opcion", "opciones": [{ "valor": "si", "etiqueta": "Sí, comprobado" }, { "valor": "no", "etiqueta": "No" }], "anexo": "Trascendencia del sonido al exterior" }
       ],
-      "resultados": [{ "id": "musica_pendiente", "titulo": "Incidencia en música o medios audiovisuales", "via": "LEY_14_2010", "norma": "Ley 14/2010 · art. 19", "articulo": "PENDIENTE DE VALIDACIÓN JURÍDICA", "clasificacion": "PENDIENTE", "cuando": [{ "campo": "_irregular", "igual": "si" }], "anexo_campos": ["equipos_sonido", "equipos_funcionando", "autorizacion_musical", "sonido_exterior"], "recordatorios": ["Describir los equipos, ubicación, funcionamiento, documentación comprobada y trascendencia exterior apreciada."] }]
+      "resultados": [
+        { "id": "medios_no_autorizados", "titulo": "Medios sonoros o audiovisuales no contemplados en el título", "via": "LEY_14_2010", "norma": "Ley 14/2010 · art. 19", "articulo": "51.30", "clasificacion": "GRAVE", "cuando": [{ "campo": "equipos_funcionando", "igual": "si" }, { "campo": "autorizacion_musical", "igual": "no" }, { "campo": "equipos_sonido", "no_vacio": true }], "anexo_campos": ["equipos_sonido", "equipos_funcionando", "autorizacion_musical", "sonido_exterior"], "recordatorios": ["Describir equipos, ubicación, funcionamiento y el contenido del título examinado."] },
+        { "id": "trascendencia_acustica", "titulo": "Trascendencia exterior que requiere análisis acústico separado", "via": "MUNICIPAL", "norma": "Ordenanza de Convivencia de Torrent · art. 9 y régimen valenciano de contaminación acústica", "articulo": "PENDIENTE DE VALIDACIÓN JURÍDICA", "clasificacion": "PENDIENTE", "documento": "PENDIENTE DE VALIDACIÓN JURÍDICA", "destino": "Ayuntamiento de Torrent · vía acústica pendiente de tipificación exacta", "cuando": [{ "campo": "sonido_exterior", "igual": "si" }], "anexo_campos": ["equipos_sonido", "equipos_funcionando", "sonido_exterior"], "recordatorios": ["La mera audición exterior es un hecho, no una infracción acústica automática; precisar lugar, percepción y medición cuando exista."] }
+      ]
     },
     {
       "id": "menores",
       "icono": "🧒",
       "titulo": "Menores",
       "origen": "AUTONÓMICA",
-      "referencia": "Ley 14/2010 · art. 34; tipificación pendiente",
+      "referencia": "Ley 14/2010 · arts. 34, 51.14 y 51.15",
       "resumen": "Edad comprobada, presencia, permanencia y conducta observada.",
       "preguntas": [
         { "id": "edad_menor", "etiqueta": "Edad comprobada", "tipo": "numero", "unidad": "años", "anexo": "Edad comprobada" },
         { "id": "comprobacion_edad", "etiqueta": "Forma de comprobación de la edad", "tipo": "opcion", "opciones": [{ "valor": "documento", "etiqueta": "Documento exhibido" }, { "valor": "manifestacion", "etiqueta": "Manifestación" }, { "valor": "otra", "etiqueta": "Otra comprobación objetiva" }], "anexo": "Forma de comprobación de la edad" },
         { "id": "presencia_menor", "etiqueta": "Hecho observado", "tipo": "multiple", "opciones": [{ "valor": "acceso", "etiqueta": "Acceso" }, { "valor": "permanencia", "etiqueta": "Permanencia" }, { "valor": "participacion", "etiqueta": "Participación en actividad" }], "anexo": "Presencia o conducta observada" },
-        { "id": "tipo_local_menor", "etiqueta": "Tipo de establecimiento", "tipo": "texto", "anexo": "Tipo de establecimiento" }
+        { "id": "tipo_local_menor", "etiqueta": "Tipo de establecimiento o actividad", "tipo": "texto", "anexo": "Tipo de establecimiento o actividad" },
+        { "id": "prohibicion_menores", "etiqueta": "Constancia documental sobre acceso o permanencia", "tipo": "opcion", "opciones": [{ "valor": "prohibida", "etiqueta": "La prohibición consta para este establecimiento o actividad" }, { "valor": "no_prohibida", "etiqueta": "No consta prohibición aplicable" }, { "valor": "no_determinada", "etiqueta": "No puede determinarse" }], "anexo": "Constancia documental de la prohibición" },
+        { "id": "sesion_menores", "etiqueta": "Sesión destinada a menores", "tipo": "opcion", "opciones": [{ "valor": "si", "etiqueta": "Sí, consta como sesión para menores" }, { "valor": "no", "etiqueta": "No" }, { "valor": "no_determinada", "etiqueta": "No puede determinarse" }], "anexo": "Sesión destinada a menores" },
+        { "id": "condiciones_sesion_menores", "etiqueta": "Comprobación documental de las condiciones de la sesión", "tipo": "opcion", "opciones": [{ "valor": "cumplidas", "etiqueta": "Coinciden con lo comprobado" }, { "valor": "incumplimiento_documentado", "etiqueta": "Se documenta un incumplimiento" }, { "valor": "no_determinadas", "etiqueta": "No pueden determinarse" }], "anexo": "Condiciones de la sesión comprobadas" },
+        { "id": "hecho_sesion_menores", "etiqueta": "Conducta concreta observada que no coincide con las condiciones", "tipo": "texto", "placeholder": "Describir el hecho sin calificarlo jurídicamente", "anexo": "Conducta observada en la sesión" }
       ],
-      "resultados": [{ "id": "menores_pendiente", "titulo": "Incidencia relacionada con menores", "via": "LEY_14_2010", "norma": "Ley 14/2010 · art. 34", "articulo": "PENDIENTE DE VALIDACIÓN JURÍDICA", "clasificacion": "PENDIENTE", "cuando": [{ "campo": "_irregular", "igual": "si" }], "anexo_campos": ["edad_menor", "comprobacion_edad", "presencia_menor", "tipo_local_menor"], "recordatorios": ["Consignar edad o forma de comprobación, tipo de establecimiento, presencia/permanencia y conducta directamente observada."] }]
+      "resultados": [
+        { "id": "menor_en_actividad_prohibida", "titulo": "Entrada o permanencia de menor donde está prohibida", "via": "LEY_14_2010", "norma": "Ley 14/2010 · art. 34", "articulo": "51.14", "clasificacion": "GRAVE", "cuando": [{ "campo": "prohibicion_menores", "igual": "prohibida" }, { "campo": "presencia_menor", "contiene_alguno": ["acceso", "permanencia"] }, { "campo": "edad_menor", "menor_que": 18 }, { "campo": "tipo_local_menor", "no_vacio": true }], "anexo_campos": ["edad_menor", "comprobacion_edad", "presencia_menor", "tipo_local_menor", "prohibicion_menores"], "recordatorios": ["Consignar edad y comprobación, tipo de establecimiento, prohibición aplicable y acceso o permanencia observados."] },
+        { "id": "sesion_menores_incumplida", "titulo": "Incumplimiento documentado en sesión destinada a menores", "via": "LEY_14_2010", "norma": "Ley 14/2010 · art. 34", "articulo": "51.15", "clasificacion": "GRAVE", "cuando": [{ "campo": "sesion_menores", "igual": "si" }, { "campo": "condiciones_sesion_menores", "igual": "incumplimiento_documentado" }, { "campo": "edad_menor", "menor_que": 18 }, { "campo": "presencia_menor", "contiene": "participacion" }, { "campo": "tipo_local_menor", "no_vacio": true }, { "campo": "hecho_sesion_menores", "no_vacio": true }], "anexo_campos": ["edad_menor", "comprobacion_edad", "presencia_menor", "tipo_local_menor", "sesion_menores", "condiciones_sesion_menores", "hecho_sesion_menores"], "recordatorios": ["Identificar la sesión, las condiciones documentadas y el hecho concreto que no coincide con ellas."] }
+      ]
     },
     {
       "id": "alcohol_menores",
       "icono": "🍺",
       "titulo": "Alcohol y menores",
-      "origen": "NORMATIVA ESPECÍFICA",
-      "referencia": "Normativa específica · pendiente de validación",
+      "origen": "AUTONÓMICA",
+      "referencia": "Ley 14/2010 · art. 51.12",
       "resumen": "Venta, suministro o consumo observados y edad comprobada.",
       "preguntas": [
-        { "id": "hecho_alcohol", "etiqueta": "Conducta observada", "tipo": "multiple", "opciones": [{ "valor": "venta", "etiqueta": "Venta" }, { "valor": "suministro", "etiqueta": "Suministro" }, { "valor": "consumo", "etiqueta": "Consumo" }], "anexo": "Conducta relacionada con alcohol" },
+        { "id": "hecho_alcohol", "etiqueta": "Conducta observada", "tipo": "multiple", "opciones": [{ "valor": "venta", "etiqueta": "Venta" }, { "valor": "suministro", "etiqueta": "Suministro" }, { "valor": "permitir_consumo", "etiqueta": "Se permite el consumo" }], "anexo": "Conducta relacionada con alcohol" },
         { "id": "edad_alcohol", "etiqueta": "Edad comprobada", "tipo": "numero", "unidad": "años", "anexo": "Edad comprobada" },
+        { "id": "bebida_alcohol", "etiqueta": "Bebida o producto observado, cuando sea relevante", "tipo": "texto", "anexo": "Bebida o producto observado" },
         { "id": "modo_comprobacion_alcohol", "etiqueta": "Cómo se comprueba el hecho", "tipo": "texto", "placeholder": "Observación directa, producto, persona que entrega o cobra…", "anexo": "Comprobación objetiva" }
       ],
-      "resultados": [{ "id": "alcohol_pendiente", "titulo": "Hecho relacionado con alcohol y menores", "via": "ESPECIFICA", "norma": "Normativa específica", "articulo": "PENDIENTE DE VALIDACIÓN JURÍDICA", "clasificacion": "PENDIENTE", "documento": "PENDIENTE DE VALIDACIÓN JURÍDICA", "destino": "PENDIENTE DE VALIDACIÓN JURÍDICA", "cuando": [{ "campo": "_irregular", "igual": "si" }], "anexo_campos": ["hecho_alcohol", "edad_alcohol", "modo_comprobacion_alcohol"], "recordatorios": ["Separar venta, suministro y consumo; identificar la edad comprobada y describir la observación sin concluir la tipificación."] }]
+      "resultados": [{ "id": "alcohol_a_menor", "titulo": "Venta, suministro o permiso de consumo de alcohol a menor", "via": "LEY_14_2010", "norma": "Ley 14/2010", "articulo": "51.12", "clasificacion": "GRAVE", "cuando": [{ "campo": "hecho_alcohol", "contiene_alguno": ["venta", "suministro", "permitir_consumo"] }, { "campo": "edad_alcohol", "menor_que": 18 }, { "campo": "modo_comprobacion_alcohol", "no_vacio": true }], "anexo_campos": ["hecho_alcohol", "edad_alcohol", "bebida_alcohol", "modo_comprobacion_alcohol"], "recordatorios": ["Identificar edad y forma de comprobación, conducta observada, bebida cuando sea relevante y circunstancias directamente percibidas."] }]
     },
     {
       "id": "tabaco",
       "icono": "🚬",
       "titulo": "Tabaco",
-      "origen": "NORMATIVA ESPECÍFICA",
-      "referencia": "Normativa específica · pendiente de validación",
-      "resumen": "Consumo, venta o suministro y lugar exacto de comprobación.",
+      "origen": "MIXTA",
+      "referencia": "Ley 14/2010 · art. 51.13 · Ley 28/2005 · arts. 19 y 21.2",
+      "resumen": "Venta o suministro a menores y consumo en interior prohibido.",
       "preguntas": [
-        { "id": "hecho_tabaco", "etiqueta": "Conducta observada", "tipo": "multiple", "opciones": [{ "valor": "consumo", "etiqueta": "Consumo" }, { "valor": "venta", "etiqueta": "Venta" }, { "valor": "suministro", "etiqueta": "Suministro" }], "anexo": "Conducta relacionada con tabaco" },
+        { "id": "hecho_tabaco", "etiqueta": "Conducta observada", "tipo": "multiple", "opciones": [{ "valor": "venta_menor", "etiqueta": "Venta a menor" }, { "valor": "suministro_menor", "etiqueta": "Suministro a menor" }, { "valor": "persona_fuma", "etiqueta": "Una persona fuma" }, { "valor": "titular_permite", "etiqueta": "El titular o responsable permite fumar" }], "anexo": "Conducta relacionada con tabaco" },
+        { "id": "edad_tabaco", "etiqueta": "Edad comprobada, cuando se trate de menor", "tipo": "numero", "unidad": "años", "anexo": "Edad comprobada" },
+        { "id": "interior_prohibido_tabaco", "etiqueta": "Comprobación del lugar", "tipo": "opcion", "opciones": [{ "valor": "si", "etiqueta": "Es interior donde está prohibido fumar" }, { "valor": "no", "etiqueta": "No es interior prohibido" }, { "valor": "no_comprobado", "etiqueta": "No comprobado" }], "anexo": "Condición del lugar" },
         { "id": "lugar_tabaco", "etiqueta": "Lugar exacto", "tipo": "texto", "placeholder": "Zona interior, acceso, espacio delimitado…", "anexo": "Lugar de comprobación" },
         { "id": "persona_tabaco", "etiqueta": "Persona y edad si resulta relevante", "tipo": "texto", "anexo": "Persona y edad comprobada" }
       ],
-      "resultados": [{ "id": "tabaco_pendiente", "titulo": "Hecho relacionado con tabaco", "via": "ESPECIFICA", "norma": "Normativa específica", "articulo": "PENDIENTE DE VALIDACIÓN JURÍDICA", "clasificacion": "PENDIENTE", "documento": "PENDIENTE DE VALIDACIÓN JURÍDICA", "destino": "PENDIENTE DE VALIDACIÓN JURÍDICA", "cuando": [{ "campo": "_irregular", "igual": "si" }], "anexo_campos": ["hecho_tabaco", "lugar_tabaco", "persona_tabaco"], "recordatorios": ["Precisar conducta, lugar exacto y datos objetivos de la persona cuando sean relevantes."] }]
+      "resultados": [
+        { "id": "tabaco_a_menor", "titulo": "Venta o suministro de tabaco a menor", "via": "LEY_14_2010", "norma": "Ley 14/2010", "articulo": "51.13", "clasificacion": "GRAVE", "cuando": [{ "campo": "hecho_tabaco", "contiene_alguno": ["venta_menor", "suministro_menor"] }, { "campo": "edad_tabaco", "menor_que": 18 }], "anexo_campos": ["hecho_tabaco", "edad_tabaco", "lugar_tabaco", "persona_tabaco"], "recordatorios": ["Precisar venta o suministro, edad y forma de comprobación, persona interviniente y lugar."] },
+        { "id": "persona_fumando", "titulo": "Persona fumando en interior donde está prohibido", "via": "ESPECIFICA", "norma": "Ley 28/2005", "articulo": "19.2.a", "clasificacion": "LEVE", "documento": "No consta modelo físico específico de denuncia de tabaquismo en el repositorio", "destino": "Generalitat Valenciana · Direcciones Territoriales de Sanidad", "cuando": [{ "campo": "hecho_tabaco", "contiene": "persona_fuma" }, { "campo": "interior_prohibido_tabaco", "igual": "si" }, { "campo": "lugar_tabaco", "no_vacio": true }], "anexo_campos": ["hecho_tabaco", "interior_prohibido_tabaco", "lugar_tabaco", "persona_tabaco"], "recordatorios": ["Identificar a la persona y describir el lugar interior, la conducta observada y las circunstancias de comprobación."] },
+        { "id": "titular_permite_fumar", "titulo": "Titular o responsable que permite fumar en interior prohibido", "via": "ESPECIFICA", "norma": "Ley 28/2005 · responsabilidad del art. 21.2 cuando proceda", "articulo": "19.3.b", "clasificacion": "GRAVE", "documento": "No consta modelo físico específico de denuncia de tabaquismo en el repositorio", "destino": "Generalitat Valenciana · Direcciones Territoriales de Sanidad", "cuando": [{ "campo": "hecho_tabaco", "contiene": "titular_permite" }, { "campo": "interior_prohibido_tabaco", "igual": "si" }, { "campo": "lugar_tabaco", "no_vacio": true }], "anexo_campos": ["hecho_tabaco", "interior_prohibido_tabaco", "lugar_tabaco", "persona_tabaco"], "recordatorios": ["Identificar al titular o responsable y los hechos objetivos que muestran que permite fumar en el lugar prohibido."] }
+      ]
     },
     {
       "id": "seguro",
       "icono": "🛡️",
       "titulo": "Seguro",
       "origen": "AUTONÓMICA",
-      "referencia": "Ley 14/2010 · art. 18; tipificación pendiente",
+      "referencia": "Ley 14/2010 · arts. 18 y 51.28",
       "resumen": "Póliza exhibida, cobertura, vigencia y pago acreditado.",
       "preguntas": [
+        { "id": "estado_obligacion_seguro", "etiqueta": "Existencia de póliza según la comprobación realizada", "tipo": "opcion", "opciones": [{ "valor": "poliza_exhibida", "etiqueta": "Se exhibe póliza" }, { "valor": "carencia_acreditada", "etiqueta": "La consulta o documentación acredita que carece de póliza" }, { "valor": "no_acreditable", "etiqueta": "No puede acreditarse en este momento" }], "anexo": "Existencia de póliza" },
         { "id": "entidad_poliza", "etiqueta": "Entidad y número de póliza exhibida", "tipo": "texto", "anexo": "Entidad y póliza" },
-        { "id": "cobertura_seguro", "etiqueta": "Cobertura que consta", "tipo": "texto", "anexo": "Cobertura que consta" },
+        { "id": "cobertura_seguro", "etiqueta": "Cobertura exigible según la póliza examinada", "tipo": "opcion", "opciones": [{ "valor": "cubierta", "etiqueta": "Consta cubierta" }, { "valor": "no_cubierta", "etiqueta": "Consta que no está cubierta" }, { "valor": "no_determinada", "etiqueta": "No puede determinarse" }], "anexo": "Cobertura exigible" },
         { "id": "vigencia_seguro", "etiqueta": "Vigencia documental", "tipo": "opcion", "opciones": [{ "valor": "vigente", "etiqueta": "Vigente" }, { "valor": "no_vigente", "etiqueta": "No vigente" }, { "valor": "no_acreditable", "etiqueta": "No acreditable en este momento" }], "anexo": "Vigencia documental" },
-        { "id": "pago_prima", "etiqueta": "Pago de prima", "tipo": "opcion", "opciones": [{ "valor": "acreditado", "etiqueta": "Acreditado" }, { "valor": "no_acreditado", "etiqueta": "No acreditado" }, { "valor": "no_comprobado", "etiqueta": "No comprobado" }], "anexo": "Pago de prima" },
+        { "id": "pago_prima", "etiqueta": "Pago de prima según la documentación examinada", "tipo": "opcion", "opciones": [{ "valor": "acreditado", "etiqueta": "Pago acreditado" }, { "valor": "impago_acreditado", "etiqueta": "La documentación acredita impago" }, { "valor": "no_acreditable", "etiqueta": "No puede acreditarse" }], "anexo": "Pago de prima" },
         { "id": "fecha_efectos", "etiqueta": "Fecha de efectos que consta", "tipo": "fecha", "anexo": "Fecha de efectos" }
       ],
-      "resultados": [{ "id": "seguro_pendiente", "titulo": "Incidencia relativa al seguro", "via": "LEY_14_2010", "norma": "Ley 14/2010 · art. 18", "articulo": "PENDIENTE DE VALIDACIÓN JURÍDICA", "clasificacion": "PENDIENTE", "cuando": [{ "campo": "_irregular", "igual": "si" }], "anexo_campos": ["entidad_poliza", "cobertura_seguro", "vigencia_seguro", "pago_prima", "fecha_efectos"], "recordatorios": ["Diferenciar inexistencia acreditada de falta de exhibición o comprobación; consignar solo la documentación examinada."] }]
+      "resultados": [
+        { "id": "carencia_seguro", "titulo": "Carencia acreditada del seguro exigido", "via": "LEY_14_2010", "norma": "Ley 14/2010 · art. 18", "articulo": "51.28", "clasificacion": "GRAVE", "cuando": [{ "campo": "estado_obligacion_seguro", "igual": "carencia_acreditada" }], "anexo_campos": ["estado_obligacion_seguro"], "recordatorios": ["Identificar la consulta o documentación que acredita la carencia; la mera falta de exhibición no acredita que el seguro no exista."] },
+        { "id": "incumplimiento_seguro", "titulo": "Incumplimiento acreditado de la obligación de seguro", "via": "LEY_14_2010", "norma": "Ley 14/2010 · art. 18", "articulo": "51.28", "clasificacion": "GRAVE", "cuando": [{ "campo": "estado_obligacion_seguro", "igual": "poliza_exhibida" }, { "campo": "entidad_poliza", "no_vacio": true }], "cuando_alguno": [{ "campo": "vigencia_seguro", "igual": "no_vigente" }, { "campo": "cobertura_seguro", "igual": "no_cubierta" }, { "campo": "pago_prima", "igual": "impago_acreditado" }], "anexo_campos": ["estado_obligacion_seguro", "entidad_poliza", "cobertura_seguro", "vigencia_seguro", "pago_prima", "fecha_efectos"], "recordatorios": ["Consignar la póliza y únicamente la vigencia, cobertura o impago que resulte acreditado por la documentación examinada."] }
+      ]
     },
     {
       "id": "extintores",
       "icono": "🧯",
       "titulo": "Extintores",
       "origen": "AUTONÓMICA",
-      "referencia": "Decreto 143/2015 · inspección de supervisión; tipificación pendiente",
+      "referencia": "Ley 14/2010 · arts. 51.7 y 52.3 · Decreto 143/2015",
       "resumen": "Existencia, ubicación, accesibilidad y revisión observable.",
       "preguntas": [
         { "id": "numero_extintores", "etiqueta": "Número de extintores comprobados", "tipo": "numero", "unidad": "unidades", "anexo": "Número de extintores" },
         { "id": "incidencia_extintor", "etiqueta": "Incidencia concreta", "tipo": "multiple", "opciones": [{ "valor": "ausencia", "etiqueta": "Ausencia" }, { "valor": "ubicacion", "etiqueta": "Ubicación inadecuada observable" }, { "valor": "inaccesible", "etiqueta": "Inaccesible u obstaculizado" }, { "valor": "revision", "etiqueta": "Revisión o placa con incidencia comprobable" }], "anexo": "Incidencia concreta" },
         { "id": "ubicacion_extintor", "etiqueta": "Ubicación y estado observados", "tipo": "texto", "anexo": "Ubicación y estado observados" },
-        { "id": "fecha_revision_extintor", "etiqueta": "Fecha que consta en revisión o placa", "tipo": "fecha", "anexo": "Fecha de revisión o placa" }
+        { "id": "fecha_revision_extintor", "etiqueta": "Fecha que consta en revisión o placa", "tipo": "fecha", "anexo": "Fecha de revisión o placa" },
+        { "id": "valoracion_riesgo_extintor", "etiqueta": "Conclusión que consta en el soporte técnico examinado", "tipo": "opcion", "opciones": [{ "valor": "grave_riesgo_acreditado", "etiqueta": "El soporte técnico identifica grave riesgo" }, { "valor": "sin_grave_riesgo_acreditado", "etiqueta": "El soporte técnico no identifica grave riesgo" }, { "valor": "no_valorado", "etiqueta": "No consta soporte técnico concluyente" }], "anexo": "Conclusión del soporte técnico" },
+        { "id": "soporte_riesgo_extintor", "etiqueta": "Documento o valoración técnica examinada", "tipo": "texto", "placeholder": "Tipo, fecha, autor o referencia identificable", "anexo": "Soporte técnico examinado" }
       ],
-      "resultados": [{ "id": "extintores_pendiente", "titulo": "Incidencia en extintores", "via": "LEY_14_2010", "norma": "Ley 14/2010 y Decreto 143/2015", "articulo": "PENDIENTE DE VALIDACIÓN JURÍDICA", "clasificacion": "PENDIENTE", "cuando": [{ "campo": "_irregular", "igual": "si" }], "anexo_campos": ["numero_extintores", "incidencia_extintor", "ubicacion_extintor", "fecha_revision_extintor"], "recordatorios": ["Describir número, ubicación, accesibilidad, estado observable y datos de la placa realmente comprobados."] }]
+      "resultados": [
+        { "id": "extintores_grave_riesgo", "titulo": "Deficiencia de seguridad con grave riesgo acreditado", "via": "LEY_14_2010", "norma": "Ley 14/2010 y Decreto 143/2015", "articulo": "52.3", "clasificacion": "MUY GRAVE", "cuando": [{ "campo": "incidencia_extintor", "no_vacio": true }, { "campo": "valoracion_riesgo_extintor", "igual": "grave_riesgo_acreditado" }, { "campo": "soporte_riesgo_extintor", "no_vacio": true }], "anexo_campos": ["numero_extintores", "incidencia_extintor", "ubicacion_extintor", "fecha_revision_extintor", "valoracion_riesgo_extintor", "soporte_riesgo_extintor"], "recordatorios": ["Describir número, ubicación, accesibilidad, estado, placa y la referencia del soporte técnico que acredita el grave riesgo."] },
+        { "id": "extintores_deficiencia", "titulo": "Deficiencia ordinaria de seguridad en extintores", "via": "LEY_14_2010", "norma": "Ley 14/2010 y Decreto 143/2015", "articulo": "51.7", "clasificacion": "GRAVE", "cuando": [{ "campo": "incidencia_extintor", "no_vacio": true }], "cuando_alguno": [{ "campo": "valoracion_riesgo_extintor", "ninguno_de": ["grave_riesgo_acreditado"] }, { "campo": "soporte_riesgo_extintor", "vacio": true }], "anexo_campos": ["numero_extintores", "incidencia_extintor", "ubicacion_extintor", "fecha_revision_extintor", "valoracion_riesgo_extintor", "soporte_riesgo_extintor"], "recordatorios": ["Describir número, ubicación, accesibilidad, estado observable y datos de la placa realmente comprobados."] }
+      ]
     },
     {
       "id": "seguridad_evacuacion",
       "icono": "🚪",
       "titulo": "Accesos, salidas y evacuación",
       "origen": "AUTONÓMICA",
-      "referencia": "Decreto 143/2015 · inspección de supervisión; tipificación pendiente",
+      "referencia": "Ley 14/2010 · arts. 51.7, 52.3 y 52.8 · Decreto 143/2015",
       "resumen": "Salidas, obstáculos, accesibilidad y riesgos directamente observados.",
       "preguntas": [
         { "id": "numero_salidas", "etiqueta": "Número de salidas comprobadas", "tipo": "numero", "unidad": "salidas", "anexo": "Número de salidas comprobadas" },
+        { "id": "salidas_operativas", "etiqueta": "Número de salidas operativas", "tipo": "numero", "unidad": "salidas", "anexo": "Número de salidas operativas" },
         { "id": "incidencia_salidas", "etiqueta": "Hechos observados", "tipo": "multiple", "opciones": [{ "valor": "obstaculos", "etiqueta": "Obstáculos" }, { "valor": "inaccesible", "etiqueta": "Salida inaccesible" }, { "valor": "puerta", "etiqueta": "Incidencia observable en puerta de emergencia" }, { "valor": "senalizacion", "etiqueta": "Incidencia observable de señalización" }], "anexo": "Incidencias en accesos o salidas" },
         { "id": "situacion_salidas", "etiqueta": "Situación exacta y elementos afectados", "tipo": "texto", "placeholder": "Salida, obstáculo, puerta o itinerario concretos", "anexo": "Situación exacta" },
-        { "id": "riesgo_objetivo", "etiqueta": "Circunstancia concreta de riesgo observada", "tipo": "texto", "placeholder": "No formular conclusiones; describir el hecho", "anexo": "Circunstancia objetiva de riesgo" }
+        { "id": "dimensiones_salidas", "etiqueta": "Anchura o dimensiones comprobadas", "tipo": "texto", "anexo": "Anchura o dimensiones comprobadas" },
+        { "id": "riesgo_objetivo", "etiqueta": "Circunstancia concreta de riesgo observada", "tipo": "texto", "placeholder": "No formular conclusiones; describir el hecho", "anexo": "Circunstancia objetiva de riesgo" },
+        { "id": "valoracion_seguridad_salidas", "etiqueta": "Conclusión que consta en el soporte técnico examinado", "tipo": "opcion", "opciones": [{ "valor": "grave_riesgo_acreditado", "etiqueta": "El soporte técnico identifica grave riesgo" }, { "valor": "evacuacion_gravemente_disminuida", "etiqueta": "El soporte técnico identifica disminución grave de la seguridad de evacuación" }, { "valor": "sin_grave_riesgo_acreditado", "etiqueta": "El soporte técnico no identifica grave riesgo" }, { "valor": "no_valorada", "etiqueta": "No consta soporte técnico concluyente" }], "anexo": "Conclusión del soporte técnico" },
+        { "id": "soporte_seguridad_salidas", "etiqueta": "Documento o valoración técnica examinada", "tipo": "texto", "placeholder": "Tipo, fecha, autor o referencia identificable", "anexo": "Soporte técnico examinado" }
       ],
-      "resultados": [{ "id": "seguridad_pendiente", "titulo": "Incidencia en accesos, salidas o evacuación", "via": "LEY_14_2010", "norma": "Ley 14/2010 y Decreto 143/2015", "articulo": "PENDIENTE DE VALIDACIÓN JURÍDICA", "clasificacion": "PENDIENTE", "cuando": [{ "campo": "_irregular", "igual": "si" }], "anexo_campos": ["numero_salidas", "incidencia_salidas", "situacion_salidas", "riesgo_objetivo"], "recordatorios": ["Individualizar cada salida, obstáculo, puerta o elemento y describir el riesgo objetivo sin asignar automáticamente gravedad."] }]
+      "resultados": [
+        { "id": "evacuacion_gravemente_afectada", "titulo": "Evacuación con disminución grave de la seguridad acreditada", "via": "LEY_14_2010", "norma": "Ley 14/2010 y Decreto 143/2015", "articulo": "52.8", "clasificacion": "MUY GRAVE", "cuando": [{ "campo": "incidencia_salidas", "no_vacio": true }, { "campo": "valoracion_seguridad_salidas", "igual": "evacuacion_gravemente_disminuida" }, { "campo": "soporte_seguridad_salidas", "no_vacio": true }], "anexo_campos": ["numero_salidas", "salidas_operativas", "incidencia_salidas", "situacion_salidas", "dimensiones_salidas", "riesgo_objetivo", "valoracion_seguridad_salidas", "soporte_seguridad_salidas"], "recordatorios": ["Individualizar puertas, salidas, obstáculos y dimensiones, y citar el soporte técnico que acredita la disminución grave de seguridad."] },
+        { "id": "salidas_grave_riesgo", "titulo": "Deficiencia de seguridad con grave riesgo acreditado", "via": "LEY_14_2010", "norma": "Ley 14/2010 y Decreto 143/2015", "articulo": "52.3", "clasificacion": "MUY GRAVE", "cuando": [{ "campo": "incidencia_salidas", "no_vacio": true }, { "campo": "valoracion_seguridad_salidas", "igual": "grave_riesgo_acreditado" }, { "campo": "soporte_seguridad_salidas", "no_vacio": true }], "anexo_campos": ["numero_salidas", "salidas_operativas", "incidencia_salidas", "situacion_salidas", "dimensiones_salidas", "riesgo_objetivo", "valoracion_seguridad_salidas", "soporte_seguridad_salidas"], "recordatorios": ["Individualizar cada elemento afectado y citar el soporte técnico que acredita el grave riesgo."] },
+        { "id": "salidas_deficiencia", "titulo": "Deficiencia ordinaria de seguridad en accesos, salidas o evacuación", "via": "LEY_14_2010", "norma": "Ley 14/2010 y Decreto 143/2015", "articulo": "51.7", "clasificacion": "GRAVE", "cuando": [{ "campo": "incidencia_salidas", "no_vacio": true }], "cuando_alguno": [{ "campo": "valoracion_seguridad_salidas", "ninguno_de": ["grave_riesgo_acreditado", "evacuacion_gravemente_disminuida"] }, { "campo": "soporte_seguridad_salidas", "vacio": true }], "anexo_campos": ["numero_salidas", "salidas_operativas", "incidencia_salidas", "situacion_salidas", "dimensiones_salidas", "riesgo_objetivo", "valoracion_seguridad_salidas", "soporte_seguridad_salidas"], "recordatorios": ["Individualizar salidas, obstáculos, puertas y dimensiones, y describir únicamente las circunstancias objetivas observadas."] }
+      ]
     },
     {
       "id": "higiene",
       "icono": "🧼",
       "titulo": "Aseos, limpieza e higiene",
       "origen": "MIXTA",
-      "referencia": "Ley 14/2010 y normativa municipal · artículo exacto pendiente",
+      "referencia": "Ley 14/2010 · art. 50.2 · otras deficiencias requieren encaje propio",
       "resumen": "Estado observable de aseos, limpieza y condiciones higiénicas.",
       "preguntas": [
         { "id": "zona_higiene", "etiqueta": "Zona afectada", "tipo": "multiple", "opciones": [{ "valor": "aseos", "etiqueta": "Aseos" }, { "valor": "sala", "etiqueta": "Zona de público" }, { "valor": "barra", "etiqueta": "Barra o servicio" }, { "valor": "otra", "etiqueta": "Otra zona comprobada" }], "anexo": "Zona afectada" },
         { "id": "hechos_higiene", "etiqueta": "Hechos concretos observados", "tipo": "texto", "placeholder": "Suciedad, falta de mantenimiento u otra condición visible", "anexo": "Hechos de limpieza o higiene" },
         { "id": "alcance_higiene", "etiqueta": "Alcance observable", "tipo": "texto", "placeholder": "Elementos afectados y extensión", "anexo": "Alcance observable" }
       ],
-      "resultados": [{ "id": "higiene_leve", "titulo": "Incidencia de limpieza o condiciones higiénicas", "via": "LEY_14_2010", "norma": "Ley 14/2010", "articulo": "PENDIENTE DE VALIDACIÓN JURÍDICA", "clasificacion": "LEVE", "cuando": [{ "campo": "hechos_higiene", "no_vacio": true }], "anexo_campos": ["zona_higiene", "hechos_higiene", "alcance_higiene"], "recordatorios": ["Precisar zona, elementos afectados, estado y extensión observados."] }, { "id": "higiene_pendiente", "titulo": "Incidencia de higiene sin hechos suficientes", "via": "LEY_14_2010", "norma": "Ley 14/2010", "articulo": "PENDIENTE DE VALIDACIÓN JURÍDICA", "clasificacion": "PENDIENTE", "cuando": [{ "campo": "_irregular", "igual": "si" }], "anexo_campos": ["zona_higiene", "hechos_higiene", "alcance_higiene"], "recordatorios": ["Describir el estado observable antes de proponer un encaje."] }]
+      "resultados": [
+        { "id": "aseos_sin_limpieza", "titulo": "Falta de limpieza de aseos o servicios", "via": "LEY_14_2010", "norma": "Ley 14/2010", "articulo": "50.2", "clasificacion": "LEVE", "cuando": [{ "campo": "zona_higiene", "contiene": "aseos" }, { "campo": "hechos_higiene", "no_vacio": true }], "anexo_campos": ["zona_higiene", "hechos_higiene", "alcance_higiene"], "recordatorios": ["Precisar aseos o servicios afectados, estado, elementos y extensión observable."] },
+        { "id": "otra_higiene_pendiente", "titulo": "Otra deficiencia higiénica no cubierta por la regla de aseos", "via": "LEY_14_2010", "norma": "Régimen aplicable a la deficiencia concreta", "articulo": "PENDIENTE DE VALIDACIÓN JURÍDICA", "clasificacion": "PENDIENTE", "cuando": [{ "campo": "zona_higiene", "contiene_alguno": ["sala", "barra", "otra"] }, { "campo": "hechos_higiene", "no_vacio": true }], "anexo_campos": ["zona_higiene", "hechos_higiene", "alcance_higiene"], "recordatorios": ["Precisar la zona y los hechos sin extender automáticamente el art. 50.2 fuera de aseos o servicios."] }
+      ]
     },
     {
       "id": "carteleria",
       "icono": "📋",
       "titulo": "Cartelería y documentación expuesta",
       "origen": "AUTONÓMICA",
-      "referencia": "Ley 14/2010 · art. 20; tipificación exacta pendiente",
+      "referencia": "Ley 14/2010 · arts. 50.3, 50.4, 50.8, 50.9 y 50.10",
       "resumen": "Carteles, hojas de reclamaciones y documentos exigibles comprobados.",
       "preguntas": [
-        { "id": "elemento_informacion", "etiqueta": "Elemento con incidencia", "tipo": "multiple", "opciones": [{ "valor": "cartel", "etiqueta": "Cartelería obligatoria" }, { "valor": "reclamaciones", "etiqueta": "Hojas de reclamaciones" }, { "valor": "licencia", "etiqueta": "Documentación expuesta" }, { "valor": "aforo", "etiqueta": "Información de aforo" }], "anexo": "Elemento de información afectado" },
+        { "id": "elemento_informacion", "etiqueta": "Elemento ausente o no expuesto comprobado", "tipo": "multiple", "opciones": [{ "valor": "reclamaciones", "etiqueta": "Hojas de reclamaciones" }, { "valor": "contacto", "etiqueta": "Datos o información de contacto exigible" }, { "valor": "licencia", "etiqueta": "Licencia o documento existente que procede exponer" }, { "valor": "menores", "etiqueta": "Cartel relativo a menores" }, { "valor": "horario", "etiqueta": "Cartel de horario" }, { "valor": "otro", "etiqueta": "Otro elemento no incluido" }], "anexo": "Elemento de información afectado" },
+        { "id": "documento_exponible", "etiqueta": "Existencia de la licencia o documento que procede exponer", "tipo": "opcion", "opciones": [{ "valor": "consta", "etiqueta": "Consta que el documento existe" }, { "valor": "no_consta", "etiqueta": "No consta que exista" }, { "valor": "no_determinado", "etiqueta": "No puede determinarse" }], "anexo": "Existencia del documento exponible" },
         { "id": "incidencia_informacion", "etiqueta": "Incidencia comprobada", "tipo": "texto", "placeholder": "Ausencia, ubicación, contenido visible…", "anexo": "Incidencia comprobada" },
         { "id": "requerimiento_documental", "etiqueta": "Resultado del requerimiento, si se realiza", "tipo": "texto", "anexo": "Resultado del requerimiento" }
       ],
-      "resultados": [{ "id": "informacion_leve", "titulo": "Incumplimiento de obligaciones de información", "via": "LEY_14_2010", "norma": "Ley 14/2010 · art. 20", "articulo": "PENDIENTE DE VALIDACIÓN JURÍDICA", "clasificacion": "LEVE", "cuando": [{ "campo": "incidencia_informacion", "no_vacio": true }], "anexo_campos": ["elemento_informacion", "incidencia_informacion", "requerimiento_documental"], "recordatorios": ["Identificar el cartel, documento u hoja afectada, su ubicación y el resultado del requerimiento si lo hubo."] }, { "id": "informacion_pendiente", "titulo": "Incidencia documental sin detalle suficiente", "via": "LEY_14_2010", "norma": "Ley 14/2010 · art. 20", "articulo": "PENDIENTE DE VALIDACIÓN JURÍDICA", "clasificacion": "PENDIENTE", "cuando": [{ "campo": "_irregular", "igual": "si" }], "anexo_campos": ["elemento_informacion", "incidencia_informacion", "requerimiento_documental"], "recordatorios": ["Concretar el elemento y el hecho observado antes de proponer un encaje."] }]
+      "resultados": [
+        { "id": "hojas_reclamaciones", "titulo": "Falta de hojas de reclamaciones", "via": "LEY_14_2010", "norma": "Ley 14/2010", "articulo": "50.3", "clasificacion": "LEVE", "cuando": [{ "campo": "elemento_informacion", "contiene": "reclamaciones" }], "anexo_campos": ["elemento_informacion", "incidencia_informacion", "requerimiento_documental"], "recordatorios": ["Indicar disponibilidad, requerimiento realizado y respuesta obtenida."] },
+        { "id": "datos_contacto", "titulo": "Falta de datos o información de contacto exigible", "via": "LEY_14_2010", "norma": "Ley 14/2010", "articulo": "50.4", "clasificacion": "LEVE", "cuando": [{ "campo": "elemento_informacion", "contiene": "contacto" }], "anexo_campos": ["elemento_informacion", "incidencia_informacion"], "recordatorios": ["Identificar el dato o información exigible y el lugar comprobado."] },
+        { "id": "licencia_no_expuesta", "titulo": "Licencia o documento existente que procede no expuesto", "via": "LEY_14_2010", "norma": "Ley 14/2010", "articulo": "50.8", "clasificacion": "LEVE", "cuando": [{ "campo": "elemento_informacion", "contiene": "licencia" }, { "campo": "documento_exponible", "igual": "consta" }], "anexo_campos": ["elemento_informacion", "documento_exponible", "incidencia_informacion", "requerimiento_documental"], "recordatorios": ["Identificar el documento existente y el lugar donde debía exponerse."] },
+        { "id": "cartel_menores", "titulo": "Falta del cartel relativo a menores", "via": "LEY_14_2010", "norma": "Ley 14/2010", "articulo": "50.9", "clasificacion": "LEVE", "cuando": [{ "campo": "elemento_informacion", "contiene": "menores" }], "anexo_campos": ["elemento_informacion", "incidencia_informacion"], "recordatorios": ["Describir el acceso o zona comprobada y la ausencia del cartel."] },
+        { "id": "cartel_horario", "titulo": "Falta del cartel de horario", "via": "LEY_14_2010", "norma": "Ley 14/2010", "articulo": "50.10", "clasificacion": "LEVE", "cuando": [{ "campo": "elemento_informacion", "contiene": "horario" }], "anexo_campos": ["elemento_informacion", "incidencia_informacion"], "recordatorios": ["Describir el lugar comprobado y la ausencia del cartel de horario."] },
+        { "id": "otro_elemento_pendiente", "titulo": "Otro elemento informativo no cubierto por las reglas validadas", "via": "LEY_14_2010", "norma": "Régimen aplicable al elemento concreto", "articulo": "PENDIENTE DE VALIDACIÓN JURÍDICA", "clasificacion": "PENDIENTE", "cuando": [{ "campo": "elemento_informacion", "contiene": "otro" }, { "campo": "incidencia_informacion", "no_vacio": true }], "anexo_campos": ["elemento_informacion", "incidencia_informacion", "requerimiento_documental"], "recordatorios": ["Concretar el elemento sin extender automáticamente otra tipificación."] }
+      ]
     },
     {
       "id": "admision_vigilancia",
       "icono": "🚷",
       "titulo": "Admisión, vigilancia y personal",
       "origen": "AUTONÓMICA",
-      "referencia": "Ley 14/2010 · tipificación pendiente",
+      "referencia": "Ley 14/2010 · arts. 51.9, 51.10 y 51.11",
       "resumen": "Servicio de admisión, vigilancia o personal exigible y hechos observados.",
       "preguntas": [
-        { "id": "personal_comprobado", "etiqueta": "Personal o servicio comprobado", "tipo": "multiple", "opciones": [{ "valor": "admision", "etiqueta": "Admisión" }, { "valor": "vigilancia", "etiqueta": "Vigilancia" }, { "valor": "otro", "etiqueta": "Otro personal exigible" }], "anexo": "Personal o servicio comprobado" },
+        { "id": "obligacion_personal", "etiqueta": "Obligación que consta en el título o documentación", "tipo": "multiple", "opciones": [{ "valor": "admision_exigida", "etiqueta": "Servicio específico de admisión exigido" }, { "valor": "vigilancia_exigida", "etiqueta": "Servicio de vigilancia exigido" }], "anexo": "Obligación documental comprobada" },
+        { "id": "hecho_personal", "etiqueta": "Hecho observado", "tipo": "multiple", "opciones": [{ "valor": "admision_arbitraria_discriminatoria", "etiqueta": "Denegación arbitraria o basada en motivo discriminatorio observado" }, { "valor": "falta_admision", "etiqueta": "No está presente el servicio de admisión exigido" }, { "valor": "personal_no_acreditado", "etiqueta": "El personal de admisión no acredita la habilitación" }, { "valor": "falta_vigilancia", "etiqueta": "No está presente el servicio de vigilancia exigido" }], "anexo": "Hecho observado en admisión, vigilancia o personal" },
         { "id": "documentacion_personal", "etiqueta": "Documentación exhibida", "tipo": "texto", "anexo": "Documentación exhibida" },
         { "id": "hecho_admision", "etiqueta": "Conducta o carencia observada", "tipo": "texto", "placeholder": "Describir el hecho sin calificarlo", "anexo": "Conducta o carencia observada" }
       ],
-      "resultados": [{ "id": "admision_pendiente", "titulo": "Incidencia en admisión, vigilancia o personal", "via": "LEY_14_2010", "norma": "Ley 14/2010", "articulo": "PENDIENTE DE VALIDACIÓN JURÍDICA", "clasificacion": "PENDIENTE", "cuando": [{ "campo": "_irregular", "igual": "si" }], "anexo_campos": ["personal_comprobado", "documentacion_personal", "hecho_admision"], "recordatorios": ["Identificar el servicio, las personas presentes, la documentación exhibida y la conducta o carencia observada."] }]
+      "resultados": [
+        { "id": "admision_arbitraria", "titulo": "Admisión arbitraria o discriminatoria", "via": "LEY_14_2010", "norma": "Ley 14/2010", "articulo": "51.9", "clasificacion": "GRAVE", "cuando": [{ "campo": "hecho_personal", "contiene": "admision_arbitraria_discriminatoria" }, { "campo": "hecho_admision", "no_vacio": true }], "anexo_campos": ["hecho_personal", "documentacion_personal", "hecho_admision"], "recordatorios": ["Describir la conducta concreta, personas afectadas y circunstancias objetivas observadas."] },
+        { "id": "falta_admision", "titulo": "Falta de servicio específico de admisión o personal no acreditado", "via": "LEY_14_2010", "norma": "Ley 14/2010", "articulo": "51.10", "clasificacion": "GRAVE", "cuando": [{ "campo": "obligacion_personal", "contiene": "admision_exigida" }, { "campo": "hecho_personal", "contiene_alguno": ["falta_admision", "personal_no_acreditado"] }], "anexo_campos": ["obligacion_personal", "hecho_personal", "documentacion_personal", "hecho_admision"], "recordatorios": ["Identificar la obligación documental, el servicio o persona comprobados y la documentación exhibida."] },
+        { "id": "falta_vigilancia", "titulo": "Falta de servicio de vigilancia cuando es exigible", "via": "LEY_14_2010", "norma": "Ley 14/2010", "articulo": "51.11", "clasificacion": "GRAVE", "cuando": [{ "campo": "obligacion_personal", "contiene": "vigilancia_exigida" }, { "campo": "hecho_personal", "contiene": "falta_vigilancia" }], "anexo_campos": ["obligacion_personal", "hecho_personal", "documentacion_personal", "hecho_admision"], "recordatorios": ["Identificar la exigencia documental y la ausencia del servicio en el momento comprobado."] }
+      ]
     },
     {
       "id": "ruido",
       "icono": "🔇",
       "titulo": "Ruido y trascendencia al exterior",
-      "origen": "MUNICIPAL",
-      "referencia": "Normativa municipal de Torrent · tipificación pendiente",
-      "resumen": "Fuente, lugar de percepción, comprobación y medición disponible.",
+      "origen": "MIXTA",
+      "referencia": "Ordenanza de Convivencia art. 9 · vía acústica separada de los medios no autorizados",
+      "resumen": "Recoge hechos acústicos; los medios no autorizados se resuelven en Música y audiovisuales.",
       "preguntas": [
         { "id": "fuente_ruido", "etiqueta": "Fuente concreta del ruido", "tipo": "texto", "anexo": "Fuente del ruido" },
         { "id": "lugar_percepcion", "etiqueta": "Lugar desde el que se percibe", "tipo": "texto", "anexo": "Lugar de percepción" },
         { "id": "comprobacion_ruido", "etiqueta": "Forma de comprobación", "tipo": "multiple", "opciones": [{ "valor": "agentes", "etiqueta": "Percepción directa de los agentes" }, { "valor": "medicion", "etiqueta": "Medición" }, { "valor": "afectados", "etiqueta": "Personas afectadas identificadas" }], "anexo": "Forma de comprobación" },
-        { "id": "datos_medicion", "etiqueta": "Datos de medición, si existe", "tipo": "texto", "placeholder": "Equipo, lugar, hora y resultado consignados", "anexo": "Datos de medición" }
+        { "id": "datos_medicion", "etiqueta": "Datos de medición, si existe", "tipo": "texto", "placeholder": "Equipo, lugar, hora y resultado consignados", "anexo": "Datos de medición" },
+        { "id": "resultado_medicion", "etiqueta": "Resultado que consta en la medición o acta técnica", "tipo": "opcion", "opciones": [{ "valor": "exceso_acreditado", "etiqueta": "Consta exceso sobre los límites aplicables" }, { "valor": "sin_exceso", "etiqueta": "No consta exceso" }, { "valor": "no_determinado", "etiqueta": "No puede determinarse" }], "anexo": "Resultado documental de la medición" }
       ],
-      "resultados": [{ "id": "ruido_municipal_pendiente", "titulo": "Incidencia de ruido o trascendencia exterior", "via": "MUNICIPAL", "norma": "Normativa municipal de Torrent", "articulo": "PENDIENTE DE VALIDACIÓN JURÍDICA", "clasificacion": "PENDIENTE", "documento": "PENDIENTE DE VALIDACIÓN JURÍDICA", "destino": "Ayuntamiento de Torrent · encaje pendiente de validación jurídica", "cuando": [{ "campo": "_irregular", "igual": "si" }], "anexo_campos": ["fuente_ruido", "lugar_percepcion", "comprobacion_ruido", "datos_medicion"], "recordatorios": ["Una queja por sí sola no acredita el hecho: describir fuente, lugar, percepción directa, afectados y medición cuando exista."] }]
+      "resultados": [
+        { "id": "exceso_acustico_pendiente", "titulo": "Exceso acústico acreditado pendiente de tipificación sancionadora exacta", "via": "MUNICIPAL", "norma": "Ordenanza de Convivencia de Torrent · art. 9 y régimen valenciano de contaminación acústica", "articulo": "PENDIENTE DE VALIDACIÓN JURÍDICA", "clasificacion": "PENDIENTE", "documento": "PENDIENTE DE VALIDACIÓN JURÍDICA", "destino": "Ayuntamiento de Torrent · vía acústica pendiente de tipificación exacta", "cuando": [{ "campo": "resultado_medicion", "igual": "exceso_acreditado" }, { "campo": "datos_medicion", "no_vacio": true }], "anexo_campos": ["fuente_ruido", "lugar_percepcion", "comprobacion_ruido", "datos_medicion", "resultado_medicion"], "recordatorios": ["Identificar equipo, lugar, hora, resultado y demás datos de la medición; una queja o mera audición exterior no acredita por sí sola el exceso."] }
+      ]
     },
     {
       "id": "otros",
       "icono": "⚠️",
       "titulo": "Otros hechos de supervisión",
       "origen": "MIXTA",
-      "referencia": "Vía por determinar · validación jurídica necesaria",
+      "referencia": "Hechos adicionales · solo se resuelven supuestos expresamente validados",
       "resumen": "Hechos relevantes no comprendidos en los controles anteriores.",
       "plegado": true,
       "preguntas": [
+        { "id": "supuesto_otro", "etiqueta": "Supuesto concreto observado", "tipo": "multiple", "opciones": [{ "valor": "negativa_inspeccion", "etiqueta": "Negativa a colaborar con la inspección" }, { "valor": "armas_sin_autorizacion", "etiqueta": "Porte de armas sin autorización en el ámbito regulado" }, { "valor": "otro", "etiqueta": "Otro hecho no tipificado en esta inspección" }], "anexo": "Supuesto concreto observado" },
         { "id": "hecho_otro", "etiqueta": "Hecho directamente observado", "tipo": "texto_largo", "placeholder": "Qué se observa, dónde, cuándo y cómo se comprueba", "anexo": "Otro hecho directamente observado" },
         { "id": "documentacion_otro", "etiqueta": "Documento o elemento comprobado", "tipo": "texto", "anexo": "Documento o elemento comprobado" },
         { "id": "personas_otro", "etiqueta": "Personas relacionadas, si procede", "tipo": "texto", "anexo": "Personas relacionadas" }
       ],
-      "resultados": [{ "id": "otro_pendiente", "titulo": "Otro hecho de supervisión", "via": "ESPECIFICA", "norma": "Régimen por determinar", "articulo": "PENDIENTE DE VALIDACIÓN JURÍDICA", "clasificacion": "PENDIENTE", "documento": "PENDIENTE DE VALIDACIÓN JURÍDICA", "destino": "PENDIENTE DE VALIDACIÓN JURÍDICA", "cuando": [{ "campo": "_irregular", "igual": "si" }], "anexo_campos": ["hecho_otro", "documentacion_otro", "personas_otro"], "recordatorios": ["Describir el hecho sin forzarlo dentro de una infracción distinta ni duplicar otra materia."] }]
+      "resultados": [
+        { "id": "negativa_inspeccion", "titulo": "Negativa a colaborar con la inspección", "via": "LEY_14_2010", "norma": "Ley 14/2010", "articulo": "52.9", "clasificacion": "MUY GRAVE", "cuando": [{ "campo": "supuesto_otro", "contiene": "negativa_inspeccion" }, { "campo": "hecho_otro", "no_vacio": true }], "anexo_campos": ["supuesto_otro", "hecho_otro", "documentacion_otro", "personas_otro"], "recordatorios": ["Precisar requerimiento, respuesta, acto de negativa y personas intervinientes."] },
+        { "id": "armas_sin_autorizacion", "titulo": "Porte de armas sin autorización en el ámbito regulado", "via": "LEY_14_2010", "norma": "Ley 14/2010", "articulo": "51.24", "clasificacion": "GRAVE", "cuando": [{ "campo": "supuesto_otro", "contiene": "armas_sin_autorizacion" }, { "campo": "hecho_otro", "no_vacio": true }], "anexo_campos": ["supuesto_otro", "hecho_otro", "documentacion_otro", "personas_otro"], "recordatorios": ["Describir arma, lugar, persona portadora, comprobación de autorización y circunstancias observadas."] }
+      ]
     }
   ]
 }

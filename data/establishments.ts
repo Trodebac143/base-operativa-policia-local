@@ -22,7 +22,13 @@ export type InspectionQuestion = {
 export type InspectionCondition = {
   campo: string;
   igual?: string;
+  uno_de?: string[];
+  ninguno_de?: string[];
+  contiene?: string;
+  contiene_alguno?: string[];
   no_vacio?: boolean;
+  vacio?: boolean;
+  menor_que?: number;
   mayor_que_campo?: string;
 };
 export type InspectionIncidentDefinition = {
@@ -35,6 +41,7 @@ export type InspectionIncidentDefinition = {
   documento?: string;
   destino?: string;
   cuando: InspectionCondition[];
+  cuando_alguno?: InspectionCondition[];
   anexo_campos: string[];
   recordatorios: string[];
 };
@@ -72,6 +79,13 @@ export type ResolvedGroup = {
   destino: string;
 };
 export type InspectionResolution = { grupos: ResolvedGroup[]; incidencias: ResolvedIncident[] };
+export type InspectionAnnexSection = {
+  controlId: string;
+  controlTitulo: string;
+  controlIcono: string;
+  recordatorios: string[];
+  datosAnexo: Array<{ etiqueta: string; valor: string }>;
+};
 
 export const establishmentsInspection = inspectionJson as InspectionData;
 export const EMPTY_INSPECTION_ITEM = { estado: "no_comprobado" as const, respuestas: {} };
@@ -82,7 +96,16 @@ const numeric = (answer: InspectionAnswer | undefined) => typeof answer === "str
 function conditionMatches(condition: InspectionCondition, answers: InspectionAnswers): boolean {
   const answer = condition.campo === "_irregular" ? "si" : answers[condition.campo];
   if (condition.igual !== undefined) return answer === condition.igual;
+  if (condition.uno_de) return typeof answer === "string" && condition.uno_de.includes(answer);
+  if (condition.ninguno_de) return typeof answer !== "string" || !condition.ninguno_de.includes(answer);
+  if (condition.contiene) return Array.isArray(answer) && answer.includes(condition.contiene);
+  if (condition.contiene_alguno) return Array.isArray(answer) && condition.contiene_alguno.some((value) => answer.includes(value));
   if (condition.no_vacio) return isFilled(answer);
+  if (condition.vacio) return !isFilled(answer);
+  if (condition.menor_que !== undefined) {
+    const value = numeric(answer);
+    return Number.isFinite(value) && value < condition.menor_que;
+  }
   if (condition.mayor_que_campo) {
     const left = numeric(answer);
     const right = numeric(answers[condition.mayor_que_campo]);
@@ -97,20 +120,23 @@ function answerLabel(question: InspectionQuestion, answer: InspectionAnswer): st
   return question.unidad && value ? `${value} ${question.unidad}` : value;
 }
 
-function incidentForControl(control: InspectionControl, answers: InspectionAnswers): ResolvedIncident | undefined {
-  const result = control.resultados.find((candidate) => candidate.cuando.every((condition) => conditionMatches(condition, answers)));
-  if (!result) return undefined;
-  const fields = new Set(result.anexo_campos);
-  const datosAnexo = control.preguntas
-    .filter((question) => fields.has(question.id) && isFilled(answers[question.id]))
-    .map((question) => ({ etiqueta: question.anexo, valor: answerLabel(question, answers[question.id]!) }));
-  return { ...result, controlId: control.id, controlTitulo: control.titulo, controlIcono: control.icono, datosAnexo };
+function incidentsForControl(control: InspectionControl, answers: InspectionAnswers): ResolvedIncident[] {
+  return control.resultados
+    .filter((candidate) => candidate.cuando.every((condition) => conditionMatches(condition, answers))
+      && (!candidate.cuando_alguno?.length || candidate.cuando_alguno.some((condition) => conditionMatches(condition, answers))))
+    .map((result) => {
+      const fields = new Set(result.anexo_campos);
+      const datosAnexo = control.preguntas
+        .filter((question) => fields.has(question.id) && isFilled(answers[question.id]))
+        .map((question) => ({ etiqueta: question.anexo, valor: answerLabel(question, answers[question.id]!) }));
+      return { ...result, controlId: control.id, controlTitulo: control.titulo, controlIcono: control.icono, datosAnexo };
+    });
 }
 
 const routeTitles: Record<InspectionRoute, string> = {
   LEY_14_2010: "Ley 14/2010",
   MUNICIPAL: "Normativa municipal",
-  ESPECIFICA: "Normativa específica",
+  ESPECIFICA: "NORMATIVA ESPECÍFICA — TABAQUISMO",
 };
 
 function lawDocument(incidents: ResolvedIncident[]): string {
@@ -120,42 +146,81 @@ function lawDocument(incidents: ResolvedIncident[]): string {
 }
 
 function lawDestination(incidents: ResolvedIncident[]): string {
-  if (incidents.some((item) => item.clasificacion === "GRAVE" || item.clasificacion === "MUY GRAVE")) return "Administración autonómica competente por la infracción de mayor gravedad; no consta delegación expresa validada para Torrent.";
+  if (incidents.some((item) => item.clasificacion === "GRAVE" || item.clasificacion === "MUY GRAVE")) return "Generalitat Valenciana (Torrent no tiene delegadas las infracciones graves y muy graves de la Ley 14/2010).";
   if (incidents.some((item) => item.clasificacion === "PENDIENTE")) return "PENDIENTE DE VALIDACIÓN JURÍDICA";
   return "Ayuntamiento de Torrent (infracciones leves de la Ley 14/2010).";
 }
 
 export function resolveEstablishmentInspection(state: InspectionState, data: InspectionData = establishmentsInspection): InspectionResolution {
-  const incidencias = data.controles.flatMap((control) => {
+  const resolvedIncidents = data.controles.flatMap((control) => {
     const item = state[control.id] ?? EMPTY_INSPECTION_ITEM;
     if (item.estado !== "irregular") return [];
-    const incident = incidentForControl(control, item.respuestas);
-    return incident ? [incident] : [];
+    return incidentsForControl(control, item.respuestas);
   });
-  const routes: InspectionRoute[] = ["LEY_14_2010", "MUNICIPAL", "ESPECIFICA"];
-  const grupos = routes.flatMap((via) => {
+  const lacksTitle = resolvedIncidents.some((incident) => incident.id === "sin_titulo");
+  const incidencias = lacksTitle
+    ? resolvedIncidents.filter((incident) => incident.id !== "licencia_no_expuesta")
+    : resolvedIncidents;
+  const grupos: ResolvedGroup[] = [];
+  const lawIncidents = incidencias.filter((incident) => incident.via === "LEY_14_2010");
+  const determinedLawIncidents = lawIncidents.filter((incident) => incident.clasificacion !== "PENDIENTE");
+  const pendingLawIncidents = lawIncidents.filter((incident) => incident.clasificacion === "PENDIENTE");
+  if (determinedLawIncidents.length) grupos.push({
+    via: "LEY_14_2010",
+    titulo: routeTitles.LEY_14_2010,
+    incidencias: determinedLawIncidents,
+    documento: lawDocument(determinedLawIncidents),
+    destino: lawDestination(determinedLawIncidents),
+  });
+  if (pendingLawIncidents.length) grupos.push({
+    via: "LEY_14_2010",
+    titulo: "Ley 14/2010 · supuesto pendiente separado",
+    incidencias: pendingLawIncidents,
+    documento: "PENDIENTE DE VALIDACIÓN JURÍDICA",
+    destino: "PENDIENTE DE VALIDACIÓN JURÍDICA",
+  });
+  for (const via of ["MUNICIPAL", "ESPECIFICA"] as const) {
     const routeIncidents = incidencias.filter((incident) => incident.via === via);
-    if (!routeIncidents.length) return [];
+    if (!routeIncidents.length) continue;
     const first = routeIncidents[0];
-    return [{
+    grupos.push({
       via,
       titulo: routeTitles[via],
       incidencias: routeIncidents,
-      documento: via === "LEY_14_2010" ? lawDocument(routeIncidents) : first.documento ?? "PENDIENTE DE VALIDACIÓN JURÍDICA",
-      destino: via === "LEY_14_2010" ? lawDestination(routeIncidents) : first.destino ?? "PENDIENTE DE VALIDACIÓN JURÍDICA",
-    }];
-  });
+      documento: first.documento ?? "PENDIENTE DE VALIDACIÓN JURÍDICA",
+      destino: first.destino ?? "PENDIENTE DE VALIDACIÓN JURÍDICA",
+    });
+  }
   return { grupos, incidencias };
 }
 
 export function controlsForFilter(filter: InspectionFilter, data: InspectionData = establishmentsInspection): InspectionControl[] {
   if (filter === "TODAS") return data.controles;
+  if (filter === "AUTONÓMICA") return data.controles.filter((control) => control.origen === "AUTONÓMICA" || control.origen === "MIXTA");
+  if (filter === "MUNICIPAL") return data.controles.filter((control) => control.origen === "MUNICIPAL" || control.origen === "MIXTA");
   return data.controles.filter((control) => control.origen === filter);
 }
 
+export function buildAnnexSections(resolution: InspectionResolution): InspectionAnnexSection[] {
+  const sections = new Map<string, InspectionAnnexSection>();
+  for (const incident of resolution.incidencias) {
+    const section = sections.get(incident.controlId) ?? {
+      controlId: incident.controlId,
+      controlTitulo: incident.controlTitulo,
+      controlIcono: incident.controlIcono,
+      recordatorios: [],
+      datosAnexo: [],
+    };
+    for (const reminder of incident.recordatorios) if (!section.recordatorios.includes(reminder)) section.recordatorios.push(reminder);
+    for (const datum of incident.datosAnexo) if (!section.datosAnexo.some((entry) => entry.etiqueta === datum.etiqueta && entry.valor === datum.valor)) section.datosAnexo.push(datum);
+    sections.set(incident.controlId, section);
+  }
+  return [...sections.values()];
+}
+
 export function buildAnnexDraft(resolution: InspectionResolution): string {
-  return resolution.incidencias.flatMap((incident) => {
-    if (!incident.datosAnexo.length) return [];
-    return [`${incident.controlTitulo}. ${incident.datosAnexo.map((datum) => `${datum.etiqueta}: ${datum.valor}`).join(". ")}.`];
+  return buildAnnexSections(resolution).flatMap((section) => {
+    if (!section.datosAnexo.length) return [];
+    return [`${section.controlTitulo}. ${section.datosAnexo.map((datum) => `${datum.etiqueta}: ${datum.valor}`).join(". ")}.`];
   }).join("\n\n");
 }
