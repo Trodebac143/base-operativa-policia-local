@@ -282,7 +282,7 @@ for (const item of convivencia) {
   if (!data?.grupo || !Number.isFinite(data.orden)) errors.push(`${item.id}: falta grupo u orden operativo de Convivencia`);
   if (item.modulo !== "policia_administrativa" || item.estado !== "validado") errors.push(`${item.id}: debe ser un caso validado de Policía Administrativa`);
   if (item.competencia_resuelve !== "Ayuntamiento de Torrent.") errors.push(`${item.id}: competencia sancionadora incorrecta`);
-  if (!item.fuentes?.length || !item.fuentes.every((id) => ["OCC-TORRENT", "ORL-TORRENT"].includes(id))) errors.push(`${item.id}: fuente de Convivencia incorrecta`);
+  if (!item.fuentes?.length || !item.fuentes.every((id) => ["OCC-TORRENT", "ORL-TORRENT", "AN-SRC-007", "SP-SRC-LO-4-2015"].includes(id))) errors.push(`${item.id}: fuente de Convivencia incorrecta`);
 }
 if (new Set(convivencia.map((item) => item.datos_adicionales?.convivencia?.grupo)).size !== 3 || !expectedConvivenciaGroups.every((group) => convivencia.some((item) => item.datos_adicionales?.convivencia?.grupo === group))) errors.push("Convivencia: deben existir exactamente los tres grupos operativos");
 if (!sourceIds.has("OCC-TORRENT") || !sourceIds.has("ORL-TORRENT")) errors.push("Convivencia: faltan las dos fuentes municipales centrales");

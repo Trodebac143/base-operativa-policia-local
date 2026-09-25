@@ -87,14 +87,17 @@ export type VentaNoSedentariaData = {
 export type ConvivenciaCondition = {
   id: string;
   etiqueta: string;
-  opciones: { valor: string; etiqueta: string }[];
+  ayuda?: string;
+  mostrarSi?: Record<string, string>[];
+  opciones: { valor: string; etiqueta: string; icono?: string }[];
 };
+export type SanctionPresentation = { tipo: "fija" | "maximo" | "rango" | "regimen"; texto: string };
 export type ConvivenciaOutcome = {
   cuando: Record<string, string>;
   resultado?: string;
   articulo?: string;
   calificacion?: string;
-  sancion?: string;
+  sancion?: string | SanctionPresentation;
   otraVia?: string;
   sinInfraccion?: boolean;
 };

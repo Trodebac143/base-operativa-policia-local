@@ -2971,12 +2971,14 @@
       "obras",
       "horario",
       "ruido",
-      "autorización"
+      "autorización",
+      "fiesta local"
     ],
     "que_comprobar": [
-      "Fecha",
-      "Hora",
-      "Existencia de autorización excepcional"
+      "Casco urbano y fecha",
+      "Hora observada y periodo del año",
+      "Perturbación acreditada en fiesta local oficial o día festivo tradicional",
+      "Autorización especial y su alcance"
     ],
     "resultado": "Realización de obras fuera del horario permitido.",
     "norma": "Ordenanza de Convivencia de Torrent",
@@ -2999,20 +3001,199 @@
         "orden": 30,
         "condiciones": [
           {
-            "id": "situacion",
-            "etiqueta": "¿Qué horario y autorización constan?",
+            "id": "casco",
+            "etiqueta": "¿La obra se realiza en el casco urbano?",
             "opciones": [
               {
-                "valor": "invierno_fuera",
-                "etiqueta": "Octubre–marzo: fuera de 08:00–18:00, sin autorización excepcional"
+                "valor": "si",
+                "etiqueta": "Sí"
               },
               {
-                "valor": "verano_fuera",
-                "etiqueta": "Abril–septiembre: fuera de 08:00–20:00, sin autorización excepcional"
+                "valor": "no",
+                "etiqueta": "No"
               },
               {
-                "valor": "permitido",
-                "etiqueta": "Dentro del horario o con autorización excepcional"
+                "valor": "indeterminado",
+                "etiqueta": "No puede determinarse"
+              }
+            ]
+          },
+          {
+            "id": "festivo",
+            "etiqueta": "¿Coincide con fiesta local oficial o día festivo tradicional?",
+            "ayuda": "Los sábados se aplica el horario general. La Ordenanza no establece un régimen específico para ese día.",
+            "mostrarSi": [
+              {
+                "casco": "si"
+              }
+            ],
+            "opciones": [
+              {
+                "valor": "si",
+                "etiqueta": "Sí"
+              },
+              {
+                "valor": "no",
+                "etiqueta": "No"
+              },
+              {
+                "valor": "indeterminado",
+                "etiqueta": "No puede determinarse"
+              }
+            ]
+          },
+          {
+            "id": "perturbacion",
+            "etiqueta": "¿La obra puede perturbar el descanso ciudadano?",
+            "mostrarSi": [
+              {
+                "casco": "si",
+                "festivo": "si"
+              }
+            ],
+            "opciones": [
+              {
+                "valor": "si",
+                "etiqueta": "Sí, consta perturbación observable"
+              },
+              {
+                "valor": "no",
+                "etiqueta": "No se aprecia perturbación"
+              },
+              {
+                "valor": "indeterminado",
+                "etiqueta": "No puede determinarse"
+              }
+            ]
+          },
+          {
+            "id": "autorizacion_festivo",
+            "etiqueta": "¿Consta autorización excepcional específica para ese supuesto?",
+            "mostrarSi": [
+              {
+                "casco": "si",
+                "festivo": "si",
+                "perturbacion": "si"
+              }
+            ],
+            "opciones": [
+              {
+                "valor": "si",
+                "etiqueta": "Sí"
+              },
+              {
+                "valor": "no",
+                "etiqueta": "No"
+              },
+              {
+                "valor": "indeterminado",
+                "etiqueta": "No puede comprobarse"
+              }
+            ]
+          },
+          {
+            "id": "periodo",
+            "etiqueta": "Periodo del año",
+            "mostrarSi": [
+              {
+                "casco": "no"
+              },
+              {
+                "casco": "si",
+                "festivo": "no"
+              },
+              {
+                "casco": "si",
+                "festivo": "si",
+                "perturbacion": "no"
+              }
+            ],
+            "opciones": [
+              {
+                "valor": "invierno",
+                "etiqueta": "1 octubre – 31 marzo"
+              },
+              {
+                "valor": "verano",
+                "etiqueta": "1 abril – 30 septiembre"
+              }
+            ]
+          },
+          {
+            "id": "hora_invierno",
+            "etiqueta": "Hora observada",
+            "mostrarSi": [
+              {
+                "periodo": "invierno"
+              }
+            ],
+            "opciones": [
+              {
+                "valor": "antes",
+                "etiqueta": "Antes de 08:00"
+              },
+              {
+                "valor": "dentro",
+                "etiqueta": "Entre 08:00 y 18:00"
+              },
+              {
+                "valor": "despues",
+                "etiqueta": "Después de 18:00"
+              }
+            ]
+          },
+          {
+            "id": "hora_verano",
+            "etiqueta": "Hora observada",
+            "mostrarSi": [
+              {
+                "periodo": "verano"
+              }
+            ],
+            "opciones": [
+              {
+                "valor": "antes",
+                "etiqueta": "Antes de 08:00"
+              },
+              {
+                "valor": "dentro",
+                "etiqueta": "Entre 08:00 y 20:00"
+              },
+              {
+                "valor": "despues",
+                "etiqueta": "Después de 20:00"
+              }
+            ]
+          },
+          {
+            "id": "autorizacion_horario",
+            "etiqueta": "¿Consta autorización especial para trabajar fuera del horario?",
+            "mostrarSi": [
+              {
+                "hora_invierno": "antes"
+              },
+              {
+                "hora_invierno": "despues"
+              },
+              {
+                "hora_verano": "antes"
+              },
+              {
+                "hora_verano": "despues"
+              }
+            ],
+            "opciones": [
+              {
+                "valor": "si",
+                "etiqueta": "Sí"
+              },
+              {
+                "valor": "no",
+                "etiqueta": "No"
+              },
+              {
+                "valor": "indeterminado",
+                "etiqueta": "No puede comprobarse"
               }
             ]
           }
@@ -3020,22 +3201,154 @@
         "salidas": [
           {
             "cuando": {
-              "situacion": "invierno_fuera"
-            },
-            "sancion": "150 €"
-          },
-          {
-            "cuando": {
-              "situacion": "verano_fuera"
-            },
-            "sancion": "150 €"
-          },
-          {
-            "cuando": {
-              "situacion": "permitido"
+              "casco": "indeterminado"
             },
             "sinInfraccion": true,
-            "resultado": "No se aprecia esta infracción si la obra está dentro del horario aplicable o consta autorización excepcional."
+            "resultado": "Datos insuficientes para aplicar el régimen del art. 10."
+          },
+          {
+            "cuando": {
+              "casco": "si",
+              "festivo": "indeterminado"
+            },
+            "sinInfraccion": true,
+            "resultado": "Datos insuficientes para determinar si concurre el supuesto del art. 10.2."
+          },
+          {
+            "cuando": {
+              "casco": "si",
+              "festivo": "si",
+              "perturbacion": "indeterminado"
+            },
+            "sinInfraccion": true,
+            "resultado": "Debe acreditarse la perturbación del descanso para aplicar el supuesto del art. 10.2."
+          },
+          {
+            "cuando": {
+              "casco": "si",
+              "festivo": "si",
+              "perturbacion": "si",
+              "autorizacion_festivo": "si"
+            },
+            "sinInfraccion": true,
+            "resultado": "Consta autorización excepcional específica. Comprobar su alcance: no se presume que deje sin efecto el art. 10.2."
+          },
+          {
+            "cuando": {
+              "casco": "si",
+              "festivo": "si",
+              "perturbacion": "si",
+              "autorizacion_festivo": "no"
+            },
+            "articulo": "10.2",
+            "resultado": "Obras en casco urbano durante fiesta local oficial o día festivo tradicional con perturbación acreditada.",
+            "sancion": {
+              "tipo": "fija",
+              "texto": "150 €"
+            }
+          },
+          {
+            "cuando": {
+              "casco": "si",
+              "festivo": "si",
+              "perturbacion": "si",
+              "autorizacion_festivo": "indeterminado"
+            },
+            "sinInfraccion": true,
+            "resultado": "No puede determinarse el alcance de una eventual autorización excepcional en el supuesto del art. 10.2."
+          },
+          {
+            "cuando": {
+              "hora_invierno": "dentro"
+            },
+            "sinInfraccion": true,
+            "resultado": "No se aprecia infracción por horario: la obra está entre 08:00 y 18:00."
+          },
+          {
+            "cuando": {
+              "hora_verano": "dentro"
+            },
+            "sinInfraccion": true,
+            "resultado": "No se aprecia infracción por horario: la obra está entre 08:00 y 20:00."
+          },
+          {
+            "cuando": {
+              "hora_invierno": "antes",
+              "autorizacion_horario": "no"
+            },
+            "sancion": {
+              "tipo": "fija",
+              "texto": "150 €"
+            }
+          },
+          {
+            "cuando": {
+              "hora_invierno": "despues",
+              "autorizacion_horario": "no"
+            },
+            "sancion": {
+              "tipo": "fija",
+              "texto": "150 €"
+            }
+          },
+          {
+            "cuando": {
+              "hora_verano": "antes",
+              "autorizacion_horario": "no"
+            },
+            "sancion": {
+              "tipo": "fija",
+              "texto": "150 €"
+            }
+          },
+          {
+            "cuando": {
+              "hora_verano": "despues",
+              "autorizacion_horario": "no"
+            },
+            "sancion": {
+              "tipo": "fija",
+              "texto": "150 €"
+            }
+          },
+          {
+            "cuando": {
+              "hora_invierno": "antes",
+              "autorizacion_horario": "si"
+            },
+            "sinInfraccion": true,
+            "resultado": "Consta autorización especial para trabajar fuera de horario. Comprobar su alcance y medidas para minimizar molestias."
+          },
+          {
+            "cuando": {
+              "hora_invierno": "despues",
+              "autorizacion_horario": "si"
+            },
+            "sinInfraccion": true,
+            "resultado": "Consta autorización especial para trabajar fuera de horario. Comprobar su alcance y medidas para minimizar molestias."
+          },
+          {
+            "cuando": {
+              "hora_verano": "antes",
+              "autorizacion_horario": "si"
+            },
+            "sinInfraccion": true,
+            "resultado": "Consta autorización especial para trabajar fuera de horario. Comprobar su alcance y medidas para minimizar molestias."
+          },
+          {
+            "cuando": {
+              "hora_verano": "despues",
+              "autorizacion_horario": "si"
+            },
+            "sinInfraccion": true,
+            "resultado": "Consta autorización especial para trabajar fuera de horario. Comprobar su alcance y medidas para minimizar molestias."
+          },
+          {
+            "cuando": {
+              "autorizacion_horario": "indeterminado"
+            },
+            "sinInfraccion": true,
+            "resultado": "No puede asignarse una infracción automática mientras no se compruebe la autorización especial."
           }
         ]
       }
@@ -3045,17 +3358,18 @@
     "id": "CONV-OP-004",
     "modulo": "policia_administrativa",
     "categoria": "policia_administrativa_convivencia",
-    "titulo": "Objetos que obstaculizan aceras o calzada",
+    "titulo": "Bultos u objetos que impiden la libre circulación",
     "palabras_clave": [
       "obstáculo",
+      "bulto",
       "acera",
       "calzada",
       "ocupación"
     ],
     "que_comprobar": [
-      "Objeto",
-      "Ubicación",
-      "Impedimento real a la libre circulación"
+      "Impedimento real al paso",
+      "Objeto y actividad a la que está vinculado",
+      "Licencia de ocupación cuando se trate de comercio o actividad"
     ],
     "resultado": "Obstaculización de la vía o del espacio de uso público.",
     "norma": "Ordenanza de Convivencia de Torrent",
@@ -3078,24 +3392,79 @@
         "orden": 40,
         "condiciones": [
           {
-            "id": "vinculo",
-            "etiqueta": "¿Existe autorización u ocupación vinculada a otra actividad?",
+            "id": "impide",
+            "etiqueta": "¿El bulto u objeto impide realmente la libre circulación?",
             "opciones": [
               {
+                "valor": "si",
+                "etiqueta": "Sí, bloquea o impide el paso normal",
+                "icono": "barrier"
+              },
+              {
                 "valor": "no",
-                "etiqueta": "No consta"
+                "etiqueta": "No, la circulación permanece libre"
+              },
+              {
+                "valor": "indeterminado",
+                "etiqueta": "No puede determinarse"
+              }
+            ]
+          },
+          {
+            "id": "vinculo",
+            "etiqueta": "¿A qué está vinculado el objeto u ocupación?",
+            "mostrarSi": [
+              {
+                "impide": "si"
+              }
+            ],
+            "opciones": [
+              {
+                "valor": "particular",
+                "etiqueta": "Objeto o bulto particular, sin actividad asociada",
+                "icono": "barrier"
               },
               {
                 "valor": "terraza",
-                "etiqueta": "Terraza"
+                "etiqueta": "Terraza",
+                "icono": "cafe"
               },
               {
                 "valor": "obra",
-                "etiqueta": "Obra"
+                "etiqueta": "Obra / materiales de obra",
+                "icono": "tools"
               },
               {
                 "valor": "actividad",
-                "etiqueta": "Actividad"
+                "etiqueta": "Comercio o actividad",
+                "icono": "shop"
+              },
+              {
+                "valor": "indeterminado",
+                "etiqueta": "No puede determinarse"
+              }
+            ]
+          },
+          {
+            "id": "licencia",
+            "etiqueta": "¿Consta licencia o autorización municipal para esta ocupación de la vía pública?",
+            "mostrarSi": [
+              {
+                "vinculo": "actividad"
+              }
+            ],
+            "opciones": [
+              {
+                "valor": "si",
+                "etiqueta": "Sí"
+              },
+              {
+                "valor": "no",
+                "etiqueta": "No"
+              },
+              {
+                "valor": "indeterminado",
+                "etiqueta": "No puede comprobarse"
               }
             ]
           }
@@ -3103,30 +3472,87 @@
         "salidas": [
           {
             "cuando": {
-              "vinculo": "no"
+              "impide": "no"
             },
-            "sancion": "60,10 €"
+            "sinInfraccion": true,
+            "resultado": "No se acredita el supuesto del art. 8.f por este hecho. Valorar si existe otra ocupación irregular del espacio público."
           },
           {
             "cuando": {
+              "impide": "indeterminado"
+            },
+            "sinInfraccion": true,
+            "resultado": "Datos insuficientes para aplicar el art. 8.f sin acreditar un impedimento real de la libre circulación."
+          },
+          {
+            "cuando": {
+              "impide": "si",
+              "vinculo": "particular"
+            },
+            "articulo": "8.f",
+            "resultado": "Bulto u objeto particular que impide la libre circulación.",
+            "sancion": {
+              "tipo": "fija",
+              "texto": "60,10 €"
+            }
+          },
+          {
+            "cuando": {
+              "impide": "si",
               "vinculo": "terraza"
             },
-            "sancion": "60,10 €",
-            "otraVia": "Terrazas."
+            "sinInfraccion": true,
+            "resultado": "No se asigna automáticamente el art. 8.f ni 60,10 € a una terraza.",
+            "otraVia": "Terrazas → comprobar autorización, superficie y límites autorizados, paso peatonal y accesos."
           },
           {
             "cuando": {
+              "impide": "si",
               "vinculo": "obra"
             },
-            "sancion": "60,10 €",
-            "otraVia": "Urbanismo."
+            "sinInfraccion": true,
+            "resultado": "No se asigna automáticamente el art. 8.f ni 60,10 € a materiales de obra.",
+            "otraVia": "Urbanismo / ocupación de vía pública → comprobar autorización, perímetro, señalización y condiciones de la obra."
           },
           {
             "cuando": {
-              "vinculo": "actividad"
+              "impide": "si",
+              "vinculo": "actividad",
+              "licencia": "no"
             },
-            "sancion": "60,10 €",
-            "otraVia": "Establecimientos públicos."
+            "articulo": "23",
+            "resultado": "Ocupar la vía pública con una actividad sin licencia de ocupación.",
+            "sancion": {
+              "tipo": "fija",
+              "texto": "180,00 €"
+            }
+          },
+          {
+            "cuando": {
+              "impide": "si",
+              "vinculo": "actividad",
+              "licencia": "si"
+            },
+            "sinInfraccion": true,
+            "resultado": "No se sanciona automáticamente por el art. 23. Comprobar que la ocupación se ajusta a las condiciones autorizadas.",
+            "otraVia": "Módulo específico de la actividad, cuando proceda."
+          },
+          {
+            "cuando": {
+              "impide": "si",
+              "vinculo": "actividad",
+              "licencia": "indeterminado"
+            },
+            "sinInfraccion": true,
+            "resultado": "No puede asignarse automáticamente el art. 23 mientras no se compruebe la licencia de ocupación."
+          },
+          {
+            "cuando": {
+              "impide": "si",
+              "vinculo": "indeterminado"
+            },
+            "sinInfraccion": true,
+            "resultado": "Debe determinarse si el objeto es particular o está vinculado a una actividad antes de asignar una vía administrativa."
           }
         ]
       }
@@ -3179,12 +3605,13 @@
       "pintadas",
       "grafitis",
       "spray",
-      "daños"
+      "limpieza",
+      "reparación"
     ],
     "que_comprobar": [
-      "Superficie afectada",
-      "Extensión",
-      "Daño observable"
+      "Intervención necesaria para recuperar la superficie",
+      "Tipo de bien afectado",
+      "Extensión y elementos observables de la afectación"
     ],
     "resultado": "Infracción ordinaria de limpieza viaria.",
     "norma": "Ordenanza de Residuos Urbanos y Limpieza Viaria de Torrent",
@@ -3199,7 +3626,9 @@
     "advertencias": [],
     "alerta_penal": false,
     "fuentes": [
-      "ORL-TORRENT"
+      "ORL-TORRENT",
+      "AN-SRC-007",
+      "SP-SRC-LO-4-2015"
     ],
     "estado": "validado",
     "datos_adicionales": {
@@ -3208,16 +3637,47 @@
         "orden": 60,
         "condiciones": [
           {
-            "id": "danos",
-            "etiqueta": "¿Constan daños con posible relevancia penal?",
+            "id": "intervencion",
+            "etiqueta": "¿Qué intervención necesita la superficie para recuperar su estado anterior?",
+            "ayuda": "Los 400 € no determinan por sí solos si existe o no relevancia penal.",
             "opciones": [
               {
-                "valor": "no",
-                "etiqueta": "No consta"
+                "valor": "limpieza",
+                "etiqueta": "Limpieza simple u ordinaria, sin apreciar deterioro adicional",
+                "icono": "brush"
               },
               {
-                "valor": "si",
-                "etiqueta": "Sí, hay daño relevante observable"
+                "valor": "reparacion",
+                "etiqueta": "Tratamiento especializado, reparación, restauración, repintado, sustitución o actuación económicamente evaluable",
+                "icono": "tools"
+              },
+              {
+                "valor": "indeterminado",
+                "etiqueta": "No puede determinarse en el momento"
+              }
+            ]
+          },
+          {
+            "id": "bien",
+            "etiqueta": "¿Qué tipo de bien está afectado?",
+            "opciones": [
+              {
+                "valor": "privado",
+                "etiqueta": "Bien privado"
+              },
+              {
+                "valor": "publico",
+                "etiqueta": "Bien de dominio o uso público / comunal",
+                "icono": "building"
+              },
+              {
+                "valor": "protegido",
+                "etiqueta": "Bien histórico, artístico, cultural o monumental",
+                "icono": "building"
+              },
+              {
+                "valor": "indeterminado",
+                "etiqueta": "No puede determinarse"
               }
             ]
           }
@@ -3225,18 +3685,58 @@
         "salidas": [
           {
             "cuando": {
-              "danos": "no"
+              "intervencion": "limpieza"
             },
+            "articulo": "23",
             "calificacion": "LEVE",
-            "sancion": "hasta 600 €"
+            "resultado": "Deslucimiento superficial: mantener la vía administrativa de limpieza viaria.",
+            "sancion": {
+              "tipo": "maximo",
+              "texto": "600 €"
+            },
+            "otraVia": "Valorar art. 37.13 LO 4/2015 cuando se trate de daños o deslucimiento de bienes de uso o servicio público o de bienes privados situados en vía pública y no constituyan infracción penal."
           },
           {
             "cuando": {
-              "danos": "si"
+              "intervencion": "indeterminado"
             },
-            "calificacion": "LEVE",
-            "sancion": "hasta 600 €",
-            "otraVia": "Seguridad Pública → Delitos contra el patrimonio / daños."
+            "sinInfraccion": true,
+            "resultado": "Datos insuficientes para concluir una vía administrativa o penal automática."
+          },
+          {
+            "cuando": {
+              "intervencion": "reparacion",
+              "bien": "privado"
+            },
+            "sinInfraccion": true,
+            "resultado": "⚠ POSIBLE VÍA PENAL — DAÑOS. Los hechos pueden presentar relevancia penal. Valorar art. 263 CP.",
+            "otraVia": "No se afirma automáticamente que exista delito ni se sustituye la denuncia municipal sin más datos."
+          },
+          {
+            "cuando": {
+              "intervencion": "reparacion",
+              "bien": "publico"
+            },
+            "sinInfraccion": true,
+            "resultado": "⚠ POSIBLE VÍA PENAL — DAÑOS. Los hechos pueden presentar relevancia penal. Valorar art. 263 CP.",
+            "otraVia": "Valorar específicamente el art. 263.2.4 CP por tratarse de bien de dominio o uso público o comunal."
+          },
+          {
+            "cuando": {
+              "intervencion": "reparacion",
+              "bien": "protegido"
+            },
+            "sinInfraccion": true,
+            "resultado": "⚠ POSIBLE VÍA PENAL — DAÑOS. Los hechos pueden presentar relevancia penal.",
+            "otraVia": "Valorar el régimen penal específico del bien histórico, artístico, cultural o monumental protegido."
+          },
+          {
+            "cuando": {
+              "intervencion": "reparacion",
+              "bien": "indeterminado"
+            },
+            "sinInfraccion": true,
+            "resultado": "Se aprecia una intervención económicamente evaluable, pero faltan datos sobre el bien afectado. Valorar posible vía penal sin conclusión automática."
           }
         ]
       }
@@ -3362,12 +3862,15 @@
       "abandono",
       "residuos",
       "contenedor",
+      "poda",
+      "jardinería",
       "depósito"
     ],
     "que_comprobar": [
       "Tipo de residuo",
-      "Lugar y contenedor utilizado",
-      "Cantidad, horario y entidad del hecho"
+      "Cantidad, forma y lugar de depósito",
+      "Condiciones específicas de poda y jardinería",
+      "Riesgo ambiental o sanitario directamente observable"
     ],
     "resultado": "El resultado depende de los hechos observables acreditados.",
     "norma": "Ordenanza de Residuos Urbanos y Limpieza Viaria de Torrent",
@@ -3389,24 +3892,373 @@
         "orden": 90,
         "condiciones": [
           {
-            "id": "hecho",
-            "etiqueta": "¿Qué hecho observable consta?",
+            "id": "tipo",
+            "etiqueta": "¿Qué tipo de residuo se observa?",
             "opciones": [
               {
-                "valor": "escasa",
-                "etiqueta": "Depósito de entidad escasa"
+                "valor": "poda",
+                "etiqueta": "Restos de poda / jardinería",
+                "icono": "leaf"
               },
               {
-                "valor": "entidad",
-                "etiqueta": "Cuantía o entidad mayor acreditada"
+                "valor": "muebles",
+                "etiqueta": "Muebles / enseres",
+                "icono": "sofa"
+              },
+              {
+                "valor": "escombros",
+                "etiqueta": "Escombros",
+                "icono": "bricks"
+              },
+              {
+                "valor": "otros",
+                "etiqueta": "Otros residuos",
+                "icono": "bin"
               },
               {
                 "valor": "peligroso",
-                "etiqueta": "Residuo peligroso o grave peligro ambiental o sanitario"
+                "etiqueta": "Residuo potencialmente peligroso",
+                "icono": "warning"
               },
               {
-                "valor": "insuficiente",
-                "etiqueta": "Datos aún insuficientes"
+                "valor": "indeterminado",
+                "etiqueta": "No puede determinarse"
+              }
+            ]
+          },
+          {
+            "id": "clase_poda",
+            "etiqueta": "¿Qué tipo de resto es?",
+            "mostrarSi": [
+              {
+                "tipo": "poda"
+              }
+            ],
+            "opciones": [
+              {
+                "valor": "ramas",
+                "etiqueta": "Ramas / poda leñosa",
+                "icono": "leaf"
+              },
+              {
+                "valor": "cesped",
+                "etiqueta": "Siega, césped, arbustos o similares",
+                "icono": "leaf"
+              },
+              {
+                "valor": "indeterminado",
+                "etiqueta": "Otro / no puede determinarse"
+              }
+            ]
+          },
+          {
+            "id": "ramas_contenedor",
+            "etiqueta": "¿Está depositado junto a los contenedores?",
+            "mostrarSi": [
+              {
+                "clase_poda": "ramas"
+              }
+            ],
+            "opciones": [
+              {
+                "valor": "si",
+                "etiqueta": "Sí"
+              },
+              {
+                "valor": "no",
+                "etiqueta": "No"
+              }
+            ]
+          },
+          {
+            "id": "ramas_troceado",
+            "etiqueta": "¿Está convenientemente troceado?",
+            "mostrarSi": [
+              {
+                "clase_poda": "ramas"
+              }
+            ],
+            "opciones": [
+              {
+                "valor": "si",
+                "etiqueta": "Sí"
+              },
+              {
+                "valor": "no",
+                "etiqueta": "No"
+              }
+            ]
+          },
+          {
+            "id": "ramas_hatillos",
+            "etiqueta": "¿Forma hatillos?",
+            "mostrarSi": [
+              {
+                "clase_poda": "ramas"
+              }
+            ],
+            "opciones": [
+              {
+                "valor": "si",
+                "etiqueta": "Sí"
+              },
+              {
+                "valor": "no",
+                "etiqueta": "No"
+              }
+            ]
+          },
+          {
+            "id": "ramas_longitud",
+            "etiqueta": "¿Cada hatillo tiene un máximo de 1 metro de longitud?",
+            "mostrarSi": [
+              {
+                "clase_poda": "ramas"
+              }
+            ],
+            "opciones": [
+              {
+                "valor": "si",
+                "etiqueta": "Sí"
+              },
+              {
+                "valor": "no",
+                "etiqueta": "No"
+              }
+            ]
+          },
+          {
+            "id": "ramas_diametro",
+            "etiqueta": "¿El diámetro es inferior a 50 cm?",
+            "mostrarSi": [
+              {
+                "clase_poda": "ramas"
+              }
+            ],
+            "opciones": [
+              {
+                "valor": "si",
+                "etiqueta": "Sí"
+              },
+              {
+                "valor": "no",
+                "etiqueta": "No"
+              }
+            ]
+          },
+          {
+            "id": "ramas_cantidad",
+            "etiqueta": "¿Hay un máximo de dos hatillos por vivienda y día?",
+            "mostrarSi": [
+              {
+                "clase_poda": "ramas"
+              }
+            ],
+            "opciones": [
+              {
+                "valor": "si",
+                "etiqueta": "Sí"
+              },
+              {
+                "valor": "no",
+                "etiqueta": "No"
+              }
+            ]
+          },
+          {
+            "id": "cesped_bolsas",
+            "etiqueta": "¿Está en bolsas resistentes?",
+            "mostrarSi": [
+              {
+                "clase_poda": "cesped"
+              }
+            ],
+            "opciones": [
+              {
+                "valor": "si",
+                "etiqueta": "Sí"
+              },
+              {
+                "valor": "no",
+                "etiqueta": "No"
+              }
+            ]
+          },
+          {
+            "id": "cesped_contenedor",
+            "etiqueta": "¿Las bolsas están junto a los contenedores?",
+            "mostrarSi": [
+              {
+                "clase_poda": "cesped"
+              }
+            ],
+            "opciones": [
+              {
+                "valor": "si",
+                "etiqueta": "Sí"
+              },
+              {
+                "valor": "no",
+                "etiqueta": "No"
+              }
+            ]
+          },
+          {
+            "id": "cesped_volumen",
+            "etiqueta": "¿Cada bolsa es de hasta 50 litros?",
+            "mostrarSi": [
+              {
+                "clase_poda": "cesped"
+              }
+            ],
+            "opciones": [
+              {
+                "valor": "si",
+                "etiqueta": "Sí"
+              },
+              {
+                "valor": "no",
+                "etiqueta": "No"
+              }
+            ]
+          },
+          {
+            "id": "cesped_cantidad",
+            "etiqueta": "¿Hay un máximo de dos bolsas por vivienda y día?",
+            "mostrarSi": [
+              {
+                "clase_poda": "cesped"
+              }
+            ],
+            "opciones": [
+              {
+                "valor": "si",
+                "etiqueta": "Sí"
+              },
+              {
+                "valor": "no",
+                "etiqueta": "No"
+              }
+            ]
+          },
+          {
+            "id": "limite_poda",
+            "etiqueta": "¿La cantidad supera claramente 1.000 litros o 25 kg?",
+            "ayuda": "Es un límite de referencia del régimen ordinario; no determina una sanción automática.",
+            "mostrarSi": [
+              {
+                "tipo": "poda"
+              }
+            ],
+            "opciones": [
+              {
+                "valor": "no",
+                "etiqueta": "No"
+              },
+              {
+                "valor": "si",
+                "etiqueta": "Sí"
+              },
+              {
+                "valor": "indeterminado",
+                "etiqueta": "No puede determinarse"
+              }
+            ]
+          },
+          {
+            "id": "lugar",
+            "etiqueta": "¿Dónde y cómo está depositado?",
+            "mostrarSi": [
+              {
+                "tipo": "muebles"
+              },
+              {
+                "tipo": "escombros"
+              },
+              {
+                "tipo": "otros"
+              },
+              {
+                "tipo": "peligroso"
+              }
+            ],
+            "opciones": [
+              {
+                "valor": "dentro",
+                "etiqueta": "Dentro del contenedor o punto habilitado"
+              },
+              {
+                "valor": "fuera",
+                "etiqueta": "Fuera del contenedor o punto habilitado"
+              },
+              {
+                "valor": "indeterminado",
+                "etiqueta": "No puede determinarse"
+              }
+            ]
+          },
+          {
+            "id": "cantidad",
+            "etiqueta": "Cantidad aproximada observada",
+            "mostrarSi": [
+              {
+                "tipo": "muebles"
+              },
+              {
+                "tipo": "escombros"
+              },
+              {
+                "tipo": "otros"
+              },
+              {
+                "tipo": "peligroso"
+              }
+            ],
+            "opciones": [
+              {
+                "valor": "pequena",
+                "etiqueta": "Una bolsa o cantidad reducida"
+              },
+              {
+                "valor": "voluminosa",
+                "etiqueta": "Varios bultos o volumen apreciable"
+              },
+              {
+                "valor": "indeterminado",
+                "etiqueta": "No puede estimarse"
+              }
+            ]
+          },
+          {
+            "id": "riesgo",
+            "etiqueta": "¿Se aprecia riesgo ambiental o sanitario observable?",
+            "mostrarSi": [
+              {
+                "tipo": "muebles"
+              },
+              {
+                "tipo": "escombros"
+              },
+              {
+                "tipo": "otros"
+              },
+              {
+                "tipo": "peligroso"
+              }
+            ],
+            "opciones": [
+              {
+                "valor": "si",
+                "etiqueta": "Sí, se aprecia riesgo observable",
+                "icono": "warning"
+              },
+              {
+                "valor": "no",
+                "etiqueta": "No se aprecia riesgo observable"
+              },
+              {
+                "valor": "indeterminado",
+                "etiqueta": "No puede determinarse"
               }
             ]
           }
@@ -3414,37 +4266,363 @@
         "salidas": [
           {
             "cuando": {
-              "hecho": "escasa"
+              "tipo": "indeterminado"
             },
-            "articulo": "23",
-            "calificacion": "LEVE",
-            "resultado": "Depósito incorrecto de entidad escasa.",
-            "sancion": "hasta 600 €"
+            "sinInfraccion": true,
+            "resultado": "Datos insuficientes para determinar la clasificación aplicable."
           },
           {
             "cuando": {
-              "hecho": "entidad"
+              "tipo": "poda",
+              "clase_poda": "indeterminado"
             },
-            "articulo": "22",
-            "calificacion": "GRAVE",
-            "resultado": "Cuantía o entidad mayor acreditada.",
-            "sancion": "601–900 €"
+            "sinInfraccion": true,
+            "resultado": "No se debe tratar automáticamente la poda como abandono. Identificar el tipo de resto y las condiciones del art. 11."
           },
           {
             "cuando": {
-              "hecho": "peligroso"
+              "tipo": "poda",
+              "clase_poda": "ramas",
+              "limite_poda": "si"
+            },
+            "sinInfraccion": true,
+            "resultado": "Cantidad fuera del régimen ordinario de residuo urbano previsto por esta Ordenanza. Valorar gestión o vía específica.",
+            "otraVia": "La superación de 1.000 litros o 25 kg es una referencia; no asigna por sí sola una infracción concreta."
+          },
+          {
+            "cuando": {
+              "tipo": "poda",
+              "clase_poda": "cesped",
+              "limite_poda": "si"
+            },
+            "sinInfraccion": true,
+            "resultado": "Cantidad fuera del régimen ordinario de residuo urbano previsto por esta Ordenanza. Valorar gestión o vía específica.",
+            "otraVia": "La superación de 1.000 litros o 25 kg es una referencia; no asigna por sí sola una infracción concreta."
+          },
+          {
+            "cuando": {
+              "tipo": "poda",
+              "clase_poda": "ramas",
+              "ramas_contenedor": "no"
+            },
+            "sinInfraccion": true,
+            "resultado": "Depósito de restos de poda fuera de las condiciones del art. 11. Continuar la valoración administrativa sin calificación automática."
+          },
+          {
+            "cuando": {
+              "tipo": "poda",
+              "clase_poda": "ramas",
+              "ramas_troceado": "no"
+            },
+            "sinInfraccion": true,
+            "resultado": "Depósito de restos de poda fuera de las condiciones del art. 11. Continuar la valoración administrativa sin calificación automática."
+          },
+          {
+            "cuando": {
+              "tipo": "poda",
+              "clase_poda": "ramas",
+              "ramas_hatillos": "no"
+            },
+            "sinInfraccion": true,
+            "resultado": "Depósito de restos de poda fuera de las condiciones del art. 11. Continuar la valoración administrativa sin calificación automática."
+          },
+          {
+            "cuando": {
+              "tipo": "poda",
+              "clase_poda": "ramas",
+              "ramas_longitud": "no"
+            },
+            "sinInfraccion": true,
+            "resultado": "Depósito de restos de poda fuera de las condiciones del art. 11: los hatillos superan 1 metro. Continuar la valoración administrativa sin calificación automática."
+          },
+          {
+            "cuando": {
+              "tipo": "poda",
+              "clase_poda": "ramas",
+              "ramas_diametro": "no"
+            },
+            "sinInfraccion": true,
+            "resultado": "Depósito de restos de poda fuera de las condiciones del art. 11: el diámetro no es inferior a 50 cm. Continuar la valoración administrativa sin calificación automática."
+          },
+          {
+            "cuando": {
+              "tipo": "poda",
+              "clase_poda": "ramas",
+              "ramas_cantidad": "no"
+            },
+            "sinInfraccion": true,
+            "resultado": "Depósito de restos de poda fuera de las condiciones del art. 11: supera dos hatillos por vivienda y día. Continuar la valoración administrativa sin calificación automática."
+          },
+          {
+            "cuando": {
+              "tipo": "poda",
+              "clase_poda": "ramas",
+              "ramas_contenedor": "si",
+              "ramas_troceado": "si",
+              "ramas_hatillos": "si",
+              "ramas_longitud": "si",
+              "ramas_diametro": "si",
+              "ramas_cantidad": "si",
+              "limite_poda": "no"
+            },
+            "sinInfraccion": true,
+            "resultado": "Entrega admitida por el servicio ordinario conforme al art. 11. No infracción por este hecho."
+          },
+          {
+            "cuando": {
+              "tipo": "poda",
+              "clase_poda": "ramas",
+              "ramas_contenedor": "si",
+              "ramas_troceado": "si",
+              "ramas_hatillos": "si",
+              "ramas_longitud": "si",
+              "ramas_diametro": "si",
+              "ramas_cantidad": "si",
+              "limite_poda": "indeterminado"
+            },
+            "sinInfraccion": true,
+            "resultado": "Las condiciones ordinarias de entrega de ramas y poda leñosa se cumplen. No infracción por este hecho."
+          },
+          {
+            "cuando": {
+              "tipo": "poda",
+              "clase_poda": "cesped",
+              "cesped_bolsas": "no"
+            },
+            "sinInfraccion": true,
+            "resultado": "Depósito de siega, césped o arbustos fuera de las condiciones del art. 11. Continuar la valoración administrativa sin calificación automática."
+          },
+          {
+            "cuando": {
+              "tipo": "poda",
+              "clase_poda": "cesped",
+              "cesped_contenedor": "no"
+            },
+            "sinInfraccion": true,
+            "resultado": "Depósito de siega, césped o arbustos fuera de las condiciones del art. 11. Continuar la valoración administrativa sin calificación automática."
+          },
+          {
+            "cuando": {
+              "tipo": "poda",
+              "clase_poda": "cesped",
+              "cesped_volumen": "no"
+            },
+            "sinInfraccion": true,
+            "resultado": "Depósito de siega, césped o arbustos fuera de las condiciones del art. 11: la bolsa supera 50 litros. Continuar la valoración administrativa sin calificación automática."
+          },
+          {
+            "cuando": {
+              "tipo": "poda",
+              "clase_poda": "cesped",
+              "cesped_cantidad": "no"
+            },
+            "sinInfraccion": true,
+            "resultado": "Depósito de siega, césped o arbustos fuera de las condiciones del art. 11: supera dos bolsas por vivienda y día. Continuar la valoración administrativa sin calificación automática."
+          },
+          {
+            "cuando": {
+              "tipo": "poda",
+              "clase_poda": "cesped",
+              "cesped_bolsas": "si",
+              "cesped_contenedor": "si",
+              "cesped_volumen": "si",
+              "cesped_cantidad": "si",
+              "limite_poda": "no"
+            },
+            "sinInfraccion": true,
+            "resultado": "Entrega admitida por el servicio ordinario conforme al art. 11. No infracción por este hecho."
+          },
+          {
+            "cuando": {
+              "tipo": "poda",
+              "clase_poda": "cesped",
+              "cesped_bolsas": "si",
+              "cesped_contenedor": "si",
+              "cesped_volumen": "si",
+              "cesped_cantidad": "si",
+              "limite_poda": "indeterminado"
+            },
+            "sinInfraccion": true,
+            "resultado": "Las condiciones ordinarias de entrega de siega, césped o arbustos se cumplen. No infracción por este hecho."
+          },
+          {
+            "cuando": {
+              "tipo": "peligroso",
+              "riesgo": "si"
             },
             "articulo": "24",
             "calificacion": "MUY GRAVE",
-            "resultado": "Residuo peligroso o grave peligro ambiental o sanitario acreditado.",
-            "sancion": "901–6.000 €"
+            "resultado": "Residuo potencialmente peligroso con riesgo ambiental o sanitario observable.",
+            "sancion": {
+              "tipo": "rango",
+              "texto": "901–6.000 €"
+            }
           },
           {
             "cuando": {
-              "hecho": "insuficiente"
+              "tipo": "muebles",
+              "riesgo": "si"
+            },
+            "articulo": "24",
+            "calificacion": "MUY GRAVE",
+            "resultado": "Riesgo ambiental o sanitario observable acreditado.",
+            "sancion": {
+              "tipo": "rango",
+              "texto": "901–6.000 €"
+            }
+          },
+          {
+            "cuando": {
+              "tipo": "escombros",
+              "riesgo": "si"
+            },
+            "articulo": "24",
+            "calificacion": "MUY GRAVE",
+            "resultado": "Riesgo ambiental o sanitario observable acreditado.",
+            "sancion": {
+              "tipo": "rango",
+              "texto": "901–6.000 €"
+            }
+          },
+          {
+            "cuando": {
+              "tipo": "otros",
+              "riesgo": "si"
+            },
+            "articulo": "24",
+            "calificacion": "MUY GRAVE",
+            "resultado": "Riesgo ambiental o sanitario observable acreditado.",
+            "sancion": {
+              "tipo": "rango",
+              "texto": "901–6.000 €"
+            }
+          },
+          {
+            "cuando": {
+              "lugar": "dentro",
+              "riesgo": "no"
             },
             "sinInfraccion": true,
-            "resultado": "Faltan datos observables para determinar la clasificación aplicable."
+            "resultado": "No se aprecia depósito incorrecto por este hecho al constar entrega en contenedor o punto habilitado."
+          },
+          {
+            "cuando": {
+              "tipo": "muebles",
+              "lugar": "fuera",
+              "cantidad": "pequena",
+              "riesgo": "no"
+            },
+            "articulo": "23",
+            "calificacion": "LEVE",
+            "resultado": "Depósito incorrecto de cantidad reducida.",
+            "sancion": {
+              "tipo": "maximo",
+              "texto": "600 €"
+            }
+          },
+          {
+            "cuando": {
+              "tipo": "escombros",
+              "lugar": "fuera",
+              "cantidad": "pequena",
+              "riesgo": "no"
+            },
+            "articulo": "23",
+            "calificacion": "LEVE",
+            "resultado": "Depósito incorrecto de cantidad reducida.",
+            "sancion": {
+              "tipo": "maximo",
+              "texto": "600 €"
+            }
+          },
+          {
+            "cuando": {
+              "tipo": "otros",
+              "lugar": "fuera",
+              "cantidad": "pequena",
+              "riesgo": "no"
+            },
+            "articulo": "23",
+            "calificacion": "LEVE",
+            "resultado": "Depósito incorrecto de cantidad reducida.",
+            "sancion": {
+              "tipo": "maximo",
+              "texto": "600 €"
+            }
+          },
+          {
+            "cuando": {
+              "tipo": "muebles",
+              "lugar": "fuera",
+              "cantidad": "voluminosa",
+              "riesgo": "no"
+            },
+            "articulo": "22",
+            "calificacion": "GRAVE",
+            "resultado": "Depósito fuera del punto habilitado con volumen apreciable.",
+            "sancion": {
+              "tipo": "rango",
+              "texto": "601–900 €"
+            }
+          },
+          {
+            "cuando": {
+              "tipo": "escombros",
+              "lugar": "fuera",
+              "cantidad": "voluminosa",
+              "riesgo": "no"
+            },
+            "articulo": "22",
+            "calificacion": "GRAVE",
+            "resultado": "Depósito fuera del punto habilitado con volumen apreciable.",
+            "sancion": {
+              "tipo": "rango",
+              "texto": "601–900 €"
+            }
+          },
+          {
+            "cuando": {
+              "tipo": "otros",
+              "lugar": "fuera",
+              "cantidad": "voluminosa",
+              "riesgo": "no"
+            },
+            "articulo": "22",
+            "calificacion": "GRAVE",
+            "resultado": "Depósito fuera del punto habilitado con volumen apreciable.",
+            "sancion": {
+              "tipo": "rango",
+              "texto": "601–900 €"
+            }
+          },
+          {
+            "cuando": {
+              "tipo": "peligroso",
+              "riesgo": "no"
+            },
+            "sinInfraccion": true,
+            "resultado": "Se ha identificado un residuo potencialmente peligroso, pero faltan datos para determinar una clasificación aplicable."
+          },
+          {
+            "cuando": {
+              "lugar": "indeterminado"
+            },
+            "sinInfraccion": true,
+            "resultado": "Datos insuficientes para determinar la clasificación aplicable."
+          },
+          {
+            "cuando": {
+              "cantidad": "indeterminado"
+            },
+            "sinInfraccion": true,
+            "resultado": "Datos insuficientes para determinar la clasificación aplicable."
+          },
+          {
+            "cuando": {
+              "riesgo": "indeterminado"
+            },
+            "sinInfraccion": true,
+            "resultado": "Datos insuficientes para determinar la clasificación aplicable."
           }
         ]
       }
