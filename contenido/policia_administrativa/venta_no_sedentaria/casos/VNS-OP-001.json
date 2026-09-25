@@ -1,0 +1,8 @@
+{
+  "id": "VNS-OP-001", "modulo": "policia_administrativa", "categoria": "policia_administrativa_venta_no_sedentaria",
+  "titulo": "Venta sin autorización / autorización caducada", "palabras_clave": ["venta", "autorización", "caducada", "puesto"],
+  "que_comprobar": ["Existe autorización municipal", "Está vigente", "Corresponde a esa modalidad y puesto"],
+  "resultado": "La Ordenanza califica esta conducta como infracción MUY GRAVE y prevé una multa de 401 a 700 €.", "norma": "Ordenanza VNS Torrent", "articulo": "39.4.b", "calificacion": "MUY GRAVE", "rango_min": 401, "rango_max": 700,
+  "actuacion": ["Formular denuncia municipal.", "Ordenar el cese inmediato de la actividad (art. 40.4)."], "competencia_denuncia": "Policía Local de Torrent.", "competencia_resuelve": "Ayuntamiento de Torrent.", "advertencias": [], "alerta_penal": false, "fuentes": ["VNS-TORRENT"], "estado": "validado",
+  "datos_adicionales": {"venta_no_sedentaria": {"grupo": "Autorización y condiciones del puesto", "orden": 10}}
+}

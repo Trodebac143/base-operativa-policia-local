@@ -1,0 +1,20 @@
+.vns-category .sectionhead { margin-bottom: 1.2rem; }
+.vns-group { margin: 1.25rem 0; }
+.vns-group h3, .vns-sheet h3 { color: var(--accent, #1e6373); font-size: .76rem; letter-spacing: .08em; margin: 0 0 .65rem; text-transform: uppercase; }
+.vns-group > div { display: grid; gap: .55rem; }
+.vns-group button { align-items: center; background: #fff; border: 1px solid #d8e3e5; border-radius: .8rem; display: flex; justify-content: space-between; padding: .9rem 1rem; text-align: left; }
+.vns-group button strong { font-size: .95rem; }
+.vns-group button b { color: #1e6373; font-size: 1.35rem; }
+.vns-sheet { display: grid; gap: .8rem; }
+.vns-sheet > section { background: #fff; border: 1px solid #d8e3e5; border-radius: .8rem; padding: 1rem; }
+.vns-sheet ul { margin: 0; padding-left: 1.1rem; }
+.vns-sheet li + li { margin-top: .35rem; }
+.vns-sheet p { margin: .25rem 0; }
+.vns-facts fieldset { border: 0; margin: .7rem 0 0; padding: 0; }
+.vns-facts legend { font-weight: 650; margin-bottom: .45rem; }
+.vns-facts fieldset > div { display: grid; gap: .45rem; }
+.vns-facts button { background: #f7fafb; border: 1px solid #c8d8db; border-radius: .55rem; padding: .65rem; text-align: left; }
+.vns-facts button.selected { background: #dff2ee; border-color: #14755f; color: #075846; }
+.vns-warning { border-left: 4px solid #d68117 !important; }
+.vns-sources { margin: 0; }
+@media (min-width: 720px) { .vns-group > div { grid-template-columns: repeat(2, minmax(0, 1fr)); } .vns-sheet { grid-template-columns: repeat(2, minmax(0, 1fr)); } .vns-sheet > .sheettitle, .vns-sheet > section:first-of-type, .vns-sheet > .vns-facts, .vns-sheet > .vns-sources { grid-column: 1 / -1; } }

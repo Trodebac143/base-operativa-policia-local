@@ -11,6 +11,7 @@ const caseDirectories = [
   "contenido/seguridad_vial/seguro/casos",
   "contenido/seguridad_vial/permisos/casos",
   "contenido/policia_administrativa/terrazas/casos",
+  "contenido/policia_administrativa/venta_no_sedentaria/casos",
 ];
 
 test("cada caso editable vive en un único archivo y el índice generado los conserva", async () => {

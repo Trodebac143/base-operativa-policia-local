@@ -1,0 +1,8 @@
+{
+  "id": "VNS-OP-002", "modulo": "policia_administrativa", "categoria": "policia_administrativa_venta_no_sedentaria",
+  "titulo": "Autorización no visible", "palabras_clave": ["autorización", "visible", "expuesta"],
+  "que_comprobar": ["Existe autorización", "Está vigente", "No está expuesta de forma visible"],
+  "resultado": "La Ordenanza califica esta conducta como infracción LEVE y prevé una multa de 75 a 200 €.", "norma": "Ordenanza VNS Torrent", "articulo": "39.2.a", "calificacion": "LEVE", "rango_min": 75, "rango_max": 200,
+  "actuacion": ["Formular denuncia municipal."], "competencia_denuncia": "Policía Local de Torrent.", "competencia_resuelve": "Ayuntamiento de Torrent.", "advertencias": [], "alerta_penal": false, "fuentes": ["VNS-TORRENT"], "estado": "validado",
+  "datos_adicionales": {"venta_no_sedentaria": {"grupo": "Autorización y condiciones del puesto", "orden": 20}}
+}

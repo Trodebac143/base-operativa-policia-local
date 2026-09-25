@@ -1,0 +1,9 @@
+{
+  "norma": "Ordenanza VNS Torrent",
+  "articulo": "40",
+  "rangos": {
+    "LEVE": "Apercibimiento; multa de 75 a 200 €; o suspensión de la autorización hasta tres meses.",
+    "GRAVE": "Multa de 201 a 400 €; o suspensión entre tres meses y un día y seis meses.",
+    "MUY GRAVE": "Multa de 401 a 700 €; suspensión entre seis meses y un día y un año; o revocación definitiva y cese."
+  }
+}
