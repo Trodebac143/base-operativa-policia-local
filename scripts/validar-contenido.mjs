@@ -78,6 +78,7 @@ const seguridadPublica = load("contenido/seguridad_publica/operativa.json");
 const vmpGuide = load("contenido/seguridad_vial/vmp/guia.json");
 const alcoholemia = load("contenido/seguridad_vial/alcoholemia.json");
 const establecimientos = load("contenido/policia_administrativa/establecimientos/inspeccion.json");
+const urbanismo = load("contenido/policia_administrativa/urbanismo/inspeccion.json");
 const vnsRegimen = load("contenido/policia_administrativa/venta_no_sedentaria/regimen_sancionador.json");
 
 const moduleIds = duplicateIds(modules, "Módulos");
@@ -163,6 +164,7 @@ for (const [label, value] of [
   ["Policía Administrativa/Venta no sedentaria", ventaNoSedentaria],
   ["Policía Administrativa/Convivencia", convivencia],
   ["Policía Administrativa/Establecimientos públicos", establecimientos],
+  ["Policía Administrativa/Urbanismo", urbanismo],
   ["Reglas comunes", rules],
   ["Reglas de permisos", permisosRules],
   ["Fichas de permisos", permisosSheets],
@@ -257,6 +259,33 @@ for (const item of seguro.filter((candidate) => ["TR-SOA-OP-001", "TR-SOA-OP-002
     if (vehicles.has(variant.tipo_vehiculo)) errors.push(`${item.id}: tipo de vehículo duplicado ${variant.tipo_vehiculo}`);
     codes.add(variant.codificado); vehicles.add(variant.tipo_vehiculo);
   }
+}
+
+if (!urbanismo || Array.isArray(urbanismo) || typeof urbanismo !== "object") errors.push("Urbanismo: estructura de asistente no válida");
+else {
+  if (urbanismo.categoria !== "policia_administrativa_urbanismo" || !categoryIds.has(urbanismo.categoria)) errors.push("Urbanismo: categoría no enlazada al ID existente");
+  if (!Array.isArray(urbanismo.fuentes) || urbanismo.fuentes.length < 6) errors.push("Urbanismo: deben constar las fuentes centrales requeridas");
+  if (!Array.isArray(urbanismo.palabras_clave) || urbanismo.palabras_clave.length < 10) errors.push("Urbanismo: faltan términos de búsqueda operativa");
+  if (!Array.isArray(urbanismo.checklist) || !urbanismo.checklist.length) errors.push("Urbanismo: falta el checklist común de documentación");
+  if (!Array.isArray(urbanismo.rutas) || urbanismo.rutas.length !== 5) errors.push("Urbanismo: deben existir exactamente cinco rutas guiadas");
+  else {
+    duplicateIds(urbanismo.rutas, "Rutas de Urbanismo");
+    const expectedRoutes = ["obras_ejecucion", "via_publica", "riesgo", "queja", "orden_previa"];
+    if (JSON.stringify(urbanismo.rutas.map((route) => route.id)) !== JSON.stringify(expectedRoutes)) errors.push("Urbanismo: las cinco rutas no mantienen el orden operativo previsto");
+    for (const route of urbanismo.rutas) {
+      for (const field of ["icono", "titulo", "objetivo"]) if (!route[field]) errors.push(`Urbanismo/${route.id ?? "sin id"}: falta ${field}`);
+      if (!Array.isArray(route.preguntas) || !route.preguntas.length) errors.push(`Urbanismo/${route.id}: faltan preguntas observables`);
+      else {
+        duplicateIds(route.preguntas, `Preguntas Urbanismo/${route.id}`);
+        for (const question of route.preguntas) {
+          if (!question.etiqueta || !["opcion", "multiple"].includes(question.tipo) || !Array.isArray(question.opciones) || !question.opciones.length) errors.push(`Urbanismo/${route.id}/${question.id ?? "sin id"}: pregunta cerrada incompleta`);
+        }
+      }
+      if (!route.salidas || Array.isArray(route.salidas) || typeof route.salidas !== "object" || !Object.keys(route.salidas).length) errors.push(`Urbanismo/${route.id}: faltan salidas operativas`);
+    }
+  }
+  if (/PARALIZAR OBRA/.test(JSON.stringify(urbanismo))) errors.push("Urbanismo: no puede existir una orden genérica PARALIZAR OBRA");
+  if (/obra ilegal/i.test(JSON.stringify(urbanismo.rutas.flatMap((route) => Object.values(route.salidas ?? {}))))) errors.push("Urbanismo: una salida no puede calificar automáticamente la obra como ilegal");
 }
 
 const expectedVnsIds = Array.from({ length: 14 }, (_, index) => `VNS-OP-${String(index + 1).padStart(3, "0")}`);
@@ -400,6 +429,7 @@ notes.push(`${[...sourceReferenceUsage.values()].filter(Boolean).length} fuentes
 notes.push(`Seguridad Pública: ${seguridadPublica?.conceptos?.length ?? 0} conceptos operativos`);
 notes.push(`VMP/VPL: ${vmpGuide?.areas?.length ?? 0} áreas operativas · ${vmpGuide?.casos_practicos?.length ?? 0} casos prácticos · ${vmpGuide?.circulacion?.infracciones?.length ?? 0} reglas de circulación`);
 notes.push(`Establecimientos públicos: ${establecimientos?.controles?.length ?? 0} controles de inspección`);
+notes.push(`Urbanismo: ${urbanismo?.rutas?.length ?? 0} rutas guiadas`);
 
 if (errors.length) {
   console.error("\n❌ CONTENIDO NO VÁLIDO\n");

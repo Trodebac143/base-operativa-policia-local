@@ -1,0 +1,411 @@
+{
+  "id": "PA-URB-ASISTENTE",
+  "categoria": "policia_administrativa_urbanismo",
+  "titulo": "Intervención policial en incidencias urbanísticas",
+  "descripcion": "Asistente para observar, comprobar, documentar y actuar ante incidencias urbanísticas sin sustituir la valoración técnica municipal.",
+  "principios": [
+    "Describe lo que observas.",
+    "Comprueba lo que pueda acreditarse.",
+    "Documenta la situación.",
+    "Actúa ante riesgos inmediatos.",
+    "La valoración técnica de la legalidad urbanística corresponde a Urbanismo."
+  ],
+  "palabras_clave": [
+    "urbanismo",
+    "obra",
+    "obras",
+    "obra ilegal",
+    "sin licencia",
+    "licencia",
+    "declaración responsable",
+    "andamio",
+    "contenedor",
+    "zanja",
+    "excavación",
+    "precinto",
+    "paralización",
+    "fachada",
+    "desprendimiento",
+    "queja obra"
+  ],
+  "fuentes": [
+    "PA-URB-SRC-TRLOTUP",
+    "PA-URB-SRC-DR-OBRAS-TORRENT",
+    "PA-URB-SRC-LICENCIA-EDIFICACION-TORRENT",
+    "PA-URB-SRC-OCUPACION-VIA-PUBLICA-TORRENT",
+    "PA-URB-SRC-DOMINIO-PUBLICO-TORRENT",
+    "PA-URB-SRC-ZANJAS-CALAS-TORRENT"
+  ],
+  "checklist": [
+    "Dirección/localización exacta.",
+    "Inmueble, parcela o zona concreta.",
+    "Qué actuación se observa.",
+    "Estado de ejecución.",
+    "Fecha y hora.",
+    "Personas relacionadas identificadas cuando proceda.",
+    "Empresa, maquinaria o cartelería visible cuando sea relevante.",
+    "Documentación exhibida o manifestada.",
+    "Afección a acera, calzada, peatones o tráfico.",
+    "Riesgos observados.",
+    "Fotografías generales y de detalle.",
+    "Manifestaciones relevantes."
+  ],
+  "rutas": [
+    {
+      "id": "obras_ejecucion",
+      "icono": "🏗️",
+      "titulo": "Obras en ejecución",
+      "objetivo": "Recoger hechos objetivos sin decidir en calle la legalidad urbanística.",
+      "preguntas": [
+        {
+          "id": "tipo_actuacion",
+          "etiqueta": "¿Qué tipo de actuación observas?",
+          "tipo": "opcion",
+          "opciones": [
+            { "valor": "reforma_interior", "etiqueta": "Reforma interior" },
+            { "valor": "fachada_exterior", "etiqueta": "Fachada/exterior" },
+            { "valor": "ampliacion_construccion", "etiqueta": "Ampliación o nueva construcción" },
+            { "valor": "demolicion", "etiqueta": "Demolición" },
+            { "valor": "vallado_muro", "etiqueta": "Vallado/muro" },
+            { "valor": "tierras_excavacion", "etiqueta": "Movimiento de tierras/excavación" },
+            { "valor": "otra", "etiqueta": "Otra actuación" }
+          ]
+        },
+        {
+          "id": "trabajos_actuales",
+          "etiqueta": "¿Se están realizando trabajos actualmente?",
+          "tipo": "opcion",
+          "opciones": [
+            { "valor": "si", "etiqueta": "Sí" },
+            { "valor": "no", "etiqueta": "No" }
+          ]
+        },
+        {
+          "id": "personas_relacionadas",
+          "etiqueta": "¿Hay alguna persona relacionada con la obra en el lugar?",
+          "tipo": "multiple",
+          "opciones": [
+            { "valor": "propietario_promotor", "etiqueta": "Propietario/promotor" },
+            { "valor": "encargado_empresa", "etiqueta": "Encargado/empresa" },
+            { "valor": "trabajadores", "etiqueta": "Trabajadores" },
+            { "valor": "otra", "etiqueta": "Otra persona relacionada" },
+            { "valor": "nadie", "etiqueta": "Nadie localizable" }
+          ]
+        },
+        {
+          "id": "documentacion_municipal",
+          "etiqueta": "¿Se acredita o puede comprobarse algún título o documentación municipal relacionado con las obras?",
+          "tipo": "opcion",
+          "opciones": [
+            { "valor": "si", "etiqueta": "Sí" },
+            { "valor": "no", "etiqueta": "No" },
+            { "valor": "no_comprobable", "etiqueta": "No puede comprobarse en el lugar" }
+          ],
+          "ayuda": "La ausencia de documentación en el lugar no determina por sí sola que la obra sea ilegal. Puede estar sometida a licencia, declaración responsable u otro régimen."
+        },
+        {
+          "id": "problemas_adicionales",
+          "etiqueta": "¿Existe además alguno de estos problemas?",
+          "tipo": "multiple",
+          "opciones": [
+            { "valor": "via_publica", "etiqueta": "Afección a vía pública" },
+            { "valor": "riesgo", "etiqueta": "Riesgo para personas/bienes" },
+            { "valor": "orden_previa", "etiqueta": "Consta orden previa de paralización/precinto" },
+            { "valor": "ninguno", "etiqueta": "Ninguno" }
+          ]
+        }
+      ],
+      "salidas": {
+        "actuacion": [
+          "Precisar ubicación exacta y parte del inmueble o parcela afectada.",
+          "Describir objetivamente los trabajos observados y su estado de ejecución.",
+          "Identificar, cuando proceda, a las personas relacionadas que se encuentren en el lugar.",
+          "Hacer constar qué documentación se exhibe, se manifiesta poseer o no puede comprobarse.",
+          "Realizar fotografías generales y de detalle suficientes para una valoración posterior.",
+          "Remitir la actuación al departamento competente de Urbanismo cuando sea necesaria la comprobación de la legalidad o adecuación de las obras."
+        ],
+        "aviso": "NO CALIFICAR EN CALLE LA LEGALIDAD URBANÍSTICA CUANDO REQUIERA VALORACIÓN TÉCNICA."
+      }
+    },
+    {
+      "id": "via_publica",
+      "icono": "🚧",
+      "titulo": "Obras que afectan a la vía pública",
+      "objetivo": "Separar la comprobación administrativa de la seguridad inmediata de peatones y tráfico.",
+      "preguntas": [
+        {
+          "id": "elementos_via",
+          "etiqueta": "¿Qué afecta al espacio público?",
+          "tipo": "multiple",
+          "opciones": [
+            { "valor": "andamio", "etiqueta": "Andamio" },
+            { "valor": "contenedor", "etiqueta": "Contenedor" },
+            { "valor": "materiales", "etiqueta": "Materiales/acopios" },
+            { "valor": "maquinaria", "etiqueta": "Maquinaria" },
+            { "valor": "zanja", "etiqueta": "Zanja/cala/excavación" },
+            { "valor": "vallado", "etiqueta": "Vallado" },
+            { "valor": "acera", "etiqueta": "Ocupación de acera" },
+            { "valor": "calzada", "etiqueta": "Ocupación/corte de calzada" },
+            { "valor": "auxiliar", "etiqueta": "Instalación auxiliar" },
+            { "valor": "otro", "etiqueta": "Otro" }
+          ]
+        },
+        {
+          "id": "paso_peatonal",
+          "etiqueta": "¿Existe paso peatonal seguro?",
+          "tipo": "opcion",
+          "opciones": [
+            { "valor": "si", "etiqueta": "Sí" },
+            { "valor": "no", "etiqueta": "No" },
+            { "valor": "no_procede", "etiqueta": "No procede" }
+          ]
+        },
+        {
+          "id": "afeccion_trafico",
+          "etiqueta": "¿Existe afección al tráfico?",
+          "tipo": "opcion",
+          "opciones": [
+            { "valor": "si", "etiqueta": "Sí" },
+            { "valor": "no", "etiqueta": "No" }
+          ]
+        },
+        {
+          "id": "proteccion",
+          "etiqueta": "¿La zona está suficientemente señalizada o protegida?",
+          "tipo": "opcion",
+          "opciones": [
+            { "valor": "si", "etiqueta": "Sí" },
+            { "valor": "no", "etiqueta": "No" },
+            { "valor": "no_procede", "etiqueta": "No procede" }
+          ]
+        },
+        {
+          "id": "autorizacion_ocupacion",
+          "etiqueta": "¿Se acredita o puede comprobarse autorización o título municipal para la ocupación o actuación?",
+          "tipo": "opcion",
+          "opciones": [
+            { "valor": "si", "etiqueta": "Sí" },
+            { "valor": "no", "etiqueta": "No" },
+            { "valor": "no_comprobable", "etiqueta": "No puede comprobarse en el lugar" }
+          ],
+          "ayuda": "Esta respuesta no determina por sí sola que la ocupación sea ilegal."
+        }
+      ],
+      "salidas": {
+        "administrativa": [
+          "Identificar y describir la ocupación.",
+          "Documentar elementos, dimensiones aproximadas observables y afección.",
+          "Comprobar la documentación cuando sea posible.",
+          "Realizar fotografías generales y de detalle.",
+          "Remitir al departamento competente cuando sea necesaria una comprobación administrativa."
+        ],
+        "seguridad": [
+          "Adoptar las medidas policiales necesarias para eliminar o reducir el riesgo inmediato.",
+          "Garantizar la seguridad de peatones y tráfico sin esperar a la valoración urbanística de la obra."
+        ]
+      }
+    },
+    {
+      "id": "riesgo",
+      "icono": "⚠️",
+      "titulo": "Riesgo para personas o bienes",
+      "objetivo": "Priorizar la seguridad sin realizar diagnósticos arquitectónicos.",
+      "preguntas": [
+        {
+          "id": "riesgos_observados",
+          "etiqueta": "¿Qué se observa?",
+          "tipo": "multiple",
+          "opciones": [
+            { "valor": "desprendimientos", "etiqueta": "Desprendimientos" },
+            { "valor": "caida", "etiqueta": "Elementos con riesgo de caída" },
+            { "valor": "fachada", "etiqueta": "Fachada/balcón/cornisa deteriorados" },
+            { "valor": "muro", "etiqueta": "Muro/cerramiento aparentemente inestable" },
+            { "valor": "hueco", "etiqueta": "Excavación/hueco accesible" },
+            { "valor": "sin_proteccion", "etiqueta": "Obra sin protección suficiente" },
+            { "valor": "otro", "etiqueta": "Otro riesgo observable" }
+          ]
+        },
+        {
+          "id": "riesgo_inmediato",
+          "etiqueta": "¿Existe riesgo inmediato para personas, tráfico o bienes?",
+          "tipo": "opcion",
+          "opciones": [
+            { "valor": "si", "etiqueta": "Sí" },
+            { "valor": "no", "etiqueta": "No" },
+            { "valor": "indeterminado", "etiqueta": "No puede determinarse con seguridad" }
+          ]
+        }
+      ],
+      "salidas": {
+        "inmediata": [
+          "Proteger a las personas.",
+          "Delimitar o impedir el acceso a la zona cuando resulte necesario.",
+          "Adoptar las medidas necesarias sobre tráfico o espacio público.",
+          "Solicitar los servicios municipales, técnicos o de emergencia que correspondan.",
+          "Documentar la situación observada.",
+          "Comunicar la incidencia al órgano competente."
+        ],
+        "no_inmediata": [
+          "Identificar el inmueble o lugar.",
+          "Describir los hechos observados sin diagnósticos técnicos.",
+          "Realizar fotografías generales y de detalle.",
+          "Remitir a los servicios municipales competentes para valoración."
+        ],
+        "indeterminada": [
+          "Mantener una zona de seguridad proporcionada cuando los hechos lo aconsejen.",
+          "Solicitar valoración de los servicios municipales, técnicos o de emergencia que correspondan.",
+          "Describir únicamente los signos observables y documentarlos.",
+          "No afirmar ruina ni riesgo estructural sin valoración técnica."
+        ]
+      }
+    },
+    {
+      "id": "queja",
+      "icono": "📞",
+      "titulo": "Queja o aviso por posible obra irregular",
+      "objetivo": "Diferenciar lo manifestado por el requirente de lo comprobado por la patrulla.",
+      "aviso_inicial": "Una manifestación del requirente no equivale a un hecho comprobado por la patrulla.",
+      "preguntas": [
+        {
+          "id": "comprobacion_directa",
+          "etiqueta": "¿Puede comprobarse directamente alguna actuación desde un lugar al que la patrulla tenga acceso legítimo?",
+          "tipo": "opcion",
+          "opciones": [
+            { "valor": "si", "etiqueta": "Sí" },
+            { "valor": "no", "etiqueta": "No" }
+          ]
+        },
+        {
+          "id": "actuacion_observada",
+          "etiqueta": "¿Qué actuación se observa directamente?",
+          "tipo": "opcion",
+          "mostrar_si": { "campo": "comprobacion_directa", "igual": "si" },
+          "opciones": [
+            { "valor": "reforma_interior", "etiqueta": "Reforma interior" },
+            { "valor": "fachada_exterior", "etiqueta": "Fachada/exterior" },
+            { "valor": "ampliacion_construccion", "etiqueta": "Ampliación o nueva construcción" },
+            { "valor": "demolicion", "etiqueta": "Demolición" },
+            { "valor": "vallado_muro", "etiqueta": "Vallado/muro" },
+            { "valor": "tierras_excavacion", "etiqueta": "Movimiento de tierras/excavación" },
+            { "valor": "otra", "etiqueta": "Otra actuación" }
+          ]
+        }
+      ],
+      "salidas": {
+        "no_comprobada": [
+          "Precisar el inmueble, parcela o local afectado.",
+          "Recoger de forma concreta los hechos denunciados por el requirente.",
+          "Recoger, en su caso, documentación o imágenes aportadas voluntariamente.",
+          "Hacer constar expresamente que la actuación denunciada no ha podido ser comprobada directamente por la patrulla.",
+          "Remitir la incidencia a Urbanismo para comprobación."
+        ],
+        "comprobada": [
+          "Separar expresamente lo manifestado por el requirente de lo observado directamente por los agentes.",
+          "Documentar solo los hechos accesibles y comprobados legítimamente.",
+          "Continuar, si resulta útil, por la ruta Obras en ejecución."
+        ],
+        "aviso": "No atribuir falsedad, ilegalidad ni falta de licencia a hechos que no hayan sido comprobados."
+      }
+    },
+    {
+      "id": "orden_previa",
+      "icono": "🔒",
+      "titulo": "Obra con orden de paralización o precinto",
+      "objetivo": "Documentar el posible incumplimiento de una orden previa sin decidir automáticamente consecuencias penales.",
+      "preguntas": [
+        {
+          "id": "consta_orden",
+          "etiqueta": "¿Consta realmente una orden administrativa previa de suspensión, paralización, restauración o un precinto?",
+          "tipo": "opcion",
+          "opciones": [
+            { "valor": "si", "etiqueta": "Sí" },
+            { "valor": "no", "etiqueta": "No" },
+            { "valor": "no_comprobable", "etiqueta": "No puede comprobarse" }
+          ]
+        },
+        {
+          "id": "trabajos_actuales",
+          "etiqueta": "¿Se están realizando trabajos actualmente?",
+          "tipo": "opcion",
+          "mostrar_si": { "campo": "consta_orden", "igual": "si" },
+          "opciones": [
+            { "valor": "si", "etiqueta": "Sí" },
+            { "valor": "no", "etiqueta": "No" }
+          ]
+        },
+        {
+          "id": "afecta_orden",
+          "etiqueta": "¿Los trabajos observados afectan aparentemente al lugar o actuación objeto de la orden?",
+          "tipo": "opcion",
+          "mostrar_si": { "campo": "trabajos_actuales", "igual": "si" },
+          "opciones": [
+            { "valor": "si", "etiqueta": "Sí" },
+            { "valor": "no", "etiqueta": "No" },
+            { "valor": "indeterminado", "etiqueta": "No puede determinarse" }
+          ]
+        },
+        {
+          "id": "existe_precinto",
+          "etiqueta": "¿Existe precinto?",
+          "tipo": "opcion",
+          "mostrar_si": { "campo": "consta_orden", "igual": "si" },
+          "opciones": [
+            { "valor": "si", "etiqueta": "Sí" },
+            { "valor": "no", "etiqueta": "No" }
+          ]
+        },
+        {
+          "id": "estado_precinto",
+          "etiqueta": "¿Cuál es su estado observable?",
+          "tipo": "opcion",
+          "mostrar_si": { "campo": "existe_precinto", "igual": "si" },
+          "opciones": [
+            { "valor": "intacto", "etiqueta": "Intacto" },
+            { "valor": "roto", "etiqueta": "Roto/manipulado" },
+            { "valor": "indeterminado", "etiqueta": "No puede determinarse" }
+          ]
+        },
+        {
+          "id": "personas_trabajos",
+          "etiqueta": "¿Hay personas realizando o dirigiendo trabajos?",
+          "tipo": "opcion",
+          "mostrar_si": { "campo": "trabajos_actuales", "igual": "si" },
+          "opciones": [
+            { "valor": "si", "etiqueta": "Sí" },
+            { "valor": "no", "etiqueta": "No" }
+          ]
+        }
+      ],
+      "salidas": {
+        "sin_orden": [
+          "No tratar el supuesto como incumplimiento de una orden previa.",
+          "Documentar únicamente lo observado y continuar, si procede, por Obras en ejecución."
+        ],
+        "posible_incumplimiento": [
+          "Comprobar la existencia y, cuando sea posible, el alcance de la resolución u orden.",
+          "Describir exactamente los trabajos observados.",
+          "Identificar a las personas que los realizan o dirigen cuando proceda.",
+          "Documentar fotográficamente el estado de las obras y del precinto, cuando exista.",
+          "Hacer constar las manifestaciones relevantes.",
+          "Comunicar el posible incumplimiento al órgano municipal competente.",
+          "Actuar de acuerdo con el contenido concreto de la resolución y las instrucciones que correspondan."
+        ],
+        "sin_actividad": [
+          "Documentar que no se observan trabajos en ejecución en el momento de la comprobación.",
+          "Documentar el estado del precinto, cuando exista.",
+          "No afirmar un incumplimiento que no se observa."
+        ],
+        "alcance_indeterminado": [
+          "Documentar los trabajos observados y la orden que consta.",
+          "No afirmar que los trabajos incumplen la orden si su alcance no puede determinarse.",
+          "Comunicar la actuación al órgano municipal competente para comprobación."
+        ],
+        "precinto_alterado": [
+          "Documentar con detalle el estado observable del precinto y comunicarlo al órgano competente.",
+          "No generar automáticamente delito, detención ni una nueva orden policial de paralización."
+        ],
+        "aviso": "No crear automáticamente delito de desobediencia, quebrantamiento, detención, demolición ni una nueva orden policial autónoma de paralización."
+      }
+    }
+  ]
+}

@@ -150,6 +150,7 @@
     "id": "policia_administrativa_urbanismo",
     "modulo": "policia_administrativa",
     "nombre": "🏗️ Urbanismo",
+    "descripcion": "Asistente policial para observar, comprobar, documentar y actuar ante incidencias urbanísticas.",
     "orden": 10,
     "activo": true
   },

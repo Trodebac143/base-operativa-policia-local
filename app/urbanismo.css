@@ -1,0 +1,59 @@
+.urbanismo-view{display:grid;gap:16px;max-width:920px;margin:0 auto}
+.urbanismo-heading{scroll-margin-top:12px}
+.urbanismo-heading h2{margin:7px 0 5px;color:var(--navy);font-size:clamp(1.65rem,5vw,2.2rem)}
+.urbanismo-heading p{margin:0;color:var(--muted);line-height:1.5}
+.urbanismo-principle{display:grid;gap:5px;border:1px solid #b9d1e2;border-left:5px solid var(--blue);border-radius:12px;background:#f4f9fc;padding:15px 17px}
+.urbanismo-principle p{margin:0;color:#3f5c70;font-size:.86rem;line-height:1.4}
+.urbanismo-principle .technical-boundary{margin-top:5px;border-top:1px solid #ccdde8;padding-top:9px;color:var(--navy);font-weight:850}
+.urbanismo-menu{display:grid;gap:11px}
+.urbanismo-menu h3{margin:0;color:var(--navy);font-size:1.08rem}
+.urbanismo-menu>div{display:grid;gap:9px}
+.urbanismo-menu button{min-height:62px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;border:1px solid #c8d6df;border-radius:12px;background:#fff;padding:13px 15px;text-align:left;color:var(--navy);box-shadow:0 3px 12px #19364c0b;cursor:pointer}
+.urbanismo-menu button:hover{border-color:#7faac6;background:#f8fbfd}
+.urbanismo-menu button>span{font-size:1.55rem}
+.urbanismo-menu button>b:last-child{color:#688599;font-size:1.35rem}
+.urbanismo-route-back{justify-self:start;border:0;background:transparent;color:#315d7b;padding:3px 0;font-size:.8rem;font-weight:800;cursor:pointer}
+.urbanismo-route{border:1px solid #c7d7e1;border-radius:13px;background:#fff;box-shadow:0 5px 18px #19364c10;overflow:hidden}
+.urbanismo-route>header{display:grid;grid-template-columns:auto 1fr;gap:12px;background:#edf5f9;padding:16px}
+.urbanismo-route>header>span{font-size:1.65rem}
+.urbanismo-route small,.urbanismo-result small{color:#4c728b;font-size:.64rem;font-weight:900;letter-spacing:.08em}
+.urbanismo-route h3{margin:3px 0;color:var(--navy);font-size:1.16rem}
+.urbanismo-route header p{margin:0;color:#536b7a;font-size:.82rem;line-height:1.42}
+.urbanismo-callout{margin:14px 14px 0;border-left:4px solid #b87925;border-radius:8px;background:#fff7e8;padding:11px 13px;color:#66480f;font-size:.82rem;font-weight:800;line-height:1.45}
+.urbanismo-questions{display:grid;padding:3px 15px 4px}
+.urbanismo-question{display:grid;gap:9px;margin:0;border:0;border-top:1px solid #e3e9ed;padding:15px 0}
+.urbanismo-question:first-child{border-top:0}
+.urbanismo-question legend{display:flex;align-items:flex-start;gap:8px;padding:0;color:#2d485a;font-size:.88rem;font-weight:800;line-height:1.35}
+.urbanismo-question legend span{flex:0 0 22px;height:22px;display:grid;place-items:center;border-radius:50%;background:#e6eef3;color:#4c6879;font-size:.66rem}
+.urbanismo-question>p{margin:0;border-radius:8px;background:#f5f7f8;padding:9px 11px;color:#596b76;font-size:.76rem;line-height:1.45}
+.urbanismo-options{display:grid;gap:7px}
+.urbanismo-options button{min-height:44px;display:flex;align-items:center;gap:8px;border:1px solid #c7d3dc;border-radius:9px;background:#fff;padding:10px 12px;color:#3c5668;text-align:left;font-size:.8rem;cursor:pointer}
+.urbanismo-options button.selected{border-color:#2b739f;background:#eaf4fa;color:#153f5a;font-weight:850;box-shadow:inset 3px 0 0 #2b739f}
+.urbanismo-options.multiple button>span{flex:0 0 20px;height:20px;display:grid;place-items:center;border:1px solid #aabcc8;border-radius:5px;color:#fff;font-size:.7rem}
+.urbanismo-options.multiple button.selected>span{border-color:#2b739f;background:#2b739f}
+.urbanismo-resolve{display:grid;gap:7px;border-top:1px solid #dfe7ec;background:#f8fafb;padding:14px 15px}
+.urbanismo-resolve button{min-height:48px;border:0;border-radius:9px;background:var(--navy);color:#fff;font-weight:850;cursor:pointer}
+.urbanismo-resolve button:disabled{background:#aebbc4;cursor:not-allowed}
+.urbanismo-resolve span{color:#6a7b86;text-align:center;font-size:.7rem}
+.urbanismo-result{display:grid;gap:12px;scroll-margin-top:12px;border:1px solid #98b8cb;border-radius:13px;background:#f8fbfd;padding:15px}
+.urbanismo-result.tone-priority{border-color:#d28f83;background:#fff8f6;box-shadow:inset 4px 0 0 #b5483b}
+.urbanismo-result.tone-warning{border-color:#d5b36f;background:#fffbf1;box-shadow:inset 4px 0 0 #b77c1e}
+.urbanismo-result h3{margin:4px 0 0;color:var(--navy);font-size:1.08rem}
+.urbanismo-result-sections{display:grid;gap:9px}
+.urbanismo-result-sections>section{border:1px solid #d7e0e6;border-radius:10px;background:#fff;padding:13px}
+.urbanismo-result-sections>section.emphasis-safety,.urbanismo-result-sections>section.emphasis-priority{border-color:#d7a298;background:#fff5f3}
+.urbanismo-result-sections>section.emphasis-administrative{border-color:#b8cede;background:#f6fafc}
+.urbanismo-result h4{margin:0;color:#29485c;font-size:.82rem;letter-spacing:.025em}
+.urbanismo-result ol{margin:8px 0 0;padding-left:21px;color:#455d6d;font-size:.8rem;line-height:1.5}
+.urbanismo-result li+li{margin-top:5px}
+.urbanismo-result-warning{margin:0;border-radius:9px;background:#672d27;color:#fff;padding:12px 13px;font-size:.76rem;font-weight:850;line-height:1.45}
+.urbanismo-related{display:grid;gap:8px;border-top:1px solid #d6e0e6;padding-top:12px}
+.urbanismo-related>strong{color:#36576c;font-size:.76rem}
+.urbanismo-related>div{display:grid;gap:7px}
+.urbanismo-related button{min-height:44px;display:flex;justify-content:space-between;align-items:center;border:1px solid #a9c4d4;border-radius:9px;background:#fff;color:#244d67;padding:10px 12px;text-align:left;font-weight:800;cursor:pointer}
+.urbanismo-checklist{border:1px solid #d2dde4;border-radius:11px;background:#fff}
+.urbanismo-checklist summary{padding:14px 16px;color:var(--navy);font-size:.82rem;font-weight:850;cursor:pointer}
+.urbanismo-checklist ul{columns:1;margin:0;border-top:1px solid #e6ecef;padding:13px 16px 14px 35px;color:#516674;font-size:.78rem;line-height:1.5}
+.urbanismo-sources{margin:0}
+@media(min-width:760px){.urbanismo-menu>div{grid-template-columns:repeat(2,minmax(0,1fr))}.urbanismo-menu button:last-child{grid-column:1/-1}.urbanismo-options{grid-template-columns:repeat(2,minmax(0,1fr))}.urbanismo-result-sections:has(>section:nth-child(2)){grid-template-columns:repeat(2,minmax(0,1fr))}.urbanismo-checklist ul{columns:2;column-gap:34px}}
+@media(max-width:520px){.urbanismo-view{gap:13px}.urbanismo-principle{padding:13px 14px}.urbanismo-route>header{padding:14px}.urbanismo-questions{padding-inline:13px}.urbanismo-result{padding:13px}.urbanismo-result-warning{font-size:.72rem}}
