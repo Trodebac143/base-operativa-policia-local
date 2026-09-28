@@ -1,5 +1,12 @@
 # Historial de versiones
 
+## 0.12.0 — 28/09/2026
+
+- Derivaciones tipadas y navegables hacia casos, categorías y rutas específicas de Urbanismo.
+- Corrección de los recorridos operativos CONV-OP-004, CONV-OP-008 y CONV-OP-009 sin alterar sus criterios jurídicos validados.
+- Descripciones breves en las cinco tarjetas del menú de Urbanismo y presentación común para incumplimientos sin cuantía específica.
+- Escudo de Policía Local de Torrent actualizado exclusivamente en la cabecera de la aplicación.
+
 ## 0.7.0 — 10/09/2026
 
 - Nuevo bloque operativo «Delitos contra el patrimonio»: hurto, robo con fuerza, robo con violencia o intimidación, apropiación indebida y daños.

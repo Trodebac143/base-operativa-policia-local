@@ -3,6 +3,7 @@ import type { SanctionPresentation as SanctionData } from "@/data/types";
 const euro = (amount: number) => amount.toLocaleString("es-ES", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
 export function SanctionPresentation({ sanction, fixed, min, max }: { sanction?: string | SanctionData; fixed?: number | null; min?: number | null; max?: number | null }) {
+  if (typeof sanction === "object" && sanction.tipo === "sin_cuantia") return <><p><strong>Incumplimiento del art. {sanction.articulo} — {sanction.conducta}.</strong></p><p>La ordenanza no establece un importe específico para este incumplimiento.</p><p>La sanción, en su caso, será determinada por el órgano sancionador competente.</p></>;
   if (typeof sanction === "object") return <><p><strong>{sanction.tipo === "fija" ? "Sanción prevista" : sanction.tipo === "maximo" ? "Máximo previsto por la norma" : sanction.tipo === "rango" ? "Rango sancionador" : "Régimen sancionador previsto"}:</strong> {sanction.texto}</p>{sanction.tipo === "maximo" || sanction.tipo === "rango" ? <small>La cuantía concreta corresponde al órgano sancionador.</small> : null}</>;
   if (typeof sanction === "string") return <p><strong>Sanción prevista:</strong> {sanction}</p>;
   if (fixed != null) return <p><strong>Sanción prevista:</strong> {euro(fixed)} €</p>;

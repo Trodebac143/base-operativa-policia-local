@@ -91,7 +91,19 @@ export type ConvivenciaCondition = {
   mostrarSi?: Record<string, string>[];
   opciones: { valor: string; etiqueta: string; icono?: string }[];
 };
-export type SanctionPresentation = { tipo: "fija" | "maximo" | "rango" | "regimen"; texto: string };
+export type SanctionPresentation =
+  | { tipo: "fija" | "maximo" | "rango" | "regimen"; texto: string }
+  | { tipo: "sin_cuantia"; articulo: string; conducta: string };
+export type SpecificRegulationDestination =
+  | { tipo: "caso"; caseId: string }
+  | { tipo: "categoria"; categoryId: string }
+  | { tipo: "urbanismo"; routeId: "obras_ejecucion" | "via_publica" | "riesgo" | "queja" | "orden_previa" };
+export type SpecificRegulationReferral = {
+  nombre: string;
+  explicacion: string;
+  destino: SpecificRegulationDestination;
+  etiquetaBoton: string;
+};
 export type ConvivenciaOutcome = {
   cuando: Record<string, string>;
   resultado?: string;
@@ -99,6 +111,7 @@ export type ConvivenciaOutcome = {
   calificacion?: string;
   sancion?: string | SanctionPresentation;
   otraVia?: string;
+  regulacionEspecifica?: SpecificRegulationReferral;
   sinInfraccion?: boolean;
 };
 export type ConvivenciaData = {

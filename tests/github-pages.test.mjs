@@ -27,15 +27,19 @@ test("los recursos públicos se resuelven mediante un único helper", async () =
   assert.doesNotMatch(libraryView, /encodeURI\(`\/documentos\//);
 });
 
-test("la identidad visual usa el master y derivados accesibles bajo basePath", async () => {
+test("la cabecera usa el escudo de Policía Local y conserva los iconos PWA bajo basePath", async () => {
   const page = await readFile(new URL("../app/page.tsx", import.meta.url), "utf8");
+  const operationalCss = await readFile(new URL("../app/operational-ui.css", import.meta.url), "utf8");
   const manifest = JSON.parse(await readFile(new URL("../public/manifest.webmanifest", import.meta.url), "utf8"));
-  assert.match(page, /publicPath\("\/branding\/Icono_Base_Operativa\.png"\)/);
+  assert.match(page, /publicPath\("\/escudo-policia-local-torrent\.png"\)/);
+  assert.doesNotMatch(page, /publicPath\("\/branding\/Icono_Base_Operativa\.png"\)/);
+  assert.match(operationalCss, /\.brandmark img[\s\S]*object-fit:\s*contain/);
   assert.equal(manifest.name, "Base Operativa Policía Local");
   assert.equal(manifest.short_name, "Base Operativa");
   assert.deepEqual(manifest.icons.map((icon) => icon.sizes), ["192x192", "512x512"]);
   for (const asset of [
     "public/favicon.ico",
+    "public/escudo-policia-local-torrent.png",
     "public/branding/Icono_Base_Operativa.png",
     "public/branding/favicon-16x16.png",
     "public/branding/favicon-32x32.png",

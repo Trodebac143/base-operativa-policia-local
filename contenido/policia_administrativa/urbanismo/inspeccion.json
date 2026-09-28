@@ -55,6 +55,7 @@
       "id": "obras_ejecucion",
       "icono": "🏗️",
       "titulo": "Obras en ejecución",
+      "descripcion_menu": "Licencia o declaración responsable, horario, tipo de obra y otras incidencias observadas.",
       "objetivo": "Recoger hechos objetivos sin decidir en calle la legalidad urbanística.",
       "preguntas": [
         {
@@ -131,6 +132,7 @@
       "id": "via_publica",
       "icono": "🚧",
       "titulo": "Obras que afectan a la vía pública",
+      "descripcion_menu": "Zanjas, andamios, contenedores, materiales, vallado, paso peatonal y afección al tráfico.",
       "objetivo": "Separar la comprobación administrativa de la seguridad inmediata de peatones y tráfico.",
       "preguntas": [
         {
@@ -209,6 +211,7 @@
       "id": "riesgo",
       "icono": "⚠️",
       "titulo": "Riesgo para personas o bienes",
+      "descripcion_menu": "Desprendimientos, fachadas, muros, excavaciones y situaciones que requieren protección.",
       "objetivo": "Priorizar la seguridad sin realizar diagnósticos arquitectónicos.",
       "preguntas": [
         {
@@ -263,6 +266,7 @@
       "id": "queja",
       "icono": "📞",
       "titulo": "Queja o aviso por posible obra irregular",
+      "descripcion_menu": "Avisos sobre obras que deben distinguirse de los hechos comprobados por la patrulla.",
       "objetivo": "Diferenciar lo manifestado por el requirente de lo comprobado por la patrulla.",
       "aviso_inicial": "Una manifestación del requirente no equivale a un hecho comprobado por la patrulla.",
       "preguntas": [
@@ -311,6 +315,7 @@
       "id": "orden_previa",
       "icono": "🔒",
       "titulo": "Obra con orden de paralización o precinto",
+      "descripcion_menu": "Comprobación de trabajos pese a una orden previa o de un precinto existente.",
       "objetivo": "Documentar el posible incumplimiento de una orden previa sin decidir automáticamente consecuencias penales.",
       "preguntas": [
         {

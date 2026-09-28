@@ -3,7 +3,7 @@
 import { useState, type ReactNode } from "react";
 import { SourceLinks } from "./source-links";
 import { SanctionPresentation } from "./sanction-presentation";
-import type { ConvivenciaData, ConvivenciaOutcome, OperationalCase } from "@/data/types";
+import type { ConvivenciaData, ConvivenciaOutcome, OperationalCase, SpecificRegulationDestination, SpecificRegulationReferral } from "@/data/types";
 
 const groups = ["Convivencia y molestias", "Limpieza y uso del espacio público", "Riesgos / incidencias"];
 const groupIcons: Record<string, string> = { "Convivencia y molestias": "sound", "Limpieza y uso del espacio público": "clean", "Riesgos / incidencias": "fire" };
@@ -36,6 +36,10 @@ const matches = (expected: Record<string, string>, answers: Record<string, strin
 const visible = (condition: NonNullable<ConvivenciaData["condiciones"]>[number], answers: Record<string, string>) => !condition.mostrarSi?.length || condition.mostrarSi.some((expected) => matches(expected, answers));
 const matchOutcome = (outcomes: ConvivenciaOutcome[] | undefined, answers: Record<string, string>) => outcomes?.filter((outcome) => matches(outcome.cuando, answers)).sort((left, right) => Object.keys(right.cuando).length - Object.keys(left.cuando).length)[0];
 
+export function SpecificRegulationCard({ referral, onNavigate }: { referral: SpecificRegulationReferral; onNavigate: (destination: SpecificRegulationDestination) => void }) {
+  return <section className="conv-specific-regulation"><h3>🟠 EXISTE REGULACIÓN ESPECÍFICA</h3><p><strong>{referral.nombre}</strong></p><p>{referral.explicacion}</p><button type="button" onClick={() => onNavigate(referral.destino)}>{referral.etiquetaBoton}<span aria-hidden="true">›</span></button></section>;
+}
+
 export function ConvivenciaCategoryView({ cases, onOpenCase }: { cases: OperationalCase[]; onOpenCase: (item: OperationalCase) => void }) {
   return <section className="conv-category"><div className="sectionhead"><span className="kicker">POLICÍA ADMINISTRATIVA</span><h2>🤝 Convivencia</h2><p>Elige la situación observada en el espacio público.</p></div>{groups.map((group, index) => {
     const entries = cases.filter((item) => dataOf(item)?.grupo === group).sort((a, b) => (dataOf(a)?.orden ?? 0) - (dataOf(b)?.orden ?? 0));
@@ -43,17 +47,18 @@ export function ConvivenciaCategoryView({ cases, onOpenCase }: { cases: Operatio
   })}</section>;
 }
 
-export function ConvivenciaCaseSheet({ item }: { item: OperationalCase }) {
+export function ConvivenciaCaseSheet({ item, onNavigate }: { item: OperationalCase; onNavigate: (destination: SpecificRegulationDestination) => void }) {
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const data = dataOf(item); const conditions = data?.condiciones?.filter((condition) => visible(condition, answers)) ?? []; const allFactsAnswered = conditions.every((condition) => answers[condition.id]); const outcome = allFactsAnswered ? matchOutcome(data?.salidas, answers) : undefined; const ready = !data?.condiciones?.length || Boolean(outcome);
-  const article = outcome?.articulo ?? item.articulo; const result = outcome?.resultado ?? item.resultado; const classification = outcome?.calificacion ?? item.calificacion; const sanction = outcome?.sancion; const noInfringement = outcome?.sinInfraccion;
+  const article = outcome?.articulo ?? item.articulo; const result = outcome?.resultado ?? item.resultado; const classification = outcome?.calificacion ?? item.calificacion; const sanction = outcome?.sancion; const noInfringement = outcome?.sinInfraccion; const referral = outcome?.regulacionEspecifica;
   return <article className="conv-sheet"><div className="sheettitle"><div><span className="kicker">FICHA OPERATIVA</span><h2>{item.titulo}</h2></div></div>
     <section><h3>QUÉ COMPROBAR</h3><ul>{item.que_comprobar.map((entry) => <li key={entry}>{entry}</li>)}</ul></section>
     {!!data?.condiciones?.length && <section className="conv-facts"><h3>DATOS DEL SUPUESTO</h3>{conditions.map((condition) => <fieldset key={condition.id}><legend>{condition.etiqueta}</legend>{condition.ayuda && <p className="conv-help">{condition.ayuda}</p>}<div>{condition.opciones.map((option) => <button type="button" className={answers[condition.id] === option.valor ? "selected" : ""} aria-pressed={answers[condition.id] === option.valor} key={option.valor} onClick={() => setAnswers((previous) => ({ ...previous, [condition.id]: option.valor }))}>{option.icono && <span className="conv-option-icon" aria-hidden="true"><Icon name={option.icono} /></span>}{option.etiqueta}</button>)}</div></fieldset>)}</section>}
-    <section><h3>RESULTADO</h3>{!ready ? <p>Completa los datos observados para mostrar el resultado aplicable.</p> : noInfringement ? <p>{result}</p> : <><p><strong>{item.norma}</strong> · art. {article}</p>{classification && <p><strong>{classification}</strong></p>}<p>{result}</p><SanctionPresentation sanction={sanction} fixed={item.importe_fijo} min={item.rango_min} max={item.rango_max} /></>}</section>
-    {ready && !noInfringement && <section><h3>ACTUACIÓN</h3><ul>{item.actuacion.map((entry) => <li key={entry}>{entry}</li>)}</ul></section>}
+    {!referral && <section><h3>RESULTADO</h3>{!ready ? <p>Completa los datos observados para mostrar el resultado aplicable.</p> : noInfringement ? <p>{result}</p> : <><p><strong>{item.norma}</strong> · art. {article}</p>{classification && <p><strong>{classification}</strong></p>}<p>{result}</p><SanctionPresentation sanction={sanction} fixed={item.importe_fijo} min={item.rango_min} max={item.rango_max} /></>}</section>}
+    {ready && referral && <SpecificRegulationCard referral={referral} onNavigate={onNavigate} />}
+    {ready && !noInfringement && !referral && <section><h3>ACTUACIÓN</h3><ul>{item.actuacion.map((entry) => <li key={entry}>{entry}</li>)}</ul></section>}
     {ready && outcome?.otraVia && <section className="conv-other-way"><h3>OTRA VÍA / MATERIA RELACIONADA</h3><p>{outcome.otraVia}</p></section>}
-    {ready && !noInfringement && <section><h3>COMPETENCIA</h3><p>{item.competencia_resuelve}</p></section>}
+    {ready && !noInfringement && !referral && <section><h3>COMPETENCIA</h3><p>{item.competencia_resuelve}</p></section>}
     <SourceLinks sourceIds={item.fuentes} className="conv-sources" />
   </article>;
 }

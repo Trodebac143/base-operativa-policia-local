@@ -11,6 +11,9 @@
 .urbanismo-menu button{min-height:62px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;border:1px solid #c8d6df;border-radius:12px;background:#fff;padding:13px 15px;text-align:left;color:var(--navy);box-shadow:0 3px 12px #19364c0b;cursor:pointer}
 .urbanismo-menu button:hover{border-color:#7faac6;background:#f8fbfd}
 .urbanismo-menu button>span{font-size:1.55rem}
+.urbanismo-menu button>span:nth-child(2){display:grid;gap:4px;min-width:0;font-size:inherit}
+.urbanismo-menu button strong{line-height:1.25}
+.urbanismo-menu button small{color:#607582;font-size:.75rem;line-height:1.4}
 .urbanismo-menu button>b:last-child{color:#688599;font-size:1.35rem}
 .urbanismo-route-back{justify-self:start;border:0;background:transparent;color:#315d7b;padding:3px 0;font-size:.8rem;font-weight:800;cursor:pointer}
 .urbanismo-route{border:1px solid #c7d7e1;border-radius:13px;background:#fff;box-shadow:0 5px 18px #19364c10;overflow:hidden}
@@ -56,4 +59,4 @@
 .urbanismo-checklist ul{columns:1;margin:0;border-top:1px solid #e6ecef;padding:13px 16px 14px 35px;color:#516674;font-size:.78rem;line-height:1.5}
 .urbanismo-sources{margin:0}
 @media(min-width:760px){.urbanismo-menu>div{grid-template-columns:repeat(2,minmax(0,1fr))}.urbanismo-menu button:last-child{grid-column:1/-1}.urbanismo-options{grid-template-columns:repeat(2,minmax(0,1fr))}.urbanismo-result-sections:has(>section:nth-child(2)){grid-template-columns:repeat(2,minmax(0,1fr))}.urbanismo-checklist ul{columns:2;column-gap:34px}}
-@media(max-width:520px){.urbanismo-view{gap:13px}.urbanismo-principle{padding:13px 14px}.urbanismo-route>header{padding:14px}.urbanismo-questions{padding-inline:13px}.urbanismo-result{padding:13px}.urbanismo-result-warning{font-size:.72rem}}
+@media(max-width:520px){.urbanismo-view{gap:13px}.urbanismo-principle{padding:13px 14px}.urbanismo-menu button{min-height:76px;padding:11px 12px}.urbanismo-menu button small{font-size:.72rem}.urbanismo-route>header{padding:14px}.urbanismo-questions{padding-inline:13px}.urbanismo-result{padding:13px}.urbanismo-result-warning{font-size:.72rem}}

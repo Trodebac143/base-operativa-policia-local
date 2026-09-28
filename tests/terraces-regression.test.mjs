@@ -62,7 +62,10 @@ test("la fuente central abre directamente el PDF oficial y la versión publicada
   const source = sources.find((item) => item.id === "TER-TORRENT");
   assert.match(source.urlOficial, /^https:\/\/www\.torrent\.es\/.+\.pdf$/i);
   const packageMetadata = await readJson("package.json");
+  const packageLock = await readJson("package-lock.json");
   assert.equal(packageMetadata.version, APP_VERSION);
+  assert.equal(packageLock.version, APP_VERSION);
+  assert.equal(packageLock.packages[""].version, APP_VERSION);
 });
 
 test("el motor resuelve porcentajes, poda respuestas y mantiene exclusiones jurídicas", async () => {

@@ -17,6 +17,7 @@ export type UrbanismoRoute = {
   id: UrbanismoRouteId;
   icono: string;
   titulo: string;
+  descripcion_menu: string;
   objetivo: string;
   aviso_inicial?: string;
   preguntas: UrbanismoQuestion[];
@@ -48,7 +49,7 @@ export const urbanismoSearchEntry = {
   id: urbanismoData.id,
   categoria: urbanismoData.categoria,
   titulo: urbanismoData.titulo,
-  palabrasClave: [...urbanismoData.palabras_clave, ...urbanismoData.rutas.flatMap((route) => [route.titulo, route.objetivo])],
+  palabrasClave: [...urbanismoData.palabras_clave, ...urbanismoData.rutas.flatMap((route) => [route.titulo, route.descripcion_menu, route.objetivo])],
 };
 
 export function urbanismoRoute(routeId: UrbanismoRouteId): UrbanismoRoute {

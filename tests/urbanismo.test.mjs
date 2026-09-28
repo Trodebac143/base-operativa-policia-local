@@ -135,7 +135,18 @@ test("14 · la vista inicial muestra cinco entradas, límites técnicos y checkl
   assert.match(html, /Intervención policial en incidencias urbanísticas/);
   assert.match(html, /La valoración técnica de la legalidad urbanística corresponde a Urbanismo/);
   assert.equal((html.match(/RECORRIDO GUIADO/g) ?? []).length, 0);
-  for (const route of data.rutas) assert.match(html, new RegExp(route.titulo));
+  const expectedDescriptions = [
+    "Licencia o declaración responsable, horario, tipo de obra y otras incidencias observadas.",
+    "Zanjas, andamios, contenedores, materiales, vallado, paso peatonal y afección al tráfico.",
+    "Desprendimientos, fachadas, muros, excavaciones y situaciones que requieren protección.",
+    "Avisos sobre obras que deben distinguirse de los hechos comprobados por la patrulla.",
+    "Comprobación de trabajos pese a una orden previa o de un precinto existente.",
+  ];
+  assert.deepEqual(data.rutas.map((route) => route.descripcion_menu), expectedDescriptions);
+  for (const route of data.rutas) {
+    assert.match(html, new RegExp(route.titulo));
+    assert.ok(html.includes(route.descripcion_menu));
+  }
   assert.match(html, /QUÉ CONVIENE DOCUMENTAR/);
 });
 
@@ -146,11 +157,13 @@ test("15 · la vista de ruta conserva volver, progresividad y adaptación móvil
   assert.match(html, /Ver actuación policial/);
   assert.match(css, /@media\(max-width:520px\)/);
   assert.match(css, /min-height:44px/);
+  assert.match(css, /\.urbanismo-menu button\{min-height:76px/);
 });
 
 test("16 · page integra Urbanismo como herramienta específica y no como ficha de caso", async () => {
   const page = await read("app/page.tsx");
   assert.match(page, /policia_administrativa_urbanismo" \? <UrbanismoGuideView/);
+  assert.match(page, /UrbanismoGuideView initialRouteId=\{view\.urbanismoRouteId\}/);
   assert.match(page, /kind: "urbanismo"/);
   assert.doesNotMatch(page, /item\.categoria === "policia_administrativa_urbanismo" \? <[A-Za-z]+CaseSheet/);
 });

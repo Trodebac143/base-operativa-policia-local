@@ -94,7 +94,7 @@ export function UrbanismoRouteMenu({ onSelect }: { onSelect: (routeId: Urbanismo
   return <section className="urbanismo-menu" aria-labelledby="urbanismo-situation-title">
     <h3 id="urbanismo-situation-title">¿Qué situación tienes?</h3>
     <div>{urbanismoData.rutas.map((route) => <button type="button" key={route.id} onClick={() => onSelect(route.id)}>
-      <span aria-hidden="true">{route.icono}</span><strong>{route.titulo}</strong><b aria-hidden="true">›</b>
+      <span aria-hidden="true">{route.icono}</span><span><strong>{route.titulo}</strong><small>{route.descripcion_menu}</small></span><b aria-hidden="true">›</b>
     </button>)}</div>
   </section>;
 }

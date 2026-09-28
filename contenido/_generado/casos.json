@@ -3475,7 +3475,7 @@
               "impide": "no"
             },
             "sinInfraccion": true,
-            "resultado": "No se acredita el supuesto del art. 8.f por este hecho. Valorar si existe otra ocupación irregular del espacio público."
+            "resultado": "No se acredita el supuesto del art. 8.f porque el objeto no impide la libre circulación."
           },
           {
             "cuando": {
@@ -3501,18 +3501,30 @@
               "impide": "si",
               "vinculo": "terraza"
             },
-            "sinInfraccion": true,
-            "resultado": "No se asigna automáticamente el art. 8.f ni 60,10 € a una terraza.",
-            "otraVia": "Terrazas → comprobar autorización, superficie y límites autorizados, paso peatonal y accesos."
+            "regulacionEspecifica": {
+              "nombre": "Regulación aplicable: Ordenanza de terrazas de Torrent.",
+              "explicacion": "Al tratarse de una terraza, la afección al paso peatonal debe comprobarse conforme a su regulación específica.",
+              "destino": {
+                "tipo": "caso",
+                "caseId": "TER-OP-005"
+              },
+              "etiquetaBoton": "Abrir «Anchura libre de paso»"
+            }
           },
           {
             "cuando": {
               "impide": "si",
               "vinculo": "obra"
             },
-            "sinInfraccion": true,
-            "resultado": "No se asigna automáticamente el art. 8.f ni 60,10 € a materiales de obra.",
-            "otraVia": "Urbanismo / ocupación de vía pública → comprobar autorización, perímetro, señalización y condiciones de la obra."
+            "regulacionEspecifica": {
+              "nombre": "Continuar en Urbanismo → Obras que afectan a la vía pública.",
+              "explicacion": "La ocupación está vinculada a una obra. Deben comprobarse el tipo de elemento, autorización, seguridad, paso peatonal y afección al tráfico conforme a la regulación aplicable a la obra.",
+              "destino": {
+                "tipo": "urbanismo",
+                "routeId": "via_publica"
+              },
+              "etiquetaBoton": "Abrir «Obras que afectan a la vía pública»"
+            }
           },
           {
             "cuando": {
@@ -3534,8 +3546,7 @@
               "licencia": "si"
             },
             "sinInfraccion": true,
-            "resultado": "No se sanciona automáticamente por el art. 23. Comprobar que la ocupación se ajusta a las condiciones autorizadas.",
-            "otraVia": "Módulo específico de la actividad, cuando proceda."
+            "resultado": "La licencia consta. No se aplica automáticamente el art. 23 sin acreditar que la ocupación incumple sus condiciones."
           },
           {
             "cuando": {
@@ -3816,40 +3827,7 @@
     "datos_adicionales": {
       "convivencia": {
         "grupo": "Limpieza y uso del espacio público",
-        "orden": 80,
-        "condiciones": [
-          {
-            "id": "sectorial",
-            "etiqueta": "¿Consta regulación sectorial específica?",
-            "opciones": [
-              {
-                "valor": "no",
-                "etiqueta": "No consta"
-              },
-              {
-                "valor": "si",
-                "etiqueta": "Sí, consta regulación específica"
-              }
-            ]
-          }
-        ],
-        "salidas": [
-          {
-            "cuando": {
-              "sectorial": "no"
-            },
-            "calificacion": "LEVE",
-            "sancion": "hasta 600 €"
-          },
-          {
-            "cuando": {
-              "sectorial": "si"
-            },
-            "calificacion": "LEVE",
-            "sancion": "hasta 600 €",
-            "otraVia": "Regulación sectorial específica aplicable."
-          }
-        ]
+        "orden": 80
       }
     }
   },
@@ -3892,8 +3870,39 @@
         "orden": 90,
         "condiciones": [
           {
+            "id": "vinculo",
+            "etiqueta": "¿Los residuos están directamente vinculados a alguno de estos supuestos?",
+            "opciones": [
+              {
+                "valor": "terraza",
+                "etiqueta": "Terraza",
+                "icono": "cafe"
+              },
+              {
+                "valor": "vns",
+                "etiqueta": "Puesto de venta no sedentaria",
+                "icono": "shop"
+              },
+              {
+                "valor": "obra",
+                "etiqueta": "Obra / zanja / cala en ejecución",
+                "icono": "tools"
+              },
+              {
+                "valor": "ninguno",
+                "etiqueta": "No; son residuos abandonados o depositados sin esa vinculación",
+                "icono": "bin"
+              }
+            ]
+          },
+          {
             "id": "tipo",
             "etiqueta": "¿Qué tipo de residuo se observa?",
+            "mostrarSi": [
+              {
+                "vinculo": "ninguno"
+              }
+            ],
             "opciones": [
               {
                 "valor": "poda",
@@ -3931,6 +3940,7 @@
             "etiqueta": "¿Qué tipo de resto es?",
             "mostrarSi": [
               {
+                "vinculo": "ninguno",
                 "tipo": "poda"
               }
             ],
@@ -3956,6 +3966,7 @@
             "etiqueta": "¿Está depositado junto a los contenedores?",
             "mostrarSi": [
               {
+                "vinculo": "ninguno",
                 "clase_poda": "ramas"
               }
             ],
@@ -3975,6 +3986,7 @@
             "etiqueta": "¿Está convenientemente troceado?",
             "mostrarSi": [
               {
+                "vinculo": "ninguno",
                 "clase_poda": "ramas"
               }
             ],
@@ -3994,6 +4006,7 @@
             "etiqueta": "¿Forma hatillos?",
             "mostrarSi": [
               {
+                "vinculo": "ninguno",
                 "clase_poda": "ramas"
               }
             ],
@@ -4013,6 +4026,7 @@
             "etiqueta": "¿Cada hatillo tiene un máximo de 1 metro de longitud?",
             "mostrarSi": [
               {
+                "vinculo": "ninguno",
                 "clase_poda": "ramas"
               }
             ],
@@ -4032,6 +4046,7 @@
             "etiqueta": "¿El diámetro es inferior a 50 cm?",
             "mostrarSi": [
               {
+                "vinculo": "ninguno",
                 "clase_poda": "ramas"
               }
             ],
@@ -4051,6 +4066,7 @@
             "etiqueta": "¿Hay un máximo de dos hatillos por vivienda y día?",
             "mostrarSi": [
               {
+                "vinculo": "ninguno",
                 "clase_poda": "ramas"
               }
             ],
@@ -4070,6 +4086,7 @@
             "etiqueta": "¿Está en bolsas resistentes?",
             "mostrarSi": [
               {
+                "vinculo": "ninguno",
                 "clase_poda": "cesped"
               }
             ],
@@ -4089,6 +4106,7 @@
             "etiqueta": "¿Las bolsas están junto a los contenedores?",
             "mostrarSi": [
               {
+                "vinculo": "ninguno",
                 "clase_poda": "cesped"
               }
             ],
@@ -4108,6 +4126,7 @@
             "etiqueta": "¿Cada bolsa es de hasta 50 litros?",
             "mostrarSi": [
               {
+                "vinculo": "ninguno",
                 "clase_poda": "cesped"
               }
             ],
@@ -4127,6 +4146,7 @@
             "etiqueta": "¿Hay un máximo de dos bolsas por vivienda y día?",
             "mostrarSi": [
               {
+                "vinculo": "ninguno",
                 "clase_poda": "cesped"
               }
             ],
@@ -4147,6 +4167,7 @@
             "ayuda": "Es un límite de referencia del régimen ordinario; no determina una sanción automática.",
             "mostrarSi": [
               {
+                "vinculo": "ninguno",
                 "tipo": "poda"
               }
             ],
@@ -4170,15 +4191,19 @@
             "etiqueta": "¿Dónde y cómo está depositado?",
             "mostrarSi": [
               {
+                "vinculo": "ninguno",
                 "tipo": "muebles"
               },
               {
+                "vinculo": "ninguno",
                 "tipo": "escombros"
               },
               {
+                "vinculo": "ninguno",
                 "tipo": "otros"
               },
               {
+                "vinculo": "ninguno",
                 "tipo": "peligroso"
               }
             ],
@@ -4202,15 +4227,19 @@
             "etiqueta": "Cantidad aproximada observada",
             "mostrarSi": [
               {
+                "vinculo": "ninguno",
                 "tipo": "muebles"
               },
               {
+                "vinculo": "ninguno",
                 "tipo": "escombros"
               },
               {
+                "vinculo": "ninguno",
                 "tipo": "otros"
               },
               {
+                "vinculo": "ninguno",
                 "tipo": "peligroso"
               }
             ],
@@ -4234,15 +4263,19 @@
             "etiqueta": "¿Se aprecia riesgo ambiental o sanitario observable?",
             "mostrarSi": [
               {
+                "vinculo": "ninguno",
                 "tipo": "muebles"
               },
               {
+                "vinculo": "ninguno",
                 "tipo": "escombros"
               },
               {
+                "vinculo": "ninguno",
                 "tipo": "otros"
               },
               {
+                "vinculo": "ninguno",
                 "tipo": "peligroso"
               }
             ],
@@ -4266,6 +4299,49 @@
         "salidas": [
           {
             "cuando": {
+              "vinculo": "terraza"
+            },
+            "regulacionEspecifica": {
+              "nombre": "Regulación aplicable: Ordenanza de terrazas de Torrent.",
+              "explicacion": "Al tratarse de residuos vinculados a una terraza, su limpieza y retirada deben comprobarse conforme a la regulación específica de terrazas.",
+              "destino": {
+                "tipo": "caso",
+                "caseId": "TER-OP-008"
+              },
+              "etiquetaBoton": "Abrir «Limpieza y residuos»"
+            }
+          },
+          {
+            "cuando": {
+              "vinculo": "vns"
+            },
+            "regulacionEspecifica": {
+              "nombre": "Regulación aplicable: Ordenanza de Venta No Sedentaria de Torrent.",
+              "explicacion": "Al tratarse de residuos vinculados a un puesto de venta no sedentaria, su recogida y depósito deben comprobarse conforme a esa regulación específica.",
+              "destino": {
+                "tipo": "caso",
+                "caseId": "VNS-OP-011"
+              },
+              "etiquetaBoton": "Abrir «Residuos sin recoger o depositar»"
+            }
+          },
+          {
+            "cuando": {
+              "vinculo": "obra"
+            },
+            "regulacionEspecifica": {
+              "nombre": "Continuar en Urbanismo → Obras que afectan a la vía pública.",
+              "explicacion": "Los materiales o residuos están vinculados a una obra. Debe comprobarse primero la regulación específica de la obra, zanja o cala.",
+              "destino": {
+                "tipo": "urbanismo",
+                "routeId": "via_publica"
+              },
+              "etiquetaBoton": "Abrir «Obras que afectan a la vía pública»"
+            }
+          },
+          {
+            "cuando": {
+              "vinculo": "ninguno",
               "tipo": "indeterminado"
             },
             "sinInfraccion": true,
@@ -4273,6 +4349,7 @@
           },
           {
             "cuando": {
+              "vinculo": "ninguno",
               "tipo": "poda",
               "clase_poda": "indeterminado"
             },
@@ -4281,26 +4358,27 @@
           },
           {
             "cuando": {
+              "vinculo": "ninguno",
               "tipo": "poda",
               "clase_poda": "ramas",
               "limite_poda": "si"
             },
             "sinInfraccion": true,
-            "resultado": "Cantidad fuera del régimen ordinario de residuo urbano previsto por esta Ordenanza. Valorar gestión o vía específica.",
-            "otraVia": "La superación de 1.000 litros o 25 kg es una referencia; no asigna por sí sola una infracción concreta."
+            "resultado": "Cantidad fuera del régimen ordinario de residuo urbano previsto por esta Ordenanza. La superación de 1.000 litros o 25 kg no asigna por sí sola una infracción concreta."
           },
           {
             "cuando": {
+              "vinculo": "ninguno",
               "tipo": "poda",
               "clase_poda": "cesped",
               "limite_poda": "si"
             },
             "sinInfraccion": true,
-            "resultado": "Cantidad fuera del régimen ordinario de residuo urbano previsto por esta Ordenanza. Valorar gestión o vía específica.",
-            "otraVia": "La superación de 1.000 litros o 25 kg es una referencia; no asigna por sí sola una infracción concreta."
+            "resultado": "Cantidad fuera del régimen ordinario de residuo urbano previsto por esta Ordenanza. La superación de 1.000 litros o 25 kg no asigna por sí sola una infracción concreta."
           },
           {
             "cuando": {
+              "vinculo": "ninguno",
               "tipo": "poda",
               "clase_poda": "ramas",
               "ramas_contenedor": "no"
@@ -4310,6 +4388,7 @@
           },
           {
             "cuando": {
+              "vinculo": "ninguno",
               "tipo": "poda",
               "clase_poda": "ramas",
               "ramas_troceado": "no"
@@ -4319,6 +4398,7 @@
           },
           {
             "cuando": {
+              "vinculo": "ninguno",
               "tipo": "poda",
               "clase_poda": "ramas",
               "ramas_hatillos": "no"
@@ -4328,6 +4408,7 @@
           },
           {
             "cuando": {
+              "vinculo": "ninguno",
               "tipo": "poda",
               "clase_poda": "ramas",
               "ramas_longitud": "no"
@@ -4337,6 +4418,7 @@
           },
           {
             "cuando": {
+              "vinculo": "ninguno",
               "tipo": "poda",
               "clase_poda": "ramas",
               "ramas_diametro": "no"
@@ -4346,6 +4428,7 @@
           },
           {
             "cuando": {
+              "vinculo": "ninguno",
               "tipo": "poda",
               "clase_poda": "ramas",
               "ramas_cantidad": "no"
@@ -4355,6 +4438,7 @@
           },
           {
             "cuando": {
+              "vinculo": "ninguno",
               "tipo": "poda",
               "clase_poda": "ramas",
               "ramas_contenedor": "si",
@@ -4370,6 +4454,7 @@
           },
           {
             "cuando": {
+              "vinculo": "ninguno",
               "tipo": "poda",
               "clase_poda": "ramas",
               "ramas_contenedor": "si",
@@ -4385,6 +4470,7 @@
           },
           {
             "cuando": {
+              "vinculo": "ninguno",
               "tipo": "poda",
               "clase_poda": "cesped",
               "cesped_bolsas": "no"
@@ -4394,6 +4480,7 @@
           },
           {
             "cuando": {
+              "vinculo": "ninguno",
               "tipo": "poda",
               "clase_poda": "cesped",
               "cesped_contenedor": "no"
@@ -4403,6 +4490,7 @@
           },
           {
             "cuando": {
+              "vinculo": "ninguno",
               "tipo": "poda",
               "clase_poda": "cesped",
               "cesped_volumen": "no"
@@ -4412,6 +4500,7 @@
           },
           {
             "cuando": {
+              "vinculo": "ninguno",
               "tipo": "poda",
               "clase_poda": "cesped",
               "cesped_cantidad": "no"
@@ -4421,6 +4510,7 @@
           },
           {
             "cuando": {
+              "vinculo": "ninguno",
               "tipo": "poda",
               "clase_poda": "cesped",
               "cesped_bolsas": "si",
@@ -4434,6 +4524,7 @@
           },
           {
             "cuando": {
+              "vinculo": "ninguno",
               "tipo": "poda",
               "clase_poda": "cesped",
               "cesped_bolsas": "si",
@@ -4447,6 +4538,7 @@
           },
           {
             "cuando": {
+              "vinculo": "ninguno",
               "tipo": "peligroso",
               "riesgo": "si"
             },
@@ -4460,6 +4552,7 @@
           },
           {
             "cuando": {
+              "vinculo": "ninguno",
               "tipo": "muebles",
               "riesgo": "si"
             },
@@ -4473,6 +4566,7 @@
           },
           {
             "cuando": {
+              "vinculo": "ninguno",
               "tipo": "escombros",
               "riesgo": "si"
             },
@@ -4486,6 +4580,7 @@
           },
           {
             "cuando": {
+              "vinculo": "ninguno",
               "tipo": "otros",
               "riesgo": "si"
             },
@@ -4499,6 +4594,7 @@
           },
           {
             "cuando": {
+              "vinculo": "ninguno",
               "lugar": "dentro",
               "riesgo": "no"
             },
@@ -4507,6 +4603,7 @@
           },
           {
             "cuando": {
+              "vinculo": "ninguno",
               "tipo": "muebles",
               "lugar": "fuera",
               "cantidad": "pequena",
@@ -4522,6 +4619,7 @@
           },
           {
             "cuando": {
+              "vinculo": "ninguno",
               "tipo": "escombros",
               "lugar": "fuera",
               "cantidad": "pequena",
@@ -4537,6 +4635,7 @@
           },
           {
             "cuando": {
+              "vinculo": "ninguno",
               "tipo": "otros",
               "lugar": "fuera",
               "cantidad": "pequena",
@@ -4552,6 +4651,7 @@
           },
           {
             "cuando": {
+              "vinculo": "ninguno",
               "tipo": "muebles",
               "lugar": "fuera",
               "cantidad": "voluminosa",
@@ -4567,6 +4667,7 @@
           },
           {
             "cuando": {
+              "vinculo": "ninguno",
               "tipo": "escombros",
               "lugar": "fuera",
               "cantidad": "voluminosa",
@@ -4582,6 +4683,7 @@
           },
           {
             "cuando": {
+              "vinculo": "ninguno",
               "tipo": "otros",
               "lugar": "fuera",
               "cantidad": "voluminosa",
@@ -4597,6 +4699,7 @@
           },
           {
             "cuando": {
+              "vinculo": "ninguno",
               "tipo": "peligroso",
               "riesgo": "no"
             },
@@ -4605,6 +4708,7 @@
           },
           {
             "cuando": {
+              "vinculo": "ninguno",
               "lugar": "indeterminado"
             },
             "sinInfraccion": true,
@@ -4612,6 +4716,7 @@
           },
           {
             "cuando": {
+              "vinculo": "ninguno",
               "cantidad": "indeterminado"
             },
             "sinInfraccion": true,
@@ -4619,6 +4724,7 @@
           },
           {
             "cuando": {
+              "vinculo": "ninguno",
               "riesgo": "indeterminado"
             },
             "sinInfraccion": true,
