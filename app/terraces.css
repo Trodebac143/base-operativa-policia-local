@@ -91,6 +91,133 @@
 .terrace-actions dd { margin: 0; font-size: .8rem; line-height: 1.4; }
 .terrace-sources { margin: 0; border-color: #ead7b8; background: var(--terrace-soft); }
 .terrace-reset { justify-self: start; padding: .65rem .85rem; border: 1px solid #d8cfc4; border-radius: 11px; background: #fff; color: #5f554b; font-weight: 750; cursor: pointer; }
+
+/* Ayudas gráficas opcionales */
+.terrace-guide-overview { display: grid; grid-template-columns: minmax(0, .8fr) minmax(19rem, 1.2fr); align-items: center; gap: 1rem; margin: 0 0 1.4rem; padding: 1rem; border: 1px solid #cbd9e7; border-radius: 18px; background: linear-gradient(145deg, #f8fbfe, #eef5fa); box-shadow: 0 6px 18px rgba(28, 62, 94, .05); }
+.terrace-guide-overview > div:first-child > span { display: block; margin-bottom: .28rem; color: #1c6890; font-size: .68rem; font-weight: 900; letter-spacing: .11em; }
+.terrace-guide-overview h3,
+.terrace-guide-overview p { margin: 0; }
+.terrace-guide-overview h3 { color: #173957; font-size: 1rem; }
+.terrace-guide-overview p { margin-top: .3rem; color: #637789; font-size: .8rem; line-height: 1.45; }
+.terrace-guide-list { padding: 1rem; border: 1px solid #d9e3ec; border-radius: 18px; background: #f8fbfd; box-shadow: 0 6px 18px rgba(28, 62, 94, .04); }
+.terrace-guide-list-title { display: flex; align-items: flex-start; gap: .65rem; margin-bottom: .75rem; }
+.terrace-guide-list-title > span { display: grid; place-items: center; flex: 0 0 1.8rem; width: 1.8rem; height: 1.8rem; border-radius: 9px; background: #1c6890; color: #fff; font-size: .9rem; font-weight: 900; }
+.terrace-guide-list-title h3,
+.terrace-guide-list-title p { margin: 0; }
+.terrace-guide-list-title h3 { color: #173957; font-size: 1rem; }
+.terrace-guide-list-title p { margin-top: .16rem; color: #6c7d8b; font-size: .76rem; }
+.terrace-guide-list > div:last-child { display: grid; gap: .55rem; }
+.terrace-guide { min-width: 0; }
+.terrace-guide-toggle { display: flex; align-items: center; justify-content: space-between; gap: 1rem; width: 100%; min-height: 58px; padding: .7rem .8rem; border: 1px solid #cbd9e7; border-radius: 13px; background: #fff; color: #173957; text-align: left; box-shadow: 0 3px 10px rgba(28, 62, 94, .04); cursor: pointer; }
+.terrace-guide-toggle:hover { border-color: #80a9c2; background: #fafdff; }
+.terrace-guide-toggle:focus-visible { outline: 3px solid rgba(36, 124, 168, .28); outline-offset: 2px; }
+.terrace-guide-toggle > span small,
+.terrace-guide-toggle > span strong { display: block; }
+.terrace-guide-toggle > span small { margin-bottom: .12rem; color: #5e8297; font-size: .63rem; font-weight: 900; letter-spacing: .09em; text-transform: uppercase; }
+.terrace-guide-toggle > span strong { font-size: .86rem; line-height: 1.25; }
+.terrace-guide-toggle > b { display: inline-flex; align-items: center; gap: .45rem; flex: 0 0 auto; color: #1c6890; font-size: .76rem; white-space: nowrap; }
+.terrace-guide-toggle > b i { display: grid; place-items: center; width: 1.65rem; height: 1.65rem; border-radius: 8px; background: #e6f1f7; font-size: 1rem; font-style: normal; }
+.terrace-guide-toggle[aria-expanded="true"] { border-color: #80a9c2; border-radius: 13px 13px 0 0; background: #f5fafc; box-shadow: none; }
+.terrace-guide-panel { padding: 1rem; border: 1px solid #80a9c2; border-top: 0; border-radius: 0 0 16px 16px; background: #fff; overflow: hidden; }
+.terrace-guide-panel > header { max-width: 64ch; margin-bottom: .85rem; }
+.terrace-guide-panel > header span { color: #1c6890; font-size: .65rem; font-weight: 900; letter-spacing: .1em; }
+.terrace-guide-panel > header h4,
+.terrace-guide-panel > header p { margin: 0; }
+.terrace-guide-panel > header h4 { margin-top: .18rem; color: #173957; font-size: 1.02rem; }
+.terrace-guide-panel > header p { margin-top: .32rem; color: #637789; font-size: .8rem; line-height: 1.45; }
+.terrace-guide-canvas { min-width: 0; padding: .75rem; border: 1px solid #dbe6ed; border-radius: 14px; background: #f7fafc; overflow: hidden; }
+.terrace-guide-canvas svg { display: block; width: 100%; height: auto; max-height: 28rem; }
+.terrace-guide-canvas svg text { font-family: inherit; }
+.terrace-guide-notes { display: grid; gap: .38rem; margin: .8rem 0 0; padding: 0; list-style: none; }
+.terrace-guide-notes li { position: relative; padding-left: 1.1rem; color: #425665; font-size: .78rem; line-height: 1.45; }
+.terrace-guide-notes li::before { position: absolute; top: .1rem; left: 0; color: #27906b; content: "✓"; font-weight: 900; }
+.terrace-guide-close { margin-top: .8rem; padding: .55rem .72rem; border: 1px solid #cbd9e7; border-radius: 10px; background: #fff; color: #31566e; font: inherit; font-size: .75rem; font-weight: 800; cursor: pointer; }
+.terrace-guide-close:hover { background: #edf6fa; }
+.terrace-guide-triptych { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .65rem; }
+.terrace-guide-mini,
+.terrace-guide-status { min-width: 0; margin: 0; overflow: hidden; border: 1px solid #d8e1e7; border-radius: 12px; background: #fff; }
+.terrace-guide-mini > div,
+.terrace-guide-status > div { padding: .35rem; }
+.terrace-guide-mini figcaption { padding: .55rem .65rem; border-top: 1px solid #e1e8ed; color: #233f54; font-size: .76rem; font-weight: 850; text-align: center; }
+.terrace-guide-comparison { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .7rem; }
+.terrace-guide-status figcaption { display: flex; align-items: center; gap: .45rem; padding: .52rem .62rem; border-bottom: 1px solid #dfe8ed; color: #263f50; font-size: .76rem; font-weight: 850; }
+.terrace-guide-status figcaption span { display: grid; place-items: center; width: 1.35rem; height: 1.35rem; border-radius: 50%; color: #fff; font-size: .75rem; }
+.terrace-guide-status.correct { border-color: #b9dccd; }
+.terrace-guide-status.correct figcaption { background: #eef9f4; color: #17664d; }
+.terrace-guide-status.correct figcaption span { background: #278b69; }
+.terrace-guide-status.incorrect { border-color: #e8c4bf; }
+.terrace-guide-status.incorrect figcaption { background: #fff3f1; color: #96372e; }
+.terrace-guide-status.incorrect figcaption span { background: #c34c40; }
+
+/* Vocabulario visual compartido por los SVG */
+.guide-wall,
+.guide-building { fill: #183e61; }
+.guide-label-on-dark { fill: #fff; font-size: 15px; font-weight: 850; letter-spacing: .06em; }
+.guide-label-on-dark.small { font-size: 12px; }
+.guide-terrace-zone { fill: #f9dda1; stroke: #b8781d; stroke-width: 2; }
+.guide-terrace-zone.danger { fill: #f7c8c2; stroke: #bb4439; }
+.guide-table circle { fill: #fff; stroke: #9a641c; stroke-width: 2; }
+.guide-table rect { fill: #d19445; }
+.guide-walk-line { fill: none; stroke: #268a68; stroke-linecap: round; stroke-width: 6; }
+.guide-walk-arrow { fill: #268a68; }
+.guide-caption { fill: #536978; font-size: 13px; font-weight: 750; }
+.guide-plaza,
+.guide-sidewalk { fill: #edf2f4; stroke: #c4d0d7; stroke-width: 2; }
+.guide-plaza-lines { fill: none; stroke: #d9e1e5; stroke-width: 2; }
+.guide-curb { fill: #687781; }
+.guide-surface-label { fill: #6b7d89; font-size: 12px; font-weight: 850; letter-spacing: .08em; }
+.guide-measure { stroke: #208465; stroke-linecap: round; stroke-width: 5; }
+.guide-measure.danger { stroke: #bf4439; }
+.guide-arrowhead { fill: #208465; }
+.guide-arrowhead.danger { fill: #bf4439; }
+.guide-measure-label { fill: #187054; font-size: 12px; font-weight: 900; letter-spacing: .05em; }
+.guide-measure-label.danger,
+.guide-danger-text { fill: #ae3d34; font-size: 11px; font-weight: 900; letter-spacing: .04em; }
+.guide-ground { fill: #788993; }
+.guide-fence rect { fill: #d1933f; stroke: #7b4b15; stroke-width: 1.5; }
+.guide-fence.broken rect { fill: #cf8a84; stroke: #9b3730; }
+.guide-measure-chip { fill: #e8f7f1; stroke: #4da584; stroke-width: 2; }
+.guide-measure-chip-text { fill: #17684e; font-size: 14px; font-weight: 900; }
+.guide-danger-mark { fill: none; stroke: #c14b40; stroke-linecap: round; stroke-width: 7; }
+.guide-pedestrian-path { fill: none; stroke: #278b69; stroke-dasharray: 9 8; stroke-linecap: round; stroke-width: 6; }
+.guide-pedestrian-path.danger { stroke: #c14b40; }
+.guide-extinguisher-body,
+.guide-extinguisher-icon > rect:first-child { fill: #cf2f27; stroke: #8f1c17; stroke-width: 3; }
+.guide-extinguisher-handle,
+.guide-extinguisher-icon > rect:nth-child(2) { fill: #283842; }
+.guide-hose,
+.guide-extinguisher-icon path { fill: none; stroke: #283842; stroke-linecap: round; stroke-width: 8; }
+.guide-extinguisher-label,
+.guide-extinguisher-icon .label { fill: #fff; stroke: #dedede; stroke-width: 2; }
+.guide-label-heading { fill: #4f5b63; font-size: 11px; font-weight: 850; letter-spacing: .08em; }
+.guide-label-code { fill: #a92722; font-size: 20px; font-weight: 950; }
+.guide-extinguisher-layout { display: grid; grid-template-columns: minmax(9rem, .7fr) minmax(15rem, 1.3fr); align-items: center; gap: 1rem; max-width: 44rem; margin: auto; }
+.guide-rating-card { padding: 1rem; border: 1px solid #cbd9e7; border-radius: 14px; background: #fff; }
+.guide-rating-card > span { display: block; margin-bottom: .6rem; color: #617989; font-size: .65rem; font-weight: 900; letter-spacing: .1em; }
+.guide-rating-card > div { display: grid; grid-template-columns: 4.4rem 1fr; align-items: center; gap: .7rem; margin-top: .5rem; padding: .55rem; border-radius: 10px; background: #f1f7fa; }
+.guide-rating-card > div b { display: grid; place-items: center; min-height: 2.35rem; border-radius: 8px; background: #183e61; color: #fff; font-size: 1.15rem; }
+.guide-rating-card > div small { color: #405866; font-size: .76rem; font-weight: 750; }
+.guide-rating-card p { margin: .75rem 0 0; padding: .65rem; border: 1px solid #b8d9ca; border-radius: 10px; background: #eef9f4; }
+.guide-rating-card p strong,
+.guide-rating-card p em { display: block; }
+.guide-rating-card p strong { color: #246e56; font-size: .68rem; letter-spacing: .06em; text-transform: uppercase; }
+.guide-rating-card p em { margin-top: .25rem; color: #173957; font-size: 1.2rem; font-style: normal; font-weight: 950; letter-spacing: .05em; }
+.guide-rating-card footer { margin-top: .7rem; color: #687b88; font-size: .74rem; line-height: 1.4; }
+.guide-heater { fill: #788b96; stroke: #354d5a; stroke-width: 2.5; }
+.guide-access-route { fill: none; stroke: #2d906f; stroke-dasharray: 10 8; stroke-linecap: round; stroke-width: 8; }
+.guide-access-arrow { fill: #2d906f; }
+.guide-access-chip { fill: #eaf7f2; stroke: #8fc8b3; stroke-width: 2; }
+.guide-access-label { fill: #187054; font-size: 13px; font-weight: 900; letter-spacing: .04em; }
+.guide-ok-circle { fill: #248767; }
+.guide-ok-check { fill: none; stroke: #fff; stroke-linecap: round; stroke-linejoin: round; stroke-width: 5; }
+.guide-door { fill: #f2b95c; stroke: #9d6418; stroke-width: 2; }
+.guide-route-arrow { fill: #278b69; }
+.guide-route-arrow.danger { fill: #c14b40; }
+.guide-person circle { fill: #326a91; }
+.guide-person path { fill: none; stroke: #326a91; stroke-linecap: round; stroke-linejoin: round; stroke-width: 5; }
+.guide-chair rect { fill: #d28e3f; }
+.guide-chair path { fill: none; stroke: #8b561d; stroke-linecap: round; stroke-width: 4; }
+
 @media (max-width: 700px) {
   .terrace-index,
   .terrace-options,
@@ -99,4 +226,14 @@
   .terrace-sheet .sheettitle { align-items: flex-start; }
   .terrace-sheet .sheettitle .copy { width: 100%; }
   .terrace-actions dl > div { grid-template-columns: 1fr; gap: .2rem; }
+  .terrace-guide-overview { grid-template-columns: 1fr; }
+  .terrace-guide-triptych,
+  .terrace-guide-comparison { grid-template-columns: 1fr; }
+  .terrace-guide-toggle { align-items: flex-start; }
+  .terrace-guide-toggle > b { margin-top: .1rem; }
+  .terrace-guide-panel,
+  .terrace-guide-canvas { padding: .7rem; }
+  .guide-extinguisher-layout { grid-template-columns: 1fr; }
+  .guide-extinguisher-layout > svg { max-width: 12rem; margin: auto; }
+  .guide-wide-svg { min-width: 0; }
 }

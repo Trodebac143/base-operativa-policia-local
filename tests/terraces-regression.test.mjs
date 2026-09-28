@@ -25,6 +25,44 @@ test("Terrazas publica quince bloques JSON sobre el ID real de Policía Administ
   assert.ok(terraces.every((item) => item.datos_adicionales.terrazas.information?.length), "todas las fichas incluyen referencia operativa");
 });
 
+test("la biblioteca gráfica asocia seis ayudas únicamente a Terrazas y permanece cerrada por defecto", async () => {
+  const { cases } = await vite.ssrLoadModule("/data/cases.ts");
+  const { TERRACE_CASE_GUIDE_IDS, TERRACE_GENERAL_GUIDE_IDS } = await vite.ssrLoadModule("/app/terrace-visual-guides.tsx");
+  const { TerraceCaseSheet, TerracesCategoryView } = await vite.ssrLoadModule("/app/terraces.tsx");
+  assert.deepEqual(TERRACE_GENERAL_GUIDE_IDS, ["location-types"]);
+  assert.deepEqual(TERRACE_CASE_GUIDE_IDS, {
+    "TER-OP-005": ["free-passage"],
+    "TER-OP-006": ["barrier-height"],
+    "TER-OP-015": ["extinguisher-label", "heater-extinguisher", "clear-access"],
+  });
+  const terraces = cases.filter((item) => item.categoria === "policia_administrativa_terrazas");
+  const categoryHtml = renderToStaticMarkup(React.createElement(TerracesCategoryView, { cases: terraces, onOpenCase() {} }));
+  assert.match(categoryHtml, /Tipologías de terraza/);
+  assert.match(categoryHtml, /data-guide-id="location-types"/);
+  const passageHtml = renderToStaticMarkup(React.createElement(TerraceCaseSheet, { item: terraces.find((item) => item.id === "TER-OP-005"), copied: false, onCopy() {} }));
+  assert.match(passageHtml, /data-guide-id="free-passage"/);
+  const safetyHtml = renderToStaticMarkup(React.createElement(TerraceCaseSheet, { item: terraces.find((item) => item.id === "TER-OP-015"), copied: false, onCopy() {} }));
+  assert.match(safetyHtml, /data-guide-id="extinguisher-label"/);
+  assert.match(safetyHtml, /data-guide-id="heater-extinguisher"/);
+  assert.match(safetyHtml, /data-guide-id="clear-access"/);
+  assert.match(safetyHtml, /aria-expanded="false"/);
+  assert.doesNotMatch(`${categoryHtml}${passageHtml}${safetyHtml}`, /<svg/);
+});
+
+test("las ayudas gráficas son vectoriales, reutilizables y no cargan imágenes externas", async () => {
+  const source = await readFile(new URL("../app/terrace-visual-guides.tsx", import.meta.url), "utf8");
+  const css = await readFile(new URL("../app/terraces.css", import.meta.url), "utf8");
+  assert.doesNotMatch(source, /https?:\/\//);
+  assert.doesNotMatch(source, /<img|next\/image/i);
+  assert.match(source, /aria-expanded=\{open\}/);
+  assert.match(source, /Cerrar ayuda gráfica/);
+  assert.match(source, /21A/);
+  assert.match(source, /13B/);
+  assert.match(source, /80–150 cm/);
+  assert.match(source, /menos de 15 m/);
+  assert.match(css, /@media \(max-width: 700px\)[\s\S]*\.terrace-guide-comparison \{ grid-template-columns: 1fr; \}/);
+});
+
 test("las variantes sancionadoras preservan artículos, importes y límites literales", async () => {
   const cases = await readJson("contenido/_generado/casos.json");
   const byId = new Map(cases.map((item) => [item.id, item]));
