@@ -3,7 +3,6 @@
 import { useState } from "react";
 import type { OperationalCase } from "@/data/types";
 import { SourceLinks } from "./source-links";
-import { TerraceCaseGuides, TerraceGeneralGuide } from "./terrace-visual-guides";
 
 type TerraceAnswer = string | string[];
 type TerraceAnswers = Record<string, TerraceAnswer>;
@@ -140,7 +139,6 @@ export function TerracesCategoryView({ cases, onOpenCase }: { cases: Operational
       <div><span>Responsable · titular de la instalación (art. 26)</span><span>Leve · 150 €</span><span>Grave · 300 €</span><span>Muy grave · 600 €</span></div>
       <p>Las infracciones muy graves pueden comportar además revocación y/o inhabilitación de hasta cinco años; es información para el expediente, no una consecuencia policial automática.</p>
     </aside>
-    <TerraceGeneralGuide />
     <div className="terrace-groups">{GROUPS.map((group) => {
       const items = terraceCases.filter((item) => terraceData(item)!.group === group);
       if (!items.length) return null;
@@ -167,7 +165,6 @@ export function TerraceCaseSheet({ item }: { item: OperationalCase; copied: bool
   return <article className="terrace-sheet">
     <div className="sheettitle"><div><h2>{data.icon} {item.titulo.replace(/^\S+\s/, "")}</h2><p>{data.summary}</p></div></div>
     {!!data.information?.length && <section className="terrace-reference"><h3>Referencia operativa</h3><ul>{data.information.map((entry) => <li key={entry}>{entry}</li>)}</ul></section>}
-    <TerraceCaseGuides caseId={item.id} />
     <section className="terrace-check"><div className="terrace-section-title"><span>1</span><div><h3>Hechos observados</h3><p>Completa únicamente lo comprobado en la intervención.</p></div></div>
       <div className="terrace-fields">{data.fields.map((field) => {
         if (field.visible_when && !field.visible_when.every((condition) => conditionMatches(condition, answers))) return null;

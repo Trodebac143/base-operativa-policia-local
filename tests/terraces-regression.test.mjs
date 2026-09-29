@@ -25,42 +25,49 @@ test("Terrazas publica quince bloques JSON sobre el ID real de Policía Administ
   assert.ok(terraces.every((item) => item.datos_adicionales.terrazas.information?.length), "todas las fichas incluyen referencia operativa");
 });
 
-test("la biblioteca gráfica asocia seis ayudas únicamente a Terrazas y permanece cerrada por defecto", async () => {
+test("la biblioteca visual común reúne siete guías y está disponible en portada y fichas", async () => {
   const { cases } = await vite.ssrLoadModule("/data/cases.ts");
-  const { TERRACE_CASE_GUIDE_IDS, TERRACE_GENERAL_GUIDE_IDS } = await vite.ssrLoadModule("/app/terrace-visual-guides.tsx");
+  const { TERRACE_VISUAL_GUIDES } = await vite.ssrLoadModule("/app/terrace-visual-guides.tsx");
   const { TerraceCaseSheet, TerracesCategoryView } = await vite.ssrLoadModule("/app/terraces.tsx");
-  assert.deepEqual(TERRACE_GENERAL_GUIDE_IDS, ["location-types"]);
-  assert.deepEqual(TERRACE_CASE_GUIDE_IDS, {
-    "TER-OP-005": ["free-passage"],
-    "TER-OP-006": ["barrier-height"],
-    "TER-OP-015": ["extinguisher-label", "heater-extinguisher", "clear-access"],
-  });
+  const pageSource = await readFile(new URL("../app/page.tsx", import.meta.url), "utf8");
+  assert.deepEqual(TERRACE_VISUAL_GUIDES.map((guide) => guide.id), [
+    "location-types",
+    "free-passage",
+    "barrier-height",
+    "clear-access",
+    "heater-extinguisher",
+    "awning-height",
+    "roadway-extension",
+  ]);
+  assert.match(pageSource, /isTerraceContext = selectedCategory\?\.id === "policia_administrativa_terrazas"/);
+  assert.match(pageSource, /isTerraceContext && <div className="terrace-help-toolbar"><TerraceVisualHelp \/><\/div>/);
   const terraces = cases.filter((item) => item.categoria === "policia_administrativa_terrazas");
   const categoryHtml = renderToStaticMarkup(React.createElement(TerracesCategoryView, { cases: terraces, onOpenCase() {} }));
-  assert.match(categoryHtml, /Tipologías de terraza/);
-  assert.match(categoryHtml, /data-guide-id="location-types"/);
-  const passageHtml = renderToStaticMarkup(React.createElement(TerraceCaseSheet, { item: terraces.find((item) => item.id === "TER-OP-005"), copied: false, onCopy() {} }));
-  assert.match(passageHtml, /data-guide-id="free-passage"/);
-  const safetyHtml = renderToStaticMarkup(React.createElement(TerraceCaseSheet, { item: terraces.find((item) => item.id === "TER-OP-015"), copied: false, onCopy() {} }));
-  assert.match(safetyHtml, /data-guide-id="extinguisher-label"/);
-  assert.match(safetyHtml, /data-guide-id="heater-extinguisher"/);
-  assert.match(safetyHtml, /data-guide-id="clear-access"/);
-  assert.match(safetyHtml, /aria-expanded="false"/);
-  assert.doesNotMatch(`${categoryHtml}${passageHtml}${safetyHtml}`, /<svg/);
+  assert.doesNotMatch(categoryHtml, /Tipologías de terraza|data-guide-id=/);
+  const caseMarkup = terraces.map((item) => renderToStaticMarkup(React.createElement(TerraceCaseSheet, { item, copied: false, onCopy() {} })));
+  assert.ok(caseMarkup.every((html) => !/data-guide-id=|<(?:svg|img)/.test(html)), "la biblioteca cerrada no carga guías ni imágenes");
 });
 
-test("las ayudas gráficas son vectoriales, reutilizables y no cargan imágenes externas", async () => {
+test("la ayuda visual carga un único PNG bajo demanda, preserva el foco y respeta el basePath", async () => {
   const source = await readFile(new URL("../app/terrace-visual-guides.tsx", import.meta.url), "utf8");
   const css = await readFile(new URL("../app/terraces.css", import.meta.url), "utf8");
   assert.doesNotMatch(source, /https?:\/\//);
-  assert.doesNotMatch(source, /<img|next\/image/i);
-  assert.match(source, /aria-expanded=\{open\}/);
-  assert.match(source, /Cerrar ayuda gráfica/);
-  assert.match(source, /21A/);
-  assert.match(source, /13B/);
-  assert.match(source, /80–150 cm/);
-  assert.match(source, /menos de 15 m/);
-  assert.match(css, /@media \(max-width: 700px\)[\s\S]*\.terrace-guide-comparison \{ grid-template-columns: 1fr; \}/);
+  for (const file of ["tipologias-terraza.png", "anchura-libre-paso.png", "linea-rastrillo-valla-bordillo.png", "accesos-salidas.png", "estufas-extintor.png", "altura-toldos.png", "suplemento-calzada.png"]) {
+    assert.match(source, new RegExp(file.replaceAll(".", "\\.")));
+  }
+  assert.match(source, /import Image from "next\/image"/);
+  assert.match(source, /publicPath\(guide\.image\)/);
+  assert.match(source, /loading="lazy"/);
+  assert.match(source, /decoding="async"/);
+  assert.match(source, /role="dialog"/);
+  assert.match(source, /aria-modal="true"/);
+  assert.match(source, /event\.key === "Escape"/);
+  assert.match(source, /triggerRef\.current\?\.focus\(\{ preventScroll: true \}\)/);
+  assert.match(source, /window\.scrollTo\(scrollPositionRef\.current\)/);
+  assert.match(source, /document\.body\.style\.overflow = "hidden"/);
+  assert.doesNotMatch(source, /TERRACE_CASE_GUIDE_IDS|TERRACE_GENERAL_GUIDE_IDS|LocationTypesGraphic|GuideMiniPanel|TableTop|extinguisher-label/);
+  assert.match(css, /\.terrace-guide-image \{[^}]*width: auto;[^}]*height: auto;[^}]*max-width: 100%;[^}]*max-height: 430px;/);
+  assert.match(css, /@media \(max-width: 700px\)[\s\S]*\.terrace-guide-image \{ max-width: 100%; max-height: none; \}/);
 });
 
 test("las variantes sancionadoras preservan artículos, importes y límites literales", async () => {
