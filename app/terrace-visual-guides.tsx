@@ -29,7 +29,7 @@ export const TERRACE_VISUAL_GUIDES: readonly TerraceVisualGuideDefinition[] = [
     id: "location-types",
     title: "Tipologías de terraza",
     summary: "Diferencia visualmente terraza adosada a fachada, en línea de rastrillo y en zona peatonal.",
-    image: "/imagenes/terrazas/tipologias-terraza.png",
+    image: "/imagenes/terrazas/tipologias-terraza.webp",
     alt: "Tipologías de terraza",
     width: 1671,
     height: 941,
@@ -38,7 +38,7 @@ export const TERRACE_VISUAL_GUIDES: readonly TerraceVisualGuideDefinition[] = [
     id: "free-passage",
     title: "Anchura libre de paso",
     summary: "Referencia visual del paso general de 1,80 m y del paso de 3,50 m en calles, paseos peatonales y plazas.",
-    image: "/imagenes/terrazas/anchura-libre-paso.png",
+    image: "/imagenes/terrazas/anchura-libre-paso.webp",
     alt: "Anchura libre de paso de una terraza",
     width: 1536,
     height: 1024,
@@ -47,7 +47,7 @@ export const TERRACE_VISUAL_GUIDES: readonly TerraceVisualGuideDefinition[] = [
     id: "barrier-height",
     title: "Línea de rastrillo: valla y bordillo",
     summary: "Referencia visual de separación al bordillo, altura de valla y apertura máxima.",
-    image: "/imagenes/terrazas/linea-rastrillo-valla-bordillo.png",
+    image: "/imagenes/terrazas/linea-rastrillo-valla-bordillo.webp",
     alt: "Medidas de valla y bordillo en terraza en línea de rastrillo",
     width: 1672,
     height: 941,
@@ -56,7 +56,7 @@ export const TERRACE_VISUAL_GUIDES: readonly TerraceVisualGuideDefinition[] = [
     id: "clear-access",
     title: "Accesos, puertas y salidas",
     summary: "Referencia visual de separación desde quicios y espacio libre en salidas de emergencia.",
-    image: "/imagenes/terrazas/accesos-salidas.png",
+    image: "/imagenes/terrazas/accesos-salidas.webp",
     alt: "Distancias libres en puertas y salidas de emergencia",
     width: 1672,
     height: 941,
@@ -65,7 +65,7 @@ export const TERRACE_VISUAL_GUIDES: readonly TerraceVisualGuideDefinition[] = [
     id: "heater-extinguisher",
     title: "Estufas y extintor",
     summary: "Referencia visual de altura libre, distancia al extintor y eficacia mínima exigible.",
-    image: "/imagenes/terrazas/estufas-extintor.png",
+    image: "/imagenes/terrazas/estufas-extintor.webp",
     alt: "Requisitos de estufas y extintor",
     width: 1672,
     height: 941,
@@ -74,7 +74,7 @@ export const TERRACE_VISUAL_GUIDES: readonly TerraceVisualGuideDefinition[] = [
     id: "awning-height",
     title: "Altura de los toldos",
     summary: "Referencia visual del rango permitido entre 2,80 y 3,50 m.",
-    image: "/imagenes/terrazas/altura-toldos.png",
+    image: "/imagenes/terrazas/altura-toldos.webp",
     alt: "Altura reglamentaria de toldos",
     width: 1672,
     height: 941,
@@ -83,7 +83,7 @@ export const TERRACE_VISUAL_GUIDES: readonly TerraceVisualGuideDefinition[] = [
     id: "roadway-extension",
     title: "Suplemento de calzada",
     summary: "Referencia visual de separación, protección, reflectantes y señalización.",
-    image: "/imagenes/terrazas/suplemento-calzada.png",
+    image: "/imagenes/terrazas/suplemento-calzada.webp",
     alt: "Requisitos visuales de suplemento de calzada",
     width: 1672,
     height: 941,
@@ -218,7 +218,7 @@ function GuideDetail({ guide, backRef, onBack }: { guide: TerraceVisualGuideDefi
         width={guide.width}
         height={guide.height}
         sizes="(max-width: 700px) 100vw, 800px"
-        loading="lazy"
+        loading="eager"
         decoding="async"
         unoptimized
       /></div>

@@ -62,3 +62,7 @@ Para cambios ordinarios sí se editan los PDF, `contenido/biblioteca/metadatos.j
 - Se evita el texto libre si no alimenta una decisión o una salida operativa concreta.
 - La parte común se presenta una sola vez y solo se separan variantes cuando cambia el resultado.
 - Si un término como «homologado», «certificado», «autorizado» o «reglamentario» no puede verificarse en calle, se indica la comprobación documental y no se obliga a adivinar.
+
+## 11. Imágenes de producción
+
+Publica las ilustraciones rasterizadas en formato WebP optimizado. Conserva los archivos originales fuera de `public/`, dentro de `recursos/imagenes-originales/`, para que no se incluyan en el despliegue. Antes de publicar una imagen, comprueba su legibilidad en escritorio y móvil y evita archivos innecesariamente pesados.

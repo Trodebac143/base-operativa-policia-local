@@ -1,6 +1,6 @@
 import test, { after } from "node:test";
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { readFile, readdir } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { createServer } from "vite";
 import React from "react";
@@ -48,16 +48,21 @@ test("la biblioteca visual común reúne siete guías y está disponible en port
   assert.ok(caseMarkup.every((html) => !/data-guide-id=|<(?:svg|img)/.test(html)), "la biblioteca cerrada no carga guías ni imágenes");
 });
 
-test("la ayuda visual carga un único PNG bajo demanda, preserva el foco y respeta el basePath", async () => {
+test("la ayuda visual carga un único WebP bajo demanda, preserva el foco y respeta el basePath", async () => {
   const source = await readFile(new URL("../app/terrace-visual-guides.tsx", import.meta.url), "utf8");
   const css = await readFile(new URL("../app/terraces.css", import.meta.url), "utf8");
+  const publicImages = (await readdir(new URL("../public/imagenes/terrazas/", import.meta.url))).sort();
+  const originalImages = (await readdir(new URL("../recursos/imagenes-originales/terrazas/", import.meta.url))).sort();
+  assert.deepEqual(publicImages, ["accesos-salidas.webp", "altura-toldos.webp", "anchura-libre-paso.webp", "estufas-extintor.webp", "linea-rastrillo-valla-bordillo.webp", "suplemento-calzada.webp", "tipologias-terraza.webp"]);
+  assert.deepEqual(originalImages, ["accesos-salidas.png", "altura-toldos.png", "anchura-libre-paso.png", "estufas-extintor.png", "linea-rastrillo-valla-bordillo.png", "suplemento-calzada.png", "tipologias-terraza.png"]);
   assert.doesNotMatch(source, /https?:\/\//);
-  for (const file of ["tipologias-terraza.png", "anchura-libre-paso.png", "linea-rastrillo-valla-bordillo.png", "accesos-salidas.png", "estufas-extintor.png", "altura-toldos.png", "suplemento-calzada.png"]) {
+  for (const file of ["tipologias-terraza.webp", "anchura-libre-paso.webp", "linea-rastrillo-valla-bordillo.webp", "accesos-salidas.webp", "estufas-extintor.webp", "altura-toldos.webp", "suplemento-calzada.webp"]) {
     assert.match(source, new RegExp(file.replaceAll(".", "\\.")));
   }
   assert.match(source, /import Image from "next\/image"/);
   assert.match(source, /publicPath\(guide\.image\)/);
-  assert.match(source, /loading="lazy"/);
+  assert.doesNotMatch(source, /loading="lazy"/);
+  assert.match(source, /loading="eager"/);
   assert.match(source, /decoding="async"/);
   assert.match(source, /role="dialog"/);
   assert.match(source, /aria-modal="true"/);
