@@ -33,6 +33,7 @@ test("2 · Fuentes consume el registro jurídico central", async () => {
 test("3 · una fuente con URL muestra Consultar fuente oficial", () => {
   const html = render(library.LibrarySourcesPanel, { initialQuery: "Reglamento General de Vehículos" });
   assert.match(html, />Consultar fuente oficial /);
+  assert.match(html, /Reglamento General de Vehículos/);
 });
 
 test("4 · una fuente con documento local muestra Abrir documento", () => {
@@ -89,41 +90,52 @@ test("12 · Buscar fuente encuentra por nombre, norma y organismo", () => {
   assert.ok(sourceData.filterSources("Dirección General de Tráfico").length >= 5);
 });
 
-test("13 · la agrupación de Biblioteca es exhaustiva, exclusiva y conserva los conteos", () => {
+test("13 · la agrupación de Biblioteca es exhaustiva, exclusiva y declarada por cada fuente", async () => {
   const grouped = usageData.groupSourcesByLibraryMatter(sourceData.sources);
-  const counts = Object.fromEntries(usageData.sourceLibraryGroups.map((group) => [group.id, grouped[group.id].length]));
-  assert.deepEqual(counts, {
-    animals: 9,
-    traffic: 25,
-    "public-security": 14,
-    "administrative-police": 11,
-    transversal: 4,
-    other: 2,
-  });
-
   const groupedIds = Object.values(grouped).flatMap((group) => group.map((source) => source.id));
   assert.equal(groupedIds.length, sourceData.sources.length);
   assert.equal(new Set(groupedIds).size, sourceData.sources.length);
   assert.deepEqual(new Set(groupedIds), new Set(sourceData.sources.map((source) => source.id)));
+
+  const groupRegistry = JSON.parse(await readFile(new URL("../contenido/biblioteca/grupos-fuentes.json", import.meta.url), "utf8"));
+  assert.deepEqual(usageData.sourceLibraryGroups.map((group) => group.id), groupRegistry.map((group) => group.id));
+  const groupIds = new Set(groupRegistry.map((group) => group.id));
+  for (const source of sourceData.sources) assert.ok(groupIds.has(source.grupoBiblioteca), `${source.id}: grupo inexistente`);
 });
 
-test("14 · los usos multi-módulo, reglas transversales y fuentes sin uso terminan en su grupo único", () => {
-  for (const id of ["AN-SRC-007", "OCC-TORRENT", "TR-ITV-SRC-001", "TR-MOV-SRC-001"]) {
-    assert.equal(usageData.sourceLibraryGroupForSource(id), "transversal", id);
-  }
-  for (const id of ["ORL-TORRENT", "VNS-TORRENT"]) {
-    assert.equal(usageData.sourceLibraryGroupForSource(id), "other", id);
-  }
-  assert.equal(usageData.sourceLibraryGroupFromUsage(["Uso no identificable"]), "other");
+test("14 · Código Penal y ordenanzas tienen una carpeta editorial independiente de sus usos", () => {
+  assert.equal(usageData.sourceLibraryGroupForSource("AN-SRC-007"), "seguridad_publica");
+  assert.ok(usageData.sourceUsage("AN-SRC-007").length > 1, "el Código Penal conserva sus usos cruzados");
+
+  const ordinances = sourceData.sources.filter((source) => /^(Ordenanza|Ordenanza municipal)$/i.test(source.tipo ?? ""));
+  assert.deepEqual(ordinances.map((source) => source.id).sort(), [
+    "OCC-TORRENT",
+    "ORL-TORRENT",
+    "OTA-TORRENT",
+    "PA-URB-SRC-ZANJAS-CALAS-TORRENT",
+    "TER-TORRENT",
+    "TR-MOV-SRC-001",
+    "VNS-TORRENT",
+  ]);
+  for (const source of ordinances) assert.equal(source.grupoBiblioteca, "ordenanzas_municipales", source.id);
 });
 
-test("15 · Fuentes se pliega por materia sin búsqueda y la búsqueda conserva una lista plana", () => {
+test("15 · Fuentes se pliega por grupo activo con fuentes, ordena alfabéticamente y la búsqueda conserva una lista plana", () => {
+  const grouped = usageData.groupSourcesByLibraryMatter(sourceData.sources);
+  for (const group of usageData.sourceLibraryGroups) {
+    const labels = grouped[group.id].map((source) => source.nombreCorto ?? source.nombre);
+    assert.deepEqual(labels, [...labels].sort((left, right) => left.localeCompare(right, "es")), group.id);
+  }
+
   const groupedHtml = render(library.LibrarySourcesPanel);
   assert.match(groupedHtml, /data-source-results="grouped"/);
-  assert.equal((groupedHtml.match(/<summary>/g) ?? []).length, 6);
-  for (const [icon, label, count] of [["🐾", "Animales", 9], ["🚦", "Seguridad Vial", 25], ["🛡️", "Seguridad Pública", 14], ["🏛️", "Policía Administrativa", 11], ["🔄", "Fuentes transversales \/ comunes", 4], ["📚", "Otras fuentes", 2]]) {
-    assert.match(groupedHtml, new RegExp(`${icon}[\\s\\S]*${label}[\\s\\S]*${count} fuentes`));
+  const visibleGroups = usageData.activeSourceLibraryGroups.filter((group) => grouped[group.id].length);
+  assert.equal((groupedHtml.match(/<summary>/g) ?? []).length, visibleGroups.length);
+  for (const group of visibleGroups) {
+    assert.match(groupedHtml, new RegExp(`${group.icono}[\\s\\S]*${group.nombre}[\\s\\S]*${grouped[group.id].length} fuentes`));
   }
+  assert.doesNotMatch(groupedHtml, /Fuentes transversales \/ comunes/);
+  assert.doesNotMatch(groupedHtml, /Otras fuentes/);
 
   const searchHtml = render(library.LibrarySourcesPanel, { initialQuery: "Manual de Intervención VMP" });
   assert.match(searchHtml, /data-source-results="search"/);

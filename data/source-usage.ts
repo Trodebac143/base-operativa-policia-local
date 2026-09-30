@@ -8,41 +8,27 @@ import seguridadPublicaJson from "../contenido/seguridad_publica/operativa.json"
 import vmpGuideJson from "../contenido/seguridad_vial/vmp/guia.json";
 import establishmentsJson from "../contenido/policia_administrativa/establecimientos/inspeccion.json";
 import urbanismoJson from "../contenido/policia_administrativa/urbanismo/inspeccion.json";
+import sourceLibraryGroupsJson from "../contenido/biblioteca/grupos-fuentes.json";
 import { resolveSourceReference } from "./sources";
 import type { Source } from "./types";
 
-export type SourceLibraryGroupId =
-  | "animals"
-  | "traffic"
-  | "public-security"
-  | "administrative-police"
-  | "transversal"
-  | "other";
-
 export type SourceLibraryGroup = {
-  id: SourceLibraryGroupId;
-  label: string;
-  icon: string;
+  id: string;
+  nombre: string;
+  icono: string;
+  orden: number;
+  activo: boolean;
 };
 
-/** Orden de presentación de Biblioteca. La asignación de cada fuente se deriva de sus usos. */
-export const sourceLibraryGroups: readonly SourceLibraryGroup[] = [
-  { id: "animals", label: "Animales", icon: "🐾" },
-  { id: "traffic", label: "Seguridad Vial", icon: "🚦" },
-  { id: "public-security", label: "Seguridad Pública", icon: "🛡️" },
-  { id: "administrative-police", label: "Policía Administrativa", icon: "🏛️" },
-  { id: "transversal", label: "Fuentes transversales / comunes", icon: "🔄" },
-  { id: "other", label: "Otras fuentes", icon: "📚" },
-] as const;
+/** Registro editable de grupos. Su orden, nombre, icono y visibilidad no viven en React. */
+export const sourceLibraryGroups = [...(sourceLibraryGroupsJson as SourceLibraryGroup[])]
+  .sort((left, right) => left.orden - right.orden || left.nombre.localeCompare(right.nombre, "es"));
 
-const libraryGroupByModule = {
-  Animales: "animals",
-  "Seguridad Vial": "traffic",
-  "Seguridad Pública": "public-security",
-  "Policía Administrativa": "administrative-police",
-} as const satisfies Record<string, SourceLibraryGroupId>;
-
-type SourceLibraryGroups = Record<SourceLibraryGroupId, Source[]>;
+/** Un grupo inactivo no se muestra; los grupos activos sin fuentes también se omiten en la UI. */
+export const activeSourceLibraryGroups = sourceLibraryGroups.filter((group) => group.activo);
+const sourceLibraryGroupById = new Map(sourceLibraryGroups.map((group) => [group.id, group]));
+type SourceLibraryGroups = Record<string, Source[]>;
+const sourceNameOrder = new Intl.Collator("es", { sensitivity: "base" });
 
 const animalsJson = rawCases.filter((item) => item.modulo === "animales");
 const itvJson = rawCases.filter((item) => item.categoria === "seguridad_vial_itv");
@@ -120,27 +106,14 @@ export function sourceUsage(sourceId: string): string[] {
   return [...(usage.get(sourceId) ?? [])].sort((left, right) => left.localeCompare(right, "es"));
 }
 
-/**
- * Asigna una fuente a un único grupo de Biblioteca a partir de los usos ya
- * declarados por el contenido. No se infiere nada a partir de su nombre.
- */
-export function sourceLibraryGroupFromUsage(labels: readonly string[]): SourceLibraryGroupId {
-  if (!labels.length) return "other";
-  if (labels.includes("Reglas transversales")) return "transversal";
-
-  const modules = new Set<SourceLibraryGroupId>();
-  for (const label of labels) {
-    const moduleName = label.split(" → ", 1)[0];
-    const group = libraryGroupByModule[moduleName as keyof typeof libraryGroupByModule];
-    if (group) modules.add(group);
-  }
-
-  if (modules.size === 0) return "other";
-  return modules.size === 1 ? [...modules][0] : "transversal";
+/** La carpeta principal es un dato editorial explícito, independiente de «Utilizada en». */
+export function sourceLibraryGroupFor(source: Pick<Source, "grupoBiblioteca">): string {
+  return source.grupoBiblioteca;
 }
 
-export function sourceLibraryGroupForSource(sourceId: string): SourceLibraryGroupId {
-  return sourceLibraryGroupFromUsage(sourceUsage(sourceId));
+export function sourceLibraryGroupForSource(sourceId: string): string | undefined {
+  const source = resolveSourceReference(sourceId);
+  return source ? sourceLibraryGroupFor(source) : undefined;
 }
 
 /** Submaterias compactas para las fichas; la lista completa se conserva en «Utilizada en». */
@@ -152,12 +125,18 @@ export function sourceLibrarySubmatters(labels: readonly string[]): string[] {
   }))];
 }
 
-/** Agrupa sin duplicar ni omitir fuentes y conserva el orden del catálogo recibido. */
+/** Agrupa por el campo editorial grupoBiblioteca y ordena cada grupo en español. */
 export function groupSourcesByLibraryMatter(sourceList: readonly Source[]): SourceLibraryGroups {
-  const groups: Partial<SourceLibraryGroups> = {};
+  const groups: SourceLibraryGroups = {};
   for (const group of sourceLibraryGroups) groups[group.id] = [];
-  for (const source of sourceList) groups[sourceLibraryGroupForSource(source.id)]!.push(source);
-  return groups as SourceLibraryGroups;
+  for (const source of sourceList) {
+    if (!sourceLibraryGroupById.has(source.grupoBiblioteca)) continue;
+    groups[source.grupoBiblioteca].push(source);
+  }
+  for (const sourcesInGroup of Object.values(groups)) {
+    sourcesInGroup.sort((left, right) => sourceNameOrder.compare(left.nombreCorto ?? left.nombre, right.nombreCorto ?? right.nombre) || sourceNameOrder.compare(left.id, right.id));
+  }
+  return groups;
 }
 
 export function allSourceReferences(): string[] {

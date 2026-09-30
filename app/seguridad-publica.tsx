@@ -3,7 +3,7 @@
 import { useMemo, useRef, useState, type Dispatch, type SetStateAction } from "react";
 import { CollapsibleSection } from "@/components/ui/collapsible";
 import { categories } from "@/data/categories";
-import { resolveAuthorityOutcome, resolveDrugOutcome, resolvePublicSafetyOutcome, resolveWeaponOutcome, seguridadPublica, seguridadPublicaBlockDescription, seguridadPublicaBlockLabel, seguridadPublicaCategoryId, seguridadPublicaConceptos, type AuthorityOutcome, type DrugOutcome, type ProcessualInput, type PublicConcept, type PublicSafetyFacts, type PublicSafetyOutcome, type PublicSecurityBlock, type WeaponConduct, type WeaponContextInput, type WeaponObjectInput, type WeaponOutcome } from "@/data/seguridad-publica";
+import { resolveAuthorityOutcome, resolveDrugOutcome, resolvePublicSafetyOutcome, resolveWeaponOutcome, seguridadPublica, seguridadPublicaBlockDescription, seguridadPublicaBlockLabel, seguridadPublicaCategoryId, seguridadPublicaConceptos, type AuthorityOutcome, type DrugOutcome, type ProcessualInput, type PublicConcept, type PublicSafetyFacts, type PublicSafetyOutcome, type PublicSecurityBlock, type RelationalAnswer, type WeaponConduct, type WeaponContextInput, type WeaponObjectInput, type WeaponOutcome } from "@/data/seguridad-publica";
 import { resolvePatrimonyOutcome, type PatrimonyFacts, type PatrimonyOutcome } from "@/data/patrimonio";
 import { invertBooleanAnswer } from "@/data/boolean-answer";
 
@@ -47,7 +47,7 @@ function ConceptSheet({ concept, facts, setFacts, onNavigate, onBack }: { concep
     setCopied(true);
     window.setTimeout(() => setCopied(false), 1600);
   };
-  return <section className="sp-view sp-view-with-actions"><button className="back sp-desktop-back" onClick={onBack}>← Volver a {seguridadPublicaBlockLabel(concept.bloque)}</button><article className="sp-sheet" ref={sheetRef}><header><span className="kicker">{seguridadPublicaBlockLabel(concept.bloque).toUpperCase()}</span><h2 className="icon-heading"><span className="heading-icon" aria-hidden="true">{concept.icono}</span>{concept.titulo}</h2><p>{concept.resultado}</p></header>{concept.id === "drogas_trafico" ? <DrugDecision /> : concept.id === "patrimonio" ? <PatrimonyDecision facts={facts} setFacts={setFacts} onNavigate={onNavigate} /> : ["armas_blancas", "objetos_peligrosos"].includes(concept.id) ? <WeaponDecision key={concept.id} concept={concept} facts={facts} /> : ["desobediencia", "resistencia", "amenazas"].includes(concept.id) ? <AuthorityDecision concept={concept} /> : concept.id === "atentado" ? <AtentadoConcept concept={concept} /> : isIncidentConcept(concept.id) ? <IncidentDecision concept={concept} facts={facts} setFacts={setFacts} onNavigate={onNavigate} /> : <StaticConcept concept={concept} />}</article><nav className="sp-mobile-actions" aria-label="Acciones principales"><button onClick={onBack}>← Volver</button><button className="primary" onClick={copySummary}>{copied ? "✓ Copiado" : "Copiar resumen"}</button></nav></section>;
+  return <section className="sp-view sp-view-with-actions"><button className="back sp-desktop-back" onClick={onBack}>← Volver a {seguridadPublicaBlockLabel(concept.bloque)}</button><article className="sp-sheet" ref={sheetRef}><header><span className="kicker">{seguridadPublicaBlockLabel(concept.bloque).toUpperCase()}</span><h2 className="icon-heading"><span className="heading-icon" aria-hidden="true">{concept.icono}</span>{concept.titulo}</h2><p>{concept.resultado}</p></header>{concept.id === "drogas_trafico" ? <DrugDecision /> : concept.id === "patrimonio" ? <PatrimonyDecision facts={facts} onNavigate={onNavigate} /> : ["armas_blancas", "objetos_peligrosos"].includes(concept.id) ? <WeaponDecision key={concept.id} concept={concept} facts={facts} /> : ["desobediencia", "resistencia", "amenazas"].includes(concept.id) ? <AuthorityDecision concept={concept} /> : concept.id === "atentado" ? <AtentadoConcept concept={concept} /> : isIncidentConcept(concept.id) ? <IncidentDecision concept={concept} facts={facts} setFacts={setFacts} onNavigate={onNavigate} /> : <StaticConcept concept={concept} />}</article><nav className="sp-mobile-actions" aria-label="Acciones principales"><button onClick={onBack}>← Volver</button><button className="primary" onClick={copySummary}>{copied ? "✓ Copiado" : "Copiar resumen"}</button></nav></section>;
 }
 
 function StaticConcept({ concept }: { concept: PublicConcept }) {
@@ -86,11 +86,12 @@ function IncidentDecision({ concept, facts, setFacts, onNavigate }: { concept: P
   const showResolvedProcessual = facts.autorMayorEdad === false || hasProcessualAnswer(flagrante, processFacts, fixedMinorOffence);
   const sexualContext = concept.id === "agresiones_sexuales" || facts.hechosRelacion?.includes("sexual");
   const showComplaintQuestion = sexualContext && facts.actoSexualNoConsentido === true;
+  const hasSavedRelationalContext = [facts.parejaExpareja, facts.relacionFamiliar, facts.convivencia, facts.sexoAutor, facts.sexoVictima].some((value) => value !== undefined);
   return <>
     <OperationalSection title="Qué comprobar" items={concept.comprobar} />
-    <RelationshipQuestion facts={facts} set={set} />
-    {facts.tipoRelacion && concept.id !== "violencia_relacional" && <div className="sp-highlight neutral"><strong>CONTEXTO RELACIONAL REGISTRADO</strong><p>La relación, los sexos jurídicamente relevantes y la convivencia se conservan al conectar con otros bloques.</p></div>}
+    {hasSavedRelationalContext && concept.id !== "violencia_relacional" && <div className="sp-highlight neutral"><strong>CONTEXTO RELACIONAL CONSERVADO</strong><p>Los hechos ya indicados se reutilizan al conectar con otros bloques; solo se pedirán los datos que falten y puedan cambiar la salida.</p></div>}
     {concept.id === "violencia_relacional" && <>
+      <ProtectedRelationshipQuestions facts={facts} set={set} />
       <fieldset className="sp-choice"><legend>¿Qué hechos pueden coexistir?</legend>{relationEvents.map(([value, label]) => <label key={value}><input type="checkbox" checked={facts.hechosRelacion?.includes(value as NonNullable<PublicSafetyFacts["hechosRelacion"]>[number]) ?? false} onChange={() => toggleRelationEvent(value as NonNullable<PublicSafetyFacts["hechosRelacion"]>[number])} /> {label}</label>)}</fieldset>
       <ToggleQuestion legend="¿Se refieren episodios anteriores de violencia física o psíquica?" value={facts.episodiosPrevios} onChange={(value) => set("episodiosPrevios", value)} />
     </>}
@@ -98,6 +99,7 @@ function IncidentDecision({ concept, facts, setFacts, onNavigate }: { concept: P
       <ToggleQuestion legend="¿Ha existido golpe o agresión física?" value={facts.agresionFisica} onChange={(value) => set("agresionFisica", value)} />
       {facts.agresionFisica && <><ToggleQuestion legend="¿Existe o se refiere alguna lesión?" value={facts.lesion} onChange={(value) => set("lesion", value)} />
         {facts.lesion && <ChoiceQuestion legend="¿Se conoce el resultado asistencial?" value={facts.resultadoAsistencial} options={medicalResultOptions} onChange={(value) => set("resultadoAsistencial", value as PublicSafetyFacts["resultadoAsistencial"])} />}
+        {(facts.lesion === false || facts.resultadoAsistencial === "primera_asistencia") && <ProtectedRelationshipQuestions facts={facts} set={set} />}
         <ToggleQuestion legend="¿Se utilizó arma, botella, objeto o medio especialmente peligroso?" value={facts.medioPeligroso} onChange={(value) => set("medioPeligroso", value)} />
         <ToggleQuestion legend="¿Existe un resultado aparentemente de especial gravedad?" value={facts.resultadoEspecialGravedad} onChange={(value) => set("resultadoEspecialGravedad", value)} />
         <ToggleQuestion legend="¿Hay indicios de que la conducta pudiera estar dirigida a matar?" value={facts.indiciosFinalidadMatar} onChange={(value) => set("indiciosFinalidadMatar", value)} />
@@ -126,6 +128,7 @@ function IncidentDecision({ concept, facts, setFacts, onNavigate }: { concept: P
         <ToggleQuestion legend="¿Existen amenazas o coacciones autónomas y adicionales?" value={facts.amenazasAutonomas} onChange={(value) => set("amenazasAutonomas", value)} />
         <ToggleQuestion legend="¿Hay arma u objeto peligroso?" value={facts.medioPeligroso} onChange={(value) => set("medioPeligroso", value)} />
         <ToggleQuestion legend="¿Han transcurrido más de 72 horas?" value={facts.tiempoTranscurridoSuperior72h} onChange={(value) => set("tiempoTranscurridoSuperior72h", value)} />
+        <ProtectedRelationshipQuestions facts={facts} set={set} askVictimSex askSuperiority />
       </>}
     </>}
     {concept.id === "peleas_rinas" && <>
@@ -140,8 +143,9 @@ function IncidentDecision({ concept, facts, setFacts, onNavigate }: { concept: P
       <ChoiceQuestion legend="¿Qué está haciendo la persona?" value={facts.conductaLibertad} options={freedomConductOptions} onChange={(value) => set("conductaLibertad", value as PublicSafetyFacts["conductaLibertad"])} />
       {facts.conductaLibertad === "amenaza" && <><ChoiceQuestion legend="¿Qué mal anuncia?" value={facts.malAnunciado} options={threatHarmOptions} onChange={(value) => set("malAnunciado", value as PublicSafetyFacts["malAnunciado"])} />
         <ToggleQuestion legend="¿Exige algo o impone alguna condición?" value={facts.condicionImpuesta} onChange={(value) => set("condicionImpuesta", value)} />
+        {facts.malAnunciado === "menor_entidad" && <ProtectedRelationshipQuestions facts={facts} set={set} />}
       </>}
-      {facts.conductaLibertad === "coaccion" && <ChoiceQuestion legend="¿Cómo impone o impide la conducta?" value={facts.coaccionEntidad} options={coactionOptions} onChange={(value) => set("coaccionEntidad", value as PublicSafetyFacts["coaccionEntidad"])} />}
+      {facts.conductaLibertad === "coaccion" && <><ChoiceQuestion legend="¿Cómo impone o impide la conducta?" value={facts.coaccionEntidad} options={coactionOptions} onChange={(value) => set("coaccionEntidad", value as PublicSafetyFacts["coaccionEntidad"])} />{facts.coaccionEntidad === "leve" && <ProtectedRelationshipQuestions facts={facts} set={set} />}</>}
       {facts.conductaLibertad && facts.conductaLibertad !== "acoso" && <><ToggleQuestion legend="¿Utiliza o exhibe arma u objeto peligroso?" value={facts.medioPeligroso} onChange={(value) => set("medioPeligroso", value)} />
         <ToggleQuestion legend="¿Hay mensajes, audios, llamadas u otros soportes?" value={facts.soportes} onChange={(value) => set("soportes", value)} />
       </>}
@@ -154,15 +158,33 @@ function IncidentDecision({ concept, facts, setFacts, onNavigate }: { concept: P
   </>;
 }
 
-function RelationshipQuestion({ facts, set, askSexes = true }: { facts: PublicSafetyFacts; set: <K extends keyof PublicSafetyFacts>(key: K, value: PublicSafetyFacts[K]) => void; askSexes?: boolean }) {
+function ProtectedRelationshipQuestions({ facts, set, askVictimSex = false, askSuperiority = false }: { facts: PublicSafetyFacts; set: <K extends keyof PublicSafetyFacts>(key: K, value: PublicSafetyFacts[K]) => void; askVictimSex?: boolean; askSuperiority?: boolean }) {
+  const setPartner = (value: RelationalAnswer) => {
+    set("parejaExpareja", value);
+    set("relacionFamiliar", undefined);
+    set("convivencia", undefined);
+    if (value !== "si") {
+      set("sexoAutor", undefined);
+      if (!askVictimSex) set("sexoVictima", undefined);
+    }
+  };
+  const setFamily = (value: RelationalAnswer) => {
+    set("relacionFamiliar", value);
+    set("convivencia", undefined);
+  };
   return <>
-    <ChoiceQuestion legend="¿Qué relación existe entre autor y víctima?" value={facts.tipoRelacion} options={relationshipOptions} onChange={(value) => set("tipoRelacion", value as PublicSafetyFacts["tipoRelacion"])} />
-    {facts.tipoRelacion && <>{askSexes && <><ChoiceQuestion legend="Sexo del presunto autor cuando resulte jurídicamente relevante" value={facts.sexoAutor} options={sexOptions} onChange={(value) => set("sexoAutor", value as PublicSafetyFacts["sexoAutor"])} /><ChoiceQuestion legend="Sexo de la víctima cuando resulte jurídicamente relevante" value={facts.sexoVictima} options={sexOptions} onChange={(value) => set("sexoVictima", value as PublicSafetyFacts["sexoVictima"])} /></>}<ToggleQuestion legend="¿Conviven actualmente? Es un dato separado y no decide por sí solo VioGén." value={facts.convivencia} onChange={(value) => set("convivencia", value)} /></>}
+    {askVictimSex && <ChoiceQuestion legend="Sexo de la víctima a efectos de competencia" value={facts.sexoVictima} options={sexOptions} onChange={(value) => set("sexoVictima", value as PublicSafetyFacts["sexoVictima"])} />}
+    <TriStateQuestion legend="¿Existe o existió relación de pareja o análoga de afectividad?" value={facts.parejaExpareja} onChange={setPartner} />
+    {facts.parejaExpareja === "si" && <><ChoiceQuestion legend="Sexo del presunto autor a efectos del ámbito VioGén" value={facts.sexoAutor} options={sexOptions} onChange={(value) => set("sexoAutor", value as PublicSafetyFacts["sexoAutor"])} />{!askVictimSex && <ChoiceQuestion legend="Sexo de la víctima a efectos del ámbito VioGén" value={facts.sexoVictima} options={sexOptions} onChange={(value) => set("sexoVictima", value as PublicSafetyFacts["sexoVictima"])} />}</>}
+    {facts.parejaExpareja === "no" && <TriStateQuestion legend="¿Existe relación familiar entre autor y víctima?" value={facts.relacionFamiliar} onChange={setFamily} />}
+    {facts.parejaExpareja === "no" && facts.relacionFamiliar === "no" && <TriStateQuestion legend="¿Forman parte del mismo núcleo de convivencia?" value={facts.convivencia} onChange={(value) => set("convivencia", value)} />}
+    {askSuperiority && <TriStateQuestion legend="¿Existe abuso de una relación de superioridad, autoridad o profesional?" value={facts.abusoSuperioridad} onChange={(value) => set("abusoSuperioridad", value)} />}
   </>;
 }
 
 function ChoiceQuestion({ legend, value, options, onChange }: { legend: string; value: string | undefined; options: Array<[string, string]>; onChange: (value: string) => void }) { return <fieldset className="sp-choice"><legend>{legend}</legend>{options.map(([id, label]) => <label key={id}><input type="radio" checked={value === id} onChange={() => onChange(id)} /> {label}</label>)}</fieldset>; }
 function ToggleQuestion({ legend, value, onChange }: { legend: string; value: boolean | undefined; onChange: (value: boolean) => void }) { return <fieldset className="sp-choice"><legend>{legend}</legend><label><input type="radio" checked={value === true} onChange={() => onChange(true)} /> Sí</label><label><input type="radio" checked={value === false} onChange={() => onChange(false)} /> No</label></fieldset>; }
+function TriStateQuestion({ legend, value, onChange }: { legend: string; value: RelationalAnswer | undefined; onChange: (value: RelationalAnswer) => void }) { return <fieldset className="sp-choice"><legend>{legend}</legend>{relationalAnswerOptions.map(([id, label]) => <label key={id}><input type="radio" checked={value === id} onChange={() => onChange(id as RelationalAnswer)} /> {label}</label>)}</fieldset>; }
 
 function IncidentResolvedOutcome({ result, onNavigate, showProcessual }: { result: PublicSafetyOutcome; onNavigate: (id: string) => void; showProcessual: boolean }) {
   const attentions = result.resultados.filter(isIncidentAttention);
@@ -229,7 +251,7 @@ function AuthorityDecision({ concept }: { concept: PublicConcept }) {
   return <><OperationalSection title="Indicadores objetivos" items={concept.comprobar} /><fieldset className="sp-choice"><legend>Selecciona la conducta observada ya comprobada</legend>{options.map(([id, label]) => <label key={id}><input type="radio" checked={level === id} onChange={() => setLevel(id)} /> {label}</label>)}</fieldset>{penal && level !== "leve" && <ProcessualControls flagrante={flagrante} setFlagrante={setFlagrante} facts={processFacts} setFacts={setProcessFacts} />}{result && <ResolvedOutcome result={result} showProcessual={!penal || processualAnswered} />}</>;
 }
 
-function PatrimonyDecision({ facts, setFacts, onNavigate }: { facts: PublicSafetyFacts; setFacts: Dispatch<SetStateAction<PublicSafetyFacts>>; onNavigate: (id: string) => void }) {
+function PatrimonyDecision({ facts, onNavigate }: { facts: PublicSafetyFacts; onNavigate: (id: string) => void }) {
   const [patrimony, setPatrimony] = useState<PatrimonyFacts>({});
   const [flagrante, setFlagrante] = useState<boolean>();
   const [processFacts, setProcessFacts] = useState<ProcessualFactsForm>({});
@@ -254,8 +276,7 @@ function PatrimonyDecision({ facts, setFacts, onNavigate }: { facts: PublicSafet
     }
     return next;
   });
-  const setRelation = <K extends keyof PublicSafetyFacts>(key: K, value: PublicSafetyFacts[K]) => setFacts((current) => ({ ...current, [key]: value }));
-  const outcome = resolvePatrimonyOutcome({ ...patrimony, vinculoFamiliar268: facts.tipoRelacion === "familiar" ? patrimony.vinculoFamiliar268 : undefined }, processualInput(flagrante, processFacts), facts);
+  const outcome = resolvePatrimonyOutcome({ ...patrimony, vinculoFamiliar268: patrimony.relacionArt268 === "familiar" ? patrimony.vinculoFamiliar268 : undefined }, processualInput(flagrante, processFacts), facts);
   const minor = outcome.gravedad === "DELITO LEVE";
   const showProcess = Boolean(outcome.procesal) && hasProcessualAnswer(flagrante, processFacts, minor);
   const mainOptions: Array<[NonNullable<PatrimonyFacts["hechoPrincipal"]>, string]> = [["apoderamiento", "Se llevan o intentan llevar una cosa"], ["recepcion", "La cosa se recibió legítimamente y después no se devuelve o se dispone de ella"], ["danos", "Se daña o destruye una cosa"], ["no_claro", "No puede determinarse todavía"]];
@@ -264,10 +285,10 @@ function PatrimonyDecision({ facts, setFacts, onNavigate }: { facts: PublicSafet
   return <>
     <fieldset className="sp-choice"><legend>¿Cuál es el hecho principal observado?</legend>{mainOptions.map(([value, label]) => <label key={value}><input type="radio" checked={patrimony.hechoPrincipal === value} onChange={() => eventChange(value)} /> {label}</label>)}</fieldset>
     {patrimony.hechoPrincipal && patrimony.hechoPrincipal !== "no_claro" && <>
-      <RelationshipQuestion facts={facts} set={setRelation} askSexes={false} />
-      {facts.tipoRelacion === "esposa" && <>{yesNo("¿Existe separación legal o de hecho?", "separacionConyugal")}{patrimony.separacionConyugal === false && yesNo("¿Existe proceso judicial de separación, divorcio o nulidad?", "procesoSeparacionDivorcioNulidad")}</>}
-      {facts.tipoRelacion === "familiar" && <><fieldset className="sp-choice"><legend>Vínculo familiar a efectos del art. 268 CP</legend>{[["ascendiente", "Ascendiente"], ["descendiente", "Descendiente"], ["hermano", "Hermano/a"], ["afin_primer_grado", "Afín en primer grado"], ["otro", "Otro vínculo"], ["no_determinado", "No determinado"]].map(([value, label]) => <label key={value}><input type="radio" checked={patrimony.vinculoFamiliar268 === value} onChange={() => set("vinculoFamiliar268", value as PatrimonyFacts["vinculoFamiliar268"])} /> {label}</label>)}</fieldset>{patrimony.vinculoFamiliar268 === "afin_primer_grado" && yesNo("¿Conviven?", "afinPrimerGradoConvive")}</>}
-      {["esposa", "familiar"].includes(facts.tipoRelacion ?? "") && <>{yesNo("¿Concurre abuso de vulnerabilidad por edad o discapacidad?", "abusoVulnerabilidadEdadDiscapacidad")}{yesNo("¿Participa un tercero extraño?", "terceroExtranoParticipa")}</>}
+      <ChoiceQuestion legend="¿Existe un vínculo relevante para el art. 268 CP?" value={patrimony.relacionArt268} options={patrimonyRelationshipOptions} onChange={(value) => set("relacionArt268", value as PatrimonyFacts["relacionArt268"])} />
+      {patrimony.relacionArt268 === "conyuge" && <>{yesNo("¿Existe separación legal o de hecho?", "separacionConyugal")}{patrimony.separacionConyugal === false && yesNo("¿Existe proceso judicial de separación, divorcio o nulidad?", "procesoSeparacionDivorcioNulidad")}</>}
+      {patrimony.relacionArt268 === "familiar" && <><fieldset className="sp-choice"><legend>Vínculo familiar a efectos del art. 268 CP</legend>{[["ascendiente", "Ascendiente"], ["descendiente", "Descendiente"], ["hermano", "Hermano/a"], ["afin_primer_grado", "Afín en primer grado"], ["otro", "Otro vínculo"], ["no_determinado", "No determinado"]].map(([value, label]) => <label key={value}><input type="radio" checked={patrimony.vinculoFamiliar268 === value} onChange={() => set("vinculoFamiliar268", value as PatrimonyFacts["vinculoFamiliar268"])} /> {label}</label>)}</fieldset>{patrimony.vinculoFamiliar268 === "afin_primer_grado" && yesNo("¿Conviven?", "afinPrimerGradoConvive")}</>}
+      {["conyuge", "familiar"].includes(patrimony.relacionArt268 ?? "") && <>{yesNo("¿Concurre abuso de vulnerabilidad por edad o discapacidad?", "abusoVulnerabilidadEdadDiscapacidad")}{yesNo("¿Participa un tercero extraño?", "terceroExtranoParticipa")}</>}
       <fieldset className="sp-choice"><legend>Titularidad de la cosa</legend>{[["ajena", "Ajena"], ["propia", "Propia"], ["compartida", "Compartida"], ["no_determinada", "No determinada"]].map(([value, label]) => <label key={value}><input type="radio" checked={patrimony.titularidad === value} onChange={() => set("titularidad", value as PatrimonyFacts["titularidad"])} /> {label}</label>)}</fieldset>
     </>}
     {patrimony.hechoPrincipal === "apoderamiento" && patrimony.titularidad === "ajena" && <>
@@ -327,7 +348,8 @@ const isIncidentAttention = (item: PublicSafetyOutcome["resultados"][number]) =>
   /DENUNCIA DE LA V[ÍI]CTIMA|NO VALORAR [ÚU]NICAMENTE COMO LESIONES|SUMISI[ÓO]N O VULNERABILIDAD QU[ÍI]MICA|V[ÍI]CTIMA MENOR DE 16 A[ÑN]OS/i.test(item.titulo);
 const needsOutcomeDetail = (title: string) =>
   /CLASIFICACI[ÓO]N PROVISIONAL|INDIVIDUALIZAR CONDUCTAS|DATOS DE .*PENDIENTES|SIN AGRESI[ÓO]N F[ÍI]SICA|SIN ACTO SEXUAL/i.test(title);
-const relationshipOptions: Array<[string, string]> = [["esposa", "Esposa"], ["exesposa", "Exesposa"], ["pareja", "Pareja con relación análoga de afectividad"], ["expareja", "Expareja con relación análoga de afectividad"], ["familiar", "Relación familiar"], ["conviviente", "Conviviente sin relación de pareja"], ["superioridad", "Relación de superioridad, autoridad o profesional"], ["amigo", "Amigo/a"], ["conocido", "Conocido/a"], ["desconocido", "Desconocido/a"], ["otra", "Otra relación"], ["no_determinada", "Relación no determinada"]];
+const relationalAnswerOptions: Array<[RelationalAnswer, string]> = [["si", "Sí"], ["no", "No"], ["no_determinado", "No puede determinarse todavía"]];
+const patrimonyRelationshipOptions: Array<[string, string]> = [["conyuge", "Cónyuge"], ["familiar", "Familiar incluido en el art. 268 CP"], ["ninguna", "Ninguno de esos vínculos"], ["no_determinada", "No puede determinarse todavía"]];
 const sexOptions: Array<[string, string]> = [["hombre", "Hombre"], ["mujer", "Mujer"], ["otro", "Otro"], ["no_determinado", "No determinado"]];
 const sexualConductOptions: Array<[string, string]> = [["acto_fisico", "Acto sexual físico"], ["hacer_presenciar", "Hacer presenciar actos sexuales"], ["contacto_tic", "Contacto mediante internet, teléfono o TIC"]];
 const consentOptions: Array<[string, string]> = [["ausencia_manifestada", "Consta manifestación de ausencia de consentimiento"], ["actos_claros_consentimiento", "Constan actos claros de consentimiento"], ["violencia_intimidacion", "Consta violencia o intimidación"], ["voluntad_anulada", "Consta voluntad anulada"], ["informacion_insuficiente", "Información todavía insuficiente"]];

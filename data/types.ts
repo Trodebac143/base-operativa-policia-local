@@ -9,6 +9,8 @@ export type Source = {
   tipo?: string;
   ambito?: string;
   organismo?: string;
+  /** Grupo visual editable en contenido/biblioteca/grupos-fuentes.json. */
+  grupoBiblioteca: string;
   urlOficial?: string;
   referencias?: string[];
   preceptos?: string[];

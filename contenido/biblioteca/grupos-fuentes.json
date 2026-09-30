@@ -1,0 +1,51 @@
+[
+  {
+    "id": "animales",
+    "nombre": "Animales",
+    "icono": "🐾",
+    "orden": 10,
+    "activo": true
+  },
+  {
+    "id": "seguridad_vial",
+    "nombre": "Seguridad Vial",
+    "icono": "🚦",
+    "orden": 20,
+    "activo": true
+  },
+  {
+    "id": "seguridad_publica",
+    "nombre": "Seguridad Pública",
+    "icono": "🛡️",
+    "orden": 30,
+    "activo": true
+  },
+  {
+    "id": "policia_administrativa",
+    "nombre": "Policía Administrativa",
+    "icono": "🏛️",
+    "orden": 40,
+    "activo": true
+  },
+  {
+    "id": "ordenanzas_municipales",
+    "nombre": "Ordenanzas Municipales",
+    "icono": "📜",
+    "orden": 50,
+    "activo": true
+  },
+  {
+    "id": "transversales",
+    "nombre": "Fuentes transversales / comunes",
+    "icono": "🔄",
+    "orden": 60,
+    "activo": true
+  },
+  {
+    "id": "otras",
+    "nombre": "Otras fuentes",
+    "icono": "📚",
+    "orden": 70,
+    "activo": true
+  }
+]

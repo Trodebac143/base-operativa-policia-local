@@ -50,9 +50,9 @@ test("35 · daño privado 500 € es menos grave", () => assert.equal(damage(500
 test("36 · daño a bien de uso público activa 263.2", () => { const o=damage(100,{bienDominioUsoPublicoComunal:true}); assert.match(o.norma,/263\.2/); assert.equal(o.gravedad,"DELITO MENOS GRAVE"); });
 test("37 · daño accidental 5.000 € no activa 263", () => assert.doesNotMatch(damage(5000,{intencionalidadDano:"imprudente_accidental",imprudenciaGrave:false}).norma,/263/));
 test("38 · imprudencia grave superior a 80.000 € activa 267", () => assert.match(damage(80001,{intencionalidadDano:"imprudente_accidental",imprudenciaGrave:true}).norma,/267/));
-test("39 · cónyuges no separados sin violencia muestran art. 268", () => assert.match(theft(100,{separacionConyugal:false,procesoSeparacionDivorcioNulidad:false},{},{tipoRelacion:"esposa"}).exencion.titulo,/268/));
-test("40 · violencia excluye art. 268", () => assert.equal(violence({separacionConyugal:false,procesoSeparacionDivorcioNulidad:false},{},{tipoRelacion:"esposa"}).exencion,undefined));
-test("41 · art. 268 no se extiende al tercero extraño", () => assert.match(theft(100,{separacionConyugal:false,procesoSeparacionDivorcioNulidad:false,terceroExtranoParticipa:true},{},{tipoRelacion:"esposa"}).exencion.fundamento,/tercero extraño/));
+test("39 · cónyuges no separados sin violencia muestran art. 268", () => assert.match(theft(100,{relacionArt268:"conyuge",separacionConyugal:false,procesoSeparacionDivorcioNulidad:false}).exencion.titulo,/268/));
+test("40 · violencia excluye art. 268", () => assert.equal(violence({relacionArt268:"conyuge",separacionConyugal:false,procesoSeparacionDivorcioNulidad:false}).exencion,undefined));
+test("41 · art. 268 no se extiende al tercero extraño", () => assert.match(theft(100,{relacionArt268:"conyuge",separacionConyugal:false,procesoSeparacionDivorcioNulidad:false,terceroExtranoParticipa:true}).exencion.fundamento,/tercero extraño/));
 test("42 · titularidad compartida no cierra tipo", () => assert.equal(theft(100,{titularidad:"compartida"}).estado,"pendiente"));
 test("43 · robo con fuerza en tentativa conserva ambos", () => { const o=force({gradoEjecucion:"tentativa"}); assert.match(o.resultado,/ROBO/); assert.match(o.grado,/TENTATIVA/); });
 test("44 · tentativa patrimonial leve conserva art. 495", () => assert.equal(theft(100,{gradoEjecucion:"tentativa"}).procesal.escenarioProcesal,"DELITO LEVE"));
@@ -60,5 +60,5 @@ test("45 · tres episodios sin nexo no crean continuado", () => assert.match(the
 test("46 · cambiar 399 a 401 recalcula gravedad y proceso", () => { assert.equal(theft(399).gravedad,"DELITO LEVE"); assert.equal(theft(401).gravedad,"DELITO MENOS GRAVE"); });
 test("47 · cambiar sin violencia a violencia de huida recalcula hurto a robo", () => { assert.match(theft(20).resultado,/HURTO/); assert.match(violence({momentoViolencia:"huida"}).resultado,/ROBO/); });
 test("48 · cambiar recepción legítima a mero acceso recalcula 253 a 234", () => { assert.match(appropriation(100).norma,/253/); assert.match(resolvePatrimonyOutcome({hechoPrincipal:"recepcion",titularidad:"ajena",posesionPrevia:"autor_acceso_material",gradoEjecucion:"consumado",conductaApropiacionONegacion:true,cuantia:100,cuantiaAcreditada:true}).norma,/234/); });
-test("49 · separación elimina excusa del art. 268", () => assert.equal(theft(100,{separacionConyugal:true,procesoSeparacionDivorcioNulidad:false},{},{tipoRelacion:"esposa"}).exencion,undefined));
+test("49 · separación elimina excusa del art. 268", () => assert.equal(theft(100,{relacionArt268:"conyuge",separacionConyugal:true,procesoSeparacionDivorcioNulidad:false}).exencion,undefined));
 test("50 · cambiar hecho principal no conserva estado de la rama previa", () => { const a=theft(100); const b=damage(500); assert.notEqual(a.tipoPenal,b.tipoPenal); assert.doesNotMatch(b.norma,/234/); });

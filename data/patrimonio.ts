@@ -14,6 +14,7 @@ export type Family268Kind = "conyuge" | "ascendiente" | "descendiente" | "herman
 
 export type PatrimonyFacts = {
   hechoPrincipal?: PatrimonyMainEvent;
+  relacionArt268?: "conyuge" | "familiar" | "ninguna" | "no_determinada";
   titularidad?: PatrimonyOwnership;
   posesionPrevia?: PriorPossession;
   intencionApropiacionBeneficio?: boolean;
@@ -123,8 +124,8 @@ function connectionsFor(facts: PatrimonyFacts, context: RelationalContext): Patr
   return result;
 }
 
-function art268(facts: PatrimonyFacts, relationalFacts: PublicSafetyFacts) {
-  const spouse = relationalFacts.tipoRelacion === "esposa" && facts.separacionConyugal === false && facts.procesoSeparacionDivorcioNulidad === false;
+function art268(facts: PatrimonyFacts) {
+  const spouse = facts.relacionArt268 === "conyuge" && facts.separacionConyugal === false && facts.procesoSeparacionDivorcioNulidad === false;
   const family = ["ascendiente", "descendiente", "hermano"].includes(facts.vinculoFamiliar268 ?? "") || facts.vinculoFamiliar268 === "afin_primer_grado" && facts.afinPrimerGradoConvive === true;
   const covered = spouse || family;
   const excluded = facts.violenciaFisica === true || facts.intimidacion === true || facts.abusoVulnerabilidadEdadDiscapacidad === true;
@@ -155,7 +156,7 @@ function continuedNotice(facts: PatrimonyFacts) {
 function resolved(base: Omit<PatrimonyOutcome, "estado" | "contextoRelacional" | "conexiones" | "procesal"> & { estado?: PatrimonyOutcome["estado"] }, facts: PatrimonyFacts, process: ProcessualInput, relationalFacts: PublicSafetyFacts, allowProcess = true): PatrimonyOutcome {
   const contextoRelacional = deriveRelationalContext(relationalFacts);
   const conexiones = connectionsFor(facts, contextoRelacional);
-  const exencion = art268(facts, relationalFacts);
+  const exencion = art268(facts);
   const continued = continuedNotice(facts);
   return {
     ...base,

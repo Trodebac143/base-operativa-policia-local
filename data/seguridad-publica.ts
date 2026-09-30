@@ -161,9 +161,10 @@ export function resolveAuthorityOutcome(conceptId: string, level: string, input:
 }
 
 export type PersonSex = "hombre" | "mujer" | "otro" | "no_determinado";
-export type PublicSafetyRelation = "vg" | "domestica" | "ninguna";
-export type RelationshipKind = "esposa" | "exesposa" | "pareja" | "expareja" | "familiar" | "conviviente" | "superioridad" | "amigo" | "conocido" | "desconocido" | "otra" | "no_determinada";
+export type RelationalAnswer = "si" | "no" | "no_determinado";
+export type PublicSafetyRelation = "vg" | "domestica" | "ninguna" | "pendiente";
 export type RelationalContext = {
+  relation: PublicSafetyRelation;
   isViogenLO12004: boolean;
   isPartnerOrExPartner: boolean;
   hasFamilyRelationship: boolean;
@@ -172,11 +173,11 @@ export type RelationalContext = {
   femaleSexualOffenceVSMJurisdiction: boolean;
 };
 export type PublicSafetyFacts = {
-  relacion?: PublicSafetyRelation;
   sexoAutor?: PersonSex;
   sexoVictima?: PersonSex;
-  tipoRelacion?: RelationshipKind;
-  convivencia?: boolean;
+  parejaExpareja?: RelationalAnswer;
+  relacionFamiliar?: RelationalAnswer;
+  convivencia?: RelationalAnswer;
   hechosRelacion?: Array<"agresion" | "amenazas" | "coacciones" | "sexual" | "quebrantamiento">;
   episodiosPrevios?: boolean;
   noDeseaDenunciar?: boolean;
@@ -201,7 +202,7 @@ export type PublicSafetyFacts = {
   conductaSexual?: "acto_fisico" | "hacer_presenciar" | "contacto_tic";
   estadoConsentimiento?: "ausencia_manifestada" | "actos_claros_consentimiento" | "violencia_intimidacion" | "voluntad_anulada" | "informacion_insuficiente";
   voluntadAnulada?: boolean;
-  abusoSuperioridad?: boolean;
+  abusoSuperioridad?: RelationalAnswer;
   vulnerabilidadEspecial?: boolean;
   violenciaExtremaDegradante?: boolean;
   sustanciasAdministradas?: boolean;
@@ -234,25 +235,32 @@ export type PublicSafetyOutcome = {
 };
 
 export function deriveRelationalContext(facts: PublicSafetyFacts): RelationalContext {
-  const legacyViogen = facts.relacion === "vg";
-  const legacyDomestic = facts.relacion === "domestica";
-  const partner = ["esposa", "exesposa", "pareja", "expareja"].includes(facts.tipoRelacion ?? "") || legacyViogen;
-  const isViogenLO12004 = facts.sexoAutor === undefined && facts.sexoVictima === undefined && facts.tipoRelacion === undefined
-    ? legacyViogen
-    : facts.sexoAutor === "hombre" && facts.sexoVictima === "mujer" && partner;
+  const partner = facts.parejaExpareja === "si";
+  const family = facts.relacionFamiliar === "si";
+  const cohabitation = facts.convivencia === "si";
+  const isViogenLO12004 = facts.sexoAutor === "hombre" && facts.sexoVictima === "mujer" && partner;
+  const sexesDetermined = facts.sexoAutor !== undefined && facts.sexoAutor !== "no_determinado" && facts.sexoVictima !== undefined && facts.sexoVictima !== "no_determinado";
+  let relation: PublicSafetyRelation = "pendiente";
+  if (isViogenLO12004) relation = "vg";
+  else if (facts.parejaExpareja === "si" && sexesDetermined) relation = "ninguna";
+  else if (facts.parejaExpareja === "si") relation = "pendiente";
+  else if (family) relation = "domestica";
+  else if (facts.parejaExpareja === "no" && facts.relacionFamiliar === "no" && facts.convivencia === "si") relation = "domestica";
+  else if (facts.parejaExpareja === "no" && facts.relacionFamiliar === "no" && facts.convivencia === "no") relation = "ninguna";
   return {
+    relation,
     isViogenLO12004,
     isPartnerOrExPartner: partner,
-    hasFamilyRelationship: facts.tipoRelacion === "familiar" || legacyDomestic,
-    hasCohabitation: facts.convivencia === true,
-    hasSuperiorityRelationship: facts.tipoRelacion === "superioridad" || facts.abusoSuperioridad === true,
+    hasFamilyRelationship: family,
+    hasCohabitation: cohabitation,
+    hasSuperiorityRelationship: facts.abusoSuperioridad === "si",
     femaleSexualOffenceVSMJurisdiction: facts.sexoVictima === "mujer",
   };
 }
 
 const incidentResult = (titulo: string, norma: string, texto: string, actuacion: string[], clasificacion?: string, destacado?: PublicSafetyResult["destacado"]): PublicSafetyResult => ({ titulo, norma, texto, actuacion, clasificacion, destacado });
 const basicIncidentAction = ["Proteger y separar cuando proceda.", "Identificar a las personas implicadas.", "Recoger hechos relevantes, testigos e indicios disponibles."];
-const relationConnection = (relation: PublicSafetyRelation | undefined): PublicSafetyConnection | undefined => relation === "vg" || relation === "domestica" ? { conceptId: "violencia_relacional", etiqueta: relation === "vg" ? "Violencia de género" : "Violencia doméstica", motivo: "La relación ya recogida se conserva en la intervención." } : undefined;
+const relationConnection = (relation: PublicSafetyRelation): PublicSafetyConnection | undefined => relation === "vg" || relation === "domestica" ? { conceptId: "violencia_relacional", etiqueta: relation === "vg" ? "Violencia de género" : "Violencia doméstica", motivo: "Los hechos relacionales ya recogidos se conservan en la intervención." } : undefined;
 const addConnection = (connections: PublicSafetyConnection[], connection: PublicSafetyConnection | undefined) => { if (connection && !connections.some((item) => item.conceptId === connection.conceptId)) connections.push(connection); };
 const withIncidentProcessual = (outcome: PublicSafetyOutcome, regime: "leve" | "no_leve" | undefined, input: ProcessualInput) => ({ ...outcome, procesal: regime === "leve" ? delitoLeveDecision(input) : regime === "no_leve" ? resolvePenalProcessualDecision(input) : undefined });
 
@@ -261,9 +269,7 @@ export function resolvePublicSafetyOutcome(conceptId: string, facts: PublicSafet
   const results: PublicSafetyResult[] = [];
   const connections: PublicSafetyConnection[] = [];
   const contextoRelacional = deriveRelationalContext(facts);
-  const relation: PublicSafetyRelation | undefined = contextoRelacional.isViogenLO12004
-    ? "vg"
-    : contextoRelacional.hasFamilyRelationship || facts.tipoRelacion === "conviviente" ? "domestica" : facts.tipoRelacion ? "ninguna" : facts.relacion;
+  const relation = contextoRelacional.relation;
   const protectedRelation = contextoRelacional.isViogenLO12004 || contextoRelacional.hasFamilyRelationship || relation === "domestica";
   const relationLink = relationConnection(relation);
   const pending = (text: string) => ({ resultados: [incidentResult("ORIENTACIÓN PENDIENTE", "Datos de la intervención", text, basicIncidentAction, undefined, "neutral")], conexiones: [] });
@@ -283,7 +289,7 @@ export function resolvePublicSafetyOutcome(conceptId: string, facts: PublicSafet
   };
 
   if (conceptId === "violencia_relacional") {
-    if (!relation) return pending("Indica la relación entre autor y víctima antes de orientar los hechos.");
+    if (relation === "pendiente") return pending("Completa los hechos mínimos sobre pareja o expareja, relación familiar o convivencia antes de orientar los hechos.");
     const relationFacts = facts.hechosRelacion ?? [];
     const vgCriminalFacts = relation === "vg" && relationFacts.length > 0;
     results.push(incidentResult(
@@ -322,7 +328,9 @@ export function resolvePublicSafetyOutcome(conceptId: string, facts: PublicSafet
   if (conceptId === "agresiones_lesiones") {
     if (facts.agresionFisica === undefined) return pending("Indica si ha existido golpe o agresión física.");
     if (!facts.agresionFisica) return { resultados: [incidentResult("SIN AGRESIÓN FÍSICA REFERIDA", "Datos de la intervención", "Valora el bloque que corresponda si existen amenazas, coacciones u otro hecho.", basicIncidentAction, undefined, "neutral")], conexiones: [] };
+    if (facts.lesion === undefined) return pending("Indica si existe o se refiere alguna lesión.");
     let regime: "leve" | "no_leve" | undefined;
+    if ((facts.lesion === false || facts.resultadoAsistencial === "primera_asistencia") && relation === "pendiente") return pending("Completa el contexto relacional porque puede cambiar la clasificación de la agresión.");
     if (!facts.lesion) {
       if (protectedRelation) {
         results.push(incidentResult("POSIBLE DELITO EN RELACIÓN PROTEGIDA", "Código Penal · art. 153", "El golpe o maltrato, aun sin lesión, tiene trascendencia penal.", ["Proteger y separar.", "Documentar el episodio concreto."], "DELITO MENOS GRAVE", "warning"));
@@ -446,6 +454,7 @@ export function resolvePublicSafetyOutcome(conceptId: string, facts: PublicSafet
     let regime: "leve" | "no_leve" | undefined;
     if (facts.conductaLibertad === "acoso") return { resultados: [incidentResult("VALORACIÓN ESPECÍFICA NECESARIA", "Acoso", "La conducta reiterada de vigilancia, persecución o contacto puede requerir valoración específica de acoso. Este bloque no se desarrolla todavía.", ["Documentar la reiteración, contactos, soportes y contexto.", "Coordinar la continuación con la unidad competente."], undefined, "warning")], conexiones: [] };
     if (facts.conductaLibertad === "amenaza") {
+      if (facts.malAnunciado === "menor_entidad" && relation === "pendiente") return pending("Completa el contexto relacional porque puede cambiar el régimen de la amenaza de menor entidad.");
       if (facts.malAnunciado === "entidad_delictiva") {
         results.push(incidentResult("POSIBLE DELITO DE AMENAZAS", "Código Penal · arts. 169 y ss.", "La amenaza tiene entidad penal.", ["Recoger literalmente las expresiones.", "Documentar contexto, condición, medios y soportes."], "DELITO NO LEVE"));
         regime = "no_leve";
@@ -460,6 +469,7 @@ export function resolvePublicSafetyOutcome(conceptId: string, facts: PublicSafet
       } else results.push(incidentResult("DATOS DE AMENAZA PENDIENTES", "Expresiones y contexto", "Indica el mal anunciado para orientar la actuación sin pedir una conclusión jurídica.", ["Recoger literalmente las expresiones utilizadas.", "Documentar destinatario, condición, medios y soportes."]));
     }
     if (facts.conductaLibertad === "coaccion") {
+      if (facts.coaccionEntidad === "leve" && relation === "pendiente") return pending("Completa el contexto relacional porque puede cambiar el régimen de la coacción de menor entidad.");
       if (facts.coaccionEntidad === "general") {
         results.push(incidentResult("POSIBLE COACCIÓN", "Código Penal · art. 172.1", "Existe una conducta que obliga o impide actuar contra la voluntad.", ["Documentar la acción concreta.", "Recoger violencia, intimidación, medios y contexto."], "DELITO MENOS GRAVE"));
         regime = "no_leve";

@@ -7,6 +7,7 @@ import {
   groupSourcesByLibraryMatter,
   sourceLibraryGroupForSource,
   sourceLibraryGroups,
+  activeSourceLibraryGroups,
   sourceLibrarySubmatters,
   sourceUsage,
   type SourceLibraryGroup,
@@ -67,13 +68,14 @@ export function LibrarySourcesPanel({ initialQuery = "" }: { initialQuery?: stri
         </div>
       ) : (
         <div className="source-library-groups" data-source-results="grouped">
-          {sourceLibraryGroups.map((group) => {
+          {activeSourceLibraryGroups.map((group) => {
             const groupSources = groupedSources[group.id];
+            if (!groupSources.length) return null;
             return (
               <details className="source-library-group" key={group.id}>
                 <summary>
-                  <span className="source-library-group-icon" aria-hidden="true">{group.icon}</span>
-                  <span className="source-library-group-label">{group.label}</span>
+                  <span className="source-library-group-icon" aria-hidden="true">{group.icono}</span>
+                  <span className="source-library-group-label">{group.nombre}</span>
                   <small className="source-library-group-count">{groupSources.length} fuente{groupSources.length === 1 ? "" : "s"}</small>
                 </summary>
                 <div className="source-library-list">
@@ -103,11 +105,12 @@ function SourceLibraryCard({ source, group }: { source: Source; group?: ReturnTy
         <div>
           <span className="source-library-kind">{source.tipo ?? "Fuente operativa"}</span>
           <h3>{source.nombre}</h3>
+          {source.nombreCorto && <p className="source-library-short-name">{source.nombreCorto}</p>}
           {source.organismo && <p>{source.organismo}</p>}
         </div>
         <small>{source.id}</small>
       </div>
-      {groupMetadata && <span className="source-library-group-badge"><span aria-hidden="true">{groupMetadata.icon}</span> {groupMetadata.label}</span>}
+      {groupMetadata && <span className="source-library-group-badge"><span aria-hidden="true">{groupMetadata.icono}</span> {groupMetadata.nombre}</span>}
       {!!submatters.length && (
         <ul className="source-library-submatters" aria-label="Submaterias">
           {submatters.map((submatter) => <li key={submatter}>{submatter}</li>)}

@@ -51,6 +51,7 @@ const loadCases = () => {
 const modules = reqArray("contenido/estructura/modulos.json");
 const categories = reqArray("contenido/estructura/categorias.json");
 const sources = reqArray("contenido/juridico/fuentes.json");
+const sourceLibraryGroups = reqArray("contenido/biblioteca/grupos-fuentes.json");
 const penal = reqArray("contenido/juridico/articulos_penales.json");
 const rules = reqArray("contenido/juridico/reglas_generales_y_comunes.json");
 const documents = reqArray("contenido/biblioteca/documentos.json");
@@ -84,6 +85,7 @@ const vnsRegimen = load("contenido/policia_administrativa/venta_no_sedentaria/re
 const moduleIds = duplicateIds(modules, "Módulos");
 const categoryIds = duplicateIds(categories, "Categorías");
 const sourceIds = duplicateIds(sources, "Fuentes");
+const sourceLibraryGroupIds = duplicateIds(sourceLibraryGroups, "Grupos de Biblioteca");
 duplicateIds([...rules, ...permisosRules], "Reglas");
 duplicateIds(permisosSheets, "Fichas jurídicas Permisos");
 const permitHelpIds = duplicateIds(permisosHelps, "Ayudas Permisos");
@@ -97,6 +99,15 @@ if (JSON.stringify(generatedCases) !== JSON.stringify(cases)) errors.push("ÍNDI
 const normalizeSourceReference = (value) => value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
 const sourceReferenceIndex = new Map();
 const sourceUrlIndex = new Map();
+const availableLibraryGroups = sourceLibraryGroups.map((group) => group.id).filter((id) => typeof id === "string" && id.trim());
+for (const group of sourceLibraryGroups) {
+  const label = group?.id || "grupo sin ID";
+  if (typeof group?.id !== "string" || !group.id.trim()) errors.push(`BIBLIOTECA · ${label}\n  Problema: falta el id del grupo.\n  Archivo: contenido/biblioteca/grupos-fuentes.json\n  Qué hacer: añade un ID único, como seguridad_publica.`);
+  if (typeof group?.nombre !== "string" || !group.nombre.trim()) errors.push(`BIBLIOTECA · ${label}\n  Problema: falta el nombre visible del grupo.\n  Archivo: contenido/biblioteca/grupos-fuentes.json\n  Qué hacer: añade nombre.`);
+  if (typeof group?.icono !== "string" || !group.icono.trim()) errors.push(`BIBLIOTECA · ${label}\n  Problema: falta el icono del grupo.\n  Archivo: contenido/biblioteca/grupos-fuentes.json\n  Qué hacer: añade icono.`);
+  if (!Number.isFinite(group?.orden)) errors.push(`BIBLIOTECA · ${label}\n  Problema: orden debe ser un número.\n  Archivo: contenido/biblioteca/grupos-fuentes.json\n  Qué hacer: asigna un orden numérico.`);
+  if (typeof group?.activo !== "boolean") errors.push(`BIBLIOTECA · ${label}\n  Problema: activo debe ser true o false.\n  Archivo: contenido/biblioteca/grupos-fuentes.json\n  Qué hacer: corrige activo.`);
+}
 duplicateIds(documents, "Documentos");
 const documentsBySource = new Map();
 for (const document of documents) {
@@ -105,7 +116,18 @@ for (const document of documents) {
   else documentsBySource.set(document.fuenteId, document);
 }
 for (const source of sources) {
-  if (!source.nombre) errors.push(`Fuente ${source.id}: falta nombre`);
+  const sourceLabel = source?.id || "fuente sin ID";
+  if (typeof source?.id !== "string" || !source.id.trim()) errors.push(`FUENTE · ${sourceLabel}\n  Problema: falta id.\n  Archivo: contenido/juridico/fuentes.json\n  Qué hacer: asigna un ID único.`);
+  if (typeof source?.nombre !== "string" || !source.nombre.trim()) errors.push(`FUENTE · ${sourceLabel}\n  Problema: falta nombre.\n  Archivo: contenido/juridico/fuentes.json\n  Qué hacer: completa nombre.`);
+  if (typeof source?.grupoBiblioteca !== "string" || !source.grupoBiblioteca.trim()) {
+    errors.push(`FUENTE · ${sourceLabel}\n  Problema: falta grupoBiblioteca.\n  Archivo: contenido/juridico/fuentes.json\n  Grupos disponibles:\n  ${availableLibraryGroups.join("\n  ")}\n  Qué hacer: añade grupoBiblioteca con uno de esos IDs.`);
+  } else if (!sourceLibraryGroupIds.has(source.grupoBiblioteca)) {
+    errors.push(`FUENTE · ${sourceLabel}\n  Problema: grupoBiblioteca "${source.grupoBiblioteca}" no existe.\n  Archivo: contenido/juridico/fuentes.json\n  Grupos disponibles:\n  ${availableLibraryGroups.join("\n  ")}\n  Qué hacer: corrige el campo grupoBiblioteca.`);
+  }
+  const sourceType = typeof source?.tipo === "string" ? source.tipo.trim().toLowerCase() : "";
+  if ((sourceType === "ordenanza" || sourceType === "ordenanza municipal") && source.grupoBiblioteca !== "ordenanzas_municipales") {
+    errors.push(`FUENTE · ${sourceLabel}\n  Problema: es una Ordenanza Municipal pero está archivada en "${source.grupoBiblioteca ?? "sin grupo"}".\n  Archivo: contenido/juridico/fuentes.json\n  Grupo correcto: ordenanzas_municipales\n  Qué hacer: cambia grupoBiblioteca.`);
+  }
   for (const reference of [source.id, source.nombre, source.nombreCorto, ...(source.referencias ?? [])]) {
     if (!reference) continue;
     const normalized = normalizeSourceReference(reference);
@@ -425,6 +447,7 @@ for (const file of fs.readdirSync(path.join(root, "public", "documentos"))) {
 
 notes.push(`${cases.length} casos: ${animals.length} Animales + ${itv.length} ITV + ${seguro.length} Seguro + ${permisos.length} Permisos + ${terrazas.length} Terrazas + ${ventaNoSedentaria.length} Venta no sedentaria + ${convivencia.length} Convivencia`);
 notes.push(`${sources.length} fuentes jurídicas · ${documents.length} documentos de biblioteca`);
+notes.push(`Biblioteca: ${sourceLibraryGroups.filter((group) => group.activo).length} grupos activos · ${sources.length} fuentes clasificadas mediante grupoBiblioteca`);
 notes.push(`${[...sourceReferenceUsage.values()].filter(Boolean).length} fuentes referenciadas por contenido activo · ${sources.filter((source) => source.urlOficial).length} con URL oficial · ${documents.filter((document) => document.fuenteId).length} con documento local`);
 notes.push(`Seguridad Pública: ${seguridadPublica?.conceptos?.length ?? 0} conceptos operativos`);
 notes.push(`VMP/VPL: ${vmpGuide?.areas?.length ?? 0} áreas operativas · ${vmpGuide?.casos_practicos?.length ?? 0} casos prácticos · ${vmpGuide?.circulacion?.infracciones?.length ?? 0} reglas de circulación`);
