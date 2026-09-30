@@ -2,6 +2,7 @@
   {
     "id": "animales",
     "nombre": "Animales",
+    "icono": "🐾",
     "descripcion": "Actuaciones relacionadas con animales",
     "orden": 10,
     "activo": true
@@ -9,13 +10,15 @@
   {
     "id": "seguridad_vial",
     "nombre": "Seguridad Vial",
+    "icono": "🚦",
     "descripcion": "Tráfico, vehículos y seguridad vial",
     "orden": 20,
     "activo": true
   },
   {
     "id": "policia_administrativa",
-    "nombre": "🏛️ Policía Administrativa",
+    "nombre": "Policía Administrativa",
+    "icono": "🏛️",
     "descripcion": "Actuaciones municipales sobre actividades, vía pública, convivencia, comercio, urbanismo y otras materias administrativas.",
     "orden": 50,
     "activo": true
@@ -23,6 +26,7 @@
   {
     "id": "seguridad_publica",
     "nombre": "Seguridad Pública",
+    "icono": "🛡️",
     "descripcion": "Actuaciones en materia de seguridad pública",
     "orden": 40,
     "activo": true

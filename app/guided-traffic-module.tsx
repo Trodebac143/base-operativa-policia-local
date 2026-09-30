@@ -24,6 +24,7 @@ type BooleanValue = boolean | null;
 type AreaId = (typeof vmpGuide.areas)[number]["id"];
 type ViewId = AreaId | "casos";
 type VmpGuideViewProps = { onOpenCase: (item: OperationalCase) => void; cases: OperationalCase[] };
+const vmpAreaIcon = (id: AreaId) => vmpGuide.areas.find((area) => area.id === id)?.icono ?? "🛴";
 
 const euro = new Intl.NumberFormat("es-ES", { style: "currency", currency: "EUR", maximumFractionDigits: 0 });
 const initialFacts: VmpClassificationInput = {
@@ -168,7 +169,7 @@ function EmbeddedClassification({ facts, setFacts, prefix, intro, finding, canCl
 function ClassificationPanel({ facts, setFacts }: { facts: VmpClassificationInput; setFacts: (value: VmpClassificationInput) => void }) {
   const finding = useMemo(() => classifyVmp(facts), [facts]);
   return <section className="vmp-panel">
-    <PanelHeading icon="◎" title="Identificar / clasificar vehículo" text={vmpGuide.clasificacion.aviso} />
+    <PanelHeading icon={vmpAreaIcon("clasificacion")} title="Identificar / clasificar vehículo" text={vmpGuide.clasificacion.aviso} />
     <ClassificationFields facts={facts} setFacts={setFacts} prefix="vmp-class" />
     {finding.category === "INCOMPLETA"
       ? <Pending text={finding.detail} />
@@ -189,7 +190,7 @@ function DocumentationPanel({ facts, setFacts }: { facts: VmpClassificationInput
   const ready = category !== "INCOMPLETA" && marketedBefore != null && certificate != null && registered != null && label != null && (!certificate || plate != null);
   const finding = ready ? resolveVmpDocumentation({ category, marketedBeforeCutoff: marketedBefore!, asOf, hasCertificate: certificate!, registered: registered!, hasIdentificationLabel: label!, hasMarkingPlate: plate ?? false }) : null;
   return <section className="vmp-panel">
-    <PanelHeading icon="▤" title="Certificado, registro e identificación" text="Cada requisito se comprueba por separado y el motor aplica la absorción 5A → 5B → 5C." />
+    <PanelHeading icon={vmpAreaIcon("documentacion")} title="Certificado, registro e identificación" text="Cada requisito se comprueba por separado y el motor aplica la absorción 5A → 5B → 5C." />
     <EmbeddedClassification facts={facts} setFacts={classification.updateFacts} prefix="vmp-doc-class" intro="Primero, identifica el vehículo con hechos observables." finding={classification.finding} canClassify={classification.canClassify} onClassify={classification.classify} />
     <div className="vmp-form-grid">
       <label htmlFor="vmp-doc-date"><span>Fecha de la intervención</span><input id="vmp-doc-date" type="date" value={asOf} onChange={(event) => setAsOf(event.target.value)} /></label>
@@ -224,7 +225,7 @@ function InsurancePanel({ facts, setFacts, cases, onOpenCase }: { facts: VmpClas
   const sharedCase = finding?.caseId ? cases.find((item) => item.id === finding.caseId) ?? null : null;
 
   return <section className="vmp-panel">
-    <PanelHeading icon="◈" title="Seguro obligatorio" text="Clasifica aquí el vehículo y reutiliza los casos comunes SDA/SOA, sin un segundo cálculo jurídico." />
+    <PanelHeading icon={vmpAreaIcon("seguro")} title="Seguro obligatorio" text="Clasifica aquí el vehículo y reutiliza los casos comunes SDA/SOA, sin un segundo cálculo jurídico." />
     <EmbeddedClassification facts={facts} setFacts={classification.updateFacts} prefix="vmp-ins-class" intro="Introduce los datos de clasificación sin salir de Seguro." finding={classification.finding} canClassify={classification.canClassify} onClassify={classification.classify} />
     {category === "A" && <div className="vmp-subflow"><h4>Requisitos previos SDA y control documental</h4><div className="vmp-form-grid">
       <label htmlFor="vmp-ins-date"><span>Fecha de la intervención</span><input id="vmp-ins-date" type="date" value={asOf} onChange={(event) => setAsOf(event.target.value)} /></label>
@@ -250,7 +251,7 @@ function TechnicalPanel({ classification }: { classification: ReturnType<typeof 
   const [route, setRoute] = useState<"UE_168_2013" | "NO_MATRICULABLE" | null>(null);
   const finding = selected === "fabrica_mayor_25" ? resolveNonVmpRoute(route) : resolveVmpTechnical(selected);
   return <section className="vmp-panel">
-    <PanelHeading icon="⚙" title="Requisitos técnicos / modificaciones" text="La inmovilización, el depósito, el informe, las fotografías y las diligencias aparecen como medidas del resultado." />
+    <PanelHeading icon={vmpAreaIcon("tecnica")} title="Requisitos técnicos / modificaciones" text="La inmovilización, el depósito, el informe, las fotografías y las diligencias aparecen como medidas del resultado." />
     <Checklist title="Comprobar" items={vmpGuide.tecnica.comprobaciones} />
     <label className="vmp-wide-control" htmlFor="vmp-technical"><span>Hecho técnico constatado</span><select id="vmp-technical" value={selected} onChange={(event) => { setSelected(event.target.value as typeof selected); setRoute(null); }}><option value="ninguna">Sin incumplimiento constatado</option>{vmpGuide.tecnica.infracciones.map((item) => <option value={item.id} key={item.id}>{item.id} · {item.titulo}</option>)}<option value="fabrica_mayor_25">Velocidad máxima de fabricación superior a 25 km/h</option></select></label>
     {selected === "fabrica_mayor_25" && <div className="vmp-subflow"><p className="vmp-notice">No es VMP y no se aplican 5A, 5B ni 5C. La velocidad de fábrica no se confunde con una modificación posterior.</p><label className="vmp-wide-control" htmlFor="vmp-real-route"><span>¿Qué acredita la ficha o informe técnico sobre su homologación o matriculación?</span><select id="vmp-real-route" value={route ?? ""} onChange={(event) => setRoute(event.target.value ? event.target.value as typeof route : null)}><option value="">Selecciona lo acreditado…</option><option value="UE_168_2013">Encuadre en Reglamento UE 168/2013</option><option value="NO_MATRICULABLE">Otro vehículo no VMP no matriculable</option></select></label>{route === "UE_168_2013" && <div className="vmp-finding vmp-finding-a"><span>Siguiente actuación</span><h4>Determinar la clase real</h4><p>Continuar por autorización, matrícula, permiso y Seguro correspondientes a la clase acreditada. No aplicar automáticamente el codificado reservado al supuesto no matriculable.</p></div>}</div>}
@@ -263,7 +264,7 @@ function CirculationPanel() {
   const [selected, setSelected] = useState(vmpGuide.circulacion.infracciones[0]?.id ?? "");
   const finding = resolveVmpCirculation(selected, asOf);
   return <section className="vmp-panel">
-    <PanelHeading icon="↗" title="Normas de circulación" text="La fecha decide si los preceptos con vigencia futura resultan aplicables." />
+    <PanelHeading icon={vmpAreaIcon("circulacion")} title="Normas de circulación" text="La fecha decide si los preceptos con vigencia futura resultan aplicables." />
     <div className="vmp-form-grid"><label htmlFor="vmp-circulation-date"><span>Fecha de la intervención</span><input id="vmp-circulation-date" type="date" value={asOf} onChange={(event) => setAsOf(event.target.value)} /></label><label htmlFor="vmp-circulation-rule"><span>Hecho observado</span><select id="vmp-circulation-rule" value={selected} onChange={(event) => setSelected(event.target.value)}>{vmpGuide.circulacion.infracciones.map((item) => <option key={item.id} value={item.id}>{item.titulo}</option>)}</select></label></div>
     {finding && <div className={`vmp-finding ${finding.active ? "vmp-finding-no_vmp" : "vmp-finding-pendiente"}`}><span>Resultado a fecha {formatDate(asOf)}</span><h4>{finding.active ? "Aplicable" : "Todavía no aplicable"}</h4><p>{finding.message}</p>{finding.active && <InfractionOutput item={finding} />}</div>}
   </section>;
@@ -274,7 +275,7 @@ function MinorsPanel({ onOpenAlcohol }: { onOpenAlcohol: () => void }) {
   const [age, setAge] = useState(14);
   const finding = resolveVmpMinor(age, asOf);
   return <section className="vmp-panel">
-    <PanelHeading icon="◇" title="Menores de edad" text="Distingue la regla de edad por fecha de la tasa 0,0 de alcohol." />
+    <PanelHeading icon={vmpAreaIcon("menores")} title="Menores de edad" text="Distingue la regla de edad por fecha de la tasa 0,0 de alcohol." />
     <div className="vmp-form-grid"><label htmlFor="vmp-minor-date"><span>Fecha de la intervención</span><input id="vmp-minor-date" type="date" value={asOf} onChange={(event) => setAsOf(event.target.value)} /></label><label htmlFor="vmp-age"><span>Edad</span><input id="vmp-age" type="number" min="0" value={age} onChange={(event) => setAge(Number(event.target.value))} /></label></div>
     <div className={`vmp-finding ${finding.prohibited ? "vmp-finding-no_vmp" : finding.active ? "vmp-finding-a" : "vmp-finding-pendiente"}`}><span>Resultado por edad</span><h4>{finding.prohibited ? "Circulación prohibida por edad" : finding.active ? "No se activa la prohibición" : "Regla todavía no vigente"}</h4><p>{finding.message}</p><p>{vmpGuide.menores.alcohol}</p><button className="vmp-primary-action" onClick={onOpenAlcohol}>Abrir Alcoholemia con VMP →</button></div>
   </section>;

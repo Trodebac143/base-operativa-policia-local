@@ -83,3 +83,92 @@ select {
     bottom: calc(var(--bottom-nav-height, 0px) + 84px + env(safe-area-inset-bottom, 0px) + 10px);
   }
 }
+
+/* Biblioteca de fuentes agrupada por materia. */
+.source-library-groups {
+  display: grid;
+  gap: 10px;
+}
+
+.source-library-group {
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  background: #fff;
+  box-shadow: 0 4px 15px rgba(15, 47, 82, .05);
+}
+
+.source-library-group > summary {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 11px;
+  min-height: 58px;
+  padding: 11px 14px;
+  color: var(--navy);
+  list-style: none;
+  border-radius: 12px;
+  font-size: 15px;
+}
+
+.source-library-group > summary::-webkit-details-marker { display: none; }
+.source-library-group > summary::after { content: "›"; color: var(--blue); font-size: 24px; line-height: 1; transform: rotate(0deg); transition: transform .15s; }
+.source-library-group[open] > summary::after { transform: rotate(90deg); }
+.source-library-group[open] > summary { background: #f3f7fa; border-radius: 12px 12px 0 0; }
+.source-library-group-icon { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 10px; background: #eaf3f9; font-size: 19px; }
+.source-library-group-label { color: var(--navy); font-weight: 850; }
+.source-library-group-count { color: var(--muted); font-size: 12px; white-space: nowrap; }
+.source-library-group > .source-library-list { padding: 12px; border-top: 1px solid var(--line); }
+
+.source-library-group-badge {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 5px;
+  width: fit-content;
+  padding: 6px 9px;
+  border-radius: 999px;
+  color: #315d79;
+  background: #eaf3f9;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.source-library-submatters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: -4px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.source-library-submatters li {
+  padding: 5px 8px;
+  border: 1px solid #d7e3ea;
+  border-radius: 999px;
+  color: #496879;
+  background: #f7fafc;
+  font-size: 10px;
+  font-weight: 750;
+}
+
+@media (max-width: 700px) {
+  .source-library-group > summary {
+    gap: 8px;
+    min-height: 54px;
+    padding: 9px 10px;
+    font-size: 13px;
+  }
+
+  .source-library-group-icon {
+    width: 34px;
+    height: 34px;
+    font-size: 17px;
+  }
+
+  .source-library-group-count { font-size: 10px; }
+  .source-library-group > .source-library-list { padding: 9px; }
+}

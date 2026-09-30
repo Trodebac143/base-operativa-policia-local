@@ -6,6 +6,7 @@ export type PublicConcept = {
   id: string;
   bloque: "Drogas" | "Autoridad y agentes" | "Armas y objetos peligrosos" | "Violencia de género y doméstica" | "Agresiones y lesiones" | "Agresiones sexuales" | "Peleas y riñas" | "Amenazas y coacciones" | "Delitos contra el patrimonio";
   titulo: string;
+  icono: string;
   sinonimos: string[];
   resultado: string;
   norma: string;

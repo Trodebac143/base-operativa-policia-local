@@ -59,7 +59,7 @@ export function AlcoholemiaView({ onBack, initialVehicle = "motor_ciclomotor", b
       <div className="alcohol-heading">
         <div>
           <span className="kicker">SEGURIDAD VIAL · HERRAMIENTA OPERATIVA</span>
-          <h2>{alcoholemia.titulo}</h2>
+          <h2 className="icon-heading"><span className="heading-icon" aria-hidden="true">🧪</span>{alcoholemia.titulo}</h2>
           <p>{alcoholemia.subtitulo}</p>
         </div>
         <button className="alcohol-back" onClick={onBack}>{backLabel}</button>
@@ -67,7 +67,7 @@ export function AlcoholemiaView({ onBack, initialVehicle = "motor_ciclomotor", b
 
       <section className="alcohol-card calculator-card">
         <div className="alcohol-card-heading">
-          <span className="alcohol-symbol tone-copper">∑</span>
+          <span className="alcohol-symbol tone-copper" aria-hidden="true">🧮</span>
           <div>
             <h3>{alcoholemia.emp.nombre_ui}</h3>
             <p>{alcoholemia.presentacion.calculo_operativo.subtitulo_calculadora}</p>

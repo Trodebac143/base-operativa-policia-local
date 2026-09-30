@@ -6,13 +6,13 @@
   "fuente_manual": "TR-VMP-SRC-001",
   "fecha_referencia": "2026-09-07",
   "areas": [
-    { "id": "clasificacion", "icono": "◎", "titulo": "Identificar / clasificar vehículo", "descripcion": "Una plaza, asiento, autoequilibrado, masa y velocidad de fábrica", "orden": 10 },
-    { "id": "documentacion", "icono": "▤", "titulo": "Certificado, registro e identificación", "descripcion": "Aplica la absorción 5A → 5B → 5C sin duplicar denuncias", "orden": 20 },
-    { "id": "seguro", "icono": "◈", "titulo": "Seguro obligatorio", "descripcion": "Acceso al criterio común SDA/SOA según la clasificación", "orden": 30 },
+    { "id": "clasificacion", "icono": "🔎", "titulo": "Identificar / clasificar vehículo", "descripcion": "Una plaza, asiento, autoequilibrado, masa y velocidad de fábrica", "orden": 10 },
+    { "id": "documentacion", "icono": "📄", "titulo": "Certificado, registro e identificación", "descripcion": "Aplica la absorción 5A → 5B → 5C sin duplicar denuncias", "orden": 20 },
+    { "id": "seguro", "icono": "🛡️", "titulo": "Seguro obligatorio", "descripcion": "Acceso al criterio común SDA/SOA según la clasificación", "orden": 30 },
     { "id": "tecnica", "icono": "⚙", "titulo": "Requisitos técnicos / modificaciones", "descripcion": "Manipulación, defectos y vehículos fuera de la definición VMP", "orden": 40 },
-    { "id": "circulacion", "icono": "↗", "titulo": "Normas de circulación", "descripcion": "Catálogo codificado con entradas en vigor controladas por fecha", "orden": 50 },
-    { "id": "alcohol", "icono": "∑", "titulo": "Alcohol y drogas", "descripcion": "Abre la calculadora común con la rama VMP preseleccionada", "orden": 60 },
-    { "id": "menores", "icono": "◇", "titulo": "Menores de edad", "descripcion": "Tasa 0,0 y regla de edad desde el 01/10/2026", "orden": 70 }
+    { "id": "circulacion", "icono": "🚦", "titulo": "Normas de circulación", "descripcion": "Catálogo codificado con entradas en vigor controladas por fecha", "orden": 50 },
+    { "id": "alcohol", "icono": "🧪", "titulo": "Alcohol y drogas", "descripcion": "Abre la calculadora común con la rama VMP preseleccionada", "orden": 60 },
+    { "id": "menores", "icono": "🧒", "titulo": "Menores de edad", "descripcion": "Tasa 0,0 y regla de edad desde el 01/10/2026", "orden": 70 }
   ],
   "clasificacion": {
     "aviso": "Clasificar por características reales de fábrica, no por apariencia ni por la información aislada de Tráfico.",

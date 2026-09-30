@@ -4,6 +4,9 @@
   --module-public: #7650aa;
   --module-business: #ad7314;
   --bottom-nav-height: 72px;
+  --topbar-sticky-height: 86px;
+  --terrace-toolbar-sticky-height: 61px;
+  --quick-access-top: var(--topbar-sticky-height);
 }
 
 html {
@@ -85,10 +88,17 @@ main {
   position: sticky;
   top: 0;
   z-index: 24;
-  min-height: 78px;
+  flex-wrap: nowrap;
+  height: auto;
+  min-height: var(--topbar-sticky-height);
   background: linear-gradient(180deg, var(--navy), var(--navy-2));
   border-bottom-color: var(--gold);
   box-shadow: 0 5px 18px rgba(15, 47, 82, .18);
+}
+
+.brandcopy {
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .brandmark {
@@ -123,6 +133,86 @@ main {
 .shell {
   width: min(1080px, calc(100% - 32px));
   margin: 24px auto 30px;
+  overflow: visible;
+}
+
+.has-terrace-toolbar {
+  --quick-access-top: calc(var(--topbar-sticky-height) + var(--terrace-toolbar-sticky-height));
+}
+
+.quick-access-panel {
+  position: sticky;
+  top: var(--quick-access-top);
+  z-index: 22;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 24px;
+  padding: 10px;
+  overflow: visible;
+  border: 1px solid rgba(185, 204, 217, .9);
+  border-radius: 14px;
+  background: rgba(244, 248, 250, .96);
+  box-shadow: 0 7px 20px rgba(15, 47, 82, .1);
+  backdrop-filter: blur(10px);
+}
+
+.quick-access-panel .quick-access-back {
+  flex: 0 0 auto;
+  max-width: 205px;
+  min-height: 46px;
+  margin: 0;
+  padding: 9px 12px;
+  border: 1px solid #b9cedc;
+  border-radius: 10px;
+  background: #fff;
+  line-height: 1.3;
+  text-align: left;
+}
+
+.quick-access-panel .quick-access-back:hover {
+  border-color: #6f9db9;
+  background: #eef6fa;
+}
+
+.quick-access-panel .searchbox {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  padding: 10px 12px 12px;
+  overflow: visible;
+  box-shadow: none;
+}
+
+.quick-access-panel .searchbox label {
+  margin-bottom: 5px;
+  font-size: 11px;
+}
+
+.quick-access-panel .searchrow {
+  min-height: 46px;
+  height: 46px;
+}
+
+.quick-access-panel .searchrow input {
+  min-height: 42px;
+  font-size: 15px;
+}
+
+.searchrow input[type="search"]::-webkit-search-cancel-button,
+.library-search input[type="search"]::-webkit-search-cancel-button {
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.quick-access-panel .results {
+  z-index: 3;
+  top: calc(100% - 2px);
+  left: 12px;
+  right: 12px;
+  max-height: min(60dvh, 32rem);
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .library-link,
@@ -273,10 +363,49 @@ main {
   box-shadow: 0 4px 14px rgba(15, 47, 82, .05);
 }
 
-.module-view-animales { --section-accent: var(--module-animals); }
-.module-view-seguridad_vial { --section-accent: var(--module-road); }
-.module-view-seguridad_publica { --section-accent: var(--module-public); }
-.module-view-policia_administrativa { --section-accent: var(--module-business); }
+.module-view-animales { --section-accent: var(--module-animals); --section-soft: #e8f5ee; }
+.module-view-seguridad_vial { --section-accent: var(--module-road); --section-soft: #e7f1f9; }
+.module-view-seguridad_publica { --section-accent: var(--module-public); --section-soft: #f0ebf7; }
+.module-view-policia_administrativa { --section-accent: var(--module-business); --section-soft: #fbf0dc; }
+
+.icon-heading {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.heading-icon,
+.nav-card-icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  color: var(--section-accent, var(--blue));
+  background: var(--section-soft, #eaf3fa);
+}
+
+.heading-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 11px;
+  font-size: 22px;
+}
+
+.navigation-list button {
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  gap: 14px;
+}
+
+.nav-card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 11px;
+  font-size: 21px;
+}
+
+.nav-card-icon-neutral {
+  color: #4c6d83;
+  background: #edf3f7;
+}
 
 .listcards button,
 .library-list article,
@@ -482,10 +611,17 @@ main {
 }
 
 @media (max-width: 700px) {
-  :root { --bottom-nav-height: 68px; }
+  :root {
+    --bottom-nav-height: 68px;
+    --topbar-sticky-height: 86px;
+    --terrace-toolbar-sticky-height: 53px;
+  }
 
   .topbar {
-    min-height: 72px;
+    min-height: var(--topbar-sticky-height);
+    flex-wrap: nowrap;
+    gap: 9px;
+    padding: 10px 11px;
   }
 
   .brandmark {
@@ -496,6 +632,15 @@ main {
   .topbar h1 span {
     display: block;
     margin-top: 2px;
+  }
+
+  .topbar h1 {
+    font-size: 15px;
+  }
+
+  .eyebrow {
+    font-size: 8px;
+    letter-spacing: .1em;
   }
 
   .library-link {
@@ -513,6 +658,53 @@ main {
     margin-top: 16px;
   }
 
+  .quick-access-panel {
+    gap: 7px;
+    margin-bottom: 17px;
+    padding: 7px;
+    border-radius: 12px;
+  }
+
+  .quick-access-panel .quick-access-back {
+    max-width: 118px;
+    min-height: 44px;
+    padding: 7px 8px;
+    font-size: 12px;
+  }
+
+  .quick-access-panel .searchbox {
+    padding: 7px 8px 8px;
+    border-radius: 10px;
+  }
+
+  .quick-access-panel .searchbox label {
+    margin-bottom: 3px;
+    font-size: 9px;
+  }
+
+  .quick-access-panel .searchrow {
+    min-height: 42px;
+    height: 42px;
+    padding: 0 9px;
+    gap: 5px;
+  }
+
+  .quick-access-panel .searchrow > b {
+    flex-basis: 22px;
+    font-size: 22px;
+  }
+
+  .quick-access-panel .searchrow input {
+    min-height: 38px;
+    font-size: 14px;
+  }
+
+  .quick-access-panel .results {
+    left: 8px;
+    right: 8px;
+    max-height: min(52dvh, 24rem);
+  }
+
   .searchbox {
     padding: 14px;
   }
@@ -525,6 +717,33 @@ main {
   .moduleicon {
     width: 52px;
     height: 52px;
+  }
+
+  .heading-icon {
+    width: 37px;
+    height: 37px;
+    border-radius: 9px;
+    font-size: 19px;
+  }
+
+  .navigation-list button {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 11px;
+  }
+
+  .navigation-list button > em {
+    display: none;
+  }
+
+  .navigation-list button > b {
+    grid-column: 3;
+  }
+
+  .nav-card-icon {
+    width: 39px;
+    height: 39px;
+    border-radius: 9px;
+    font-size: 18px;
   }
 
   .help-grid {

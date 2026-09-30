@@ -188,7 +188,7 @@ test("21 · la composición de escritorio mantiene filtros y resultados compacto
 
 test("22 · Terrazas, Convivencia y Establecimientos mantienen la estructura administrativa", async () => {
   const categories = await readJson("contenido/estructura/categorias.json");
-  assert.ok(categories.some((item) => item.id === "policia_administrativa_terrazas" && item.nombre === "☕ Terrazas"));
+  assert.ok(categories.some((item) => item.id === "policia_administrativa_terrazas" && item.nombre === "Terrazas" && item.icono === "☕"));
   assert.deepEqual(categories.filter((item) => item.modulo === "policia_administrativa").map((item) => item.orden), [10, 20, 30, 40, 60]);
   assert.equal(categories.some((item) => item.id === "policia_administrativa_mercados"), false);
 });

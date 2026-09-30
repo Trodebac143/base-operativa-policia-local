@@ -3,6 +3,7 @@
     "id": "animales_identificacion",
     "modulo": "animales",
     "nombre": "Identificación y registro",
+    "icono": "🏷️",
     "orden": 10,
     "activo": true
   },
@@ -10,6 +11,7 @@
     "id": "animales_ppp",
     "modulo": "animales",
     "nombre": "Perros potencialmente peligrosos (PPP)",
+    "icono": "🐕",
     "orden": 20,
     "activo": true
   },
@@ -17,6 +19,7 @@
     "id": "animales_sanidad",
     "modulo": "animales",
     "nombre": "Sanidad",
+    "icono": "🩺",
     "orden": 30,
     "activo": true
   },
@@ -24,6 +27,7 @@
     "id": "animales_abandono",
     "modulo": "animales",
     "nombre": "Abandono y recogida",
+    "icono": "🚐",
     "orden": 40,
     "activo": true
   },
@@ -31,6 +35,7 @@
     "id": "animales_convivencia",
     "modulo": "animales",
     "nombre": "Convivencia y tenencia",
+    "icono": "🐾",
     "orden": 50,
     "activo": true
   },
@@ -38,6 +43,7 @@
     "id": "seguridad_vial_itv",
     "modulo": "seguridad_vial",
     "nombre": "Inspección técnica de vehículos (ITV)",
+    "icono": "🔧",
     "descripcion": "Estado ITV, segunda inspección, circulación y medidas policiales",
     "orden": 10,
     "activo": true
@@ -46,6 +52,7 @@
     "id": "seguridad_vial_seguro",
     "modulo": "seguridad_vial",
     "nombre": "Seguro obligatorio",
+    "icono": "🛡️",
     "descripcion": "Sujeción, seguro en vigor, VMP/VPL y medidas policiales",
     "orden": 20,
     "activo": true
@@ -54,6 +61,7 @@
     "id": "seguridad_vial_permisos",
     "modulo": "seguridad_vial",
     "nombre": "Permisos de conducir",
+    "icono": "🪪",
     "descripcion": "Vigencia, habilitación, pérdida de puntos, privación judicial y permisos extranjeros",
     "orden": 30,
     "activo": true
@@ -62,6 +70,7 @@
     "id": "seguridad_vial_alcoholemia",
     "modulo": "seguridad_vial",
     "nombre": "Alcoholemia",
+    "icono": "🧪",
     "descripcion": "Referencia operativa de aire espirado, EMP, pruebas y medidas",
     "orden": 40,
     "activo": true
@@ -69,7 +78,8 @@
   {
     "id": "seguridad_vial_vmp",
     "modulo": "seguridad_vial",
-    "nombre": "🛴 VMP y VPL",
+    "nombre": "VMP y VPL",
+    "icono": "🛴",
     "descripcion": "Clasificación, documentación, seguro, técnica, circulación, alcohol y menores",
     "orden": 50,
     "activo": true
@@ -78,6 +88,7 @@
     "id": "seguridad_publica_drogas",
     "modulo": "seguridad_publica",
     "nombre": "Drogas",
+    "icono": "💊",
     "descripcion": "Consumo, tenencia y posible tráfico",
     "orden": 10,
     "activo": true
@@ -86,6 +97,7 @@
     "id": "seguridad_publica_agentes",
     "modulo": "seguridad_publica",
     "nombre": "Hechos contra los agentes",
+    "icono": "👮",
     "descripcion": "Respeto, desobediencia, identificación, resistencia, amenazas y atentado",
     "orden": 20,
     "activo": true
@@ -94,6 +106,7 @@
     "id": "seguridad_publica_armas",
     "modulo": "seguridad_publica",
     "nombre": "Armas y objetos peligrosos",
+    "icono": "⚠️",
     "descripcion": "Armas blancas y objetos utilizados como medio ofensivo",
     "orden": 80,
     "activo": true
@@ -102,6 +115,7 @@
     "id": "seguridad_publica_violencia_relacional",
     "modulo": "seguridad_publica",
     "nombre": "Violencia de género y doméstica",
+    "icono": "🛡️",
     "descripcion": "Relación protegida, hechos coexistentes y continuidad operativa",
     "orden": 30,
     "activo": true
@@ -110,6 +124,7 @@
     "id": "seguridad_publica_agresiones_lesiones",
     "modulo": "seguridad_publica",
     "nombre": "Agresiones y lesiones",
+    "icono": "🩹",
     "descripcion": "Agresión física, resultado asistencial y alertas de gravedad",
     "orden": 40,
     "activo": true
@@ -118,6 +133,7 @@
     "id": "seguridad_publica_agresiones_sexuales",
     "modulo": "seguridad_publica",
     "nombre": "Agresiones sexuales",
+    "icono": "🛡️",
     "descripcion": "Actuación inmediata, preservación y conexiones operativas",
     "orden": 50,
     "activo": true
@@ -126,6 +142,7 @@
     "id": "seguridad_publica_peleas_rinas",
     "modulo": "seguridad_publica",
     "nombre": "Peleas y riñas",
+    "icono": "⚖️",
     "descripcion": "Agresiones individuales, recíprocas y riña tumultuaria",
     "orden": 60,
     "activo": true
@@ -134,6 +151,7 @@
     "id": "seguridad_publica_amenazas_coacciones",
     "modulo": "seguridad_publica",
     "nombre": "Amenazas y coacciones",
+    "icono": "⚠️",
     "descripcion": "Anuncio de mal, imposición y conducta reiterada",
     "orden": 70,
     "activo": true
@@ -142,6 +160,7 @@
     "id": "seguridad_publica_patrimonio",
     "modulo": "seguridad_publica",
     "nombre": "Delitos contra el patrimonio",
+    "icono": "🔐",
     "descripcion": "Hurto, robo, apropiación indebida y daños",
     "orden": 90,
     "activo": true
@@ -149,7 +168,8 @@
   {
     "id": "policia_administrativa_urbanismo",
     "modulo": "policia_administrativa",
-    "nombre": "🏗️ Urbanismo",
+    "nombre": "Urbanismo",
+    "icono": "🏗️",
     "descripcion": "Asistente policial para observar, comprobar, documentar y actuar ante incidencias urbanísticas.",
     "orden": 10,
     "activo": true
@@ -157,7 +177,8 @@
   {
     "id": "policia_administrativa_venta_no_sedentaria",
     "modulo": "policia_administrativa",
-    "nombre": "🛒 Venta no sedentaria / Mercados",
+    "nombre": "Venta no sedentaria / Mercados",
+    "icono": "🛒",
     "descripcion": "Situaciones operativas de mercados, venta ambulante y otras modalidades de venta no sedentaria.",
     "orden": 20,
     "activo": true
@@ -165,7 +186,8 @@
   {
     "id": "policia_administrativa_terrazas",
     "modulo": "policia_administrativa",
-    "nombre": "☕ Terrazas",
+    "nombre": "Terrazas",
+    "icono": "☕",
     "descripcion": "Comprobación guiada de autorizaciones, condiciones de funcionamiento y régimen sancionador de terrazas de hostelería.",
     "orden": 30,
     "activo": true
@@ -173,7 +195,8 @@
   {
     "id": "policia_administrativa_convivencia",
     "modulo": "policia_administrativa",
-    "nombre": "🤝 Convivencia",
+    "nombre": "Convivencia",
+    "icono": "🤝",
     "descripcion": "Conductas municipales de convivencia, limpieza y uso del espacio público.",
     "orden": 40,
     "activo": true
@@ -181,7 +204,8 @@
   {
     "id": "policia_administrativa_establecimientos_actividades",
     "modulo": "policia_administrativa",
-    "nombre": "🏬 Establecimientos públicos",
+    "nombre": "Establecimientos públicos",
+    "icono": "🏬",
     "descripcion": "Inspección policial guiada de establecimientos públicos.",
     "orden": 60,
     "activo": true

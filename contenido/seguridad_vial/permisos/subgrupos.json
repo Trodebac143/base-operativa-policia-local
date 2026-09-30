@@ -2,18 +2,21 @@
   {
     "id": "permisos_perdida_vigencia",
     "nombre": "Pérdida de Vigencia",
+    "icono": "⚠️",
     "descripcion": "Pérdida de vigencia por puntos, notificación, recursos y recuperación.",
     "orden": 5
   },
   {
     "id": "permisos_suspension_judicial",
     "nombre": "Suspensión Judicial",
+    "icono": "⚖️",
     "descripcion": "Conducción durante y después de una suspensión judicial.",
     "orden": 9
   },
   {
     "id": "permisos_extranjeros",
     "nombre": "Permisos extranjeros",
+    "icono": "🌐",
     "descripcion": "Permisos UE/EEE, terceros países, canjes y permiso internacional.",
     "orden": 13,
     "ayudas": ["TR-PERM-HELP-ART21"],

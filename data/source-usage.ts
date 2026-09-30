@@ -9,6 +9,40 @@ import vmpGuideJson from "../contenido/seguridad_vial/vmp/guia.json";
 import establishmentsJson from "../contenido/policia_administrativa/establecimientos/inspeccion.json";
 import urbanismoJson from "../contenido/policia_administrativa/urbanismo/inspeccion.json";
 import { resolveSourceReference } from "./sources";
+import type { Source } from "./types";
+
+export type SourceLibraryGroupId =
+  | "animals"
+  | "traffic"
+  | "public-security"
+  | "administrative-police"
+  | "transversal"
+  | "other";
+
+export type SourceLibraryGroup = {
+  id: SourceLibraryGroupId;
+  label: string;
+  icon: string;
+};
+
+/** Orden de presentación de Biblioteca. La asignación de cada fuente se deriva de sus usos. */
+export const sourceLibraryGroups: readonly SourceLibraryGroup[] = [
+  { id: "animals", label: "Animales", icon: "🐾" },
+  { id: "traffic", label: "Seguridad Vial", icon: "🚦" },
+  { id: "public-security", label: "Seguridad Pública", icon: "🛡️" },
+  { id: "administrative-police", label: "Policía Administrativa", icon: "🏛️" },
+  { id: "transversal", label: "Fuentes transversales / comunes", icon: "🔄" },
+  { id: "other", label: "Otras fuentes", icon: "📚" },
+] as const;
+
+const libraryGroupByModule = {
+  Animales: "animals",
+  "Seguridad Vial": "traffic",
+  "Seguridad Pública": "public-security",
+  "Policía Administrativa": "administrative-police",
+} as const satisfies Record<string, SourceLibraryGroupId>;
+
+type SourceLibraryGroups = Record<SourceLibraryGroupId, Source[]>;
 
 const animalsJson = rawCases.filter((item) => item.modulo === "animales");
 const itvJson = rawCases.filter((item) => item.categoria === "seguridad_vial_itv");
@@ -84,6 +118,46 @@ for (const concept of publicSecurity.conceptos ?? []) {
 
 export function sourceUsage(sourceId: string): string[] {
   return [...(usage.get(sourceId) ?? [])].sort((left, right) => left.localeCompare(right, "es"));
+}
+
+/**
+ * Asigna una fuente a un único grupo de Biblioteca a partir de los usos ya
+ * declarados por el contenido. No se infiere nada a partir de su nombre.
+ */
+export function sourceLibraryGroupFromUsage(labels: readonly string[]): SourceLibraryGroupId {
+  if (!labels.length) return "other";
+  if (labels.includes("Reglas transversales")) return "transversal";
+
+  const modules = new Set<SourceLibraryGroupId>();
+  for (const label of labels) {
+    const moduleName = label.split(" → ", 1)[0];
+    const group = libraryGroupByModule[moduleName as keyof typeof libraryGroupByModule];
+    if (group) modules.add(group);
+  }
+
+  if (modules.size === 0) return "other";
+  return modules.size === 1 ? [...modules][0] : "transversal";
+}
+
+export function sourceLibraryGroupForSource(sourceId: string): SourceLibraryGroupId {
+  return sourceLibraryGroupFromUsage(sourceUsage(sourceId));
+}
+
+/** Submaterias compactas para las fichas; la lista completa se conserva en «Utilizada en». */
+export function sourceLibrarySubmatters(labels: readonly string[]): string[] {
+  return [...new Set(labels.flatMap((label) => {
+    if (label === "Reglas transversales") return [label];
+    const [, submatter] = label.split(" → ", 2);
+    return submatter ? [submatter] : [];
+  }))];
+}
+
+/** Agrupa sin duplicar ni omitir fuentes y conserva el orden del catálogo recibido. */
+export function groupSourcesByLibraryMatter(sourceList: readonly Source[]): SourceLibraryGroups {
+  const groups: Partial<SourceLibraryGroups> = {};
+  for (const group of sourceLibraryGroups) groups[group.id] = [];
+  for (const source of sourceList) groups[sourceLibraryGroupForSource(source.id)]!.push(source);
+  return groups as SourceLibraryGroups;
 }
 
 export function allSourceReferences(): string[] {

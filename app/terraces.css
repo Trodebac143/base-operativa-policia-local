@@ -93,7 +93,7 @@
 .terrace-reset { justify-self: start; padding: .65rem .85rem; border: 1px solid #d8cfc4; border-radius: 11px; background: #fff; color: #5f554b; font-weight: 750; cursor: pointer; }
 
 /* Biblioteca visual común de Terrazas */
-.terrace-help-toolbar { position: sticky; z-index: 23; top: 78px; display: flex; justify-content: flex-end; padding: .42rem max(20px, calc((100vw - 1080px) / 2)); border-bottom: 1px solid #d8e3ea; background: rgba(244, 248, 250, .96); box-shadow: 0 4px 12px rgba(15, 47, 82, .06); backdrop-filter: blur(8px); }
+.terrace-help-toolbar { position: sticky; z-index: 23; top: var(--topbar-sticky-height, 86px); display: flex; justify-content: flex-end; min-height: var(--terrace-toolbar-sticky-height, 61px); padding: .42rem max(20px, calc((100vw - 1080px) / 2)); border-bottom: 1px solid #d8e3ea; background: rgba(244, 248, 250, .96); box-shadow: 0 4px 12px rgba(15, 47, 82, .06); backdrop-filter: blur(8px); }
 .terrace-help-open { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; flex: 0 0 auto; min-height: 46px; padding: .7rem .9rem; border: 1px solid #b9cedc; border-radius: 11px; background: #fff; color: #174d70; font-weight: 850; cursor: pointer; box-shadow: 0 4px 14px rgba(23, 77, 112, .08); }
 .terrace-help-open:hover { border-color: #6f9db9; background: #f4f9fc; }
 .terrace-help-open > span:first-child { color: #1c789f; font-size: 1rem; }
@@ -139,7 +139,7 @@
   .terrace-sheet .sheettitle { align-items: flex-start; }
   .terrace-sheet .sheettitle .copy { width: 100%; }
   .terrace-actions dl > div { grid-template-columns: 1fr; gap: .2rem; }
-  .terrace-help-toolbar { top: 72px; padding: .32rem 11px; }
+  .terrace-help-toolbar { top: var(--topbar-sticky-height, 72px); padding: .32rem 11px; }
   .terrace-help-toolbar .terrace-help-open { min-height: 42px; padding: .55rem .72rem; }
   .terrace-help-overlay { padding: .4rem; }
   .terrace-help-dialog { width: calc(100vw - .8rem); max-height: calc(100dvh - .8rem); border-radius: 14px; }

@@ -153,6 +153,8 @@ test("el catálogo mantiene iconografía, fuentes y no expone IDs internos", asy
 
 test("Venta no sedentaria / Mercados sustituye la categoría Mercados independiente", async () => {
   const categories = await readJson("contenido/estructura/categorias.json");
-  assert.equal(categories.find((item) => item.id === "policia_administrativa_venta_no_sedentaria").nombre, "🛒 Venta no sedentaria / Mercados");
+  const category = categories.find((item) => item.id === "policia_administrativa_venta_no_sedentaria");
+  assert.equal(category.nombre, "Venta no sedentaria / Mercados");
+  assert.equal(category.icono, "🛒");
   assert.equal(categories.some((item) => item.id === "policia_administrativa_mercados"), false);
 });

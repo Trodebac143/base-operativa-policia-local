@@ -3,7 +3,15 @@
 import { useState } from "react";
 import { documentForSource, libraryDocuments } from "@/data/documents";
 import { filterSources, sources } from "@/data/sources";
-import { sourceUsage } from "@/data/source-usage";
+import {
+  groupSourcesByLibraryMatter,
+  sourceLibraryGroupForSource,
+  sourceLibraryGroups,
+  sourceLibrarySubmatters,
+  sourceUsage,
+  type SourceLibraryGroup,
+} from "@/data/source-usage";
+import type { Source } from "@/data/types";
 import { publicPath } from "@/lib/public-path";
 
 type LibrarySection = "documents" | "sources";
@@ -43,6 +51,8 @@ export function LibraryDocumentsPanel() {
 export function LibrarySourcesPanel({ initialQuery = "" }: { initialQuery?: string }) {
   const [query, setQuery] = useState(initialQuery);
   const results = filterSources(query);
+  const hasQuery = Boolean(query.trim());
+  const groupedSources = groupSourcesByLibraryMatter(results);
 
   return (
     <div className="library-panel" aria-labelledby="library-sources-tab">
@@ -51,42 +61,75 @@ export function LibrarySourcesPanel({ initialQuery = "" }: { initialQuery?: stri
         <input id="source-search" type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Buscar fuente" autoComplete="off" />
       </div>
       <p className="library-result-count">{results.length} fuente{results.length === 1 ? "" : "s"}</p>
-      <div className="source-library-list">
-        {results.map((source) => {
-          const usage = sourceUsage(source.id);
-          const localDocument = documentForSource(source.id);
-          return (
-            <article id={`source-${source.id}`} className="source-library-card" key={source.id}>
-              <div className="source-library-heading">
-                <div>
-                  <span className="source-library-kind">{source.tipo ?? "Fuente operativa"}</span>
-                  <h3>{source.nombre}</h3>
-                  {source.organismo && <p>{source.organismo}</p>}
+      {hasQuery ? (
+        <div className="source-library-list" data-source-results="search">
+          {results.map((source) => <SourceLibraryCard key={source.id} source={source} group={sourceLibraryGroupForSource(source.id)} />)}
+        </div>
+      ) : (
+        <div className="source-library-groups" data-source-results="grouped">
+          {sourceLibraryGroups.map((group) => {
+            const groupSources = groupedSources[group.id];
+            return (
+              <details className="source-library-group" key={group.id}>
+                <summary>
+                  <span className="source-library-group-icon" aria-hidden="true">{group.icon}</span>
+                  <span className="source-library-group-label">{group.label}</span>
+                  <small className="source-library-group-count">{groupSources.length} fuente{groupSources.length === 1 ? "" : "s"}</small>
+                </summary>
+                <div className="source-library-list">
+                  {groupSources.map((source) => <SourceLibraryCard key={source.id} source={source} />)}
                 </div>
-                <small>{source.id}</small>
-              </div>
-              <dl className="source-library-meta">
-                {source.ambito && <div><dt>Ámbito</dt><dd>{source.ambito}</dd></div>}
-                {source.estado_vigencia_auditoria && <div><dt>Estado</dt><dd>{source.estado_vigencia_auditoria}</dd></div>}
-              </dl>
-              {!!usage.length && (
-                <div className="source-library-usage">
-                  <strong>Utilizada en</strong>
-                  <ul>{usage.map((label) => <li key={label}>{label}</li>)}</ul>
-                </div>
-              )}
-              {(localDocument || source.urlOficial) && (
-                <div className="source-library-actions">
-                  {localDocument && <a href={encodeURI(publicPath(`/documentos/${localDocument.archivo}`))} target="_blank" rel="noopener noreferrer">Abrir documento <span aria-hidden="true">↗</span></a>}
-                  {source.urlOficial && <a href={source.urlOficial} target="_blank" rel="noopener noreferrer">Consultar fuente oficial <span aria-hidden="true">↗</span></a>}
-                </div>
-              )}
-            </article>
-          );
-        })}
-      </div>
+              </details>
+            );
+          })}
+        </div>
+      )}
       {!results.length && <LibraryEmpty text="No hay fuentes que coincidan con la búsqueda." />}
     </div>
+  );
+}
+
+function SourceLibraryCard({ source, group }: { source: Source; group?: ReturnType<typeof sourceLibraryGroupForSource> }) {
+  const usage = sourceUsage(source.id);
+  const submatters = sourceLibrarySubmatters(usage);
+  const localDocument = documentForSource(source.id);
+  const groupMetadata: SourceLibraryGroup | undefined = group
+    ? sourceLibraryGroups.find((candidate) => candidate.id === group)
+    : undefined;
+
+  return (
+    <article id={`source-${source.id}`} className="source-library-card">
+      <div className="source-library-heading">
+        <div>
+          <span className="source-library-kind">{source.tipo ?? "Fuente operativa"}</span>
+          <h3>{source.nombre}</h3>
+          {source.organismo && <p>{source.organismo}</p>}
+        </div>
+        <small>{source.id}</small>
+      </div>
+      {groupMetadata && <span className="source-library-group-badge"><span aria-hidden="true">{groupMetadata.icon}</span> {groupMetadata.label}</span>}
+      {!!submatters.length && (
+        <ul className="source-library-submatters" aria-label="Submaterias">
+          {submatters.map((submatter) => <li key={submatter}>{submatter}</li>)}
+        </ul>
+      )}
+      <dl className="source-library-meta">
+        {source.ambito && <div><dt>Ámbito</dt><dd>{source.ambito}</dd></div>}
+        {source.estado_vigencia_auditoria && <div><dt>Estado</dt><dd>{source.estado_vigencia_auditoria}</dd></div>}
+      </dl>
+      {!!usage.length && (
+        <div className="source-library-usage">
+          <strong>Utilizada en</strong>
+          <ul>{usage.map((label) => <li key={label}>{label}</li>)}</ul>
+        </div>
+      )}
+      {(localDocument || source.urlOficial) && (
+        <div className="source-library-actions">
+          {localDocument && <a href={encodeURI(publicPath(`/documentos/${localDocument.archivo}`))} target="_blank" rel="noopener noreferrer">Abrir documento <span aria-hidden="true">↗</span></a>}
+          {source.urlOficial && <a href={source.urlOficial} target="_blank" rel="noopener noreferrer">Consultar fuente oficial <span aria-hidden="true">↗</span></a>}
+        </div>
+      )}
+    </article>
   );
 }
 

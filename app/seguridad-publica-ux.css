@@ -130,3 +130,48 @@
     grid-column: 2;
   }
 }
+/* Iconografía navegable de Seguridad Pública. */
+.sp-search-results button {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+}
+
+.sp-search-icon,
+.sp-concept-icon,
+.sp-connection-icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border-radius: 9px;
+  color: var(--module-public);
+  background: #f0ebf7;
+}
+
+.sp-search-icon { width: 34px; height: 34px; font-size: 16px; }
+
+.sp-concept-grid button {
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 11px;
+}
+
+.sp-concept-icon { width: 40px; height: 40px; font-size: 19px; }
+.sp-concept-grid button > span:not(.sp-concept-icon) { min-width: 0; }
+.sp-concept-grid button > span:not(.sp-concept-icon) strong,
+.sp-concept-grid button > span:not(.sp-concept-icon) small { display: block; }
+.sp-concept-grid button > span:not(.sp-concept-icon) small { margin-top: 4px; }
+.sp-concept-grid small { grid-column: auto; }
+.sp-concept-grid b { grid-column: 3; }
+
+.sp-connections button {
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+}
+
+.sp-connection-icon { width: 36px; height: 36px; font-size: 17px; }
+.sp-connections button > span:not(.sp-connection-icon) { min-width: 0; }
+.sp-connections button small { grid-column: auto; }
+.sp-connections button b { grid-column: 3; }

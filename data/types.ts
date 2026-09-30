@@ -1,6 +1,6 @@
 export type CaseStatus = "borrador" | "revision" | "validado" | "bloqueado";
-export type Module = { id: string; nombre: string; descripcion: string; orden: number; activo: boolean };
-export type Category = { id: string; modulo: string; nombre: string; descripcion?: string; orden: number; activo: boolean };
+export type Module = { id: string; nombre: string; icono?: string; descripcion: string; orden: number; activo: boolean };
+export type Category = { id: string; modulo: string; nombre: string; icono?: string; descripcion?: string; orden: number; activo: boolean };
 export type Rule = { id: string; nombre: string; tipo: string; contenido: string; aplica_a?: string; fuentes?: string[]; activo: boolean };
 export type Source = {
   id: string;
@@ -38,7 +38,7 @@ export type TrafficMeasurePlan = {
 export type OperationalLink = { etiqueta: string; url: string; principal?: boolean };
 export type PermitHelpSection = { titulo: string; contenido: string[]; advertencia?: string };
 export type PermitHelp = { id: string; titulo: string; introduccion: string; secciones: PermitHelpSection[]; enlaces: OperationalLink[] };
-export type PermitGroup = { id: string; nombre: string; descripcion: string; orden: number; casos: string[]; ayudas?: string[]; enlaces_operativos?: OperationalLink[] };
+export type PermitGroup = { id: string; nombre: string; icono?: string; descripcion: string; orden: number; casos: string[]; ayudas?: string[]; enlaces_operativos?: OperationalLink[] };
 export type ConditionalFit = {
   supuesto: string;
   articulo: string;

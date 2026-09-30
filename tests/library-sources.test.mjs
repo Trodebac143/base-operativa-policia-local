@@ -89,20 +89,63 @@ test("12 · Buscar fuente encuentra por nombre, norma y organismo", () => {
   assert.ok(sourceData.filterSources("Dirección General de Tráfico").length >= 5);
 });
 
-test("13 · Biblioteca conserva una composición de escritorio", async () => {
+test("13 · la agrupación de Biblioteca es exhaustiva, exclusiva y conserva los conteos", () => {
+  const grouped = usageData.groupSourcesByLibraryMatter(sourceData.sources);
+  const counts = Object.fromEntries(usageData.sourceLibraryGroups.map((group) => [group.id, grouped[group.id].length]));
+  assert.deepEqual(counts, {
+    animals: 9,
+    traffic: 25,
+    "public-security": 14,
+    "administrative-police": 11,
+    transversal: 4,
+    other: 2,
+  });
+
+  const groupedIds = Object.values(grouped).flatMap((group) => group.map((source) => source.id));
+  assert.equal(groupedIds.length, sourceData.sources.length);
+  assert.equal(new Set(groupedIds).size, sourceData.sources.length);
+  assert.deepEqual(new Set(groupedIds), new Set(sourceData.sources.map((source) => source.id)));
+});
+
+test("14 · los usos multi-módulo, reglas transversales y fuentes sin uso terminan en su grupo único", () => {
+  for (const id of ["AN-SRC-007", "OCC-TORRENT", "TR-ITV-SRC-001", "TR-MOV-SRC-001"]) {
+    assert.equal(usageData.sourceLibraryGroupForSource(id), "transversal", id);
+  }
+  for (const id of ["ORL-TORRENT", "VNS-TORRENT"]) {
+    assert.equal(usageData.sourceLibraryGroupForSource(id), "other", id);
+  }
+  assert.equal(usageData.sourceLibraryGroupFromUsage(["Uso no identificable"]), "other");
+});
+
+test("15 · Fuentes se pliega por materia sin búsqueda y la búsqueda conserva una lista plana", () => {
+  const groupedHtml = render(library.LibrarySourcesPanel);
+  assert.match(groupedHtml, /data-source-results="grouped"/);
+  assert.equal((groupedHtml.match(/<summary>/g) ?? []).length, 6);
+  for (const [icon, label, count] of [["🐾", "Animales", 9], ["🚦", "Seguridad Vial", 25], ["🛡️", "Seguridad Pública", 14], ["🏛️", "Policía Administrativa", 11], ["🔄", "Fuentes transversales \/ comunes", 4], ["📚", "Otras fuentes", 2]]) {
+    assert.match(groupedHtml, new RegExp(`${icon}[\\s\\S]*${label}[\\s\\S]*${count} fuentes`));
+  }
+
+  const searchHtml = render(library.LibrarySourcesPanel, { initialQuery: "Manual de Intervención VMP" });
+  assert.match(searchHtml, /data-source-results="search"/);
+  assert.doesNotMatch(searchHtml, /<details/);
+  assert.match(searchHtml, /🚦<\/span> Seguridad Vial/);
+  assert.equal((searchHtml.match(/class="source-library-card"/g) ?? []).length, 1);
+});
+
+test("16 · Biblioteca conserva una composición de escritorio", async () => {
   const css = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
   const html = render(library.LibrarySourcesPanel);
   assert.match(html, /class="source-library-list"/);
   assert.match(css, /\.source-library-list\s*\{[^}]*grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/i);
 });
 
-test("14 · Biblioteca incluye estilos responsive para navegación y fichas", async () => {
+test("17 · Biblioteca incluye estilos responsive para navegación y fichas", async () => {
   const css = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
   assert.match(css, /@media\(max-width:700px\)\{\.library-tabs\{grid-template-columns:1fr\}\.source-library-list\{grid-template-columns:1fr\}/i);
   assert.match(css, /\.source-library-actions\{display:grid\}/i);
 });
 
-test("15 · las fuentes de la intervención penal están registradas, visibles y enlazadas", () => {
+test("18 · las fuentes de la intervención penal están registradas, visibles y enlazadas", () => {
   for (const id of ["AN-SRC-007", "SP-SRC-LECRIM", "SP-SRC-LO-1-2004", "SP-SRC-LO-10-2022", "SP-SRC-LO-1-2025", "SP-SRC-LO-1-2026", "SP-SRC-VIOGEN-2"]) {
     const source = sourceData.sources.find((item) => item.id === id);
     assert.ok(source, `Falta ${id}`);
@@ -112,14 +155,14 @@ test("15 · las fuentes de la intervención penal están registradas, visibles y
   }
 });
 
-test("16 · toda fuente utilizada por contenido activo ofrece consulta en Biblioteca", () => {
+test("19 · toda fuente utilizada por contenido activo ofrece consulta en Biblioteca", () => {
   for (const reference of usageData.allSourceReferences()) {
     const source = sourceData.resolveSourceReference(reference);
     assert.ok(source.urlOficial || documentsData.documentForSource(source.id), `${source.id} carece de enlace visible`);
   }
 });
 
-test("17 · las fichas resuelven fuentes externas, documentos locales y referencias desconocidas", () => {
+test("20 · las fichas resuelven fuentes externas, documentos locales y referencias desconocidas", () => {
   const external = render(sourceLinks.SourceLinks, { sourceIds: ["TER-TORRENT"] });
   assert.match(external, /href="https:\/\/www\.torrent\.es\/.+\.pdf"/i);
   assert.match(external, /target="_blank"/);

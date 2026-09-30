@@ -214,11 +214,11 @@
       "nota_tabla_correccion": "La columna interna conserva todos los decimales. La tasa penal a dos decimales no se usa para decidir ni graduar la denuncia administrativa."
     },
     "secciones_secundarias": [
-      { "id": "tasas", "titulo": "Tasas en aire espirado", "icono": "♎", "orden": 1, "abierto_por_defecto": false, "visible": true },
-      { "id": "correccion", "titulo": "Cuadro rápido de corrección", "icono": "▣", "orden": 2, "abierto_por_defecto": false, "visible": true },
-      { "id": "actuacion", "titulo": "Actuación, pruebas y medidas", "icono": "▤", "orden": 3, "abierto_por_defecto": false, "visible": true },
-      { "id": "advertencias", "titulo": "Advertencias", "icono": "!", "orden": 4, "abierto_por_defecto": false, "visible": true },
-      { "id": "fuentes", "titulo": "Fuentes jurídicas", "icono": "ⓘ", "orden": 5, "abierto_por_defecto": false, "visible": true, "mostrar_conteo": true }
+      { "id": "tasas", "titulo": "Tasas en aire espirado", "icono": "📊", "orden": 1, "abierto_por_defecto": false, "visible": true },
+      { "id": "correccion", "titulo": "Cuadro rápido de corrección", "icono": "🧮", "orden": 2, "abierto_por_defecto": false, "visible": true },
+      { "id": "actuacion", "titulo": "Actuación, pruebas y medidas", "icono": "🧭", "orden": 3, "abierto_por_defecto": false, "visible": true },
+      { "id": "advertencias", "titulo": "Advertencias", "icono": "⚠️", "orden": 4, "abierto_por_defecto": false, "visible": true },
+      { "id": "fuentes", "titulo": "Fuentes jurídicas", "icono": "📚", "orden": 5, "abierto_por_defecto": false, "visible": true, "mostrar_conteo": true }
     ]
   },
   "limites_por_vehiculo": {
