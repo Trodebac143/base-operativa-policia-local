@@ -14,6 +14,14 @@ La secuencia obligatoria es:
 4. Si una fuente modifica o sustituye otra, conserva ambas cuando sea necesario para la trazabilidad y actualiza `estado_vigencia_auditoria`.
 5. No se admite una fuente utilizada únicamente por el motor y ausente de Biblioteca / Fuentes.
 
+## Fuentes existentes con incidencias documentales
+
+Si la revisión demuestra que un enlace conduce a un buscador, un formulario, un error o un documento distinto, retira ese enlace o la asociación incorrecta al PDF. Conserva la fuente y sus referencias para no perder la trazabilidad del contenido existente. Usa `consultaPendiente` con el motivo concreto cuando no se haya localizado el documento primario; Biblioteca y las fichas mostrarán la limitación. Esto no equivale a dar por verificada la fuente. Las fuentes nuevas deben seguir cumpliendo las reglas de incorporación anteriores.
+
+Una entrada que reúne varios documentos puede declarar `enlacesAdicionales` como una lista de objetos con `titulo` y `url`; las acciones de consulta mostrarán cada documento por separado. `referencias` contiene alias para resolver la fuente, no enlaces que deban mostrarse.
+
+`verificar:fuentes` comprueba los enlaces principales y adicionales, detecta determinados buscadores, formularios y errores con HTTP 200, y termina con incidencias cuando existen consultas pendientes. La validación estructural permite pendientes documentados del catálogo existente; no acredita su acceso ni su identidad documental.
+
 ## Comprobación obligatoria antes de publicar
 
 - Identificar las fuentes añadidas por la actualización.

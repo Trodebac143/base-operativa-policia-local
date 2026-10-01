@@ -1,4 +1,5 @@
 import operativaJson from "../contenido/seguridad_publica/operativa.json";
+import { clasificarDelitoPorPenas, penaEnMeses } from "./gravedad-penal";
 import { resolveMinorOffenceProcessualDecision, resolvePenalProcessualDecision, type ProcessualDecision, type ProcessualInput } from "./procesal-penal";
 export { resolveMinorOffenceProcessualDecision, resolvePenalProcessualDecision, type ProcessualDecision, type ProcessualInput } from "./procesal-penal";
 
@@ -95,7 +96,7 @@ export function resolveDrugOutcome(input: { ventaObservada: boolean; indiciosSuf
     const processual = resolvePenalProcessualDecision(input);
     return {
       kind: "penal", titulo: "POSIBLE DELITO", norma: "Código Penal · art. 368",
-      clasificacion: grave ? "DELITO GRAVE" : "DELITO MENOS GRAVE", ...processual,
+      clasificacion: clasificarDelitoPorPenas({ tipo: "conjuntas", penas: [penaEnMeses("prision", grave ? 36 : 12, grave ? 72 : 36), { tipo: "pena", pena: { tipo: "multa_proporcional" } }] }), ...processual,
       porQue: input.ventaObservada ? "Se observa venta, entrega o suministro a tercero." : "Existen indicios objetivos suficientes de tráfico valorados conjuntamente.",
       actuacion: processual.situacion === "DETENIDO"
         ? ["Documentar venta e indicios, asegurar pruebas y efectos objetivamente vinculados.", "Presentar al detenido, actuaciones y efectos en CNP."]

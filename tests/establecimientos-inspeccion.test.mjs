@@ -197,7 +197,7 @@ test("23 · las fuentes están registradas, enlazadas y visibles desde la inspec
   const sources = await readJson("contenido/juridico/fuentes.json");
   for (const id of data.fuentes) {
     const source = sources.find((item) => item.id === id);
-    assert.match(source?.urlOficial ?? "", /^https:\/\/(?:www\.boe\.es\/eli\/|dogv\.gva\.es\/es\/eli\/|www\.torrent\.es\/)/);
+    assert.match(source?.urlOficial ?? "", /^https:\/\/(?:www\.boe\.es\/eli\/|dogv\.gva\.es\/(?:es\/eli\/|datos\/)|www\.torrent\.es\/)/);
   }
   const html = render(view.EstablishmentsInspectionView);
   assert.match(html, /Ley 14\/2010, de 3 de diciembre/);

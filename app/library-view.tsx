@@ -130,8 +130,10 @@ function SourceLibraryCard({ source, group }: { source: Source; group?: ReturnTy
         <div className="source-library-actions">
           {localDocument && <a href={encodeURI(publicPath(`/documentos/${localDocument.archivo}`))} target="_blank" rel="noopener noreferrer">Abrir documento <span aria-hidden="true">↗</span></a>}
           {source.urlOficial && <a href={source.urlOficial} target="_blank" rel="noopener noreferrer">Consultar fuente oficial <span aria-hidden="true">↗</span></a>}
+          {source.enlacesAdicionales?.map((link) => <a key={link.url} href={link.url} target="_blank" rel="noopener noreferrer">{link.titulo} <span aria-hidden="true">↗</span></a>)}
         </div>
       )}
+      {source.consultaPendiente && <p role="status"><strong>{localDocument ? "Publicación oficial pendiente de localizar." : "Documento pendiente de localizar."}</strong> {source.consultaPendiente}</p>}
     </article>
   );
 }

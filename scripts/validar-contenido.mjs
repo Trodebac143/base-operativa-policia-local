@@ -197,7 +197,18 @@ for (const [label, value] of [
 ]) validateSourceReferences(value, label);
 
 for (const source of sources) {
-  if ((sourceReferenceUsage.get(source.id) ?? 0) > 0 && !source.urlOficial && !documentsBySource.has(source.id)) {
+  if (source.consultaPendiente !== undefined && (typeof source.consultaPendiente !== "string" || !source.consultaPendiente.trim())) {
+    errors.push(`FUENTE ${source.id}: consultaPendiente debe contener el motivo de la falta del documento primario.`);
+  }
+  if (source.enlacesAdicionales !== undefined) {
+    if (!Array.isArray(source.enlacesAdicionales)) errors.push(`Fuente ${source.id}: enlacesAdicionales debe ser una lista`);
+    else for (const link of source.enlacesAdicionales) {
+      try {
+        if (!link.titulo?.trim() || !["http:", "https:"].includes(new URL(link.url).protocol)) throw new Error("inválido");
+      } catch { errors.push(`Fuente ${source.id}: enlace adicional sin título o URL HTTP(S) válida`); }
+    }
+  }
+  if ((sourceReferenceUsage.get(source.id) ?? 0) > 0 && !source.urlOficial && !documentsBySource.has(source.id) && !(typeof source.consultaPendiente === "string" && source.consultaPendiente.trim())) {
     errors.push(`FUENTE ${source.id}\n  Problema: está utilizada, pero no tiene URL oficial ni PDF vinculado.\n  Qué hacer: añade urlOficial a la fuente o fuenteId al documento en contenido/biblioteca/metadatos.json.`);
   }
 }
@@ -448,7 +459,7 @@ for (const file of fs.readdirSync(path.join(root, "public", "documentos"))) {
 notes.push(`${cases.length} casos: ${animals.length} Animales + ${itv.length} ITV + ${seguro.length} Seguro + ${permisos.length} Permisos + ${terrazas.length} Terrazas + ${ventaNoSedentaria.length} Venta no sedentaria + ${convivencia.length} Convivencia`);
 notes.push(`${sources.length} fuentes jurídicas · ${documents.length} documentos de biblioteca`);
 notes.push(`Biblioteca: ${sourceLibraryGroups.filter((group) => group.activo).length} grupos activos · ${sources.length} fuentes clasificadas mediante grupoBiblioteca`);
-notes.push(`${[...sourceReferenceUsage.values()].filter(Boolean).length} fuentes referenciadas por contenido activo · ${sources.filter((source) => source.urlOficial).length} con URL oficial · ${documents.filter((document) => document.fuenteId).length} con documento local`);
+notes.push(`${[...sourceReferenceUsage.values()].filter(Boolean).length} fuentes referenciadas por contenido activo · ${sources.filter((source) => source.urlOficial).length} con URL oficial · ${documents.filter((document) => document.fuenteId).length} con documento local · ${sources.filter((source) => source.consultaPendiente).length} con consulta pendiente de localizar`);
 notes.push(`Seguridad Pública: ${seguridadPublica?.conceptos?.length ?? 0} conceptos operativos`);
 notes.push(`VMP/VPL: ${vmpGuide?.areas?.length ?? 0} áreas operativas · ${vmpGuide?.casos_practicos?.length ?? 0} casos prácticos · ${vmpGuide?.circulacion?.infracciones?.length ?? 0} reglas de circulación`);
 notes.push(`Establecimientos públicos: ${establecimientos?.controles?.length ?? 0} controles de inspección`);

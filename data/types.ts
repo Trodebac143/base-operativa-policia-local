@@ -12,6 +12,9 @@ export type Source = {
   /** Grupo visual editable en contenido/biblioteca/grupos-fuentes.json. */
   grupoBiblioteca: string;
   urlOficial?: string;
+  enlacesAdicionales?: { titulo: string; url: string }[];
+  /** Motivo explícito cuando la auditoría no ha localizado el documento primario. */
+  consultaPendiente?: string;
   referencias?: string[];
   preceptos?: string[];
   uso?: string;

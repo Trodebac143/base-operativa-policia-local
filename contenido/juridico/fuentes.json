@@ -45,6 +45,7 @@
       "13",
       "13.4",
       "33",
+      "50.4",
       "62",
       "74",
       "148.1",
@@ -124,7 +125,8 @@
     "ambito": "Comunitat Valenciana",
     "organismo": "Generalitat Valenciana",
     "grupoBiblioteca": "animales",
-    "urlOficial": "https://dogv.gva.es/es/eli/es-vc/o/1996/09/25/(1)/"
+    "estado_vigencia_auditoria": "pendiente: el ELI anterior devuelve un error y no se ha localizado un PDF oficial público directo de esta orden",
+    "consultaPendiente": "Localizar el documento oficial directo de la Orden de 25/09/1996 del DOGV; no usar el ELI defectuoso como enlace documental."
   },
   {
     "id": "AN-SRC-026",
@@ -185,7 +187,7 @@
     "ambito": "Torrent",
     "organismo": "Ayuntamiento de Torrent",
     "grupoBiblioteca": "ordenanzas_municipales",
-    "urlOficial": "https://www.torrent.es/torrentPublic/docroot/repositorio/Serveis%20admin/Normativa/Ordenances/Ordenanca_C_Residus%20Urbans%20i%20Neteja%20Viaria.pdf",
+    "urlOficial": "https://www.torrent.es/torrentPublic/docroot/repositorio/Serveis%20admin/Normativa/Ordenances/Ordenanca_C_Residuos%20Urbanos%20y%20Limpieza%20Viaria.pdf",
     "estado_vigencia_auditoria": "reglas operativas aportadas y validadas para esta intervención",
     "preceptos": [
       "22",
@@ -316,8 +318,8 @@
     "ambito": "Comunitat Valenciana",
     "organismo": "Generalitat Valenciana",
     "grupoBiblioteca": "policia_administrativa",
-    "urlOficial": "https://dogv.gva.es/es/eli/es-vc/o/2025/11/24/3/",
-    "estado_vigencia_auditoria": "referencia y alcance temporal aportados para esta intervención",
+    "urlOficial": "https://dogv.gva.es/datos/2025/12/22/pdf/2025_48041_es.pdf",
+    "estado_vigencia_auditoria": "PDF DOGV oficial identificado por fecha, número de diario y CVE DOGV-C-2025-48041",
     "uso": "Horario autonómico aplicable en 2026; Torrent no ha publicado una regulación general propia que lo sustituya o modifique."
   },
   {
@@ -397,8 +399,8 @@
     "ambito": "Estatal",
     "organismo": "Dirección General de Tráfico",
     "grupoBiblioteca": "seguridad_vial",
-    "urlOficial": "https://www.dgt.es/nuestros-servicios/multas-y-sanciones/",
-    "estado_vigencia_auditoria": "validado",
+    "estado_vigencia_auditoria": "página oficial DGT verificada; la guía ARCI se ofrece dentro del acceso de administraciones y no se ha localizado públicamente un fichero directo",
+    "consultaPendiente": "Obtener mediante el acceso de administraciones la versión documental directa de la Guía codificada ARCI vigente desde 06/07/2026.",
     "uso": "Opciones CIR 020.1, CIR 021.1 y LSV 014.1 validadas en V3."
   },
   {
@@ -453,8 +455,8 @@
     "ambito": "Estatal",
     "organismo": "Dirección General de Tráfico",
     "grupoBiblioteca": "seguridad_vial",
-    "urlOficial": "https://run.gob.es/hsblF8yLcR",
-    "estado_vigencia_auditoria": "validado",
+    "estado_vigencia_auditoria": "PDF local verificado; no se ha localizado una URL pública DGT directa y se elimina el enlace CSV de cotejo anterior",
+    "consultaPendiente": "Localizar una publicación DGT directa de la Instrucción SANC 2026/13; el CSV de cotejo no es el documento.",
     "uso": "La clasificación VMP para alcoholemia es independiente de su tratamiento en Seguro."
   },
   {
@@ -510,7 +512,8 @@
     "ambito": "Estatal",
     "organismo": "Fiscalía General del Estado",
     "grupoBiblioteca": "seguridad_vial",
-    "estado_vigencia_auditoria": "validado"
+    "urlOficial": "https://www.boe.es/buscar/abrir_fiscalia.php?id=FIS-Q-2026-00001.pdf",
+    "estado_vigencia_auditoria": "fuente oficial BOE verificada; se retiró la asociación al PDF interno no coincidente"
   },
   {
     "id": "TR-PERM-SRC-004",
@@ -520,7 +523,8 @@
     "ambito": "Estatal",
     "organismo": "Dirección General de Tráfico",
     "grupoBiblioteca": "seguridad_vial",
-    "estado_vigencia_auditoria": "validado"
+    "estado_vigencia_auditoria": "pendiente: no se ha localizado una URL pública oficial DGT directa de la Instrucción 12/C-105",
+    "consultaPendiente": "Localizar la publicación oficial directa de la Instrucción DGT 12/C-105; no hay PDF DGT público verificable identificado."
   },
   {
     "id": "TR-PERM-SRC-005",
@@ -698,10 +702,25 @@
     "ambito": "Estatal",
     "organismo": "Secretaría de Estado de Seguridad",
     "grupoBiblioteca": "seguridad_publica",
-    "urlOficial": "https://www.interior.gob.es/opencms/es/servicios-al-ciudadano/normativa/instrucciones-de-la-secretaria-de-estado-de-seguridad/",
+    "consultaPendiente": "Pendiente de localizar el documento oficial de la Instrucción SES 10/2025; la página general de instrucciones no permite consultar directamente su texto.",
     "referencias": [
       "Instrucción SES 10/2025"
     ]
+  },
+  {
+    "id": "SP-SRC-FGE-CIRCULAR-1-2015",
+    "nombre": "Circular 1/2015, de 19 de junio, sobre pautas para el ejercicio de la acción penal en relación con los delitos leves tras la reforma penal operada por la Ley Orgánica 1/2015",
+    "nombreCorto": "Circular FGE 1/2015 · delitos leves",
+    "tipo": "Circular",
+    "ambito": "Estatal",
+    "organismo": "Fiscalía General del Estado",
+    "grupoBiblioteca": "seguridad_publica",
+    "urlOficial": "https://www.boe.es/buscar/doc.php?id=FIS-C-2015-00001",
+    "estado_vigencia_auditoria": "fuente oficial BOE verificada",
+    "preceptos": [
+      "3.3"
+    ],
+    "uso": "Criterio de clasificación de penas compuestas, conjuntas o alternativas: el apartado 3.3 exige que todas incluyan tramo leve para integrar delito leve."
   },
   {
     "id": "SP-SRC-RD-137-1993",
@@ -724,7 +743,7 @@
     "ambito": "Estatal",
     "organismo": "Tribunal Constitucional",
     "grupoBiblioteca": "seguridad_publica",
-    "urlOficial": "https://hj.tribunalconstitucional.es/es/Resolucion/Show/?query=STC%2024%2F2004",
+    "urlOficial": "https://hj.tribunalconstitucional.es/es-ES/Resolucion/Show/5029",
     "referencias": [
       "STC 24/2004, de 24 de febrero."
     ]
@@ -737,7 +756,7 @@
     "ambito": "Estatal",
     "organismo": "Tribunal Constitucional",
     "grupoBiblioteca": "seguridad_publica",
-    "urlOficial": "https://hj.tribunalconstitucional.es/es/Resolucion/Show/?query=STC%2051%2F2005",
+    "urlOficial": "https://hj.tribunalconstitucional.es/es-ES/Resolucion/Show/5311",
     "referencias": [
       "STC 51/2005, de 14 de marzo."
     ]
@@ -750,7 +769,7 @@
     "ambito": "Estatal",
     "organismo": "Tribunal Supremo",
     "grupoBiblioteca": "seguridad_publica",
-    "urlOficial": "https://www.poderjudicial.es/search/indexAN.jsp?org=TS&num=312%2F2003",
+    "urlOficial": "https://www.poderjudicial.es/search/AN/openDocument/c5ffc75b3ed145d8/20030516",
     "referencias": [
       "STS 312/2003, de 5 de marzo."
     ]
@@ -814,11 +833,18 @@
     "ambito": "Estatal",
     "organismo": "Tribunal Supremo",
     "grupoBiblioteca": "seguridad_vial",
-    "urlOficial": "https://www.poderjudicial.es/search/indexAN.jsp?org=TS&num=789%2F2023",
+    "urlOficial": "https://www.poderjudicial.es/search/AN/openDocument/7f5addb0f7223ea0a0a8778d75e36f0d/20231110",
     "preceptos": [
       "STS 789/2023",
       "ROJ STS 4441/2023",
-      "ECLI:ES:TS:2023:4441"
+      "ECLI:ES:TS:2023:4441",
+      "STS 788/2023 · ROJ STS 4596/2023 · ECLI:ES:TS:2023:4596"
+    ],
+    "enlacesAdicionales": [
+      {
+        "titulo": "Consultar STS 788/2023",
+        "url": "https://www.poderjudicial.es/search/AN/openDocument/c1742cf11d548706a0a8778d75e36f0d/20231117"
+      }
     ],
     "uso": "Redondeo ordinario a dos decimales del valor corregido exacto para valorar el umbral penal objetivo."
   },
@@ -829,7 +855,7 @@
     "ambito": "Estatal",
     "organismo": "Tribunal Supremo",
     "grupoBiblioteca": "seguridad_vial",
-    "urlOficial": "https://www.poderjudicial.es/search/indexAN.jsp?org=TS&num=210%2F2017",
+    "urlOficial": "https://www.poderjudicial.es/search/AN/openDocument/f2637e53e8868f71/20170403",
     "uso": "La negativa a la segunda medición legalmente exigida puede integrar el art. 383 CP."
   },
   {
@@ -851,7 +877,7 @@
     "ambito": "Estatal",
     "organismo": "Fiscalía General del Estado",
     "grupoBiblioteca": "seguridad_vial",
-    "urlOficial": "https://www.fiscal.es/documents/20142/0/NOTA%2BDICTAMEN%2B2.2021%2BVMP%2B21%2B6%2B2021%2B%282%29.pdf/bda3c7bd-192c-e35b-44a3-57afef771c60?t=1624277556216",
+    "consultaPendiente": "El enlace anterior corresponde a una nota de prensa sobre el Dictamen 2/2021 y puede redirigir a identificación. Pendiente de localizar el texto íntegro oficial del dictamen.",
     "uso": "Los arts. 379 y siguientes CP no se cometen con un VMP reglamentario."
   },
   {
@@ -872,7 +898,7 @@
     "ambito": "Estatal",
     "organismo": "Dirección General de Tráfico",
     "grupoBiblioteca": "seguridad_vial",
-    "urlOficial": "https://www.dgt.es/nuestros-servicios/normativa-y-legislacion/instrucciones-de-la-dgt/",
+    "urlOficial": "https://www.dgt.es/export/sites/web-DGT/.galleries/downloads/muevete-con-seguridad/normas-de-trafico/S-sanciones/14-S-134-Denuncia-sancion-y-detraccion-de-puntos-en-infracciones-de-alcohol.pdf",
     "preceptos": [
       "Denuncia, sanción y detracción de puntos en infracciones de alcohol"
     ],

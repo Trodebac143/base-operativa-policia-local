@@ -41,10 +41,11 @@ test("4 · una fuente con documento local muestra Abrir documento", () => {
   assert.match(html, />Abrir documento /);
 });
 
-test("5 · una fuente con URL y documento ofrece ambas acciones", () => {
+test("5 · SANC conserva el PDF y señala la publicación oficial pendiente sin enviar al cotejo CSV", () => {
   const html = render(library.LibrarySourcesPanel, { initialQuery: "SANC 2026/13" });
   assert.match(html, />Abrir documento /);
-  assert.match(html, />Consultar fuente oficial /);
+  assert.match(html, /Publicación oficial pendiente de localizar/);
+  assert.doesNotMatch(html, /run\.gob\.es|>Consultar fuente oficial /);
 });
 
 test("6 · una norma extensa puede existir sin PDF local", () => {
@@ -167,10 +168,33 @@ test("18 · las fuentes de la intervención penal están registradas, visibles y
   }
 });
 
-test("19 · toda fuente utilizada por contenido activo ofrece consulta en Biblioteca", () => {
+test("19 · toda fuente utilizada ofrece consulta o comunica expresamente el documento pendiente", () => {
   for (const reference of usageData.allSourceReferences()) {
     const source = sourceData.resolveSourceReference(reference);
-    assert.ok(source.urlOficial || documentsData.documentForSource(source.id), `${source.id} carece de enlace visible`);
+    const document = documentsData.documentForSource(source.id);
+    assert.ok(source.urlOficial || document || source.consultaPendiente?.trim(), `${source.id} carece de consulta o motivo visible`);
+    if (!source.urlOficial && !document) {
+      const html = render(library.LibrarySourcesPanel, { initialQuery: source.nombre });
+      assert.match(html, /Documento pendiente de localizar/);
+      assert.match(render(sourceLinks.SourceLinks, { sourceIds: [source.id] }), /documento pendiente de localizar/);
+    }
+  }
+});
+
+test("21 · los PDF operativos no se hacen pasar por Consulta FGE 1/2026 ni Instrucción 12/C-105", () => {
+  for (const id of ["TR-PERM-SRC-003", "TR-PERM-SRC-004"]) {
+    assert.equal(documentsData.documentForSource(id), undefined);
+    assert.doesNotMatch(render(sourceLinks.SourceLinks, { sourceIds: [id] }), /\/documentos\//);
+  }
+});
+
+test("22 · la ficha de SSTS permite abrir las dos resoluciones concretas", () => {
+  const source = sourceData.sources.find((s) => s.nombreCorto === "SSTS 788/2023 y 789/2023");
+  assert.ok(source);
+  for (const html of [render(library.LibrarySourcesPanel, { initialQuery: source.nombreCorto }), render(sourceLinks.SourceLinks, { sourceIds: [source.id] })]) {
+    assert.match(html, /c1742cf11d548706/);
+    assert.match(html, /7f5addb0f7223ea0/);
+    assert.doesNotMatch(html, /indexAN\.jsp/);
   }
 });
 

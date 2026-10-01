@@ -29,7 +29,7 @@
   },
   {
     "id": "ordenanzas_municipales",
-    "nombre": "Ordenanzas Municipales",
+    "nombre": "ORDENANZAS MUNICIPALES",
     "icono": "📜",
     "orden": 50,
     "activo": true
