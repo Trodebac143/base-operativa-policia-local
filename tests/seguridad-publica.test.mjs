@@ -211,7 +211,7 @@ test("la auditoría procesal muestra fronteras completas y aplica el régimen de
   const atentadoFlagrant = resolveAuthorityOutcome("resistencia", "atentado", { flagrante: true });
   assert.equal(disobedienceAdmin.clasificacion, undefined);
   assert.deepEqual([disobedienceFlagrant.clasificacion, disobedienceFlagrant.detencion], ["DELITO MENOS GRAVE", "SÍ"]);
-  assert.match(disobedienceFlagrant.fundamentoDetencion, /490\.2 y 492\.1 LECrim/i);
+  assert.deepEqual(disobedienceFlagrant.referenciasProcesales.map((item) => item.id), ["lecrim-490-2", "lecrim-492-1"]);
   assert.equal(resistanceAdmin.clasificacion, undefined);
   assert.deepEqual([resistanceFlagrant.clasificacion, resistanceFlagrant.detencion], ["DELITO MENOS GRAVE", "SÍ"]);
   assert.deepEqual([atentadoFlagrant.clasificacion, atentadoFlagrant.detencion], ["DELITO MENOS GRAVE", "SÍ"]);
@@ -223,7 +223,7 @@ test("la auditoría procesal muestra fronteras completas y aplica el régimen de
   assert.match(leve.fundamentoDetencion, /495 LECrim/i);
   assert.deepEqual([threatFlagrant.clasificacion, threatFlagrant.detencion], ["DELITO MENOS GRAVE", "SÍ"]);
   assert.deepEqual([threatLater.detencion, threatLater.situacion], ["NO", "INVESTIGADO NO DETENIDO"]);
-  assert.match(threatLater.fundamentoDetencion, /492\.4 y 493 LECrim/i);
+  assert.deepEqual(threatLater.referenciasProcesales.map((item) => item.id), ["lecrim-492-4", "lecrim-493"]);
 
   const administrativeDrugs = resolveDrugOutcome({ ventaObservada: false, indiciosSuficientes: false, sustancia: "resto" });
   const drugFlagrant = resolveDrugOutcome({ ventaObservada: true, indiciosSuficientes: true, sustancia: "grave_dano", flagrante: true });
@@ -270,7 +270,7 @@ test("Armas blancas separa clasificación y conducta sin perder rutas violentas"
   assert.equal(prohibitedUse.derivaOtroDelito, true);
   assert.match(prohibitedUse.dependenciaFutura, /Agresiones \/ lesiones.*148\.1 CP/i);
   assert.deepEqual([prohibitedExhibition.kind, prohibitedExhibition.derivaOtroDelito], ["penal", true]);
-  assert.match(prohibitedUse.fundamentoDetencion, /490\.2 y 492\.1 LECrim/i);
+  assert.deepEqual(prohibitedUse.referenciasProcesales.map((item) => item.id), ["lecrim-490-2", "lecrim-492-1"]);
 });
 
 test("Navaja diferencia mecanismo automático, no automático y dudoso sin ocultar conductas", async () => {
@@ -438,7 +438,7 @@ test("las antiguas ramas no leves calculan la categoría exacta cuando el marco 
   assert.match(genericSexual.resultados.find((item) => item.norma.includes("178 a 180")).texto, /gravedad queda pendiente/i);
 });
 
-test("cada referencia LECrim ejecutada tiene explicación central, aplicación al caso y fuente BOE", async () => {
+test("cada referencia LECrim ejecutada tiene explicación central, aplicación, conclusión y fuente BOE", async () => {
   const { referenciasProcesales } = await vite.ssrLoadModule("/data/referencias-procesales.ts");
   const { resolvePenalProcessualDecision, resolveMinorOffenceProcessualDecision } = await vite.ssrLoadModule("/data/procesal-penal.ts");
   const { resolvePublicSafetyOutcome } = await vite.ssrLoadModule("/data/seguridad-publica.ts");
@@ -457,8 +457,9 @@ test("cada referencia LECrim ejecutada tiene explicación central, aplicación a
   assert.deepEqual([...new Set(uses.map((use) => use.id))].sort(), Object.keys(referenciasProcesales).sort());
   for (const use of uses) {
     const reference = referenciasProcesales[use.id];
-    assert.ok(reference && reference.norma && reference.articulo && reference.titulo && reference.fragmentoLegal && reference.explicacionOperativa && reference.version);
+    assert.ok(reference && reference.norma && reference.articulo && reference.titulo && reference.fragmentoLegal && reference.version);
     assert.ok(use.aplicacionAlCaso.length > 30);
+    assert.ok(use.conclusion.length > 30);
     assert.match(reference.fuenteOficial, /^https:\/\/www\.boe\.es\/buscar\/act\.php\?id=BOE-A-1882-6036#a\d+$/);
   }
   assert.deepEqual(decisions[0].referenciasProcesales.map((item) => item.id), ["lecrim-490-2", "lecrim-492-1"]);
@@ -466,7 +467,7 @@ test("cada referencia LECrim ejecutada tiene explicación central, aplicación a
   assert.deepEqual(decisions[6].referenciasProcesales.map((item) => item.id), ["lecrim-495"]);
 });
 
-test("la ayuda jurídica es optativa, responsive y no muta la decisión del motor", async () => {
+test("la ayuda jurídica es optativa, responsive y no muta la decisión procesal", async () => {
   const { ContextualProcessualHelp, IncidentResolvedOutcome } = await vite.ssrLoadModule("/app/seguridad-publica.tsx");
   const { resolvePenalProcessualDecision } = await vite.ssrLoadModule("/data/procesal-penal.ts");
   const fs = await import("node:fs");
@@ -474,15 +475,83 @@ test("la ayuda jurídica es optativa, responsive y no muta la decisión del moto
   const input = { flagrante: false, indiciosHechoSuficientes: true, indiciosParticipacionSuficientes: true };
   const before = resolvePenalProcessualDecision(input);
   const snapshot = structuredClone(before);
+  assert.equal(renderToStaticMarkup(React.createElement(ContextualProcessualHelp, {})), "");
   const html = renderToStaticMarkup(React.createElement(ContextualProcessualHelp, { usos: before.referenciasProcesales }));
   assert.match(html, /<details class="sp-legal-help"><summary>/);
   assert.doesNotMatch(html, /<details[^>]*\sopen(?:=|\s|>)/);
-  for (const text of ["¿Por qué?", "Artículo y materia", "Norma · Qué establece", "Criterio del motor", "Aplicación al caso", "Fuente oficial: BOE"]) assert.match(html, new RegExp(text));
+  for (const text of ["¿Por qué?", "Artículo y materia", "Qué establece", "Por qué se aplica en este caso", "Conclusión", "Fuente oficial: BOE"]) assert.match(html, new RegExp(text));
+  assert.doesNotMatch(html, /Criterio del motor|\bla app\b|\bel motor\b|usuario ha seleccionado/i);
   assert.match(html, /target="_blank" rel="noreferrer"/);
   assert.deepEqual(before, snapshot);
   assert.deepEqual(resolvePenalProcessualDecision(input), snapshot);
   assert.match(css, /\.sp-legal-help summary\{[^}]*cursor:pointer/);
   assert.match(css, /@media\(max-width:700px\)\{\.sp-legal-help summary\{[^}]*min-height:44px/);
-  const attentionHtml = renderToStaticMarkup(React.createElement(IncidentResolvedOutcome, { result: { resultados: [{ titulo: "DENUNCIA DE LA VÍCTIMA", norma: "LECrim · art. 105", texto: "La ausencia de denuncia no impide diligencias a prevención.", actuacion: [], referenciasProcesales: [{ id: "lecrim-105-2", aplicacionAlCaso: "La vía de procedibilidad está pendiente y se mantienen las primeras diligencias necesarias." }] }], conexiones: [] }, onNavigate() {}, showProcessual: true }));
+  const attentionHtml = renderToStaticMarkup(React.createElement(IncidentResolvedOutcome, { result: { resultados: [{ titulo: "DENUNCIA DE LA VÍCTIMA", norma: "LECrim · art. 105", texto: "La ausencia de denuncia no impide diligencias a prevención.", actuacion: [], referenciasProcesales: [{ id: "lecrim-105-2", aplicacionAlCaso: "La vía de procedibilidad está pendiente y se mantienen las primeras diligencias necesarias.", conclusion: "Deben conservarse las actuaciones urgentes mientras se coordina la vía de procedibilidad." }] }], conexiones: [] }, onNavigate() {}, showProcessual: true }));
   assert.match(attentionHtml, /REFERENCIAS PROCESALES.*Art\. 105\.2 LECrim.*Fuente oficial: BOE/is);
+});
+
+test("Seguridad Pública y patrimonio reutilizan la misma decisión sin cambiar gravedad ni salidas", async () => {
+  const { resolvePublicSafetyOutcome } = await vite.ssrLoadModule("/data/seguridad-publica.ts");
+  const { resolvePatrimonyOutcome } = await vite.ssrLoadModule("/data/patrimonio.ts");
+  const processTuple = (decision) => [decision.situacion, decision.detencion, decision.escenarioProcesal, (decision.referenciasProcesales ?? []).map((item) => item.id)];
+  const relationship = { parejaExpareja: "no", relacionFamiliar: "no", convivencia: "no" };
+  const injury = resolvePublicSafetyOutcome("agresiones_lesiones", { ...relationship, agresionFisica: true, lesion: true, resultadoAsistencial: "tratamiento_posterior" }, { flagrante: true });
+  assert.equal(injury.resultados.find((item) => item.norma.includes("147.1"))?.clasificacion, "DELITO MENOS GRAVE");
+  assert.deepEqual(processTuple(injury.procesal), ["DETENIDO", "SÍ", "FLAGRANCIA", ["lecrim-490-2", "lecrim-492-1"]]);
+  const theftFacts = { hechoPrincipal: "apoderamiento", titularidad: "ajena", gradoEjecucion: "consumado", intencionApropiacionBeneficio: true, sinConsentimiento: true, violenciaFisica: false, intimidacion: false, fuerza: "ninguna", cuantiaAcreditada: true };
+  const minorTheft = resolvePatrimonyOutcome({ ...theftFacts, cuantia: 400 }, { domicilioConocido: true });
+  assert.equal(minorTheft.gravedad, "DELITO LEVE");
+  assert.deepEqual(processTuple(minorTheft.procesal), ["INVESTIGADO NO DETENIDO", "NO", "DELITO LEVE", ["lecrim-495"]]);
+  const ordinaryTheft = resolvePatrimonyOutcome({ ...theftFacts, cuantia: 401 }, { flagrante: true });
+  assert.equal(ordinaryTheft.gravedad, "DELITO MENOS GRAVE");
+  assert.deepEqual(processTuple(ordinaryTheft.procesal), ["DETENIDO", "SÍ", "FLAGRANCIA", ["lecrim-490-2", "lecrim-492-1"]]);
+});
+
+test("la matriz procesal conserva decisiones y referencias mientras explica hechos, encaje y consecuencia", async () => {
+  const { resolvePenalProcessualDecision, resolveMinorOffenceProcessualDecision, redactarRazonamientoProcesal } = await vite.ssrLoadModule("/data/procesal-penal.ts");
+  const tuple = (decision) => [decision.situacion, decision.detencion, decision.escenarioProcesal, (decision.referenciasProcesales ?? []).map((item) => item.id)];
+  const cases = [
+    [{ flagrante: true }, ["DETENIDO", "SÍ", "FLAGRANCIA", ["lecrim-490-2", "lecrim-492-1"]]],
+    [{ flagrante: false, indiciosHechoSuficientes: false }, ["NO DETENER TODAVÍA — INVESTIGAR", "NO", "INDICIOS INSUFICIENTES", ["lecrim-492-4"]]],
+    [{ flagrante: false, indiciosHechoSuficientes: true, indiciosParticipacionSuficientes: false }, ["NO DETENER TODAVÍA — INVESTIGAR", "NO", "INDICIOS INSUFICIENTES", ["lecrim-492-4"]]],
+    [{ flagrante: false, indiciosHechoSuficientes: true, indiciosParticipacionSuficientes: true }, ["INVESTIGADO NO DETENIDO", "NO", "NO FLAGRANTE", ["lecrim-492-4", "lecrim-493"]]],
+    [{ flagrante: false, indiciosHechoSuficientes: true, indiciosParticipacionSuficientes: true, intentoFugaElusion: true }, ["DETENIDO", "SÍ", "NO FLAGRANTE", ["lecrim-492-4"]]],
+    [{ autorMayorEdad: false }, ["RUTA DE RESPONSABILIDAD PENAL DE MENORES", "NO APLICAR MOTOR ADULTO", "AUTOR MENOR", []]],
+  ];
+  for (const [input, expected] of cases) {
+    const decision = resolvePenalProcessualDecision(input);
+    assert.deepEqual(tuple(decision), expected);
+    assert.equal(decision.fundamentoDetencion, redactarRazonamientoProcesal(decision.razonamientoProcesal));
+    assert.ok(decision.razonamientoProcesal.hechosConfirmados.length > 0);
+    assert.ok(decision.razonamientoProcesal.encajeLegal.length > 20);
+    assert.ok(decision.razonamientoProcesal.consecuencia.length > 20);
+  }
+  assert.deepEqual(tuple(resolveMinorOffenceProcessualDecision({ domicilioConocido: false, fianzaBastante: false })), ["DETENIDO", "SÍ", "DELITO LEVE", ["lecrim-495"]]);
+  assert.deepEqual(tuple(resolveMinorOffenceProcessualDecision({ domicilioConocido: true })), ["INVESTIGADO NO DETENIDO", "NO", "DELITO LEVE", ["lecrim-495"]]);
+  assert.deepEqual(tuple(resolveMinorOffenceProcessualDecision({})), ["INVESTIGADO NO DETENIDO", "NO", "DELITO LEVE", ["lecrim-495"]]);
+  const flagrancy = resolvePenalProcessualDecision({ flagrante: true }).fundamentoDetencion;
+  assert.match(flagrancy, /art\. 490\.2 LECrim/);
+  assert.match(flagrancy, /art\. 492\.1 LECrim/);
+  const noDetention = resolvePenalProcessualDecision({ flagrante: false, indiciosHechoSuficientes: true, indiciosParticipacionSuficientes: true }).fundamentoDetencion;
+  assert.match(noDetention, /art\. 492\.4/);
+  assert.match(noDetention, /art\. 493 LECrim/);
+});
+
+test("el razonamiento solo verbaliza circunstancias confirmadas y distingue false de undefined", async () => {
+  const { resolvePenalProcessualDecision } = await vite.ssrLoadModule("/data/procesal-penal.ts");
+  const unknown = resolvePenalProcessualDecision({ flagrante: false });
+  assert.deepEqual(unknown.hechosDeterminantes, []);
+  assert.match(unknown.fundamentoDetencion, /todavía no está confirmada/i);
+  assert.doesNotMatch(unknown.fundamentoDetencion, /domicilio (?:conocido|verificado)|identidad (?:conocida|verificada)|no existe riesgo|se ha descartado/i);
+  const unknownParticipation = resolvePenalProcessualDecision({ flagrante: false, indiciosHechoSuficientes: true });
+  assert.deepEqual(unknownParticipation.hechosDeterminantes, ["Constan indicios suficientes del hecho."]);
+  assert.match(unknownParticipation.fundamentoDetencion, /participación.*todavía no está confirmada/i);
+  const unknownRisks = resolvePenalProcessualDecision({ flagrante: false, indiciosHechoSuficientes: true, indiciosParticipacionSuficientes: true });
+  assert.match(unknownRisks.fundamentoDetencion, /no se ha confirmado todavía ninguna circunstancia concreta adicional/i);
+  assert.doesNotMatch(unknownRisks.fundamentoDetencion, /han podido verificarse|no consta (?:un intento|riesgo)/i);
+  const confirmedAbsences = resolvePenalProcessualDecision({ flagrante: false, indiciosHechoSuficientes: true, indiciosParticipacionSuficientes: true, intentoFugaElusion: false, identidadODomicilioNoVerificables: false, riesgoOcultacionPruebas: false, riesgoConcretoVictimaTestigos: false });
+  for (const fact of ["no consta un intento de fuga", "identidad o el domicilio han podido verificarse", "no consta riesgo concreto de ocultación", "no consta riesgo concreto y actual para la víctima"]) assert.match(confirmedAbsences.fundamentoDetencion, new RegExp(fact, "i"));
+  const risk = resolvePenalProcessualDecision({ flagrante: false, indiciosHechoSuficientes: true, indiciosParticipacionSuficientes: true, riesgoConcretoVictimaTestigos: true });
+  assert.match(risk.fundamentoDetencion, /riesgo concreto y actual para la víctima o los testigos/i);
+  assert.doesNotMatch(risk.fundamentoDetencion, /intento actual de fuga|identidad o domicilio no verificables|ocultación, alteración o destrucción/i);
 });

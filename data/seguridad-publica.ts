@@ -1,8 +1,8 @@
 import operativaJson from "../contenido/seguridad_publica/operativa.json";
 import { clasificarDelitoPorPenas, penaEnMeses } from "./gravedad-penal";
 import type { UsoReferenciaProcesal } from "./referencias-procesales";
-import { resolveMinorOffenceProcessualDecision, resolvePenalProcessualDecision, type ProcessualDecision, type ProcessualInput } from "./procesal-penal";
-export { resolveMinorOffenceProcessualDecision, resolvePenalProcessualDecision, type ProcessualDecision, type ProcessualInput } from "./procesal-penal";
+import { resolveMinorOffenceProcessualDecision, resolvePenalProcessualDecision, type ProcessualDecision, type ProcessualInput, type RazonamientoProcesal } from "./procesal-penal";
+export { redactarRazonamientoProcesal, resolveMinorOffenceProcessualDecision, resolvePenalProcessualDecision, type ProcessualDecision, type ProcessualInput, type RazonamientoProcesal } from "./procesal-penal";
 
 export type PublicConcept = {
   id: string;
@@ -57,6 +57,7 @@ export type DrugOutcome = {
   situacion: ProcessualDecision["situacion"] | "DILIGENCIAS DE PREVENCIÓN";
   detencion: ProcessualDecision["detencion"];
   fundamentoDetencion?: string;
+  razonamientoProcesal?: RazonamientoProcesal;
   escenarioProcesal?: ProcessualDecision["escenarioProcesal"];
   referenciasProcesales?: UsoReferenciaProcesal[];
   porQue: string;
@@ -69,6 +70,7 @@ export type AuthorityOutcome = {
   situacion?: ProcessualDecision["situacion"];
   detencion?: ProcessualDecision["detencion"];
   fundamentoDetencion?: string;
+  razonamientoProcesal?: RazonamientoProcesal;
   escenarioProcesal?: ProcessualDecision["escenarioProcesal"];
   referenciasProcesales?: UsoReferenciaProcesal[];
   porQue: string;
@@ -297,8 +299,11 @@ export function resolvePublicSafetyOutcome(conceptId: string, facts: PublicSafet
     ), referenciasProcesales: [{
       id: sexual ? "lecrim-105-2" : "lecrim-105-1",
       aplicacionAlCaso: sexual
-        ? "Se ha indicado que la víctima no desea denunciar o que la vía de procedibilidad está pendiente. La app mantiene protección, asistencia, preservación de indicios y diligencias urgentes, sin presentar la falta de denuncia como inexistencia del delito."
-        : "Se ha indicado que la víctima no desea denunciar en un hecho perseguible de oficio dentro del contexto seleccionado. La app mantiene las diligencias y documenta esa manifestación.",
+        ? "La persona agraviada no desea denunciar o la vía de procedibilidad permanece pendiente. Esta circunstancia no impide practicar las diligencias a prevención."
+        : "La víctima ha manifestado que no desea denunciar, pero el hecho se encuentra en un ámbito perseguible de oficio.",
+      conclusion: sexual
+        ? "Deben mantenerse la protección, la asistencia, la preservación de indicios y las diligencias urgentes mientras se coordina la vía de procedibilidad."
+        : "La actuación debe continuar de oficio, dejando constancia de la manifestación de la víctima.",
     }] });
   };
 
