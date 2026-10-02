@@ -420,3 +420,69 @@ test("la UX operativa mantiene textos breves, detalle secundario y barra móvil 
   assert.match(css, /safe-area-inset-bottom/);
   assert.match(css, /sp-view-with-actions\{padding-bottom:/);
 });
+
+test("las antiguas ramas no leves calculan la categoría exacta cuando el marco está cerrado", async () => {
+  const { resolvePublicSafetyOutcome } = await vite.ssrLoadModule("/data/seguridad-publica.ts");
+  const general = { parejaExpareja: "no", relacionFamiliar: "no", convivencia: "no" };
+  const lesion = resolvePublicSafetyOutcome("agresiones_lesiones", { ...general, agresionFisica: true, lesion: true, resultadoAsistencial: "tratamiento_posterior" });
+  const threat = resolvePublicSafetyOutcome("amenazas_coacciones", { ...general, conductaLibertad: "amenaza", malAnunciado: "entidad_delictiva" });
+  const witness = resolvePublicSafetyOutcome("agresiones_sexuales", { actoSexualNoConsentido: true, menorDieciseis: true, conductaSexual: "hacer_presenciar", autorMayorEdad: true, procedibilidadSexual: "denuncia_victima" });
+  const online = resolvePublicSafetyOutcome("agresiones_sexuales", { actoSexualNoConsentido: true, menorDieciseis: true, conductaSexual: "contacto_tic", autorMayorEdad: true, procedibilidadSexual: "denuncia_victima" });
+  const viogen = resolvePublicSafetyOutcome("violencia_relacional", { sexoAutor: "hombre", sexoVictima: "mujer", parejaExpareja: "si", hechosRelacion: ["amenazas"] });
+  for (const outcome of [lesion, threat, witness, online, viogen]) {
+    assert.ok(outcome.resultados.some((item) => item.clasificacion === "DELITO MENOS GRAVE"));
+    assert.doesNotMatch(JSON.stringify(outcome), /DELITO NO LEVE|no_leve/i);
+  }
+  const genericSexual = resolvePublicSafetyOutcome("violencia_relacional", { sexoAutor: "hombre", sexoVictima: "mujer", parejaExpareja: "si", hechosRelacion: ["sexual"] });
+  assert.equal(genericSexual.resultados.find((item) => item.norma.includes("178 a 180")).clasificacion, undefined);
+  assert.match(genericSexual.resultados.find((item) => item.norma.includes("178 a 180")).texto, /gravedad queda pendiente/i);
+});
+
+test("cada referencia LECrim ejecutada tiene explicación central, aplicación al caso y fuente BOE", async () => {
+  const { referenciasProcesales } = await vite.ssrLoadModule("/data/referencias-procesales.ts");
+  const { resolvePenalProcessualDecision, resolveMinorOffenceProcessualDecision } = await vite.ssrLoadModule("/data/procesal-penal.ts");
+  const { resolvePublicSafetyOutcome } = await vite.ssrLoadModule("/data/seguridad-publica.ts");
+  const decisions = [
+    resolvePenalProcessualDecision({ flagrante: true }),
+    resolvePenalProcessualDecision({ flagrante: false, indiciosHechoSuficientes: false }),
+    resolvePenalProcessualDecision({ flagrante: false, indiciosHechoSuficientes: true, indiciosParticipacionSuficientes: false }),
+    resolvePenalProcessualDecision({ flagrante: false, indiciosHechoSuficientes: true, indiciosParticipacionSuficientes: true }),
+    resolvePenalProcessualDecision({ flagrante: false, indiciosHechoSuficientes: true, indiciosParticipacionSuficientes: true, intentoFugaElusion: true }),
+    resolveMinorOffenceProcessualDecision({ domicilioConocido: true }),
+    resolveMinorOffenceProcessualDecision({ domicilioConocido: false, fianzaBastante: false }),
+  ];
+  const complaint = resolvePublicSafetyOutcome("violencia_relacional", { sexoAutor: "hombre", sexoVictima: "mujer", parejaExpareja: "si", hechosRelacion: ["amenazas"], noDeseaDenunciar: true });
+  const sexualComplaint = resolvePublicSafetyOutcome("agresiones_sexuales", { actoSexualNoConsentido: true, menorDieciseis: false, conductaSexual: "acto_fisico", penetracion: false, violenciaIntimidacion: false, voluntadAnulada: false, autorMayorEdad: true, noDeseaDenunciar: true, procedibilidadSexual: "pendiente" });
+  const uses = [...decisions.flatMap((decision) => decision.referenciasProcesales ?? []), ...complaint.resultados.flatMap((result) => result.referenciasProcesales ?? []), ...sexualComplaint.resultados.flatMap((result) => result.referenciasProcesales ?? [])];
+  assert.deepEqual([...new Set(uses.map((use) => use.id))].sort(), Object.keys(referenciasProcesales).sort());
+  for (const use of uses) {
+    const reference = referenciasProcesales[use.id];
+    assert.ok(reference && reference.norma && reference.articulo && reference.titulo && reference.fragmentoLegal && reference.explicacionOperativa && reference.version);
+    assert.ok(use.aplicacionAlCaso.length > 30);
+    assert.match(reference.fuenteOficial, /^https:\/\/www\.boe\.es\/buscar\/act\.php\?id=BOE-A-1882-6036#a\d+$/);
+  }
+  assert.deepEqual(decisions[0].referenciasProcesales.map((item) => item.id), ["lecrim-490-2", "lecrim-492-1"]);
+  assert.deepEqual(decisions[3].referenciasProcesales.map((item) => item.id), ["lecrim-492-4", "lecrim-493"]);
+  assert.deepEqual(decisions[6].referenciasProcesales.map((item) => item.id), ["lecrim-495"]);
+});
+
+test("la ayuda jurídica es optativa, responsive y no muta la decisión del motor", async () => {
+  const { ContextualProcessualHelp, IncidentResolvedOutcome } = await vite.ssrLoadModule("/app/seguridad-publica.tsx");
+  const { resolvePenalProcessualDecision } = await vite.ssrLoadModule("/data/procesal-penal.ts");
+  const fs = await import("node:fs");
+  const css = fs.readFileSync(new URL("../app/seguridad-publica.css", import.meta.url), "utf8");
+  const input = { flagrante: false, indiciosHechoSuficientes: true, indiciosParticipacionSuficientes: true };
+  const before = resolvePenalProcessualDecision(input);
+  const snapshot = structuredClone(before);
+  const html = renderToStaticMarkup(React.createElement(ContextualProcessualHelp, { usos: before.referenciasProcesales }));
+  assert.match(html, /<details class="sp-legal-help"><summary>/);
+  assert.doesNotMatch(html, /<details[^>]*\sopen(?:=|\s|>)/);
+  for (const text of ["¿Por qué?", "Artículo y materia", "Norma · Qué establece", "Criterio del motor", "Aplicación al caso", "Fuente oficial: BOE"]) assert.match(html, new RegExp(text));
+  assert.match(html, /target="_blank" rel="noreferrer"/);
+  assert.deepEqual(before, snapshot);
+  assert.deepEqual(resolvePenalProcessualDecision(input), snapshot);
+  assert.match(css, /\.sp-legal-help summary\{[^}]*cursor:pointer/);
+  assert.match(css, /@media\(max-width:700px\)\{\.sp-legal-help summary\{[^}]*min-height:44px/);
+  const attentionHtml = renderToStaticMarkup(React.createElement(IncidentResolvedOutcome, { result: { resultados: [{ titulo: "DENUNCIA DE LA VÍCTIMA", norma: "LECrim · art. 105", texto: "La ausencia de denuncia no impide diligencias a prevención.", actuacion: [], referenciasProcesales: [{ id: "lecrim-105-2", aplicacionAlCaso: "La vía de procedibilidad está pendiente y se mantienen las primeras diligencias necesarias." }] }], conexiones: [] }, onNavigate() {}, showProcessual: true }));
+  assert.match(attentionHtml, /REFERENCIAS PROCESALES.*Art\. 105\.2 LECrim.*Fuente oficial: BOE/is);
+});
