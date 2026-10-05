@@ -49,8 +49,8 @@ export const TERRACE_VISUAL_GUIDES: readonly TerraceVisualGuideDefinition[] = [
     summary: "Referencia visual de separación al bordillo, altura de valla y apertura máxima.",
     image: "/imagenes/terrazas/linea-rastrillo-valla-bordillo.webp",
     alt: "Medidas de valla y bordillo en terraza en línea de rastrillo",
-    width: 1672,
-    height: 941,
+    width: 1774,
+    height: 887,
   },
   {
     id: "clear-access",
