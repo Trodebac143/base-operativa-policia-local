@@ -72,8 +72,8 @@ test("las preguntas positivas invierten Sí/No sin cambiar la salida operativa",
   }
   const ui = await readFile(new URL("../app/seguridad-publica.tsx", import.meta.url), "utf8");
   assert.match(ui, /¿La identidad o el domicilio han podido verificarse\?/);
-  assert.match(ui, /¿Se actúa con consentimiento del titular\?/);
+  assert.match(ui, /¿El titular manifiesta que autorizó llevarse o utilizar la cosa\?/);
   assert.doesNotMatch(ui, /¿La identidad o el domicilio no han podido verificarse\?|¿Se actúa sin consentimiento del titular\?/);
-  assert.match(ui, /value=\{invertBooleanAnswer\(facts\.identidadODomicilioNoVerificables\)\} onChange=\{\(value\) => set\("identidadODomicilioNoVerificables", !value\)\}/);
-  assert.match(ui, /value=\{invertBooleanAnswer\(patrimony\.sinConsentimiento\)\} onChange=\{\(value\) => set\("sinConsentimiento", !value\)\}/);
+  assert.match(ui, /value=\{invertBooleanAnswer\(facts\.identidadODomicilioNoVerificables\)\} onChange=\{\(value\) => set\("identidadODomicilioNoVerificables", invertBooleanAnswer\(value\)\)\}/);
+  assert.match(ui, /value=\{invertBooleanAnswer\(patrimony\.sinConsentimiento\)\} onChange=\{\(value\) => set\("sinConsentimiento", invertBooleanAnswer\(value\)\)\}/);
 });

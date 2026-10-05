@@ -1,0 +1,127 @@
+{
+  "id": "CONV-OP-016",
+  "modulo": "policia_administrativa",
+  "categoria": "policia_administrativa_convivencia",
+  "titulo": "Reparto de publicidad comercial sin autorización municipal",
+  "palabras_clave": [
+    "reparto",
+    "publicidad",
+    "folletos",
+    "octavillas",
+    "autorización"
+  ],
+  "que_comprobar": [
+    "Finalidad y anunciante",
+    "Reparto en calle o domicilio",
+    "Autorización"
+  ],
+  "resultado": "Completar las comprobaciones para determinar la salida aplicable.",
+  "norma": "Ordenanza de Convivencia de Torrent",
+  "articulo": "16.1",
+  "importe_fijo": 350,
+  "actuacion": [
+    "Documentar lugar, hora, conducta concreta y persona responsable.",
+    "Corregir el riesgo o la afección y formular denuncia municipal solo si se acredita la salida aplicable."
+  ],
+  "competencia_denuncia": "Policía Local de Torrent.",
+  "competencia_resuelve": "Ayuntamiento de Torrent.",
+  "advertencias": [],
+  "alerta_penal": false,
+  "fuentes": [
+    "OCC-TORRENT"
+  ],
+  "estado": "validado",
+  "datos_adicionales": {
+    "convivencia": {
+      "grupo": "Limpieza, ornato y publicidad",
+      "orden": 160,
+      "tema": "limpieza",
+      "icono": "megaphone",
+      "condiciones": [
+        {
+          "id": "ambito",
+          "etiqueta": "¿Qué clase de publicidad es?",
+          "opciones": [
+            {
+              "valor": "comercial",
+              "etiqueta": "Publicidad comercial ordinaria"
+            },
+            {
+              "valor": "especial",
+              "etiqueta": "Electoral, convocatoria o manifestación autorizada, asociación sin ánimo de lucro, ONG o sindicato"
+            },
+            {
+              "valor": "pendiente",
+              "etiqueta": "No se ha determinado"
+            }
+          ]
+        },
+        {
+          "id": "autorizacion",
+          "etiqueta": "¿Consta autorización municipal para el reparto?",
+          "opciones": [
+            {
+              "valor": "si",
+              "etiqueta": "Sí, consta comprobado"
+            },
+            {
+              "valor": "no",
+              "etiqueta": "No"
+            },
+            {
+              "valor": "pendiente",
+              "etiqueta": "No puede comprobarse todavía"
+            }
+          ],
+          "mostrarSi": [
+            {
+              "ambito": "comercial"
+            }
+          ]
+        }
+      ],
+      "salidas": [
+        {
+          "cuando": {
+            "ambito": "comercial",
+            "autorizacion": "no"
+          },
+          "articulo": "16.1",
+          "resultado": "Reparto comercial en vía pública o domiciliario sin autorización comprobada.",
+          "sancion": {
+            "tipo": "fija",
+            "texto": "350,00 €"
+          }
+        },
+        {
+          "cuando": {
+            "autorizacion": "si"
+          },
+          "sinInfraccion": true,
+          "resultado": "No se acredita falta de autorización. Comprobar, si procede, la ficha específica del modo de reparto."
+        },
+        {
+          "cuando": {
+            "autorizacion": "pendiente"
+          },
+          "pendiente": true,
+          "resultado": "Consultar autorización antes de denunciar."
+        },
+        {
+          "cuando": {
+            "ambito": "especial"
+          },
+          "pendiente": true,
+          "resultado": "El art. 16.8 remite a normativa específica. No asignar automáticamente la sanción de publicidad comercial."
+        },
+        {
+          "cuando": {
+            "ambito": "pendiente"
+          },
+          "pendiente": true,
+          "resultado": "Determinar anunciante, finalidad y regulación aplicable."
+        }
+      ]
+    }
+  }
+}

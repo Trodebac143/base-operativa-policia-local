@@ -1,3 +1,4 @@
+import { seleccionarSupuestoPenal, type SupuestoPenalId } from "./catalogo-penal";
 import alcoholemiaJson from "../contenido/seguridad_vial/alcoholemia.json";
 
 export type AlcoholemiaMode = "servicio_periodica" | "puesta_servicio_o_post_reparacion";
@@ -219,6 +220,8 @@ export type AlcoholemiaOutcome = {
   limite_mg_l?: string;
   mensaje: string;
   articulo_penal?: string;
+  supuestoPenalId?: SupuestoPenalId;
+  gravedad?: ReturnType<typeof seleccionarSupuestoPenal>["gravedad"];
   administracion?: AdministrativeFinding;
   influencia_nota?: string;
   calculo_operativo?: OperationalCalculationPresentation;
@@ -312,7 +315,7 @@ function buildCalculationPresentation(calculation: AlcoholemiaCalculation, vehic
 export function resolveAlcoholemiaOutcome({ calculation, vehicle, driver, previousSanction, negative }: { calculation: AlcoholemiaCalculation | null; vehicle: VehicleType; driver: DriverType; previousSanction: boolean; negative: boolean }): AlcoholemiaOutcome {
   if (vehicle === "clasificacion_pendiente") return { kind: "clasificacion_pendiente", titulo: "CLASIFICACIÓN DEL VEHÍCULO NECESARIA", via: "Clasificación pendiente", tono: "ambar", mensaje: "Determina primero si el aparato es VMP/bicicleta/EPAC o vehículo a motor/ciclomotor. La vía jurídica cambia según esa clasificación." };
   if (negative) {
-    if (vehicle === "motor_ciclomotor") return { kind: "penal_negativa", titulo: "NEGATIVA A LAS PRUEBAS", via: "Vía penal preferente", tono: "rojo", limite_mg_l: getAlcoholemiaLimit(vehicle, driver) ?? undefined, articulo_penal: "Art. 383 CP", mensaje: "Negativa a las pruebas legalmente establecidas, incluida la segunda medición cuando sea legalmente exigida." };
+    if (vehicle === "motor_ciclomotor") return { kind: "penal_negativa", supuestoPenalId: "383", gravedad: seleccionarSupuestoPenal("383").gravedad, titulo: "NEGATIVA A LAS PRUEBAS", via: "Vía penal preferente", tono: "rojo", limite_mg_l: getAlcoholemiaLimit(vehicle, driver) ?? undefined, articulo_penal: "Art. 383 CP", mensaje: "Negativa a las pruebas legalmente establecidas, incluida la segunda medición cuando sea legalmente exigida." };
     const finding = alcoholemia.salida_administrativa_v2_consolidada.codificados.negativa_administrativa_no_motor;
     return { kind: "administrativa", titulo: alcoholemia.salida_administrativa_v2_consolidada.titulo, via: "Vía administrativa", tono: "ambar", limite_mg_l: getAlcoholemiaLimit(vehicle, driver) ?? undefined, mensaje: "Negativa a las pruebas en vehículo que no exige permiso o licencia de conducción.", administracion: { precepto: "LSV art. 77.d", tipificacion: finding.tipificacion, codificado: finding.opcion, hecho: "Negarse a someterse a las pruebas legalmente establecidas.", importe: finding.importe, reducido: finding.reducido, puntos: 0, puntos_nota: alcoholemia.regla_puntos.ui, responsable: finding.responsable, suspendida: false } };
   }
@@ -324,7 +327,7 @@ export function resolveAlcoholemiaOutcome({ calculation, vehicle, driver, previo
   const admin = exceeds ? administrativeFinding(calculation, vehicle, driver, previousSanction) : undefined;
   const calculoOperativo = buildCalculationPresentation(calculation, vehicle, exceeds);
   if (!exceeds) return { kind: "sin_superacion", titulo: "SIN SUPERACIÓN DE TASA", via: "Dentro del límite", tono: "verde", limite_mg_l: limit, mensaje: `El valor corregido exacto de ${formatMg(calculation.corregido_interno_exacto)} mg/L no supera el límite aplicable de ${formatMg(limit)} mg/L.`, influencia_nota: vehicle === "motor_ciclomotor" ? "La tasa no excluye por sí sola la valoración de signos de influencia." : undefined, calculo_operativo: calculoOperativo };
-  if (vehicle === "motor_ciclomotor" && calculation.supera_umbral_penal) return { kind: "penal_tasa", titulo: "VÍA PENAL PREFERENTE", via: "Art. 379.2 CP · tasa objetiva", tono: "rojo", limite_mg_l: limit, mensaje: `La tasa penal operativa de ${formatMg(calculation.tasa_penal_operativa)} mg/L supera 0,60 mg/L.`, articulo_penal: "Art. 379.2 CP", administracion: { ...admin!, suspendida: true }, influencia_nota: "La conducción bajo la influencia se valora además por signos y demás elementos probatorios.", calculo_operativo: calculoOperativo };
+  if (vehicle === "motor_ciclomotor" && calculation.supera_umbral_penal) return { kind: "penal_tasa", supuestoPenalId: "379.2", gravedad: seleccionarSupuestoPenal("379.2").gravedad, titulo: "VÍA PENAL PREFERENTE", via: "Art. 379.2 CP · tasa objetiva", tono: "rojo", limite_mg_l: limit, mensaje: `La tasa penal operativa de ${formatMg(calculation.tasa_penal_operativa)} mg/L supera 0,60 mg/L.`, articulo_penal: "Art. 379.2 CP", administracion: { ...admin!, suspendida: true }, influencia_nota: "La conducción bajo la influencia se valora además por signos y demás elementos probatorios.", calculo_operativo: calculoOperativo };
   const tone = compare(domain.ticketRate, decimal("0.50")) > 0 ? "naranja" : "ambar";
   const penalReview = vehicle === "motor_ciclomotor" && compare(domain.ticketRate, decimal("0.60")) > 0;
   return { kind: "administrativa", titulo: alcoholemia.salida_administrativa_v2_consolidada.titulo, via: "Vía administrativa", tono: tone, limite_mg_l: limit, mensaje: penalReview ? `No supera por tasa el umbral objetivo del art. 379.2 CP: la tasa penal operativa es ${formatMg(calculation.tasa_penal_operativa)} mg/L. Procede la vía administrativa con la tasa del ticket.` : `El valor corregido exacto supera el límite aplicable. En la denuncia se consigna la tasa del ticket: ${formatMg(calculation.tasa_ticket)} mg/L.`, administracion: admin, influencia_nota: vehicle === "motor_ciclomotor" ? "La cifra no decide por sí sola la influencia: documenta signos y demás elementos objetivos." : undefined, calculo_operativo: calculoOperativo };

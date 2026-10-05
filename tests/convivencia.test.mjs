@@ -20,10 +20,11 @@ const condition = (item, id) => item.datos_adicionales.convivencia.condiciones.f
 const outcomes = (item) => item.datos_adicionales.convivencia.salidas;
 const outcome = (item, expected) => outcomes(item).find((entry) => Object.entries(expected).every(([key, value]) => entry.cuando[key] === value));
 
-test("Convivencia conserva exactamente diez casos, tres grupos y fuentes centrales", async () => {
+test("Convivencia conserva los diez IDs iniciales, admite nuevos casos y mantiene tres grupos", async () => {
   const items = await convivencia();
-  assert.deepEqual([...items.keys()].sort(), Array.from({ length: 10 }, (_, index) => `CONV-OP-${String(index + 1).padStart(3, "0")}`));
-  assert.deepEqual([...new Set([...items.values()].map((item) => item.datos_adicionales.convivencia.grupo))], ["Convivencia y molestias", "Limpieza y uso del espacio público", "Riesgos / incidencias"]);
+  const firstTen = Array.from({ length: 10 }, (_, index) => `CONV-OP-${String(index + 1).padStart(3, "0")}`);
+  assert.ok(items.size >= 10); assert.ok(firstTen.every((id) => items.has(id)));
+  assert.deepEqual([...new Set([...items.values()].map((item) => item.datos_adicionales.convivencia.grupo))].sort(), ["Convivencia, molestias y actividades", "Limpieza, ornato y publicidad", "Uso y seguridad del espacio público"].sort());
   assert.ok([...items.values()].every((item) => item.estado === "validado" && item.competencia_resuelve === "Ayuntamiento de Torrent."));
   const sources = await readJson("contenido/juridico/fuentes.json");
   for (const id of ["OCC-TORRENT", "ORL-TORRENT", "AN-SRC-007", "SP-SRC-LO-4-2015"]) assert.match(sources.find((source) => source.id === id)?.urlOficial ?? "", /^https:\/\//);
@@ -61,13 +62,116 @@ test("CONV-OP-004 conserva el art. 8.f para objetos particulares y deriva terraz
   assert.match(serial, /180,00 €/);
 });
 
-test("CONV-OP-008 aplica solo el ámbito general validado y elimina remisiones indeterminadas", async () => {
+test("CONV-OP-005 usa el título y las palabras de búsqueda acordadas sin cambiar su encaje", async () => {
+  const item = (await convivencia()).get("CONV-OP-005");
+  assert.equal(item.titulo, "Miccionar, defecar, escupir o realizar necesidades fisiológicas en espacios públicos");
+  assert.deepEqual(item.palabras_clave, ["miccionar", "orinar", "orina", "mear", "defecar", "escupir", "necesidades fisiológicas", "vía pública"]);
+  assert.equal(item.datos_adicionales.convivencia.grupo, "Limpieza, ornato y publicidad");
+  assert.equal(item.articulo, "23"); assert.equal(item.rango_max, 600);
+});
+
+test("las salidas pendientes o sin infracción no muestran sanción y usan norma y fuentes de salida", async () => {
+  const { cases } = await vite.ssrLoadModule("/data/cases.ts");
+  const { ConvivenciaCaseSheet } = await vite.ssrLoadModule("/app/convivencia.tsx");
+  const base = cases.find((item) => item.id === "CONV-OP-001");
+  for (const flag of ["pendiente", "sinInfraccion"]) {
+    const item = { ...base, datos_adicionales: { convivencia: { grupo: "Convivencia, molestias y actividades", orden: 1, condiciones: [], salidas: [{ cuando: {}, [flag]: true, resultado: "Comprobación pendiente", norma: "Norma indicada por la salida", fuentes: ["ORL-TORRENT"], sancion: { tipo: "fija", texto: "999 €" } }] } } };
+    const html = renderToStaticMarkup(React.createElement(ConvivenciaCaseSheet, { item, onNavigate() {} }));
+    assert.match(html, /Comprobación pendiente/); assert.match(html, /Norma indicada por la salida/);
+    assert.doesNotMatch(html, /999 €|Sanción prevista/); assert.match(html, /Ordenanza Municipal de Residuos Urbanos y Limpieza Viaria de Torrent/);
+  }
+});
+
+test("al cambiar una respuesta elimina las respuestas de preguntas que quedan ocultas", async () => {
+  const { pruneHiddenConvivenciaAnswers } = await vite.ssrLoadModule("/app/convivencia.tsx");
+  const conditions = [
+    { id: "root", etiqueta: "Inicio", opciones: [] },
+    { id: "branch", etiqueta: "Rama", mostrarSi: [{ root: "a" }], opciones: [] },
+    { id: "child", etiqueta: "Subrama", mostrarSi: [{ branch: "yes" }], opciones: [] },
+    { id: "always", etiqueta: "Siempre", opciones: [] },
+  ];
+  assert.deepEqual(pruneHiddenConvivenciaAnswers(conditions, { root: "b", branch: "yes", child: "stale", always: "ok" }), { root: "b", always: "ok" });
+});
+
+test("CONV-OP-008 distingue Convivencia, limpieza viaria, rótulos y salidas pendientes", async () => {
   const posters = (await convivencia()).get("CONV-OP-008");
   const serial = JSON.stringify(posters.datos_adicionales.convivencia);
-  assert.equal(posters.datos_adicionales.convivencia.condiciones, undefined);
-  assert.equal(posters.datos_adicionales.convivencia.salidas, undefined);
-  assert.equal(posters.articulo, "23"); assert.equal(posters.rango_max, 600);
-  assert.doesNotMatch(serial, /legislación sectorial|regulación sectorial|régimen sectorial|otraVia/i);
+  assert.deepEqual(condition(posters, "tipo").opciones.map((entry) => entry.valor), ["comercial", "orl", "especial", "rotulo", "pendiente"]);
+  const commercial = outcome(posters, { tipo: "comercial" });
+  assert.equal(commercial.articulo, "16.6"); assert.equal(commercial.sancion.texto, "350,00 €");
+  assert.equal(commercial.norma, "Ordenanza de Convivencia de Torrent"); assert.deepEqual(commercial.fuentes, ["OCC-TORRENT"]);
+  const litter = outcome(posters, { tipo: "orl" });
+  assert.equal(litter.articulo, "23"); assert.equal(litter.sancion.texto, "Hasta 600,00 €"); assert.deepEqual(litter.fuentes, ["ORL-TORRENT"]);
+  const sign = outcome(posters, { tipo: "rotulo" });
+  assert.equal(sign.articulo, "12.1"); assert.deepEqual(sign.fuentes, ["OCC-TORRENT"]);
+  for (const value of ["especial", "pendiente"]) {
+    const result = outcome(posters, { tipo: value });
+    assert.equal(result.pendiente, true); assert.equal(result.sancion, undefined); assert.equal(result.articulo, undefined);
+  }
+  assert.match(serial, /no aplicar automáticamente el régimen comercial/i);
+});
+
+test("CONV-OP-008 resuelve fuentes separadas por salida y no mezcla las fuentes generales", async () => {
+  const { sourceIdsForConvivenciaOutcome } = await vite.ssrLoadModule("/app/convivencia.tsx");
+  const posters = (await convivencia()).get("CONV-OP-008");
+  const data = posters.datos_adicionales.convivencia;
+  assert.deepEqual(sourceIdsForConvivenciaOutcome(posters.id, posters.fuentes, outcome(posters, { tipo: "comercial" })), ["OCC-TORRENT"]);
+  assert.deepEqual(sourceIdsForConvivenciaOutcome(posters.id, posters.fuentes, outcome(posters, { tipo: "orl" })), ["ORL-TORRENT"]);
+  assert.deepEqual(sourceIdsForConvivenciaOutcome(posters.id, posters.fuentes, outcome(posters, { tipo: "rotulo" })), ["OCC-TORRENT"]);
+  assert.deepEqual(sourceIdsForConvivenciaOutcome(posters.id, posters.fuentes, outcome(posters, { tipo: "especial" })), []);
+  assert.deepEqual(sourceIdsForConvivenciaOutcome(posters.id, posters.fuentes), posters.fuentes);
+  assert.deepEqual(data.salidas.map((entry) => entry.fuentes ?? null), [["OCC-TORRENT"], ["ORL-TORRENT"], null, ["OCC-TORRENT"], null]);
+});
+
+test("los casos CONV-OP-011 a 023 conservan sus importes y las salidas pendientes no asignan multa", async () => {
+  const items = await convivencia();
+  const expected = {
+    "CONV-OP-011": ["60,10 €"], "CONV-OP-012": ["120,20 €", "120,20 €"], "CONV-OP-013": ["30,05 €"],
+    "CONV-OP-014": ["30,05 €", "30,05 €"], "CONV-OP-015": ["90,15 €"], "CONV-OP-016": ["350,00 €"],
+    "CONV-OP-017": ["350,00 €"], "CONV-OP-018": ["350,00 €"], "CONV-OP-019": ["350,00 €", "350,00 €"],
+    "CONV-OP-020": ["30,05 €"], "CONV-OP-021": ["90,15 €"], "CONV-OP-022": ["60,10 €", "60,10 €", "30,05 €"],
+    "CONV-OP-023": ["60,10 €"],
+  };
+  for (const [id, fines] of Object.entries(expected)) {
+    const item = items.get(id);
+    assert.ok(item, `${id} debe estar presente`);
+    assert.deepEqual(outcomes(item).flatMap((entry) => entry.sancion?.texto ? [entry.sancion.texto] : []), fines, id);
+  }
+  const additions = [...items.values()].filter((item) => item.id >= "CONV-OP-011" && item.id <= "CONV-OP-023");
+  const pending = additions.flatMap((item) => outcomes(item).filter((entry) => entry.pendiente));
+  assert.ok(pending.length > 0);
+  assert.ok(pending.every((entry) => !entry.sancion && !entry.articulo && !entry.calificacion));
+  assert.ok(additions.every((item) => item.datos_adicionales.convivencia.condiciones?.length && item.datos_adicionales.convivencia.salidas?.length));
+  const { cases } = await vite.ssrLoadModule("/data/cases.ts");
+  const { ConvivenciaCaseSheet } = await vite.ssrLoadModule("/app/convivencia.tsx");
+  for (const item of additions) for (const entry of outcomes(item).filter((result) => result.pendiente)) {
+    const base = cases.find((caseItem) => caseItem.id === item.id);
+    const fixture = { ...base, datos_adicionales: { convivencia: { ...base.datos_adicionales.convivencia, condiciones: [], salidas: [{ ...entry, cuando: {} }] } } };
+    const html = renderToStaticMarkup(React.createElement(ConvivenciaCaseSheet, { item: fixture, onNavigate() {} }));
+    assert.match(html, /RESULTADO/); assert.doesNotMatch(html, /Sanción prevista/);
+  }
+});
+
+test("las derivaciones nuevas abren sus destinos y las salidas vacías no heredan multas base", async () => {
+  const { cases } = await vite.ssrLoadModule("/data/cases.ts");
+  const { ConvivenciaCaseSheet } = await vite.ssrLoadModule("/app/convivencia.tsx");
+  const items = await convivencia();
+  const expected = [
+    ["CONV-OP-011", { conducta: "penal" }, { tipo: "categoria", categoryId: "seguridad_publica_agresiones_lesiones" }],
+    ["CONV-OP-012", { ambito: "local" }, { tipo: "categoria", categoryId: "policia_administrativa_establecimientos_actividades" }],
+    ["CONV-OP-015", { hecho: "si", penal: "si" }, { tipo: "categoria", categoryId: "seguridad_publica_patrimonio" }],
+    ["CONV-OP-021", { hecho: "si", penal: "si" }, { tipo: "categoria", categoryId: "seguridad_publica_patrimonio" }],
+    ["CONV-OP-022", { hecho: "penal" }, { tipo: "categoria", categoryId: "seguridad_publica_patrimonio" }],
+    ["CONV-OP-023", { hecho: "si", especifica: "obra" }, { tipo: "urbanismo", routeId: "via_publica" }],
+  ];
+  for (const [id, facts, destination] of expected) {
+    const entry = outcome(items.get(id), facts);
+    assert.deepEqual(entry.regulacionEspecifica.destino, destination, id);
+    const base = cases.find((item) => item.id === id);
+    const fixture = { ...base, datos_adicionales: { convivencia: { ...base.datos_adicionales.convivencia, condiciones: [], salidas: [{ ...entry, cuando: {} }] } } };
+    const html = renderToStaticMarkup(React.createElement(ConvivenciaCaseSheet, { item: fixture, onNavigate() {} }));
+    assert.match(html, /EXISTE REGULACIÓN ESPECÍFICA/); assert.doesNotMatch(html, /Sanción prevista/);
+  }
 });
 
 test("CONV-OP-006 pregunta por intervención observable y solo advierte una posible vía penal", async () => {
@@ -118,6 +222,8 @@ test("las regulaciones específicas se renderizan como botones y page resuelve c
   assert.match(page, /categories\.find\(\(category\) => category\.id === destination\.categoryId\)[\s\S]*setView\(\{ moduleId: target\.modulo, categoryId: target\.id \}\)/);
   assert.match(page, /UrbanismoGuideView initialRouteId=\{view\.urbanismoRouteId\}/);
   assert.match(page, /onNavigate=\{openSpecificRegulation\}/);
+  assert.match(page, /selectedGroup=\{view\.convivenciaGroup\} onSelectGroup=\{\(group\) => setView\(\{ moduleId: view\.moduleId, categoryId: selectedCategory\.id, convivenciaGroup: group \}\)\}/);
+  assert.match(page, /selectedCase\.categoria === "policia_administrativa_convivencia" \? view\.convivenciaGroup : undefined/);
 });
 
 test("los casos modificados no conservan textos genéricos de derivación", async () => {
@@ -141,12 +247,37 @@ test("la presentación diferencia cuantía fija, máximo, rango y régimen alter
   assert.doesNotMatch(identifiedWithoutAmount, /sin importe automático validado|tramitar conforme al régimen sancionador aplicable/i);
 });
 
-test("el catálogo mantiene iconografía, fuentes y no expone IDs internos", async () => {
+test("el selector inicial muestra solo tres grupos y cada grupo solo sus casos", async () => {
   const { cases } = await vite.ssrLoadModule("/data/cases.ts");
-  const { ConvivenciaCategoryView, ConvivenciaCaseSheet } = await vite.ssrLoadModule("/app/convivencia.tsx");
+  const { ConvivenciaCategoryView, ConvivenciaCaseSheet, convivenciaIconNames } = await vite.ssrLoadModule("/app/convivencia.tsx");
+  const { convivenciaGroups } = await vite.ssrLoadModule("/data/convivencia.ts");
   const items = cases.filter((item) => item.categoria === "policia_administrativa_convivencia");
+  assert.deepEqual(convivenciaGroups.map((group) => [group.nombre, group.icono, group.tema]), [
+    ["Convivencia, molestias y actividades", "people", "convivencia"],
+    ["Limpieza, ornato y publicidad", "clean", "limpieza"],
+    ["Uso y seguridad del espacio público", "street", "espacio-publico"],
+  ]);
   const catalogue = renderToStaticMarkup(React.createElement(ConvivenciaCategoryView, { cases: items, onOpenCase() {} }));
-  assert.equal((catalogue.match(/conv-card-icon/g) ?? []).length, 10); assert.equal((catalogue.match(/conv-group-icon/g) ?? []).length, 3); assert.doesNotMatch(catalogue, /CONV-OP-00/);
+  assert.equal((catalogue.match(/conv-group-card-icon/g) ?? []).length, 3); assert.doesNotMatch(catalogue, /conv-card-icon|Gritos, escándalos|CONV-OP-00/);
+  for (const group of convivenciaGroups) {
+    const count = items.filter((item) => item.datos_adicionales.convivencia.grupo === group.nombre).length;
+    const view = renderToStaticMarkup(React.createElement(ConvivenciaCategoryView, { cases: items, selectedGroup: group.nombre, onSelectGroup() {}, onOpenCase() {} }));
+    assert.equal((view.match(/conv-card-icon/g) ?? []).length, count);
+    if (group.secciones) {
+      assert.deepEqual(group.secciones.map((section) => section.casos.length), [6, 5]);
+      assert.equal(new Set(group.secciones.flatMap((section) => section.casos)).size, count);
+      for (const section of group.secciones) assert.ok(view.includes(section.nombre));
+    }
+    assert.match(view, /Volver a los grupos/); assert.match(view, new RegExp(`${count} casos?`)); assert.doesNotMatch(view, /CONV-OP-00/);
+  }
+  assert.ok(items.every((item) => item.datos_adicionales.convivencia.icono && item.datos_adicionales.convivencia.tema));
+  assert.ok(items.every((item) => convivenciaIconNames.includes(item.datos_adicionales.convivencia.icono)));
+  const searchedFixtures = [["CONV-OP-011", "procesión"], ["CONV-OP-014", "riego"], ["CONV-OP-017", "buzón"], ["CONV-OP-022", "numeración"], ["CONV-OP-023", "senda"]];
+  for (const [id, term] of searchedFixtures) assert.ok(items.find((item) => item.id === id).palabras_clave.some((word) => word.toLocaleLowerCase("es").includes(term)), `${id} incluye ${term} para búsqueda`);
+  const page = await readFile(new URL("app/page.tsx", root), "utf8");
+  assert.match(page, /item\.palabras_clave/);
+  const source = await readFile(new URL("app/convivencia.tsx", root), "utf8");
+  for (const icon of ["party", "tree", "droplet", "balcony", "sign", "mailbox", "megaphone", "street", "furniture", "fire", "clean"]) assert.match(source, new RegExp(`\\n  ${icon}:`));
   const sheet = renderToStaticMarkup(React.createElement(ConvivenciaCaseSheet, { item: items.find((item) => item.id === "CONV-OP-009"), onNavigate() {} }));
   assert.match(sheet, /Fuentes jurídicas/); assert.match(sheet, /target="_blank"/); assert.doesNotMatch(sheet, /CONV-OP-009/);
 });

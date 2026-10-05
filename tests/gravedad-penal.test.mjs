@@ -107,7 +107,7 @@ test("regresión activa: art. 254, subtipos y art. 267 mantienen gravedad y rég
   assert.equal(resolvePatrimonyOutcome({ ...facts, cuantia: 100, valorArtisticoHistoricoCulturalCientifico: true }).gravedad, M);
   const imprudent = { hechoPrincipal: "danos", titularidad: "ajena", intencionalidadDano: "imprudente_accidental", imprudenciaGrave: true, cuantiaAcreditada: true };
   assert.equal(resolvePatrimonyOutcome({ ...imprudent, cuantia: 80000 }).gravedad, undefined);
-  const o = resolvePatrimonyOutcome({ ...imprudent, cuantia: 80001 });
+  const o = resolvePatrimonyOutcome({ ...imprudent, cuantia: 80001, denunciaOQuerella: true }, { autorMayorEdad: true });
   assert.equal(o.gravedad, L);
   assert.equal(o.procesal.escenarioProcesal, "DELITO LEVE");
 });

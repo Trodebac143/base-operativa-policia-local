@@ -1,0 +1,497 @@
+{
+  "fecha": "2026-10-04",
+  "metodo": "Extracción AST de objetos de salida penal en HEAD anterior a la intervención. Conserva expresiones literales y condiciones del código; no ejecuta ramas ni convierte expresiones en hechos inventados. Las salidas construidas por funciones auxiliares/incidentResult y alertas documentales se completan en la auditoría narrativa y el baseline representativo.",
+  "numeroObjetos": 22,
+  "filas": [
+    {
+      "archivo": "data/seguridad-publica.ts",
+      "linea": 102,
+      "condiciones": [
+        {
+          "condicion": "input.ventaObservada || input.indiciosSuficientes",
+          "rama": "si"
+        }
+      ],
+      "salidaOriginal": {
+        "kind": "\"penal\"",
+        "titulo": "\"POSIBLE DELITO\"",
+        "norma": "\"Código Penal · art. 368\"",
+        "clasificacion": "clasificarDelitoPorPenas({ tipo: \"conjuntas\", penas: [penaEnMeses(\"prision\", grave ? 36 : 12, grave ? 72 : 36), { tipo: \"pena\", pena: { tipo: \"multa_proporcional\" } }] })",
+        "porQue": "input.ventaObservada ? \"Se observa venta, entrega o suministro a tercero.\" : \"Existen indicios objetivos suficientes de tráfico valorados conjuntamente.\"",
+        "actuacion": "processual.situacion === \"DETENIDO\"\n        ? [\"Documentar venta e indicios, asegurar pruebas y efectos objetivamente vinculados.\", \"Presentar al detenido, actuaciones y efectos en CNP.\"]\n        : [\"Documentar venta e indicios, asegurar pruebas y efectos objetivamente vinculados.\", \"Informar de hechos y derechos; coordinar continuación y citación con CNP.\"]"
+      },
+      "gravedadManual": false,
+      "procesalOriginal": "helper ordinario/incidentProcessual y referencias comunes; ver código previo del mismo archivo"
+    },
+    {
+      "archivo": "data/seguridad-publica.ts",
+      "linea": 124,
+      "condiciones": [
+        {
+          "condicion": "conceptId === \"desobediencia\"",
+          "rama": "si"
+        },
+        {
+          "condicion": "level === \"penal\"",
+          "rama": "si"
+        }
+      ],
+      "salidaOriginal": {
+        "titulo": "\"POSIBLE DELITO\"",
+        "norma": "\"Código Penal · art. 556.1\"",
+        "clasificacion": "\"DELITO MENOS GRAVE\"",
+        "porQue": "\"Constan orden legítima, expresa, concreta y terminante, dirigida al interesado y conocida o comprendida; negativa consciente, oposición persistente o contumaz y gravedad penal suficiente.\"",
+        "frontera": "\"Permanece en el art. 36.6 LO 4/2015 cuando falta una orden expresa, concreta y terminante dentro de las competencias legales del agente, su comunicación y conocimiento efectivo, una negativa consciente y tenaz o gravedad penal suficiente atendiendo a la trascendencia de la orden, las consecuencias del incumplimiento y el conjunto de circunstancias.\"",
+        "actuacion": "[\"Documentar literalmente la orden, su competencia, comunicación y conocimiento, la negativa y persistencia.\", \"Aplicar el régimen procesal mostrado y coordinar con CNP cuando no proceda la detención.\"]"
+      },
+      "gravedadManual": true,
+      "procesalOriginal": "helper ordinario/incidentProcessual y referencias comunes; ver código previo del mismo archivo"
+    },
+    {
+      "archivo": "data/seguridad-publica.ts",
+      "linea": 131,
+      "condiciones": [
+        {
+          "condicion": "conceptId === \"resistencia\"",
+          "rama": "si"
+        },
+        {
+          "condicion": "level === \"atentado\"",
+          "rama": "si"
+        }
+      ],
+      "salidaOriginal": {
+        "titulo": "\"POSIBLE DELITO\"",
+        "norma": "\"Código Penal · art. 550\"",
+        "clasificacion": "\"DELITO MENOS GRAVE\"",
+        "porQue": "\"Existe agresión, acometimiento o resistencia grave mediante violencia o intimidación grave.\"",
+        "frontera": "\"La resistencia pasiva grave o activa de entidad penal que no incluya agresión, acometimiento ni resistencia grave mediante violencia o intimidación grave se encuadra en el art. 556.1 CP. La resistencia pasiva leve, la oposición de escasa entidad y la dificultad menor se mantienen en el art. 36.6 LO 4/2015.\"",
+        "actuacion": "[\"Documentar violencia, intimidación, lesiones, medios y testigos.\", \"Presentar al detenido y actuaciones en CNP.\"]"
+      },
+      "gravedadManual": true,
+      "procesalOriginal": "helper ordinario/incidentProcessual y referencias comunes; ver código previo del mismo archivo"
+    },
+    {
+      "archivo": "data/seguridad-publica.ts",
+      "linea": 137,
+      "condiciones": [
+        {
+          "condicion": "conceptId === \"resistencia\"",
+          "rama": "si"
+        },
+        {
+          "condicion": "level === \"penal\"",
+          "rama": "si"
+        }
+      ],
+      "salidaOriginal": {
+        "titulo": "\"POSIBLE DELITO\"",
+        "norma": "\"Código Penal · art. 556.1\"",
+        "clasificacion": "\"DELITO MENOS GRAVE\"",
+        "porQue": "\"Hay resistencia pasiva grave o resistencia activa de intensidad inferior a atentado, con entidad penal suficiente.\"",
+        "frontera": "\"La resistencia pasiva leve, la oposición de escasa entidad y la dificultad menor se mantienen en el art. 36.6 LO 4/2015. La agresión, el acometimiento o la resistencia grave mediante violencia o intimidación grave abren la rama del art. 550 CP.\"",
+        "actuacion": "[\"Documentar la intensidad y secuencia de la oposición física.\", \"Aplicar el régimen procesal mostrado y coordinar con CNP cuando no proceda la detención.\"]"
+      },
+      "gravedadManual": true,
+      "procesalOriginal": "helper ordinario/incidentProcessual y referencias comunes; ver código previo del mismo archivo"
+    },
+    {
+      "archivo": "data/seguridad-publica.ts",
+      "linea": 146,
+      "condiciones": [
+        {
+          "condicion": "conceptId === \"amenazas\"",
+          "rama": "si"
+        },
+        {
+          "condicion": "level === \"leve\"",
+          "rama": "si"
+        }
+      ],
+      "salidaOriginal": {
+        "titulo": "\"POSIBLE DELITO\"",
+        "norma": "\"Código Penal · art. 171.7\"",
+        "clasificacion": "\"DELITO LEVE\"",
+        "porQue": "\"Amenaza de carácter leve fuera de los restantes supuestos.\"",
+        "frontera": "\"Una frase airada sin anuncio serio de mal penalmente relevante permanece en el art. 37.4 LO 4/2015. Una amenaza de mal futuro con entidad suficiente abre la rama del art. 169 CP; la intimidación grave integrada en resistencia grave o inicio inmediato de ataque abre la rama del art. 550 CP.\"",
+        "actuacion": "[\"Identificar y documentar literalmente las expresiones y el contexto.\", \"Informar de hechos y derechos; coordinar continuación y citación con CNP.\"]"
+      },
+      "gravedadManual": true,
+      "procesalOriginal": "helper ordinario/incidentProcessual y referencias comunes; ver código previo del mismo archivo"
+    },
+    {
+      "archivo": "data/seguridad-publica.ts",
+      "linea": 152,
+      "condiciones": [
+        {
+          "condicion": "conceptId === \"amenazas\"",
+          "rama": "si"
+        },
+        {
+          "condicion": "level === \"art169\"",
+          "rama": "si"
+        }
+      ],
+      "salidaOriginal": {
+        "titulo": "\"POSIBLE DELITO\"",
+        "norma": "\"Código Penal · art. 169\"",
+        "clasificacion": "\"DELITO MENOS GRAVE\"",
+        "porQue": "\"Amenaza de causar los males trabajados en el art. 169 CP, con entidad apreciada por el contenido, seriedad, firmeza, medios, proximidad, reiteración y conducta acompañante.\"",
+        "frontera": "\"No es atentado cuando se anuncia un mal futuro sin resistencia grave ni inicio inmediato de ataque. La intimidación grave integrada en resistencia grave o inicio inmediato de ataque se encuadra en el art. 550 CP.\"",
+        "actuacion": "[\"Documentar expresiones, seriedad, medios, proximidad, reiteración y conducta acompañante.\", \"Aplicar el régimen procesal mostrado y coordinar con CNP cuando no proceda la detención.\"]"
+      },
+      "gravedadManual": true,
+      "procesalOriginal": "helper ordinario/incidentProcessual y referencias comunes; ver código previo del mismo archivo"
+    },
+    {
+      "archivo": "data/seguridad-publica.ts",
+      "linea": 158,
+      "condiciones": [
+        {
+          "condicion": "conceptId === \"amenazas\"",
+          "rama": "si"
+        },
+        {
+          "condicion": "level === \"atentado\"",
+          "rama": "si"
+        }
+      ],
+      "salidaOriginal": {
+        "titulo": "\"POSIBLE DELITO\"",
+        "norma": "\"Código Penal · art. 550\"",
+        "clasificacion": "\"DELITO MENOS GRAVE\"",
+        "porQue": "\"La intimidación grave se integra en resistencia grave o inicio inmediato de ataque.\"",
+        "frontera": "\"La amenaza de un mal futuro sin resistencia grave ni inicio inmediato de ataque se encuadra en amenazas.\"",
+        "actuacion": "[\"Documentar el medio empleado, disposición inmediata de ataque y finalidad de impedir la actuación.\", \"Presentar al detenido y actuaciones en CNP.\"]"
+      },
+      "gravedadManual": true,
+      "procesalOriginal": "helper ordinario/incidentProcessual y referencias comunes; ver código previo del mismo archivo"
+    },
+    {
+      "archivo": "data/seguridad-publica.ts",
+      "linea": 620,
+      "condiciones": [
+        {
+          "condicion": "clear563",
+          "rama": "si"
+        }
+      ],
+      "salidaOriginal": {
+        "kind": "\"penal\"",
+        "titulo": "\"INDICIOS DE DELITO DE TENENCIA DE ARMA PROHIBIDA\"",
+        "norma": "\"Código Penal · art. 563\"",
+        "clasificacion": "\"DELITO MENOS GRAVE\"",
+        "porQue": "`${clasificacionObjeto}. ${facts.join(\" \")}`",
+        "frontera": "\"La vía del art. 563 exige conjuntamente arma material, prohibición jurídicamente apta para integrar el tipo, especial potencialidad lesiva y circunstancias concretas especialmente peligrosas para la seguridad ciudadana.\"",
+        "hechosRelevantes": "facts",
+        "derivaOtroDelito": "derivesAnotherOffence",
+        "dependenciaFutura": "futureReferral",
+        "actuacion": "processual.situacion === \"DETENIDO\" ? [\"Intervenir, ocupar y custodiar el arma como efecto o instrumento del delito.\", \"Presentar a la persona, actuaciones y efectos en CNP.\"] : [\"Intervenir, ocupar y custodiar el arma como efecto o instrumento del delito.\", \"Informar de hechos y derechos; coordinar continuación y citación con CNP.\"]"
+      },
+      "gravedadManual": true,
+      "procesalOriginal": "helper ordinario/incidentProcessual y referencias comunes; ver código previo del mismo archivo"
+    },
+    {
+      "archivo": "data/seguridad-publica.ts",
+      "linea": 636,
+      "condiciones": [
+        {
+          "condicion": "possible563",
+          "rama": "si"
+        }
+      ],
+      "salidaOriginal": {
+        "kind": "\"posible_penal\"",
+        "titulo": "\"POSIBLE RELEVANCIA PENAL — ART. 563 CP\"",
+        "norma": "\"Código Penal · art. 563\"",
+        "situacion": "\"DILIGENCIAS DE PREVENCIÓN\"",
+        "detencion": "\"NO\"",
+        "porQue": "`${clasificacionObjeto}. Se han seleccionado circunstancias objetivas que requieren continuación: ${facts.join(\" \")}`",
+        "frontera": "\"No se presenta una conclusión penal cerrada mientras no pueda apreciarse con seguridad el plus de peligrosidad concreto exigido para el art. 563.\"",
+        "hechosRelevantes": "facts",
+        "derivaOtroDelito": "derivesAnotherOffence",
+        "dependenciaFutura": "futureReferral",
+        "actuacion": "[\"Intervenir, ocupar y custodiar el arma.\", \"Asegurar los datos objetivos de la disponibilidad, comportamiento y contexto.\", \"Comunicar o comparecer ante CNP para continuación.\"]"
+      },
+      "gravedadManual": false,
+      "procesalOriginal": "helper ordinario/incidentProcessual y referencias comunes; ver código previo del mismo archivo"
+    },
+    {
+      "archivo": "data/patrimonio.ts",
+      "linea": 193,
+      "condiciones": [
+        {
+          "condicion": "aggravated.length",
+          "rama": "si"
+        }
+      ],
+      "salidaOriginal": {
+        "resultado": "\"HURTO AGRAVADO\"",
+        "hecho": "\"Toma de cosa mueble ajena, sin consentimiento y con ánimo de apropiación o beneficio.\"",
+        "tipoPenal": "\"Hurto agravado\"",
+        "norma": "`Código Penal · art. 235${aggravated.length > 1 ? \" y 235.2\" : \"\"}${antiTheft ? \" · art. 234.3\" : \"\"}`",
+        "gravedad": "\"DELITO MENOS GRAVE\"",
+        "grado": "degree",
+        "avisos": "[baseNotice, ...(facts.telefonoODispositivo235 && facts.existenciaComercialVentaAlmacenExposicion ? [\"La existencia comercial queda fuera del art. 235.1.10 por la excepción legal.\"] : [])]",
+        "porQue": "[`Concurre: ${aggravated.join(\"; \")}.`, antiTheft ? \"Se neutralizó el antihurto instalado en la cosa: art. 234.3; esto no transforma el hecho en robo con fuerza.\" : \"No consta neutralización del antihurto de la propia cosa.\"]",
+        "actuacion": "commonActions"
+      },
+      "gravedadManual": true,
+      "procesalOriginal": "resolved → processFor → adaptador común por etiqueta"
+    },
+    {
+      "archivo": "data/patrimonio.ts",
+      "linea": 200,
+      "condiciones": [],
+      "salidaOriginal": {
+        "resultado": "minor ? \"HURTO · MODALIDAD LEVE\" : elevated ? \"HURTO CON MULTIRREINCIDENCIA VERIFICADA\" : \"HURTO\"",
+        "hecho": "\"Toma de cosa mueble ajena, sin consentimiento y con intención de apropiación o beneficio.\"",
+        "tipoPenal": "\"Hurto\"",
+        "norma": "`Código Penal · art. ${minor ? \"234.2\" : elevated ? \"234.2, párrafo de multirreincidencia (pena del art. 234.1)\" : \"234.1\"}${antiTheft ? \" · art. 234.3\" : \"\"}`",
+        "gravedad": "minor ? \"DELITO LEVE\" : \"DELITO MENOS GRAVE\"",
+        "grado": "degree",
+        "avisos": "[baseNotice, ...(facts.telefonoODispositivo235 && facts.existenciaComercialVentaAlmacenExposicion ? [\"Dispositivo destinado a venta, almacén o exposición: no se activa el art. 235.1.10 por su naturaleza.\"] : [])]",
+        "porQue": "[minor ? `La cuantía acreditada (${facts.cuantia} €) no excede de 400 € y no consta agravación del art. 235.` : elevated ? \"Constan al menos tres condenas ejecutorias computables de la misma naturaleza, al menos una leve, y ningún antecedente cancelado o cancelable.\" : `La cuantía acreditada (${facts.cuantia} €) excede de 400 €.`, antiTheft ? \"El art. 234.3 eleva la pena dentro del marco aplicable, sin convertir el hecho en robo.\" : \"\"].filter(Boolean)",
+        "actuacion": "commonActions"
+      },
+      "gravedadManual": true,
+      "procesalOriginal": "resolved → processFor → adaptador común por etiqueta"
+    },
+    {
+      "archivo": "data/patrimonio.ts",
+      "linea": 218,
+      "condiciones": [],
+      "salidaOriginal": {
+        "resultado": "\"ROBO CON VIOLENCIA O INTIMIDACIÓN\"",
+        "hecho": "`Violencia o intimidación conectada con ${facts.momentoViolencia === \"huida\" ? \"la huida\" : \"el apoderamiento o su conservación\"}.`",
+        "tipoPenal": "\"Robo con violencia o intimidación\"",
+        "norma": "`Código Penal · arts. 237 y ${inProtectedPlace ? \"242.2\" : \"242.1\"}${armed ? \" · 242.3\" : \"\"}`",
+        "gravedad": "\"DELITO MENOS GRAVE\"",
+        "grado": "facts.gradoEjecucion === \"tentativa\" ? \"TENTATIVA · art. 62 CP\" : \"CONSUMADO\"",
+        "avisos": "facts.armaPresente && !armed ? [\"MERA TENENCIA DE ARMA. No activa por sí sola el art. 242.3.\"] : []",
+        "porQue": "[\"La cuantía no convierte el robo en hurto leve.\", armed ? \"Consta uso efectivo de arma o medio peligroso.\" : \"No consta uso efectivo de arma a efectos del art. 242.3.\"]",
+        "actuacion": "commonActions"
+      },
+      "gravedadManual": true,
+      "procesalOriginal": "resolved → processFor → adaptador común por etiqueta"
+    },
+    {
+      "archivo": "data/patrimonio.ts",
+      "linea": 235,
+      "condiciones": [],
+      "salidaOriginal": {
+        "resultado": "\"ROBO CON FUERZA\"",
+        "hecho": "\"Apoderamiento con fuerza típica para acceder o abandonar el lugar.\"",
+        "tipoPenal": "\"Robo con fuerza\"",
+        "norma": "`Código Penal · arts. ${norm}`",
+        "gravedad": "art2414 ? \"DELITO GRAVE\" : \"DELITO MENOS GRAVE\"",
+        "grado": "facts.gradoEjecucion === \"tentativa\" ? \"TENTATIVA · art. 62 CP\" : \"CONSUMADO\"",
+        "avisos": "[]",
+        "porQue": "[facts.tipoLugar === \"morada\" ? \"El lugar constituye morada aunque sus moradores estén temporalmente ausentes.\" : \"La fuerza típica se obtiene de los hechos descritos.\", \"La cuantía no rebaja un robo con fuerza a hurto leve.\"]",
+        "actuacion": "commonActions"
+      },
+      "gravedadManual": true,
+      "procesalOriginal": "resolved → processFor → adaptador común por etiqueta"
+    },
+    {
+      "archivo": "data/patrimonio.ts",
+      "linea": 246,
+      "condiciones": [
+        {
+          "condicion": "facts.enganoPrevioActoDisposicion",
+          "rama": "si"
+        }
+      ],
+      "salidaOriginal": {
+        "estado": "\"derivacion\"",
+        "resultado": "\"POSIBLE ESTAFA\"",
+        "hecho": "\"Engaño previo que provoca un acto voluntario de disposición.\"",
+        "tipoPenal": "\"Frontera con estafa\"",
+        "norma": "\"Código Penal · art. 248\"",
+        "avisos": "[]",
+        "porQue": "[\"El hecho requiere el módulo específico de estafas; esta fase no desarrolla su árbol completo.\"]",
+        "actuacion": "commonActions"
+      },
+      "gravedadManual": false,
+      "procesalOriginal": "resolved → processFor → adaptador común por etiqueta"
+    },
+    {
+      "archivo": "data/patrimonio.ts",
+      "linea": 250,
+      "condiciones": [
+        {
+          "condicion": "facts.facultadesAdministracion && facts.excesoFacultadesConPerjuicio",
+          "rama": "si"
+        }
+      ],
+      "salidaOriginal": {
+        "resultado": "\"POSIBLE ADMINISTRACIÓN DESLEAL\"",
+        "hecho": "\"Exceso en facultades de administración de patrimonio ajeno con perjuicio.\"",
+        "tipoPenal": "\"Frontera con administración desleal\"",
+        "norma": "`Código Penal · art. 252${aggravated ? \" en relación con art. 250\" : \"\"}`",
+        "gravedad": "aggravated ? \"DELITO GRAVE\" : facts.cuantia <= 400 ? \"DELITO LEVE\" : \"DELITO MENOS GRAVE\"",
+        "grado": "facts.gradoEjecucion === \"tentativa\" ? \"TENTATIVA · art. 62 CP\" : \"CONSUMADO\"",
+        "avisos": "[]",
+        "porQue": "[\"Las facultades de administración excluyen resolver automáticamente como apropiación indebida.\"]",
+        "actuacion": "commonActions"
+      },
+      "gravedadManual": true,
+      "procesalOriginal": "resolved → processFor → adaptador común por etiqueta"
+    },
+    {
+      "archivo": "data/patrimonio.ts",
+      "linea": 256,
+      "condiciones": [
+        {
+          "condicion": "facts.recepcionLegitima === true && facts.obligacionDevolverEntregar === true && facts.conductaApropiacionONegacion === true",
+          "rama": "si"
+        }
+      ],
+      "salidaOriginal": {
+        "resultado": "\"APROPIACIÓN INDEBIDA\"",
+        "hecho": "\"Bien recibido legítimamente con obligación de entregar o devolver y posterior apropiación o negación.\"",
+        "tipoPenal": "\"Apropiación indebida\"",
+        "norma": "`Código Penal · art. ${facts.cuantia <= 400 && !aggravated ? \"253.2\" : aggravated ? \"253.1 en relación con 250\" : \"253.1\"}`",
+        "gravedad": "facts.cuantia <= 400 && !aggravated ? \"DELITO LEVE\" : aggravated ? \"DELITO GRAVE\" : \"DELITO MENOS GRAVE\"",
+        "grado": "facts.gradoEjecucion === \"tentativa\" ? \"TENTATIVA · art. 62 CP\" : \"CONSUMADO\"",
+        "avisos": "[]",
+        "porQue": "[\"La recepción fue legítima y existía obligación jurídica de entrega o devolución.\"]",
+        "actuacion": "commonActions"
+      },
+      "gravedadManual": true,
+      "procesalOriginal": "resolved → processFor → adaptador común por etiqueta"
+    },
+    {
+      "archivo": "data/patrimonio.ts",
+      "linea": 262,
+      "condiciones": [
+        {
+          "condicion": "facts.viaApropiacionFuera253 === true",
+          "rama": "si"
+        }
+      ],
+      "salidaOriginal": {
+        "resultado": "\"APROPIACIÓN DE COSA MUEBLE AJENA FUERA DEL ART. 253\"",
+        "hecho": "\"Apropiación de cosa mueble ajena por vía distinta de una recepción con obligación de devolver.\"",
+        "tipoPenal": "\"Otra apropiación\"",
+        "norma": "`Código Penal · art. ${facts.cuantia <= 400 && !cultural ? \"254.2\" : cultural ? \"254.1, inciso segundo\" : \"254.1\"}`",
+        "gravedad": "clasificarDelitoPorPenas(marco)",
+        "grado": "facts.gradoEjecucion === \"tentativa\" ? \"TENTATIVA · art. 62 CP\" : \"CONSUMADO\"",
+        "avisos": "[]",
+        "porQue": "[cultural ? \"La cosa posee valor artístico, histórico, cultural o científico.\" : facts.cuantia <= 400 ? \"La cuantía no excede de 400 €: multa de uno a dos meses del art. 254.2 CP.\" : \"La multa de tres a seis meses mantiene la clasificación leve por el art. 13.4 CP.\"]",
+        "actuacion": "commonActions"
+      },
+      "gravedadManual": false,
+      "procesalOriginal": "resolved → processFor → adaptador común por etiqueta"
+    },
+    {
+      "archivo": "data/patrimonio.ts",
+      "linea": 270,
+      "condiciones": [
+        {
+          "condicion": "facts.danoInformatico",
+          "rama": "si"
+        }
+      ],
+      "salidaOriginal": {
+        "estado": "\"derivacion\"",
+        "resultado": "\"DAÑO INFORMÁTICO: DERIVAR\"",
+        "hecho": "\"Afectación a datos, programas, documentos electrónicos o sistemas.\"",
+        "tipoPenal": "\"Daños informáticos\"",
+        "norma": "\"Código Penal · arts. 264 y siguientes\"",
+        "avisos": "[]",
+        "porQue": "[\"No se integra automáticamente en el art. 263.\"]",
+        "actuacion": "commonActions"
+      },
+      "gravedadManual": false,
+      "procesalOriginal": "resolved → processFor → adaptador común por etiqueta"
+    },
+    {
+      "archivo": "data/patrimonio.ts",
+      "linea": 272,
+      "condiciones": [
+        {
+          "condicion": "facts.intencionalidadDano === \"imprudente_accidental\"",
+          "rama": "si"
+        },
+        {
+          "condicion": "facts.imprudenciaGrave === true && facts.cuantiaAcreditada === true && (facts.cuantia ?? 0) > 80000",
+          "rama": "si"
+        }
+      ],
+      "salidaOriginal": {
+        "resultado": "\"DAÑOS POR IMPRUDENCIA GRAVE\"",
+        "hecho": "\"Daño imprudente grave superior a 80.000 €.\"",
+        "tipoPenal": "\"Daños imprudentes\"",
+        "norma": "\"Código Penal · art. 267\"",
+        "gravedad": "clasificarDelitoPorPenas(penaEnMeses(\"multa\", 3, 9))",
+        "avisos": "[\"PROCEDIBILIDAD: requiere denuncia de la persona agraviada o representante, con las especialidades legales.\"]",
+        "porQue": "[\"No se aplica el art. 263 doloso.\", \"La multa de tres a nueve meses determina delito leve conforme al art. 13.4 CP.\"]",
+        "actuacion": "commonActions"
+      },
+      "gravedadManual": false,
+      "procesalOriginal": "resolved → processFor → adaptador común por etiqueta"
+    },
+    {
+      "archivo": "data/patrimonio.ts",
+      "linea": 273,
+      "condiciones": [
+        {
+          "condicion": "facts.intencionalidadDano === \"imprudente_accidental\"",
+          "rama": "si"
+        }
+      ],
+      "salidaOriginal": {
+        "estado": "\"derivacion\"",
+        "resultado": "\"NO APLICAR ART. 263\"",
+        "hecho": "\"Daño accidental o imprudente sin los datos cerrados del art. 267.\"",
+        "tipoPenal": "\"Fuera del daño doloso\"",
+        "norma": "\"Código Penal · arts. 12 y 267\"",
+        "avisos": "[]",
+        "porQue": "[\"La existencia de perjuicio económico no convierte un accidente en daño doloso.\"]",
+        "actuacion": "[\"Documentar causa, cuantía y circunstancias; tramitar por la vía que corresponda.\"]"
+      },
+      "gravedadManual": false,
+      "procesalOriginal": "resolved → processFor → adaptador común por etiqueta"
+    },
+    {
+      "archivo": "data/patrimonio.ts",
+      "linea": 278,
+      "condiciones": [
+        {
+          "condicion": "facts.medioDestructivoOPeligroPersonas",
+          "rama": "si"
+        }
+      ],
+      "salidaOriginal": {
+        "estado": "\"derivacion\"",
+        "resultado": "\"DAÑOS CON MEDIO DE ESPECIAL PELIGROSIDAD\"",
+        "hecho": "\"Daño doloso mediante incendio, explosión, medio de potencia destructiva semejante o peligro para personas.\"",
+        "tipoPenal": "\"Derivación por daños conexos\"",
+        "norma": "\"Código Penal · art. 266\"",
+        "avisos": "[\"NO CERRAR GRAVEDAD SIN DETERMINAR EL TIPO BASE, EL MEDIO Y EL PELIGRO CONCRETOS.\"]",
+        "porQue": "[\"La forma de ejecución desplaza la respuesta ordinaria del art. 263.\"]",
+        "actuacion": "commonActions"
+      },
+      "gravedadManual": false,
+      "procesalOriginal": "resolved → processFor → adaptador común por etiqueta"
+    },
+    {
+      "archivo": "data/patrimonio.ts",
+      "linea": 279,
+      "condiciones": [],
+      "salidaOriginal": {
+        "resultado": "aggravated ? \"DAÑOS AGRAVADOS\" : facts.cuantia <= 400 ? \"DAÑOS · MODALIDAD LEVE\" : \"DAÑOS\"",
+        "hecho": "\"Daño deliberado en propiedad ajena.\"",
+        "tipoPenal": "\"Daños\"",
+        "norma": "`Código Penal · art. ${aggravated ? \"263.2\" : \"263.1\"}`",
+        "gravedad": "aggravated ? \"DELITO MENOS GRAVE\" : facts.cuantia <= 400 ? \"DELITO LEVE\" : \"DELITO MENOS GRAVE\"",
+        "avisos": "[]",
+        "porQue": "[aggravated ? \"Concurre una circunstancia del art. 263.2; la cuantía reducida no mantiene la modalidad leve.\" : facts.cuantia <= 400 ? \"La cuantía acreditada no excede de 400 € y no consta agravación del art. 263.2.\" : \"La cuantía acreditada excede de 400 €.\"]",
+        "actuacion": "commonActions"
+      },
+      "gravedadManual": true,
+      "procesalOriginal": "resolved → processFor → adaptador común por etiqueta"
+    }
+  ]
+}

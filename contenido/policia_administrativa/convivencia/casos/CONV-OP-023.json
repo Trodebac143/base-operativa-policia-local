@@ -1,0 +1,136 @@
+{
+  "id": "CONV-OP-023",
+  "modulo": "policia_administrativa",
+  "categoria": "policia_administrativa_convivencia",
+  "titulo": "Impedir el tránsito en caminos vecinales o sendas establecidas",
+  "palabras_clave": [
+    "camino vecinal",
+    "senda",
+    "tránsito",
+    "barrera"
+  ],
+  "que_comprobar": [
+    "Camino o senda existente",
+    "Libre tránsito",
+    "Responsable del impedimento"
+  ],
+  "resultado": "Completar las comprobaciones para determinar la salida aplicable.",
+  "norma": "Ordenanza de Convivencia de Torrent",
+  "articulo": "20",
+  "importe_fijo": 60.1,
+  "actuacion": [
+    "Documentar lugar, hora, conducta concreta y persona responsable.",
+    "Corregir el riesgo o la afección y formular denuncia municipal solo si se acredita la salida aplicable."
+  ],
+  "competencia_denuncia": "Policía Local de Torrent.",
+  "competencia_resuelve": "Ayuntamiento de Torrent.",
+  "advertencias": [
+    "No presumir carácter público o servidumbre en conflictos de titularidad no comprobados."
+  ],
+  "alerta_penal": false,
+  "fuentes": [
+    "OCC-TORRENT"
+  ],
+  "estado": "validado",
+  "datos_adicionales": {
+    "convivencia": {
+      "grupo": "Uso y seguridad del espacio público",
+      "orden": 230,
+      "tema": "espacio-publico",
+      "icono": "street",
+      "condiciones": [
+        {
+          "id": "hecho",
+          "etiqueta": "¿Se acredita impedimento del libre tránsito en un camino vecinal o senda establecida?",
+          "opciones": [
+            {
+              "valor": "si",
+              "etiqueta": "Sí, consta comprobado"
+            },
+            {
+              "valor": "no",
+              "etiqueta": "No"
+            },
+            {
+              "valor": "pendiente",
+              "etiqueta": "No puede comprobarse todavía"
+            }
+          ]
+        },
+        {
+          "id": "especifica",
+          "etiqueta": "¿Está vinculado a una obra o a otra regulación específica?",
+          "opciones": [
+            {
+              "valor": "no",
+              "etiqueta": "No, obstáculo particular en camino o senda"
+            },
+            {
+              "valor": "obra",
+              "etiqueta": "Obra o actuación urbanística"
+            },
+            {
+              "valor": "pendiente",
+              "etiqueta": "No se ha comprobado"
+            }
+          ],
+          "mostrarSi": [
+            {
+              "hecho": "si"
+            }
+          ]
+        }
+      ],
+      "salidas": [
+        {
+          "cuando": {
+            "hecho": "si",
+            "especifica": "no"
+          },
+          "articulo": "20",
+          "resultado": "Impedimento comprobado del libre tránsito en camino vecinal o senda establecida.",
+          "sancion": {
+            "tipo": "fija",
+            "texto": "60,10 €"
+          }
+        },
+        {
+          "cuando": {
+            "hecho": "si",
+            "especifica": "obra"
+          },
+          "regulacionEspecifica": {
+            "nombre": "Urbanismo → Obras en vía pública",
+            "explicacion": "Comprobar ocupación, licencia y seguridad de la obra.",
+            "destino": {
+              "tipo": "urbanismo",
+              "routeId": "via_publica"
+            },
+            "etiquetaBoton": "Abrir Urbanismo"
+          }
+        },
+        {
+          "cuando": {
+            "hecho": "no"
+          },
+          "sinInfraccion": true,
+          "resultado": "No se acredita impedimento."
+        },
+        {
+          "cuando": {
+            "hecho": "pendiente"
+          },
+          "pendiente": true,
+          "resultado": "Comprobar carácter del camino y tránsito afectado."
+        },
+        {
+          "cuando": {
+            "especifica": "pendiente"
+          },
+          "pendiente": true,
+          "resultado": "Precisar origen del impedimento."
+        }
+      ]
+    }
+  }
+}

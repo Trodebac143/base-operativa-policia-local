@@ -28,6 +28,29 @@ Las medidas de ITV y Seguro, las reglas comunes, los árboles de decisión y los
 
 ## Referencias técnicas útiles
 
+### Infraestructura penal y procesal estable
+
+El motor penal/procesal común constituye infraestructura estable.
+La incorporación de nuevos delitos o supuestos debe realizarse mediante
+catálogo, hechos, reglas de encaje y fuentes, sin crear motores paralelos
+ni introducir lógica procesal dentro de los resolvedores específicos.
+
+Una modificación futura del núcleo requiere justificar una regla jurídica general que el modelo común actual no pueda representar. El circuito es: hechos observables → selección de `data/catalogo-penal.ts` → marco abstracto → `data/gravedad-penal.ts` → `data/procesal-penal.ts` → actuación y explicación. Las referencias LECrim siguen en `data/referencias-procesales.ts`.
+
+Los resolvedores de Seguridad Pública, Patrimonio y derivaciones seleccionan IDs del catálogo. No escriben penas ni etiquetas de gravedad. Los textos literales de `contenido/juridico/articulos_penales.json` son documentación de consulta; no constituyen otro clasificador ni otra decisión procesal.
+
+No convertir meses de prisión en treinta días: esa equivalencia solo corresponde a la multa del art. 50.4 CP. Las transformaciones de grado/mitad conservan unidades exactas. Cuando no es posible materializar una fracción de mes calendario, se mantiene la expresión legal; la gravedad solo se cierra si la categoría resulta inequívoca sin esa conversión. Las reducciones facultativas del sentenciador no se aplican automáticamente al tipo abstracto. La tentativa conserva la referencia al art. 62 y exige valoración judicial; no calcula una pena individual.
+
+La edad y la procedibilidad desconocidas impiden presumir el régimen adulto o una denuncia. En hechos concurrentes, el motor considera separadamente la procedibilidad de cada supuesto: otro delito de oficio puede continuar aunque uno requiera denuncia pendiente. Una entrada con subtipo pendiente conserva su pena y gravedad propias sin cerrar. Si los hechos permiten acotar alternativas cerradas, el catálogo calcula únicamente las consecuencias comunes y el motor procesal comprueba que todas conduzcan a la misma decisión. Si hay diferencias, se muestran protección, asistencia, identificación, preservación de indicios y coordinación, sin elegir arbitrariamente un subtipo. Los adaptadores históricos de consulta adulta conservan compatibilidad, pero los resolvedores activos usan la entrada común con datos comprobados.
+
+### Regla permanente de interfaz policial
+
+La interfaz solicita hechos observables o comprobables durante la intervención. Las conclusiones jurídicas corresponden al motor. La falta de información posterior necesaria para una calificación definitiva no impide obtener las conclusiones policiales que sí resulten jurídicamente seguras con los datos disponibles. Evitar preguntas sobre informe forense futuro, diagnóstico definitivo, artículo penal, gravedad, agravantes o computabilidad de condenas. La información ya disponible sobre asistencia sanitaria o medida judicial vigente puede recabarse si cambia la actuación inmediata.
+
+Los nuevos delitos se incorporan mediante catálogo, hechos, encaje y fuentes. No se crean motores de detención, procedibilidad ni gravedad por módulo. `tests/arquitectura-penal.test.mjs` y `tests/interfaz-operativa.test.mjs` contienen las barreras para ampliar ese circuito sin devolver al agente preguntas de calificación.
+
+Antes de ampliar el catálogo, añadir pruebas del marco, gravedad, procedibilidad, hechos de selección y ayudas LECrim. Consultar el inventario y matriz en `docs/auditoria-penal-2026-10-04.md` y `docs/matriz-migracion-penal.json`.
+
 - Plantilla y guía de casos: `contenido/_plantillas/`.
 - Índice generado de casos: `contenido/_generado/casos.json`.
 - Sincronizador: `scripts/sincronizar-contenido.mjs`.

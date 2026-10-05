@@ -2855,8 +2855,10 @@
     "estado": "validado",
     "datos_adicionales": {
       "convivencia": {
-        "grupo": "Convivencia y molestias",
+        "grupo": "Convivencia, molestias y actividades",
         "orden": 10,
+        "icono": "sound",
+        "tema": "convivencia",
         "condiciones": [
           {
             "id": "cruce",
@@ -2924,8 +2926,10 @@
     "estado": "validado",
     "datos_adicionales": {
       "convivencia": {
-        "grupo": "Convivencia y molestias",
+        "grupo": "Convivencia, molestias y actividades",
         "orden": 20,
+        "icono": "party",
+        "tema": "convivencia",
         "condiciones": [
           {
             "id": "conducta",
@@ -2997,8 +3001,10 @@
     "estado": "validado",
     "datos_adicionales": {
       "convivencia": {
-        "grupo": "Convivencia y molestias",
+        "grupo": "Convivencia, molestias y actividades",
         "orden": 30,
+        "icono": "tools",
+        "tema": "convivencia",
         "condiciones": [
           {
             "id": "casco",
@@ -3388,8 +3394,10 @@
     "estado": "validado",
     "datos_adicionales": {
       "convivencia": {
-        "grupo": "Limpieza y uso del espacio público",
-        "orden": 40,
+        "grupo": "Uso y seguridad del espacio público",
+        "orden": 10,
+        "icono": "furniture",
+        "tema": "espacio-publico",
         "condiciones": [
           {
             "id": "impide",
@@ -3573,12 +3581,16 @@
     "id": "CONV-OP-005",
     "modulo": "policia_administrativa",
     "categoria": "policia_administrativa_convivencia",
-    "titulo": "Escupir o realizar necesidades fisiológicas",
+    "titulo": "Miccionar, defecar, escupir o realizar necesidades fisiológicas en espacios públicos",
     "palabras_clave": [
+      "miccionar",
+      "orinar",
+      "orina",
+      "mear",
+      "defecar",
       "escupir",
       "necesidades fisiológicas",
-      "higiene",
-      "limpieza"
+      "vía pública"
     ],
     "que_comprobar": [
       "Conducta directamente observada",
@@ -3602,8 +3614,10 @@
     "estado": "validado",
     "datos_adicionales": {
       "convivencia": {
-        "grupo": "Limpieza y uso del espacio público",
-        "orden": 50
+        "grupo": "Limpieza, ornato y publicidad",
+        "orden": 10,
+        "icono": "droplet",
+        "tema": "limpieza"
       }
     }
   },
@@ -3644,8 +3658,10 @@
     "estado": "validado",
     "datos_adicionales": {
       "convivencia": {
-        "grupo": "Limpieza y uso del espacio público",
-        "orden": 60,
+        "grupo": "Limpieza, ornato y publicidad",
+        "orden": 20,
+        "icono": "spray",
+        "tema": "limpieza",
         "condiciones": [
           {
             "id": "intervencion",
@@ -3787,8 +3803,10 @@
     "estado": "validado",
     "datos_adicionales": {
       "convivencia": {
-        "grupo": "Limpieza y uso del espacio público",
-        "orden": 70
+        "grupo": "Uso y seguridad del espacio público",
+        "orden": 20,
+        "icono": "car",
+        "tema": "espacio-publico"
       }
     }
   },
@@ -3806,7 +3824,8 @@
     "que_comprobar": [
       "Qué se coloca o reparte",
       "Lugar",
-      "Existencia de autorización"
+      "Existencia de autorización",
+      "Finalidad comercial y soporte: aplicar regulación específica cuando corresponda"
     ],
     "resultado": "Infracción ordinaria de limpieza viaria.",
     "norma": "Ordenanza de Residuos Urbanos y Limpieza Viaria de Torrent",
@@ -3821,13 +3840,104 @@
     "advertencias": [],
     "alerta_penal": false,
     "fuentes": [
-      "ORL-TORRENT"
+      "ORL-TORRENT",
+      "OCC-TORRENT"
     ],
     "estado": "validado",
     "datos_adicionales": {
       "convivencia": {
-        "grupo": "Limpieza y uso del espacio público",
-        "orden": 80
+        "grupo": "Limpieza, ornato y publicidad",
+        "orden": 30,
+        "icono": "megaphone",
+        "tema": "limpieza",
+        "condiciones": [
+          {
+            "id": "tipo",
+            "etiqueta": "¿Qué material y colocación se han acreditado?",
+            "opciones": [
+              {
+                "valor": "comercial",
+                "etiqueta": "Reclamo comercial pegado o colocado en mobiliario urbano, árboles o plantas de espacios públicos"
+              },
+              {
+                "valor": "orl",
+                "etiqueta": "Cartel o adhesivo no autorizado dentro del supuesto de limpieza viaria, sin regulación publicitaria específica"
+              },
+              {
+                "valor": "especial",
+                "etiqueta": "Publicidad electoral, sindical, ONG o entidad sin ánimo de lucro"
+              },
+              {
+                "valor": "rotulo",
+                "etiqueta": "Rótulo, toldo o anuncio visible desde vía pública sujeto a autorización específica y SIN permiso comprobado"
+              },
+              {
+                "valor": "pendiente",
+                "etiqueta": "No se ha determinado"
+              }
+            ]
+          }
+        ],
+        "salidas": [
+          {
+            "cuando": {
+              "tipo": "comercial"
+            },
+            "articulo": "16.6",
+            "resultado": "Publicidad comercial colocada en mobiliario urbano, árboles o plantas de espacios públicos.",
+            "sancion": {
+              "tipo": "fija",
+              "texto": "350,00 €"
+            },
+            "norma": "Ordenanza de Convivencia de Torrent",
+            "fuentes": [
+              "OCC-TORRENT"
+            ]
+          },
+          {
+            "cuando": {
+              "tipo": "orl"
+            },
+            "articulo": "23",
+            "resultado": "Cartel o adhesivo no autorizado que encaja en la regulación de limpieza viaria.",
+            "sancion": {
+              "tipo": "maximo",
+              "texto": "Hasta 600,00 €"
+            },
+            "fuentes": [
+              "ORL-TORRENT"
+            ]
+          },
+          {
+            "cuando": {
+              "tipo": "especial"
+            },
+            "pendiente": true,
+            "resultado": "Consultar regulación específica: no aplicar automáticamente el régimen comercial."
+          },
+          {
+            "cuando": {
+              "tipo": "rotulo"
+            },
+            "articulo": "12.1",
+            "resultado": "Rótulo, toldo o anuncio visible desde la vía pública sin permiso comprobado.",
+            "sancion": {
+              "tipo": "fija",
+              "texto": "60,10 €"
+            },
+            "norma": "Ordenanza de Convivencia de Torrent",
+            "fuentes": [
+              "OCC-TORRENT"
+            ]
+          },
+          {
+            "cuando": {
+              "tipo": "pendiente"
+            },
+            "pendiente": true,
+            "resultado": "Determinar soporte, finalidad y autorización antes de asignar artículo o sanción."
+          }
+        ]
       }
     }
   },
@@ -3866,8 +3976,10 @@
     "estado": "validado",
     "datos_adicionales": {
       "convivencia": {
-        "grupo": "Limpieza y uso del espacio público",
-        "orden": 90,
+        "grupo": "Limpieza, ornato y publicidad",
+        "orden": 40,
+        "icono": "clean",
+        "tema": "limpieza",
         "condiciones": [
           {
             "id": "vinculo",
@@ -4768,8 +4880,10 @@
     "estado": "validado",
     "datos_adicionales": {
       "convivencia": {
-        "grupo": "Riesgos / incidencias",
-        "orden": 100,
+        "grupo": "Uso y seguridad del espacio público",
+        "orden": 30,
+        "icono": "fire",
+        "tema": "espacio-publico",
         "condiciones": [
           {
             "id": "situacion",
@@ -4812,6 +4926,1750 @@
             },
             "sinInfraccion": true,
             "resultado": "No se aprecia esta infracción si consta autorización aplicable."
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "CONV-OP-011",
+    "modulo": "policia_administrativa",
+    "categoria": "policia_administrativa_convivencia",
+    "titulo": "Impedir festejos, procesiones o desfiles y molestar a sus asistentes",
+    "palabras_clave": [
+      "procesión",
+      "desfile",
+      "fiesta",
+      "festejo",
+      "asistentes"
+    ],
+    "que_comprobar": [
+      "Autorización del acto",
+      "Impedimento o molestia concreta",
+      "Indicios de delito"
+    ],
+    "resultado": "Completar las comprobaciones para determinar la salida aplicable.",
+    "norma": "Ordenanza de Convivencia de Torrent",
+    "articulo": "7.i",
+    "importe_fijo": 60.1,
+    "actuacion": [
+      "Documentar lugar, hora, conducta concreta y persona responsable.",
+      "Corregir el riesgo o la afección y formular denuncia municipal solo si se acredita la salida aplicable."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent.",
+    "competencia_resuelve": "Ayuntamiento de Torrent.",
+    "advertencias": [],
+    "alerta_penal": false,
+    "fuentes": [
+      "OCC-TORRENT"
+    ],
+    "estado": "validado",
+    "datos_adicionales": {
+      "convivencia": {
+        "grupo": "Convivencia, molestias y actividades",
+        "orden": 110,
+        "tema": "convivencia",
+        "icono": "party",
+        "condiciones": [
+          {
+            "id": "autorizado",
+            "etiqueta": "¿El festejo, procesión o desfile está autorizado o permitido?",
+            "opciones": [
+              {
+                "valor": "si",
+                "etiqueta": "Sí, consta comprobado"
+              },
+              {
+                "valor": "no",
+                "etiqueta": "No"
+              },
+              {
+                "valor": "pendiente",
+                "etiqueta": "No puede comprobarse todavía"
+              }
+            ]
+          },
+          {
+            "id": "conducta",
+            "etiqueta": "¿Qué conducta se acredita?",
+            "opciones": [
+              {
+                "valor": "molestia",
+                "etiqueta": "Impide el acto o causa molestias a sus asistentes"
+              },
+              {
+                "valor": "penal",
+                "etiqueta": "Agresión, amenaza u otros indicios de delito"
+              },
+              {
+                "valor": "no",
+                "etiqueta": "Ninguna de esas conductas"
+              },
+              {
+                "valor": "pendiente",
+                "etiqueta": "Hechos todavía indeterminados"
+              }
+            ]
+          }
+        ],
+        "salidas": [
+          {
+            "cuando": {
+              "autorizado": "si",
+              "conducta": "molestia"
+            },
+            "articulo": "7.i",
+            "resultado": "Impedimento de un acto permitido o molestias concretas a sus asistentes.",
+            "sancion": {
+              "tipo": "fija",
+              "texto": "60,10 €"
+            }
+          },
+          {
+            "cuando": {
+              "conducta": "penal"
+            },
+            "regulacionEspecifica": {
+              "nombre": "Seguridad Pública → Personas",
+              "explicacion": "Proteger a los afectados y completar el hecho penal concreto.",
+              "destino": {
+                "tipo": "categoria",
+                "categoryId": "seguridad_publica_agresiones_lesiones"
+              },
+              "etiquetaBoton": "Abrir módulo específico"
+            }
+          },
+          {
+            "cuando": {
+              "conducta": "no"
+            },
+            "sinInfraccion": true,
+            "resultado": "No se acredita la conducta prohibida."
+          },
+          {
+            "cuando": {
+              "autorizado": "no",
+              "conducta": "molestia"
+            },
+            "pendiente": true,
+            "resultado": "El art. 7.i exige comprobar el carácter autorizado o permitido del acto."
+          },
+          {
+            "cuando": {
+              "autorizado": "pendiente"
+            },
+            "pendiente": true,
+            "resultado": "Comprobar la autorización del acto."
+          },
+          {
+            "cuando": {
+              "conducta": "pendiente"
+            },
+            "pendiente": true,
+            "resultado": "Precisar impedimento o molestia y sus circunstancias."
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "CONV-OP-012",
+    "modulo": "policia_administrativa",
+    "categoria": "policia_administrativa_convivencia",
+    "titulo": "Fiestas o bailes públicos sin autorización o fuera del horario autorizado",
+    "palabras_clave": [
+      "baile",
+      "fiesta pública",
+      "autorización",
+      "horario"
+    ],
+    "que_comprobar": [
+      "Tipo de evento",
+      "Autorización",
+      "Horario de la resolución"
+    ],
+    "resultado": "Completar las comprobaciones para determinar la salida aplicable.",
+    "norma": "Ordenanza de Convivencia de Torrent",
+    "articulo": "9.2",
+    "importe_fijo": 120.2,
+    "actuacion": [
+      "Documentar lugar, hora, conducta concreta y persona responsable.",
+      "Corregir el riesgo o la afección y formular denuncia municipal solo si se acredita la salida aplicable."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent.",
+    "competencia_resuelve": "Ayuntamiento de Torrent.",
+    "advertencias": [
+      "El cuadro sancionador cierra la falta de autorización y el exceso de horario; otras condiciones requieren comprobar su regulación específica."
+    ],
+    "alerta_penal": false,
+    "fuentes": [
+      "OCC-TORRENT"
+    ],
+    "estado": "validado",
+    "datos_adicionales": {
+      "convivencia": {
+        "grupo": "Convivencia, molestias y actividades",
+        "orden": 120,
+        "tema": "convivencia",
+        "icono": "party",
+        "condiciones": [
+          {
+            "id": "ambito",
+            "etiqueta": "¿Dónde se celebra?",
+            "opciones": [
+              {
+                "valor": "publico",
+                "etiqueta": "Fiesta popular, baile o festejo público"
+              },
+              {
+                "valor": "local",
+                "etiqueta": "Establecimiento o actividad recreativa"
+              },
+              {
+                "valor": "otro",
+                "etiqueta": "Reunión privada o supuesto indeterminado"
+              }
+            ]
+          },
+          {
+            "id": "incumplimiento",
+            "etiqueta": "¿Qué consta en la autorización o comprobación?",
+            "opciones": [
+              {
+                "valor": "sin",
+                "etiqueta": "Se acredita ausencia de autorización"
+              },
+              {
+                "valor": "horario",
+                "etiqueta": "Consta autorización y se excede su horario"
+              },
+              {
+                "valor": "cumple",
+                "etiqueta": "Autorización y horario cumplidos"
+              },
+              {
+                "valor": "pendiente",
+                "etiqueta": "No se han comprobado autorización u horario"
+              }
+            ],
+            "mostrarSi": [
+              {
+                "ambito": "publico"
+              }
+            ]
+          }
+        ],
+        "salidas": [
+          {
+            "cuando": {
+              "ambito": "local"
+            },
+            "regulacionEspecifica": {
+              "nombre": "Establecimientos y actividades",
+              "explicacion": "Aplicar su regulación específica y condiciones de la actividad.",
+              "destino": {
+                "tipo": "categoria",
+                "categoryId": "policia_administrativa_establecimientos_actividades"
+              },
+              "etiquetaBoton": "Abrir módulo específico"
+            }
+          },
+          {
+            "cuando": {
+              "ambito": "otro"
+            },
+            "pendiente": true,
+            "resultado": "No aplicar automáticamente el art. 9.2 a reuniones privadas."
+          },
+          {
+            "cuando": {
+              "ambito": "publico",
+              "incumplimiento": "sin"
+            },
+            "articulo": "9.2",
+            "resultado": "Fiesta o baile público sin autorización comprobada.",
+            "sancion": {
+              "tipo": "fija",
+              "texto": "120,20 €"
+            }
+          },
+          {
+            "cuando": {
+              "ambito": "publico",
+              "incumplimiento": "horario"
+            },
+            "articulo": "9.2",
+            "resultado": "Fiesta o baile público que supera el horario autorizado.",
+            "sancion": {
+              "tipo": "fija",
+              "texto": "120,20 €"
+            }
+          },
+          {
+            "cuando": {
+              "incumplimiento": "cumple"
+            },
+            "sinInfraccion": true,
+            "resultado": "No se acredita este incumplimiento."
+          },
+          {
+            "cuando": {
+              "incumplimiento": "pendiente"
+            },
+            "pendiente": true,
+            "resultado": "Consultar resolución y horario antes de asignar sanción."
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "CONV-OP-013",
+    "modulo": "policia_administrativa",
+    "categoria": "policia_administrativa_convivencia",
+    "titulo": "Sacudir alfombras, ropa u otros efectos desde balcones, ventanas o portales",
+    "palabras_clave": [
+      "alfombra",
+      "ropa",
+      "sacudir",
+      "ventana",
+      "portal"
+    ],
+    "que_comprobar": [
+      "Origen de la conducta",
+      "Efectos sobre la vía pública"
+    ],
+    "resultado": "Completar las comprobaciones para determinar la salida aplicable.",
+    "norma": "Ordenanza de Convivencia de Torrent",
+    "articulo": "8.c",
+    "importe_fijo": 30.05,
+    "actuacion": [
+      "Documentar lugar, hora, conducta concreta y persona responsable.",
+      "Corregir el riesgo o la afección y formular denuncia municipal solo si se acredita la salida aplicable."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent.",
+    "competencia_resuelve": "Ayuntamiento de Torrent.",
+    "advertencias": [],
+    "alerta_penal": false,
+    "fuentes": [
+      "OCC-TORRENT"
+    ],
+    "estado": "validado",
+    "datos_adicionales": {
+      "convivencia": {
+        "grupo": "Limpieza, ornato y publicidad",
+        "orden": 130,
+        "tema": "limpieza",
+        "icono": "clean",
+        "condiciones": [
+          {
+            "id": "hecho",
+            "etiqueta": "¿Se sacuden esos efectos desde balcón, ventana o portal sobre la vía pública?",
+            "opciones": [
+              {
+                "valor": "si",
+                "etiqueta": "Sí, consta comprobado"
+              },
+              {
+                "valor": "no",
+                "etiqueta": "No"
+              },
+              {
+                "valor": "pendiente",
+                "etiqueta": "No puede comprobarse todavía"
+              }
+            ]
+          }
+        ],
+        "salidas": [
+          {
+            "cuando": {
+              "hecho": "si"
+            },
+            "articulo": "8.c",
+            "resultado": "Conducta comprobada desde balcón, ventana o portal.",
+            "sancion": {
+              "tipo": "fija",
+              "texto": "30,05 €"
+            }
+          },
+          {
+            "cuando": {
+              "hecho": "no"
+            },
+            "sinInfraccion": true,
+            "resultado": "No se acredita el supuesto."
+          },
+          {
+            "cuando": {
+              "hecho": "pendiente"
+            },
+            "pendiente": true,
+            "resultado": "Documentar ubicación y conducta."
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "CONV-OP-014",
+    "modulo": "policia_administrativa",
+    "categoria": "policia_administrativa_convivencia",
+    "titulo": "Regar plantas situadas sobre la vía pública fuera de horario",
+    "palabras_clave": [
+      "riego",
+      "regar",
+      "plantas",
+      "agua",
+      "horario"
+    ],
+    "que_comprobar": [
+      "Plantas sobre la vía pública",
+      "Hora exacta",
+      "Régimen estacional comprobado"
+    ],
+    "resultado": "Completar las comprobaciones para determinar la salida aplicable.",
+    "norma": "Ordenanza de Convivencia de Torrent",
+    "articulo": "8.d",
+    "importe_fijo": 30.05,
+    "actuacion": [
+      "Documentar lugar, hora, conducta concreta y persona responsable.",
+      "Corregir el riesgo o la afección y formular denuncia municipal solo si se acredita la salida aplicable."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent.",
+    "competencia_resuelve": "Ayuntamiento de Torrent.",
+    "advertencias": [
+      "Horario normativo: 22–07 h en verano y 22–08 h en invierno. No se añaden fechas estacionales que la ordenanza no establece."
+    ],
+    "alerta_penal": false,
+    "fuentes": [
+      "OCC-TORRENT"
+    ],
+    "estado": "validado",
+    "datos_adicionales": {
+      "convivencia": {
+        "grupo": "Limpieza, ornato y publicidad",
+        "orden": 140,
+        "tema": "limpieza",
+        "icono": "droplet",
+        "condiciones": [
+          {
+            "id": "ubicacion",
+            "etiqueta": "¿Las plantas están situadas sobre la vía pública?",
+            "opciones": [
+              {
+                "valor": "si",
+                "etiqueta": "Sí, consta comprobado"
+              },
+              {
+                "valor": "no",
+                "etiqueta": "No"
+              },
+              {
+                "valor": "pendiente",
+                "etiqueta": "No puede comprobarse todavía"
+              }
+            ]
+          },
+          {
+            "id": "hora",
+            "etiqueta": "¿En qué franja se realiza el riego?",
+            "opciones": [
+              {
+                "valor": "dia",
+                "etiqueta": "Desde las 08:00 y antes de las 22:00"
+              },
+              {
+                "valor": "noche",
+                "etiqueta": "Desde las 22:00 y antes de las 07:00"
+              },
+              {
+                "valor": "transicion",
+                "etiqueta": "Desde las 07:00 y antes de las 08:00"
+              },
+              {
+                "valor": "pendiente",
+                "etiqueta": "Hora no comprobada"
+              }
+            ],
+            "mostrarSi": [
+              {
+                "ubicacion": "si"
+              }
+            ]
+          },
+          {
+            "id": "estacion",
+            "etiqueta": "¿Consta el régimen estacional aplicable en esta intervención?",
+            "opciones": [
+              {
+                "valor": "verano",
+                "etiqueta": "Verano comprobado"
+              },
+              {
+                "valor": "invierno",
+                "etiqueta": "Invierno comprobado"
+              },
+              {
+                "valor": "pendiente",
+                "etiqueta": "No puede confirmarse"
+              }
+            ],
+            "mostrarSi": [
+              {
+                "hora": "transicion"
+              }
+            ]
+          }
+        ],
+        "salidas": [
+          {
+            "cuando": {
+              "ubicacion": "si",
+              "hora": "dia"
+            },
+            "articulo": "8.d",
+            "resultado": "Riego fuera de la franja permitida tanto en verano como en invierno.",
+            "sancion": {
+              "tipo": "fija",
+              "texto": "30,05 €"
+            }
+          },
+          {
+            "cuando": {
+              "ubicacion": "si",
+              "hora": "transicion",
+              "estacion": "verano"
+            },
+            "articulo": "8.d",
+            "resultado": "Riego fuera del horario de verano.",
+            "sancion": {
+              "tipo": "fija",
+              "texto": "30,05 €"
+            }
+          },
+          {
+            "cuando": {
+              "hora": "noche"
+            },
+            "sinInfraccion": true,
+            "resultado": "La hora está dentro de ambas franjas permitidas; no aplicar esta infracción."
+          },
+          {
+            "cuando": {
+              "estacion": "invierno"
+            },
+            "sinInfraccion": true,
+            "resultado": "La franja de 07:00 a antes de 08:00 está permitida en invierno."
+          },
+          {
+            "cuando": {
+              "ubicacion": "no"
+            },
+            "sinInfraccion": true,
+            "resultado": "No se acredita la ubicación exigida."
+          },
+          {
+            "cuando": {
+              "ubicacion": "pendiente"
+            },
+            "pendiente": true,
+            "resultado": "Comprobar ubicación de las plantas."
+          },
+          {
+            "cuando": {
+              "hora": "pendiente"
+            },
+            "pendiente": true,
+            "resultado": "Comprobar hora exacta."
+          },
+          {
+            "cuando": {
+              "hora": "transicion",
+              "estacion": "pendiente"
+            },
+            "pendiente": true,
+            "resultado": "La ordenanza no define fechas de cambio estacional. Confirmar el régimen aplicable; no inferirlo mediante meses inventados."
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "CONV-OP-015",
+    "modulo": "policia_administrativa",
+    "categoria": "policia_administrativa_convivencia",
+    "titulo": "Daños en árboles, jardines, cultivos o plantaciones",
+    "palabras_clave": [
+      "vegetación",
+      "daño",
+      "deterioro"
+    ],
+    "que_comprobar": [
+      "Bien afectado",
+      "Daño y autoría",
+      "Intencionalidad y posible relevancia penal"
+    ],
+    "resultado": "Completar las comprobaciones para determinar la salida aplicable.",
+    "norma": "Ordenanza de Convivencia de Torrent",
+    "articulo": "7.d",
+    "importe_fijo": 90.15,
+    "actuacion": [
+      "Documentar lugar, hora, conducta concreta y persona responsable.",
+      "Corregir el riesgo o la afección y formular denuncia municipal solo si se acredita la salida aplicable."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent.",
+    "competencia_resuelve": "Ayuntamiento de Torrent.",
+    "advertencias": [
+      "Pintadas: continuar en «Pintadas o grafitis». Residuos: «Abandono o depósito incorrecto de residuos». No duplicar sus soluciones."
+    ],
+    "alerta_penal": false,
+    "fuentes": [
+      "OCC-TORRENT"
+    ],
+    "estado": "validado",
+    "datos_adicionales": {
+      "convivencia": {
+        "grupo": "Limpieza, ornato y publicidad",
+        "orden": 150,
+        "tema": "limpieza",
+        "icono": "tree",
+        "condiciones": [
+          {
+            "id": "hecho",
+            "etiqueta": "¿Se acredita daño o deterioro de vegetación?",
+            "opciones": [
+              {
+                "valor": "si",
+                "etiqueta": "Sí, consta comprobado"
+              },
+              {
+                "valor": "no",
+                "etiqueta": "No"
+              },
+              {
+                "valor": "pendiente",
+                "etiqueta": "No puede comprobarse todavía"
+              }
+            ]
+          },
+          {
+            "id": "penal",
+            "etiqueta": "¿Existen indicios de daños deliberados u otra relevancia penal?",
+            "opciones": [
+              {
+                "valor": "si",
+                "etiqueta": "Sí, consta comprobado"
+              },
+              {
+                "valor": "no",
+                "etiqueta": "No"
+              },
+              {
+                "valor": "pendiente",
+                "etiqueta": "No puede comprobarse todavía"
+              }
+            ],
+            "mostrarSi": [
+              {
+                "hecho": "si"
+              }
+            ]
+          }
+        ],
+        "salidas": [
+          {
+            "cuando": {
+              "hecho": "si",
+              "penal": "si"
+            },
+            "regulacionEspecifica": {
+              "nombre": "Seguridad Pública → Patrimonio",
+              "explicacion": "Hay indicios de daños deliberados. Completar autoría, cuantía y bien afectado en Patrimonio; no acumular automáticamente denuncia municipal y vía penal por los mismos hechos.",
+              "destino": {
+                "tipo": "categoria",
+                "categoryId": "seguridad_publica_patrimonio"
+              },
+              "etiquetaBoton": "Abrir módulo específico"
+            }
+          },
+          {
+            "cuando": {
+              "hecho": "si",
+              "penal": "no"
+            },
+            "articulo": "7.d",
+            "resultado": "Afección municipal comprobada sin indicios de relevancia penal tras la comprobación.",
+            "sancion": {
+              "tipo": "fija",
+              "texto": "90,15 €"
+            }
+          },
+          {
+            "cuando": {
+              "hecho": "no"
+            },
+            "sinInfraccion": true,
+            "resultado": "No se acredita daño o deterioro."
+          },
+          {
+            "cuando": {
+              "hecho": "pendiente"
+            },
+            "pendiente": true,
+            "resultado": "Acreditar daño y autoría."
+          },
+          {
+            "cuando": {
+              "penal": "pendiente"
+            },
+            "pendiente": true,
+            "resultado": "Completar intencionalidad, cuantía y relevancia penal antes de elegir la vía."
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "CONV-OP-016",
+    "modulo": "policia_administrativa",
+    "categoria": "policia_administrativa_convivencia",
+    "titulo": "Reparto de publicidad comercial sin autorización municipal",
+    "palabras_clave": [
+      "reparto",
+      "publicidad",
+      "folletos",
+      "octavillas",
+      "autorización"
+    ],
+    "que_comprobar": [
+      "Finalidad y anunciante",
+      "Reparto en calle o domicilio",
+      "Autorización"
+    ],
+    "resultado": "Completar las comprobaciones para determinar la salida aplicable.",
+    "norma": "Ordenanza de Convivencia de Torrent",
+    "articulo": "16.1",
+    "importe_fijo": 350,
+    "actuacion": [
+      "Documentar lugar, hora, conducta concreta y persona responsable.",
+      "Corregir el riesgo o la afección y formular denuncia municipal solo si se acredita la salida aplicable."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent.",
+    "competencia_resuelve": "Ayuntamiento de Torrent.",
+    "advertencias": [],
+    "alerta_penal": false,
+    "fuentes": [
+      "OCC-TORRENT"
+    ],
+    "estado": "validado",
+    "datos_adicionales": {
+      "convivencia": {
+        "grupo": "Limpieza, ornato y publicidad",
+        "orden": 160,
+        "tema": "limpieza",
+        "icono": "megaphone",
+        "condiciones": [
+          {
+            "id": "ambito",
+            "etiqueta": "¿Qué clase de publicidad es?",
+            "opciones": [
+              {
+                "valor": "comercial",
+                "etiqueta": "Publicidad comercial ordinaria"
+              },
+              {
+                "valor": "especial",
+                "etiqueta": "Electoral, convocatoria o manifestación autorizada, asociación sin ánimo de lucro, ONG o sindicato"
+              },
+              {
+                "valor": "pendiente",
+                "etiqueta": "No se ha determinado"
+              }
+            ]
+          },
+          {
+            "id": "autorizacion",
+            "etiqueta": "¿Consta autorización municipal para el reparto?",
+            "opciones": [
+              {
+                "valor": "si",
+                "etiqueta": "Sí, consta comprobado"
+              },
+              {
+                "valor": "no",
+                "etiqueta": "No"
+              },
+              {
+                "valor": "pendiente",
+                "etiqueta": "No puede comprobarse todavía"
+              }
+            ],
+            "mostrarSi": [
+              {
+                "ambito": "comercial"
+              }
+            ]
+          }
+        ],
+        "salidas": [
+          {
+            "cuando": {
+              "ambito": "comercial",
+              "autorizacion": "no"
+            },
+            "articulo": "16.1",
+            "resultado": "Reparto comercial en vía pública o domiciliario sin autorización comprobada.",
+            "sancion": {
+              "tipo": "fija",
+              "texto": "350,00 €"
+            }
+          },
+          {
+            "cuando": {
+              "autorizacion": "si"
+            },
+            "sinInfraccion": true,
+            "resultado": "No se acredita falta de autorización. Comprobar, si procede, la ficha específica del modo de reparto."
+          },
+          {
+            "cuando": {
+              "autorizacion": "pendiente"
+            },
+            "pendiente": true,
+            "resultado": "Consultar autorización antes de denunciar."
+          },
+          {
+            "cuando": {
+              "ambito": "especial"
+            },
+            "pendiente": true,
+            "resultado": "El art. 16.8 remite a normativa específica. No asignar automáticamente la sanción de publicidad comercial."
+          },
+          {
+            "cuando": {
+              "ambito": "pendiente"
+            },
+            "pendiente": true,
+            "resultado": "Determinar anunciante, finalidad y regulación aplicable."
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "CONV-OP-017",
+    "modulo": "policia_administrativa",
+    "categoria": "policia_administrativa_convivencia",
+    "titulo": "Publicidad domiciliaria fuera de buzones o contra la voluntad de los vecinos",
+    "palabras_clave": [
+      "buzón",
+      "buzoneo",
+      "portal",
+      "publicidad domiciliaria",
+      "no publicidad"
+    ],
+    "que_comprobar": [
+      "Dónde se deposita",
+      "Aviso de no publicidad",
+      "Identificación de distribuidora y anunciante"
+    ],
+    "resultado": "Completar las comprobaciones para determinar la salida aplicable.",
+    "norma": "Ordenanza de Convivencia de Torrent",
+    "articulo": "16.4",
+    "importe_fijo": 350,
+    "actuacion": [
+      "Documentar lugar, hora, conducta concreta y persona responsable.",
+      "Corregir el riesgo o la afección y formular denuncia municipal solo si se acredita la salida aplicable."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent.",
+    "competencia_resuelve": "Ayuntamiento de Torrent.",
+    "advertencias": [],
+    "alerta_penal": false,
+    "fuentes": [
+      "OCC-TORRENT"
+    ],
+    "estado": "validado",
+    "datos_adicionales": {
+      "convivencia": {
+        "grupo": "Limpieza, ornato y publicidad",
+        "orden": 170,
+        "tema": "limpieza",
+        "icono": "mailbox",
+        "condiciones": [
+          {
+            "id": "ambito",
+            "etiqueta": "¿Qué clase de publicidad es?",
+            "opciones": [
+              {
+                "valor": "comercial",
+                "etiqueta": "Publicidad comercial ordinaria"
+              },
+              {
+                "valor": "especial",
+                "etiqueta": "Electoral, convocatoria o manifestación autorizada, asociación sin ánimo de lucro, ONG o sindicato"
+              },
+              {
+                "valor": "pendiente",
+                "etiqueta": "No se ha determinado"
+              }
+            ]
+          },
+          {
+            "id": "hecho",
+            "etiqueta": "¿Qué modo de reparto se acredita?",
+            "opciones": [
+              {
+                "valor": "prohibido",
+                "etiqueta": "Bajo puertas, portales o zonas comunes no habilitadas, o contra la voluntad expresa de no recibirla"
+              },
+              {
+                "valor": "correcto",
+                "etiqueta": "Dentro del buzón o espacio habilitado y sin oposición expresa"
+              },
+              {
+                "valor": "pendiente",
+                "etiqueta": "No consta modo de reparto ni oposición"
+              }
+            ],
+            "mostrarSi": [
+              {
+                "ambito": "comercial"
+              }
+            ]
+          }
+        ],
+        "salidas": [
+          {
+            "cuando": {
+              "ambito": "comercial",
+              "hecho": "prohibido"
+            },
+            "articulo": "16.4",
+            "resultado": "Incumplimiento de las reglas de depósito domiciliario o de la voluntad expresa de los vecinos.",
+            "sancion": {
+              "tipo": "fija",
+              "texto": "350,00 €"
+            }
+          },
+          {
+            "cuando": {
+              "hecho": "correcto"
+            },
+            "sinInfraccion": true,
+            "resultado": "No se acredita incumplimiento del modo de reparto; la autorización se comprueba en su ficha."
+          },
+          {
+            "cuando": {
+              "hecho": "pendiente"
+            },
+            "pendiente": true,
+            "resultado": "Precisar lugar de depósito y voluntad manifestada."
+          },
+          {
+            "cuando": {
+              "ambito": "especial"
+            },
+            "pendiente": true,
+            "resultado": "El art. 16.8 remite a normativa específica. No asignar automáticamente la sanción de publicidad comercial."
+          },
+          {
+            "cuando": {
+              "ambito": "pendiente"
+            },
+            "pendiente": true,
+            "resultado": "Determinar anunciante, finalidad y regulación aplicable."
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "CONV-OP-018",
+    "modulo": "policia_administrativa",
+    "categoria": "policia_administrativa_convivencia",
+    "titulo": "Publicidad comercial en parabrisas de vehículos aparcados",
+    "palabras_clave": [
+      "parabrisas",
+      "publicidad",
+      "folleto",
+      "vehículo aparcado"
+    ],
+    "que_comprobar": [
+      "Publicidad comercial",
+      "Vehículo aparcado en vía pública",
+      "Colocación manual"
+    ],
+    "resultado": "Completar las comprobaciones para determinar la salida aplicable.",
+    "norma": "Ordenanza de Convivencia de Torrent",
+    "articulo": "16.6",
+    "importe_fijo": 350,
+    "actuacion": [
+      "Documentar lugar, hora, conducta concreta y persona responsable.",
+      "Corregir el riesgo o la afección y formular denuncia municipal solo si se acredita la salida aplicable."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent.",
+    "competencia_resuelve": "Ayuntamiento de Torrent.",
+    "advertencias": [],
+    "alerta_penal": false,
+    "fuentes": [
+      "OCC-TORRENT"
+    ],
+    "estado": "validado",
+    "datos_adicionales": {
+      "convivencia": {
+        "grupo": "Limpieza, ornato y publicidad",
+        "orden": 180,
+        "tema": "limpieza",
+        "icono": "megaphone",
+        "condiciones": [
+          {
+            "id": "ambito",
+            "etiqueta": "¿Qué clase de publicidad es?",
+            "opciones": [
+              {
+                "valor": "comercial",
+                "etiqueta": "Publicidad comercial ordinaria"
+              },
+              {
+                "valor": "especial",
+                "etiqueta": "Electoral, convocatoria o manifestación autorizada, asociación sin ánimo de lucro, ONG o sindicato"
+              },
+              {
+                "valor": "pendiente",
+                "etiqueta": "No se ha determinado"
+              }
+            ]
+          },
+          {
+            "id": "hecho",
+            "etiqueta": "¿Se coloca manualmente publicidad en el parabrisas de vehículos aparcados en la vía pública?",
+            "opciones": [
+              {
+                "valor": "si",
+                "etiqueta": "Sí, consta comprobado"
+              },
+              {
+                "valor": "no",
+                "etiqueta": "No"
+              },
+              {
+                "valor": "pendiente",
+                "etiqueta": "No puede comprobarse todavía"
+              }
+            ],
+            "mostrarSi": [
+              {
+                "ambito": "comercial"
+              }
+            ]
+          }
+        ],
+        "salidas": [
+          {
+            "cuando": {
+              "ambito": "comercial",
+              "hecho": "si"
+            },
+            "articulo": "16.6",
+            "resultado": "Reparto manual de publicidad en parabrisas de vehículos aparcados en la vía pública.",
+            "sancion": {
+              "tipo": "fija",
+              "texto": "350,00 €"
+            }
+          },
+          {
+            "cuando": {
+              "hecho": "no"
+            },
+            "sinInfraccion": true,
+            "resultado": "No se acredita el supuesto."
+          },
+          {
+            "cuando": {
+              "hecho": "pendiente"
+            },
+            "pendiente": true,
+            "resultado": "Comprobar colocación, aparcamiento y lugar."
+          },
+          {
+            "cuando": {
+              "ambito": "especial"
+            },
+            "pendiente": true,
+            "resultado": "El art. 16.8 remite a normativa específica. No asignar automáticamente la sanción de publicidad comercial."
+          },
+          {
+            "cuando": {
+              "ambito": "pendiente"
+            },
+            "pendiente": true,
+            "resultado": "Determinar anunciante, finalidad y regulación aplicable."
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "CONV-OP-019",
+    "modulo": "policia_administrativa",
+    "categoria": "policia_administrativa_convivencia",
+    "titulo": "Vehículos o remolques dedicados a publicidad comercial",
+    "palabras_clave": [
+      "vehículo publicitario",
+      "remolque",
+      "megafonía",
+      "publicidad móvil"
+    ],
+    "que_comprobar": [
+      "Finalidad esencial publicitaria",
+      "Licencia",
+      "Mensaje, modo y horario"
+    ],
+    "resultado": "Completar las comprobaciones para determinar la salida aplicable.",
+    "norma": "Ordenanza de Convivencia de Torrent",
+    "articulo": "17",
+    "importe_fijo": 350,
+    "actuacion": [
+      "Documentar lugar, hora, conducta concreta y persona responsable.",
+      "Corregir el riesgo o la afección y formular denuncia municipal solo si se acredita la salida aplicable."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent.",
+    "competencia_resuelve": "Ayuntamiento de Torrent.",
+    "advertencias": [
+      "Art. 17.3: audiovisuales salvo licencia expresa; reparto desde vehículo; mensajes orales dirigidos a personas concretas; actividad de 14–17 h o 22–09 h. Identificar la prohibición concreta, sin presumirla."
+    ],
+    "alerta_penal": false,
+    "fuentes": [
+      "OCC-TORRENT"
+    ],
+    "estado": "validado",
+    "datos_adicionales": {
+      "convivencia": {
+        "grupo": "Limpieza, ornato y publicidad",
+        "orden": 190,
+        "tema": "limpieza",
+        "icono": "megaphone",
+        "condiciones": [
+          {
+            "id": "finalidad",
+            "etiqueta": "¿Cuál es la finalidad y uso del vehículo?",
+            "opciones": [
+              {
+                "valor": "comercial",
+                "etiqueta": "Está destinado esencialmente a promoción comercial"
+              },
+              {
+                "valor": "logo",
+                "etiqueta": "Solo logotipo o identificación de empresa sin finalidad esencial publicitaria"
+              },
+              {
+                "valor": "especial",
+                "etiqueta": "Comunicación municipal o propaganda electoral"
+              },
+              {
+                "valor": "pendiente",
+                "etiqueta": "Finalidad indeterminada"
+              }
+            ]
+          },
+          {
+            "id": "incumplimiento",
+            "etiqueta": "¿Qué incumplimiento se ha acreditado?",
+            "opciones": [
+              {
+                "valor": "sin",
+                "etiqueta": "Ausencia de licencia municipal"
+              },
+              {
+                "valor": "reglas",
+                "etiqueta": "Con licencia, incumple una prohibición expresa del art. 17.3"
+              },
+              {
+                "valor": "no",
+                "etiqueta": "No consta incumplimiento"
+              },
+              {
+                "valor": "pendiente",
+                "etiqueta": "No se ha comprobado"
+              }
+            ],
+            "mostrarSi": [
+              {
+                "finalidad": "comercial"
+              }
+            ]
+          }
+        ],
+        "salidas": [
+          {
+            "cuando": {
+              "finalidad": "comercial",
+              "incumplimiento": "sin"
+            },
+            "articulo": "17.1",
+            "resultado": "Actividad esencialmente publicitaria sin licencia municipal.",
+            "sancion": {
+              "tipo": "fija",
+              "texto": "350,00 €"
+            }
+          },
+          {
+            "cuando": {
+              "finalidad": "comercial",
+              "incumplimiento": "reglas"
+            },
+            "articulo": "17.3",
+            "resultado": "Incumplimiento identificado y documentado de una prohibición expresa.",
+            "sancion": {
+              "tipo": "fija",
+              "texto": "350,00 €"
+            }
+          },
+          {
+            "cuando": {
+              "finalidad": "logo"
+            },
+            "sinInfraccion": true,
+            "resultado": "La mera identificación o logotipo queda fuera de este régimen si no existe finalidad esencial publicitaria."
+          },
+          {
+            "cuando": {
+              "finalidad": "especial"
+            },
+            "pendiente": true,
+            "resultado": "Aplicar su regulación específica."
+          },
+          {
+            "cuando": {
+              "finalidad": "pendiente"
+            },
+            "pendiente": true,
+            "resultado": "Precisar finalidad y uso."
+          },
+          {
+            "cuando": {
+              "incumplimiento": "no"
+            },
+            "sinInfraccion": true,
+            "resultado": "No se acredita incumplimiento."
+          },
+          {
+            "cuando": {
+              "incumplimiento": "pendiente"
+            },
+            "pendiente": true,
+            "resultado": "Consultar licencia y documentar la regla infringida."
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "CONV-OP-020",
+    "modulo": "policia_administrativa",
+    "categoria": "policia_administrativa_convivencia",
+    "titulo": "Macetas u objetos exteriores sin asegurar con peligro de caída",
+    "palabras_clave": [
+      "maceta",
+      "balcón",
+      "caída",
+      "tiesto",
+      "ventana"
+    ],
+    "que_comprobar": [
+      "Ubicación exterior",
+      "Sujeción",
+      "Peligro de caída a vía pública"
+    ],
+    "resultado": "Completar las comprobaciones para determinar la salida aplicable.",
+    "norma": "Ordenanza de Convivencia de Torrent",
+    "articulo": "7.k",
+    "importe_fijo": 30.05,
+    "actuacion": [
+      "Documentar lugar, hora, conducta concreta y persona responsable.",
+      "Corregir el riesgo o la afección y formular denuncia municipal solo si se acredita la salida aplicable."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent.",
+    "competencia_resuelve": "Ayuntamiento de Torrent.",
+    "advertencias": [
+      "Si deriva de un edificio o elemento constructivo inseguro, continuar en Urbanismo → Riesgo."
+    ],
+    "alerta_penal": false,
+    "fuentes": [
+      "OCC-TORRENT"
+    ],
+    "estado": "validado",
+    "datos_adicionales": {
+      "convivencia": {
+        "grupo": "Uso y seguridad del espacio público",
+        "orden": 200,
+        "tema": "espacio-publico",
+        "icono": "balcony",
+        "condiciones": [
+          {
+            "id": "hecho",
+            "etiqueta": "¿La maceta u objeto exterior está insuficientemente asegurado y puede caer a la vía pública?",
+            "opciones": [
+              {
+                "valor": "si",
+                "etiqueta": "Sí, consta comprobado"
+              },
+              {
+                "valor": "no",
+                "etiqueta": "No"
+              },
+              {
+                "valor": "pendiente",
+                "etiqueta": "No puede comprobarse todavía"
+              }
+            ]
+          }
+        ],
+        "salidas": [
+          {
+            "cuando": {
+              "hecho": "si"
+            },
+            "articulo": "7.k",
+            "resultado": "Objeto exterior sin sujeción suficiente y con peligro de caída a la vía pública.",
+            "sancion": {
+              "tipo": "fija",
+              "texto": "30,05 €"
+            }
+          },
+          {
+            "cuando": {
+              "hecho": "no"
+            },
+            "sinInfraccion": true,
+            "resultado": "No se acreditan conjuntamente falta de sujeción y peligro."
+          },
+          {
+            "cuando": {
+              "hecho": "pendiente"
+            },
+            "pendiente": true,
+            "resultado": "Asegurar la zona y comprobar sujeción y riesgo."
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "CONV-OP-021",
+    "modulo": "policia_administrativa",
+    "categoria": "policia_administrativa_convivencia",
+    "titulo": "Deterioro de mobiliario e instalaciones urbanas",
+    "palabras_clave": [
+      "mobiliario o instalación",
+      "daño",
+      "deterioro"
+    ],
+    "que_comprobar": [
+      "Bien afectado",
+      "Daño y autoría",
+      "Intencionalidad y posible relevancia penal"
+    ],
+    "resultado": "Completar las comprobaciones para determinar la salida aplicable.",
+    "norma": "Ordenanza de Convivencia de Torrent",
+    "articulo": "7.f",
+    "importe_fijo": 90.15,
+    "actuacion": [
+      "Documentar lugar, hora, conducta concreta y persona responsable.",
+      "Corregir el riesgo o la afección y formular denuncia municipal solo si se acredita la salida aplicable."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent.",
+    "competencia_resuelve": "Ayuntamiento de Torrent.",
+    "advertencias": [
+      "Pintadas: continuar en «Pintadas o grafitis». Residuos: «Abandono o depósito incorrecto de residuos». No duplicar sus soluciones."
+    ],
+    "alerta_penal": false,
+    "fuentes": [
+      "OCC-TORRENT"
+    ],
+    "estado": "validado",
+    "datos_adicionales": {
+      "convivencia": {
+        "grupo": "Uso y seguridad del espacio público",
+        "orden": 210,
+        "tema": "espacio-publico",
+        "icono": "furniture",
+        "condiciones": [
+          {
+            "id": "hecho",
+            "etiqueta": "¿Se acredita daño o deterioro de mobiliario o instalación?",
+            "opciones": [
+              {
+                "valor": "si",
+                "etiqueta": "Sí, consta comprobado"
+              },
+              {
+                "valor": "no",
+                "etiqueta": "No"
+              },
+              {
+                "valor": "pendiente",
+                "etiqueta": "No puede comprobarse todavía"
+              }
+            ]
+          },
+          {
+            "id": "penal",
+            "etiqueta": "¿Existen indicios de daños deliberados u otra relevancia penal?",
+            "opciones": [
+              {
+                "valor": "si",
+                "etiqueta": "Sí, consta comprobado"
+              },
+              {
+                "valor": "no",
+                "etiqueta": "No"
+              },
+              {
+                "valor": "pendiente",
+                "etiqueta": "No puede comprobarse todavía"
+              }
+            ],
+            "mostrarSi": [
+              {
+                "hecho": "si"
+              }
+            ]
+          }
+        ],
+        "salidas": [
+          {
+            "cuando": {
+              "hecho": "si",
+              "penal": "si"
+            },
+            "regulacionEspecifica": {
+              "nombre": "Seguridad Pública → Patrimonio",
+              "explicacion": "Hay indicios de daños deliberados. Completar autoría, cuantía y bien afectado en Patrimonio; no acumular automáticamente denuncia municipal y vía penal por los mismos hechos.",
+              "destino": {
+                "tipo": "categoria",
+                "categoryId": "seguridad_publica_patrimonio"
+              },
+              "etiquetaBoton": "Abrir módulo específico"
+            }
+          },
+          {
+            "cuando": {
+              "hecho": "si",
+              "penal": "no"
+            },
+            "articulo": "7.f",
+            "resultado": "Afección municipal comprobada sin indicios de relevancia penal tras la comprobación.",
+            "sancion": {
+              "tipo": "fija",
+              "texto": "90,15 €"
+            }
+          },
+          {
+            "cuando": {
+              "hecho": "no"
+            },
+            "sinInfraccion": true,
+            "resultado": "No se acredita daño o deterioro."
+          },
+          {
+            "cuando": {
+              "hecho": "pendiente"
+            },
+            "pendiente": true,
+            "resultado": "Acreditar daño y autoría."
+          },
+          {
+            "cuando": {
+              "penal": "pendiente"
+            },
+            "pendiente": true,
+            "resultado": "Completar intencionalidad, cuantía y relevancia penal antes de elegir la vía."
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "CONV-OP-022",
+    "modulo": "policia_administrativa",
+    "categoria": "policia_administrativa_convivencia",
+    "titulo": "Placas de calle y numeración tapadas, dañadas o retiradas",
+    "palabras_clave": [
+      "placa calle",
+      "número policía",
+      "numeración",
+      "rótulo",
+      "señalización"
+    ],
+    "que_comprobar": [
+      "Clase de placa",
+      "Conducta y responsable",
+      "Autorización para retirada"
+    ],
+    "resultado": "Completar las comprobaciones para determinar la salida aplicable.",
+    "norma": "Ordenanza de Convivencia de Torrent",
+    "articulo": "12.2 / 18 / 19",
+    "importe_fijo": 60.1,
+    "actuacion": [
+      "Documentar lugar, hora, conducta concreta y persona responsable.",
+      "Corregir el riesgo o la afección y formular denuncia municipal solo si se acredita la salida aplicable."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent.",
+    "competencia_resuelve": "Ayuntamiento de Torrent.",
+    "advertencias": [],
+    "alerta_penal": false,
+    "fuentes": [
+      "OCC-TORRENT"
+    ],
+    "estado": "validado",
+    "datos_adicionales": {
+      "convivencia": {
+        "grupo": "Uso y seguridad del espacio público",
+        "orden": 220,
+        "tema": "espacio-publico",
+        "icono": "sign",
+        "condiciones": [
+          {
+            "id": "hecho",
+            "etiqueta": "¿Qué hecho se acredita?",
+            "opciones": [
+              {
+                "valor": "tapar",
+                "etiqueta": "Placa de calle o número tapada, tachada o rota"
+              },
+              {
+                "valor": "retirar",
+                "etiqueta": "Propietario impide colocación o visibilidad, o retira sin autorización"
+              },
+              {
+                "valor": "falta",
+                "etiqueta": "Inmueble sin su placa indicadora del número correspondiente"
+              },
+              {
+                "valor": "trafico",
+                "etiqueta": "Señal de circulación"
+              },
+              {
+                "valor": "penal",
+                "etiqueta": "Indicios de daño deliberado con relevancia penal"
+              },
+              {
+                "valor": "pendiente",
+                "etiqueta": "Hecho o responsable indeterminados"
+              },
+              {
+                "valor": "no",
+                "etiqueta": "Ninguna de esas conductas"
+              }
+            ]
+          }
+        ],
+        "salidas": [
+          {
+            "cuando": {
+              "hecho": "tapar"
+            },
+            "articulo": "12.2",
+            "resultado": "Placa de rotulación o numeración tapada, tachada o rota; comprobar responsable y relevancia penal.",
+            "sancion": {
+              "tipo": "fija",
+              "texto": "60,10 €"
+            }
+          },
+          {
+            "cuando": {
+              "hecho": "retirar"
+            },
+            "articulo": "18",
+            "resultado": "Incumplimiento comprobado por el propietario de colocación, visibilidad o retirada autorizada.",
+            "sancion": {
+              "tipo": "fija",
+              "texto": "60,10 €"
+            }
+          },
+          {
+            "cuando": {
+              "hecho": "falta"
+            },
+            "articulo": "19",
+            "resultado": "Falta de placa del número correspondiente al inmueble.",
+            "sancion": {
+              "tipo": "fija",
+              "texto": "30,05 €"
+            }
+          },
+          {
+            "cuando": {
+              "hecho": "trafico"
+            },
+            "pendiente": true,
+            "resultado": "Señal de circulación: aplicar regulación específica de movilidad; esta ficha no asigna sanción municipal de rotulación."
+          },
+          {
+            "cuando": {
+              "hecho": "penal"
+            },
+            "regulacionEspecifica": {
+              "nombre": "Seguridad Pública → Patrimonio",
+              "explicacion": "Hay indicios de daños deliberados. Completar autoría, cuantía y bien afectado en Patrimonio; no acumular automáticamente denuncia municipal y vía penal por los mismos hechos.",
+              "destino": {
+                "tipo": "categoria",
+                "categoryId": "seguridad_publica_patrimonio"
+              },
+              "etiquetaBoton": "Abrir módulo específico"
+            }
+          },
+          {
+            "cuando": {
+              "hecho": "pendiente"
+            },
+            "pendiente": true,
+            "resultado": "Precisar placa, titular, autorización y conducta."
+          },
+          {
+            "cuando": {
+              "hecho": "no"
+            },
+            "sinInfraccion": true,
+            "resultado": "No se acredita una de estas infracciones."
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "CONV-OP-023",
+    "modulo": "policia_administrativa",
+    "categoria": "policia_administrativa_convivencia",
+    "titulo": "Impedir el tránsito en caminos vecinales o sendas establecidas",
+    "palabras_clave": [
+      "camino vecinal",
+      "senda",
+      "tránsito",
+      "barrera"
+    ],
+    "que_comprobar": [
+      "Camino o senda existente",
+      "Libre tránsito",
+      "Responsable del impedimento"
+    ],
+    "resultado": "Completar las comprobaciones para determinar la salida aplicable.",
+    "norma": "Ordenanza de Convivencia de Torrent",
+    "articulo": "20",
+    "importe_fijo": 60.1,
+    "actuacion": [
+      "Documentar lugar, hora, conducta concreta y persona responsable.",
+      "Corregir el riesgo o la afección y formular denuncia municipal solo si se acredita la salida aplicable."
+    ],
+    "competencia_denuncia": "Policía Local de Torrent.",
+    "competencia_resuelve": "Ayuntamiento de Torrent.",
+    "advertencias": [
+      "No presumir carácter público o servidumbre en conflictos de titularidad no comprobados."
+    ],
+    "alerta_penal": false,
+    "fuentes": [
+      "OCC-TORRENT"
+    ],
+    "estado": "validado",
+    "datos_adicionales": {
+      "convivencia": {
+        "grupo": "Uso y seguridad del espacio público",
+        "orden": 230,
+        "tema": "espacio-publico",
+        "icono": "street",
+        "condiciones": [
+          {
+            "id": "hecho",
+            "etiqueta": "¿Se acredita impedimento del libre tránsito en un camino vecinal o senda establecida?",
+            "opciones": [
+              {
+                "valor": "si",
+                "etiqueta": "Sí, consta comprobado"
+              },
+              {
+                "valor": "no",
+                "etiqueta": "No"
+              },
+              {
+                "valor": "pendiente",
+                "etiqueta": "No puede comprobarse todavía"
+              }
+            ]
+          },
+          {
+            "id": "especifica",
+            "etiqueta": "¿Está vinculado a una obra o a otra regulación específica?",
+            "opciones": [
+              {
+                "valor": "no",
+                "etiqueta": "No, obstáculo particular en camino o senda"
+              },
+              {
+                "valor": "obra",
+                "etiqueta": "Obra o actuación urbanística"
+              },
+              {
+                "valor": "pendiente",
+                "etiqueta": "No se ha comprobado"
+              }
+            ],
+            "mostrarSi": [
+              {
+                "hecho": "si"
+              }
+            ]
+          }
+        ],
+        "salidas": [
+          {
+            "cuando": {
+              "hecho": "si",
+              "especifica": "no"
+            },
+            "articulo": "20",
+            "resultado": "Impedimento comprobado del libre tránsito en camino vecinal o senda establecida.",
+            "sancion": {
+              "tipo": "fija",
+              "texto": "60,10 €"
+            }
+          },
+          {
+            "cuando": {
+              "hecho": "si",
+              "especifica": "obra"
+            },
+            "regulacionEspecifica": {
+              "nombre": "Urbanismo → Obras en vía pública",
+              "explicacion": "Comprobar ocupación, licencia y seguridad de la obra.",
+              "destino": {
+                "tipo": "urbanismo",
+                "routeId": "via_publica"
+              },
+              "etiquetaBoton": "Abrir Urbanismo"
+            }
+          },
+          {
+            "cuando": {
+              "hecho": "no"
+            },
+            "sinInfraccion": true,
+            "resultado": "No se acredita impedimento."
+          },
+          {
+            "cuando": {
+              "hecho": "pendiente"
+            },
+            "pendiente": true,
+            "resultado": "Comprobar carácter del camino y tránsito afectado."
+          },
+          {
+            "cuando": {
+              "especifica": "pendiente"
+            },
+            "pendiente": true,
+            "resultado": "Precisar origen del impedimento."
           }
         ]
       }

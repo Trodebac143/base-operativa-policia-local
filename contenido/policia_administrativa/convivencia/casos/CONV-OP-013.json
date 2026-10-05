@@ -1,0 +1,88 @@
+{
+  "id": "CONV-OP-013",
+  "modulo": "policia_administrativa",
+  "categoria": "policia_administrativa_convivencia",
+  "titulo": "Sacudir alfombras, ropa u otros efectos desde balcones, ventanas o portales",
+  "palabras_clave": [
+    "alfombra",
+    "ropa",
+    "sacudir",
+    "ventana",
+    "portal"
+  ],
+  "que_comprobar": [
+    "Origen de la conducta",
+    "Efectos sobre la vía pública"
+  ],
+  "resultado": "Completar las comprobaciones para determinar la salida aplicable.",
+  "norma": "Ordenanza de Convivencia de Torrent",
+  "articulo": "8.c",
+  "importe_fijo": 30.05,
+  "actuacion": [
+    "Documentar lugar, hora, conducta concreta y persona responsable.",
+    "Corregir el riesgo o la afección y formular denuncia municipal solo si se acredita la salida aplicable."
+  ],
+  "competencia_denuncia": "Policía Local de Torrent.",
+  "competencia_resuelve": "Ayuntamiento de Torrent.",
+  "advertencias": [],
+  "alerta_penal": false,
+  "fuentes": [
+    "OCC-TORRENT"
+  ],
+  "estado": "validado",
+  "datos_adicionales": {
+    "convivencia": {
+      "grupo": "Limpieza, ornato y publicidad",
+      "orden": 130,
+      "tema": "limpieza",
+      "icono": "clean",
+      "condiciones": [
+        {
+          "id": "hecho",
+          "etiqueta": "¿Se sacuden esos efectos desde balcón, ventana o portal sobre la vía pública?",
+          "opciones": [
+            {
+              "valor": "si",
+              "etiqueta": "Sí, consta comprobado"
+            },
+            {
+              "valor": "no",
+              "etiqueta": "No"
+            },
+            {
+              "valor": "pendiente",
+              "etiqueta": "No puede comprobarse todavía"
+            }
+          ]
+        }
+      ],
+      "salidas": [
+        {
+          "cuando": {
+            "hecho": "si"
+          },
+          "articulo": "8.c",
+          "resultado": "Conducta comprobada desde balcón, ventana o portal.",
+          "sancion": {
+            "tipo": "fija",
+            "texto": "30,05 €"
+          }
+        },
+        {
+          "cuando": {
+            "hecho": "no"
+          },
+          "sinInfraccion": true,
+          "resultado": "No se acredita el supuesto."
+        },
+        {
+          "cuando": {
+            "hecho": "pendiente"
+          },
+          "pendiente": true,
+          "resultado": "Documentar ubicación y conducta."
+        }
+      ]
+    }
+  }
+}

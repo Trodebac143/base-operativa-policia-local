@@ -1,0 +1,155 @@
+{
+  "id": "CONV-OP-019",
+  "modulo": "policia_administrativa",
+  "categoria": "policia_administrativa_convivencia",
+  "titulo": "Vehículos o remolques dedicados a publicidad comercial",
+  "palabras_clave": [
+    "vehículo publicitario",
+    "remolque",
+    "megafonía",
+    "publicidad móvil"
+  ],
+  "que_comprobar": [
+    "Finalidad esencial publicitaria",
+    "Licencia",
+    "Mensaje, modo y horario"
+  ],
+  "resultado": "Completar las comprobaciones para determinar la salida aplicable.",
+  "norma": "Ordenanza de Convivencia de Torrent",
+  "articulo": "17",
+  "importe_fijo": 350,
+  "actuacion": [
+    "Documentar lugar, hora, conducta concreta y persona responsable.",
+    "Corregir el riesgo o la afección y formular denuncia municipal solo si se acredita la salida aplicable."
+  ],
+  "competencia_denuncia": "Policía Local de Torrent.",
+  "competencia_resuelve": "Ayuntamiento de Torrent.",
+  "advertencias": [
+    "Art. 17.3: audiovisuales salvo licencia expresa; reparto desde vehículo; mensajes orales dirigidos a personas concretas; actividad de 14–17 h o 22–09 h. Identificar la prohibición concreta, sin presumirla."
+  ],
+  "alerta_penal": false,
+  "fuentes": [
+    "OCC-TORRENT"
+  ],
+  "estado": "validado",
+  "datos_adicionales": {
+    "convivencia": {
+      "grupo": "Limpieza, ornato y publicidad",
+      "orden": 190,
+      "tema": "limpieza",
+      "icono": "megaphone",
+      "condiciones": [
+        {
+          "id": "finalidad",
+          "etiqueta": "¿Cuál es la finalidad y uso del vehículo?",
+          "opciones": [
+            {
+              "valor": "comercial",
+              "etiqueta": "Está destinado esencialmente a promoción comercial"
+            },
+            {
+              "valor": "logo",
+              "etiqueta": "Solo logotipo o identificación de empresa sin finalidad esencial publicitaria"
+            },
+            {
+              "valor": "especial",
+              "etiqueta": "Comunicación municipal o propaganda electoral"
+            },
+            {
+              "valor": "pendiente",
+              "etiqueta": "Finalidad indeterminada"
+            }
+          ]
+        },
+        {
+          "id": "incumplimiento",
+          "etiqueta": "¿Qué incumplimiento se ha acreditado?",
+          "opciones": [
+            {
+              "valor": "sin",
+              "etiqueta": "Ausencia de licencia municipal"
+            },
+            {
+              "valor": "reglas",
+              "etiqueta": "Con licencia, incumple una prohibición expresa del art. 17.3"
+            },
+            {
+              "valor": "no",
+              "etiqueta": "No consta incumplimiento"
+            },
+            {
+              "valor": "pendiente",
+              "etiqueta": "No se ha comprobado"
+            }
+          ],
+          "mostrarSi": [
+            {
+              "finalidad": "comercial"
+            }
+          ]
+        }
+      ],
+      "salidas": [
+        {
+          "cuando": {
+            "finalidad": "comercial",
+            "incumplimiento": "sin"
+          },
+          "articulo": "17.1",
+          "resultado": "Actividad esencialmente publicitaria sin licencia municipal.",
+          "sancion": {
+            "tipo": "fija",
+            "texto": "350,00 €"
+          }
+        },
+        {
+          "cuando": {
+            "finalidad": "comercial",
+            "incumplimiento": "reglas"
+          },
+          "articulo": "17.3",
+          "resultado": "Incumplimiento identificado y documentado de una prohibición expresa.",
+          "sancion": {
+            "tipo": "fija",
+            "texto": "350,00 €"
+          }
+        },
+        {
+          "cuando": {
+            "finalidad": "logo"
+          },
+          "sinInfraccion": true,
+          "resultado": "La mera identificación o logotipo queda fuera de este régimen si no existe finalidad esencial publicitaria."
+        },
+        {
+          "cuando": {
+            "finalidad": "especial"
+          },
+          "pendiente": true,
+          "resultado": "Aplicar su regulación específica."
+        },
+        {
+          "cuando": {
+            "finalidad": "pendiente"
+          },
+          "pendiente": true,
+          "resultado": "Precisar finalidad y uso."
+        },
+        {
+          "cuando": {
+            "incumplimiento": "no"
+          },
+          "sinInfraccion": true,
+          "resultado": "No se acredita incumplimiento."
+        },
+        {
+          "cuando": {
+            "incumplimiento": "pendiente"
+          },
+          "pendiente": true,
+          "resultado": "Consultar licencia y documentar la regla infringida."
+        }
+      ]
+    }
+  }
+}

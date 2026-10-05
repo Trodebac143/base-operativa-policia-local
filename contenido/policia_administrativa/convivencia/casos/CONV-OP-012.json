@@ -1,0 +1,151 @@
+{
+  "id": "CONV-OP-012",
+  "modulo": "policia_administrativa",
+  "categoria": "policia_administrativa_convivencia",
+  "titulo": "Fiestas o bailes públicos sin autorización o fuera del horario autorizado",
+  "palabras_clave": [
+    "baile",
+    "fiesta pública",
+    "autorización",
+    "horario"
+  ],
+  "que_comprobar": [
+    "Tipo de evento",
+    "Autorización",
+    "Horario de la resolución"
+  ],
+  "resultado": "Completar las comprobaciones para determinar la salida aplicable.",
+  "norma": "Ordenanza de Convivencia de Torrent",
+  "articulo": "9.2",
+  "importe_fijo": 120.2,
+  "actuacion": [
+    "Documentar lugar, hora, conducta concreta y persona responsable.",
+    "Corregir el riesgo o la afección y formular denuncia municipal solo si se acredita la salida aplicable."
+  ],
+  "competencia_denuncia": "Policía Local de Torrent.",
+  "competencia_resuelve": "Ayuntamiento de Torrent.",
+  "advertencias": [
+    "El cuadro sancionador cierra la falta de autorización y el exceso de horario; otras condiciones requieren comprobar su regulación específica."
+  ],
+  "alerta_penal": false,
+  "fuentes": [
+    "OCC-TORRENT"
+  ],
+  "estado": "validado",
+  "datos_adicionales": {
+    "convivencia": {
+      "grupo": "Convivencia, molestias y actividades",
+      "orden": 120,
+      "tema": "convivencia",
+      "icono": "party",
+      "condiciones": [
+        {
+          "id": "ambito",
+          "etiqueta": "¿Dónde se celebra?",
+          "opciones": [
+            {
+              "valor": "publico",
+              "etiqueta": "Fiesta popular, baile o festejo público"
+            },
+            {
+              "valor": "local",
+              "etiqueta": "Establecimiento o actividad recreativa"
+            },
+            {
+              "valor": "otro",
+              "etiqueta": "Reunión privada o supuesto indeterminado"
+            }
+          ]
+        },
+        {
+          "id": "incumplimiento",
+          "etiqueta": "¿Qué consta en la autorización o comprobación?",
+          "opciones": [
+            {
+              "valor": "sin",
+              "etiqueta": "Se acredita ausencia de autorización"
+            },
+            {
+              "valor": "horario",
+              "etiqueta": "Consta autorización y se excede su horario"
+            },
+            {
+              "valor": "cumple",
+              "etiqueta": "Autorización y horario cumplidos"
+            },
+            {
+              "valor": "pendiente",
+              "etiqueta": "No se han comprobado autorización u horario"
+            }
+          ],
+          "mostrarSi": [
+            {
+              "ambito": "publico"
+            }
+          ]
+        }
+      ],
+      "salidas": [
+        {
+          "cuando": {
+            "ambito": "local"
+          },
+          "regulacionEspecifica": {
+            "nombre": "Establecimientos y actividades",
+            "explicacion": "Aplicar su regulación específica y condiciones de la actividad.",
+            "destino": {
+              "tipo": "categoria",
+              "categoryId": "policia_administrativa_establecimientos_actividades"
+            },
+            "etiquetaBoton": "Abrir módulo específico"
+          }
+        },
+        {
+          "cuando": {
+            "ambito": "otro"
+          },
+          "pendiente": true,
+          "resultado": "No aplicar automáticamente el art. 9.2 a reuniones privadas."
+        },
+        {
+          "cuando": {
+            "ambito": "publico",
+            "incumplimiento": "sin"
+          },
+          "articulo": "9.2",
+          "resultado": "Fiesta o baile público sin autorización comprobada.",
+          "sancion": {
+            "tipo": "fija",
+            "texto": "120,20 €"
+          }
+        },
+        {
+          "cuando": {
+            "ambito": "publico",
+            "incumplimiento": "horario"
+          },
+          "articulo": "9.2",
+          "resultado": "Fiesta o baile público que supera el horario autorizado.",
+          "sancion": {
+            "tipo": "fija",
+            "texto": "120,20 €"
+          }
+        },
+        {
+          "cuando": {
+            "incumplimiento": "cumple"
+          },
+          "sinInfraccion": true,
+          "resultado": "No se acredita este incumplimiento."
+        },
+        {
+          "cuando": {
+            "incumplimiento": "pendiente"
+          },
+          "pendiente": true,
+          "resultado": "Consultar resolución y horario antes de asignar sanción."
+        }
+      ]
+    }
+  }
+}

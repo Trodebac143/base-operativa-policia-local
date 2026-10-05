@@ -1,0 +1,184 @@
+{
+  "id": "CONV-OP-014",
+  "modulo": "policia_administrativa",
+  "categoria": "policia_administrativa_convivencia",
+  "titulo": "Regar plantas situadas sobre la vía pública fuera de horario",
+  "palabras_clave": [
+    "riego",
+    "regar",
+    "plantas",
+    "agua",
+    "horario"
+  ],
+  "que_comprobar": [
+    "Plantas sobre la vía pública",
+    "Hora exacta",
+    "Régimen estacional comprobado"
+  ],
+  "resultado": "Completar las comprobaciones para determinar la salida aplicable.",
+  "norma": "Ordenanza de Convivencia de Torrent",
+  "articulo": "8.d",
+  "importe_fijo": 30.05,
+  "actuacion": [
+    "Documentar lugar, hora, conducta concreta y persona responsable.",
+    "Corregir el riesgo o la afección y formular denuncia municipal solo si se acredita la salida aplicable."
+  ],
+  "competencia_denuncia": "Policía Local de Torrent.",
+  "competencia_resuelve": "Ayuntamiento de Torrent.",
+  "advertencias": [
+    "Horario normativo: 22–07 h en verano y 22–08 h en invierno. No se añaden fechas estacionales que la ordenanza no establece."
+  ],
+  "alerta_penal": false,
+  "fuentes": [
+    "OCC-TORRENT"
+  ],
+  "estado": "validado",
+  "datos_adicionales": {
+    "convivencia": {
+      "grupo": "Limpieza, ornato y publicidad",
+      "orden": 140,
+      "tema": "limpieza",
+      "icono": "droplet",
+      "condiciones": [
+        {
+          "id": "ubicacion",
+          "etiqueta": "¿Las plantas están situadas sobre la vía pública?",
+          "opciones": [
+            {
+              "valor": "si",
+              "etiqueta": "Sí, consta comprobado"
+            },
+            {
+              "valor": "no",
+              "etiqueta": "No"
+            },
+            {
+              "valor": "pendiente",
+              "etiqueta": "No puede comprobarse todavía"
+            }
+          ]
+        },
+        {
+          "id": "hora",
+          "etiqueta": "¿En qué franja se realiza el riego?",
+          "opciones": [
+            {
+              "valor": "dia",
+              "etiqueta": "Desde las 08:00 y antes de las 22:00"
+            },
+            {
+              "valor": "noche",
+              "etiqueta": "Desde las 22:00 y antes de las 07:00"
+            },
+            {
+              "valor": "transicion",
+              "etiqueta": "Desde las 07:00 y antes de las 08:00"
+            },
+            {
+              "valor": "pendiente",
+              "etiqueta": "Hora no comprobada"
+            }
+          ],
+          "mostrarSi": [
+            {
+              "ubicacion": "si"
+            }
+          ]
+        },
+        {
+          "id": "estacion",
+          "etiqueta": "¿Consta el régimen estacional aplicable en esta intervención?",
+          "opciones": [
+            {
+              "valor": "verano",
+              "etiqueta": "Verano comprobado"
+            },
+            {
+              "valor": "invierno",
+              "etiqueta": "Invierno comprobado"
+            },
+            {
+              "valor": "pendiente",
+              "etiqueta": "No puede confirmarse"
+            }
+          ],
+          "mostrarSi": [
+            {
+              "hora": "transicion"
+            }
+          ]
+        }
+      ],
+      "salidas": [
+        {
+          "cuando": {
+            "ubicacion": "si",
+            "hora": "dia"
+          },
+          "articulo": "8.d",
+          "resultado": "Riego fuera de la franja permitida tanto en verano como en invierno.",
+          "sancion": {
+            "tipo": "fija",
+            "texto": "30,05 €"
+          }
+        },
+        {
+          "cuando": {
+            "ubicacion": "si",
+            "hora": "transicion",
+            "estacion": "verano"
+          },
+          "articulo": "8.d",
+          "resultado": "Riego fuera del horario de verano.",
+          "sancion": {
+            "tipo": "fija",
+            "texto": "30,05 €"
+          }
+        },
+        {
+          "cuando": {
+            "hora": "noche"
+          },
+          "sinInfraccion": true,
+          "resultado": "La hora está dentro de ambas franjas permitidas; no aplicar esta infracción."
+        },
+        {
+          "cuando": {
+            "estacion": "invierno"
+          },
+          "sinInfraccion": true,
+          "resultado": "La franja de 07:00 a antes de 08:00 está permitida en invierno."
+        },
+        {
+          "cuando": {
+            "ubicacion": "no"
+          },
+          "sinInfraccion": true,
+          "resultado": "No se acredita la ubicación exigida."
+        },
+        {
+          "cuando": {
+            "ubicacion": "pendiente"
+          },
+          "pendiente": true,
+          "resultado": "Comprobar ubicación de las plantas."
+        },
+        {
+          "cuando": {
+            "hora": "pendiente"
+          },
+          "pendiente": true,
+          "resultado": "Comprobar hora exacta."
+        },
+        {
+          "cuando": {
+            "hora": "transicion",
+            "estacion": "pendiente"
+          },
+          "pendiente": true,
+          "resultado": "La ordenanza no define fechas de cambio estacional. Confirmar el régimen aplicable; no inferirlo mediante meses inventados."
+        }
+      ]
+    }
+  }
+}

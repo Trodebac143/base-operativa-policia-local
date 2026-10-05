@@ -1,4 +1,6 @@
 import type { UsoReferenciaProcesal } from "./referencias-procesales";
+import type { GravedadPenal } from "./gravedad-penal";
+import { consecuenciasComunesPenales, seleccionarSupuestoPenal, type SupuestoPenalId, type ProcedibilidadPenal } from "./catalogo-penal";
 
 export type ProcessualInput = {
   flagrante?: boolean;
@@ -13,6 +15,12 @@ export type ProcessualInput = {
   domicilioConocido?: boolean;
   fianzaBastante?: boolean;
   autorMayorEdad?: boolean;
+  gravedad?: GravedadPenal;
+  procedibilidad?: ProcedibilidadPenal;
+  denunciaOQuerella?: boolean;
+  atribucionPendiente?: boolean;
+  alternativasPenales?: SupuestoPenalId[];
+  supuestosConcurrentes?: { gravedad?: GravedadPenal; procedibilidad?: ProcedibilidadPenal; alternativasPenales?: SupuestoPenalId[] }[];
 };
 
 export type RazonamientoProcesal = {
@@ -28,10 +36,10 @@ export const redactarRazonamientoProcesal = (razonamiento: RazonamientoProcesal)
 ].filter(Boolean).join(" ");
 
 export type ProcessualDecision = {
-  situacion: "DETENIDO" | "INVESTIGADO NO DETENIDO" | "NO DETENER TODAVÍA — INVESTIGAR" | "RUTA DE RESPONSABILIDAD PENAL DE MENORES";
+  situacion: "DETENIDO" | "INVESTIGADO NO DETENIDO" | "NO DETENER TODAVÍA — INVESTIGAR" | "RUTA DE RESPONSABILIDAD PENAL DE MENORES" | "DILIGENCIAS DE PREVENCIÓN" | "SIN ATRIBUCIÓN SUFICIENTE";
   detencion: "SÍ" | "NO" | "NO APLICAR MOTOR ADULTO";
   fundamentoDetencion: string;
-  escenarioProcesal: "FLAGRANCIA" | "NO FLAGRANTE" | "DELITO LEVE" | "INDICIOS INSUFICIENTES" | "AUTOR MENOR";
+  escenarioProcesal: "FLAGRANCIA" | "NO FLAGRANTE" | "DELITO LEVE" | "INDICIOS INSUFICIENTES" | "AUTOR MENOR" | "EDAD PENDIENTE" | "PROCEDIBILIDAD PENDIENTE" | "GRAVEDAD PENDIENTE";
   hechosDeterminantes?: string[];
   referenciasProcesales?: UsoReferenciaProcesal[];
   razonamientoProcesal: RazonamientoProcesal;
@@ -138,7 +146,7 @@ const nonFlagrancyDecision = (input: ProcessualInput): ProcessualDecision => {
   });
 };
 
-export const resolvePenalProcessualDecision = (input: ProcessualInput = {}): ProcessualDecision => {
+const adultDecision = (input: ProcessualInput = {}): ProcessualDecision => {
   if (input.autorMayorEdad === false) return decisionConRazonamiento({
     situacion: "RUTA DE RESPONSABILIDAD PENAL DE MENORES",
     detencion: "NO APLICAR MOTOR ADULTO",
@@ -152,7 +160,7 @@ export const resolvePenalProcessualDecision = (input: ProcessualInput = {}): Pro
   return input.flagrante === true ? flagrancyDecision() : nonFlagrancyDecision(input);
 };
 
-export const resolveMinorOffenceProcessualDecision = (input: ProcessualInput = {}): ProcessualDecision => {
+const minorOffenceDecision = (input: ProcessualInput = {}): ProcessualDecision => {
   const exceptionalDetention = input.domicilioConocido === false && input.fianzaBastante === false;
   return exceptionalDetention ? decisionConRazonamiento({
     situacion: "DETENIDO",
@@ -178,3 +186,67 @@ export const resolveMinorOffenceProcessualDecision = (input: ProcessualInput = {
     referenciasProcesales: [{ id: "lecrim-495", aplicacionAlCaso: input.domicilioConocido === true ? "El hecho está clasificado como delito leve y consta domicilio conocido; no concurre la excepción que permitiría detener." : input.fianzaBastante === true ? "El hecho está clasificado como delito leve y consta fianza bastante; no concurre la excepción que permitiría detener." : "El hecho está clasificado como delito leve y no constan conjuntamente las dos circunstancias excepcionales exigidas por el precepto.", conclusion: "Al no concurrir conjuntamente ambas circunstancias, el art. 495 LECrim impide la detención." }],
   });
 };
+
+/** Única entrada del circuito catálogo → gravedad → procedibilidad → actuación.
+ * Las funciones exportadas históricas son adaptadores de compatibilidad del mismo motor.
+ */
+export function resolverSituacionProcesal(input: ProcessualInput = {}): ProcessualDecision {
+  if (input.supuestosConcurrentes?.length) {
+    const decisiones = input.supuestosConcurrentes.map((supuesto) => resolverSituacionProcesal({
+      ...input, supuestosConcurrentes: undefined, alternativasPenales: undefined, ...supuesto,
+    }));
+    // Una base independiente suficiente no queda bloqueada por otro hecho pendiente.
+    return decisiones.find((decision) => decision.detencion === "SÍ")
+      ?? decisiones.find((decision) => decision.situacion === "INVESTIGADO NO DETENIDO")
+      ?? decisiones.find((decision) => decision.escenarioProcesal !== "GRAVEDAD PENDIENTE")
+      ?? decisiones[0];
+  }
+  if (input.alternativasPenales?.length) {
+    const comunes = consecuenciasComunesPenales(input.alternativasPenales);
+    const decisiones = comunes.alternativasPenales.map((id) => {
+      const supuesto = seleccionarSupuestoPenal(id);
+      return resolverSituacionProcesal({ ...input, alternativasPenales: undefined, gravedad: supuesto.gravedad, procedibilidad: supuesto.procedibilidad });
+    });
+    const primera = decisiones[0];
+    if (primera && decisiones.every((item) => item.situacion === primera.situacion && item.detencion === primera.detencion && item.escenarioProcesal === primera.escenarioProcesal)) {
+      return decisionConRazonamiento({ ...primera, razonamientoProcesal: {
+        ...primera.razonamientoProcesal,
+        encajeLegal: `${primera.razonamientoProcesal.encajeLegal} Esta actuación es aplicable a todos los subtipos compatibles con los hechos disponibles; no requiere escoger el subtipo definitivo.`,
+      } });
+    }
+    return decisionConRazonamiento({
+      situacion: "DILIGENCIAS DE PREVENCIÓN", detencion: "NO", escenarioProcesal: "GRAVEDAD PENDIENTE",
+      razonamientoProcesal: {
+        hechosConfirmados: ["Los hechos permiten varias calificaciones con consecuencias procesales distintas."],
+        encajeLegal: "No consta una base común suficiente para acordar la privación de libertad por este hecho.",
+        consecuencia: "Proteger, prestar asistencia, identificar, preservar indicios y coordinar las diligencias urgentes. Documentar el dato que falta y valorar separadamente cualquier otro hecho confirmado.",
+      },
+    });
+  }
+  if (input.autorMayorEdad === false) return adultDecision(input);
+  if (input.atribucionPendiente) return decisionConRazonamiento({
+    situacion: "SIN ATRIBUCIÓN SUFICIENTE", detencion: "NO", escenarioProcesal: "INDICIOS INSUFICIENTES",
+    razonamientoProcesal: { hechosConfirmados: ["La atribución individualizada del hecho no está determinada."], encajeLegal: "No pueden darse por cumplidos los presupuestos del art. 492.4 LECrim.", consecuencia: "Practicar comprobaciones y asegurar indicios sin atribuir una detención a esta persona." },
+    referenciasProcesales: [{ id: "lecrim-492-4", aplicacionAlCaso: "Falta atribución individualizada suficiente.", conclusion: "Continuar comprobaciones sin detener por esta atribución." }],
+  });
+  if (input.procedibilidad && input.procedibilidad !== "oficio" && input.denunciaOQuerella !== true) return decisionConRazonamiento({
+    situacion: "DILIGENCIAS DE PREVENCIÓN", detencion: "NO", escenarioProcesal: "PROCEDIBILIDAD PENDIENTE",
+    razonamientoProcesal: { hechosConfirmados: ["La vía de procedibilidad necesaria está pendiente."], encajeLegal: "El art. 105.2 LECrim permite diligencias a prevención en delitos perseguibles previa denuncia.", consecuencia: "Mantener protección, asistencia, diligencias urgentes, preservación de indicios y coordinación para completar la procedibilidad." },
+    referenciasProcesales: [{ id: "lecrim-105-2", aplicacionAlCaso: "Todavía no consta denuncia o vía fiscal habilitante.", conclusion: "Practicar diligencias a prevención y coordinar la continuación." }],
+  });
+  if (!input.gravedad) return decisionConRazonamiento({
+    situacion: "DILIGENCIAS DE PREVENCIÓN", detencion: "NO", escenarioProcesal: "GRAVEDAD PENDIENTE",
+    razonamientoProcesal: { hechosConfirmados: ["Los datos disponibles no permiten concretar todavía el régimen penal aplicable."], encajeLegal: "Falta información necesaria para justificar una detención por este hecho.", consecuencia: "Proteger, prestar asistencia, identificar a las personas y preservar indicios, testigos y cámaras. Coordinar la investigación y valorar separadamente otros hechos confirmados." },
+  });
+  if (input.indiciosHechoSuficientes === false || input.indiciosParticipacionSuficientes === false) return nonFlagrancyDecision(input);
+  if (input.autorMayorEdad === undefined) return decisionConRazonamiento({
+    situacion: "DILIGENCIAS DE PREVENCIÓN", detencion: "NO", escenarioProcesal: "EDAD PENDIENTE",
+    razonamientoProcesal: { hechosConfirmados: ["No consta aún si el presunto autor es mayor de edad."], encajeLegal: "Es necesario distinguir el régimen adulto del específico de menores antes de resolver la situación procesal.", consecuencia: "Comprobar edad, proteger y preservar indicios; no presumir aplicación del régimen adulto." },
+  });
+  return input.gravedad === "DELITO LEVE" ? minorOffenceDecision(input) : adultDecision(input);
+}
+
+// API histórica de consultas expresamente adultas, mantenida para compatibilidad.
+// Los resolvedores activos usan resolverSituacionProcesal con la edad comprobada.
+export const resolvePenalProcessualDecision = (input: ProcessualInput = {}): ProcessualDecision => resolverSituacionProcesal({ autorMayorEdad: true, gravedad: "DELITO MENOS GRAVE", ...input });
+export const resolveMinorOffenceProcessualDecision = (input: ProcessualInput = {}): ProcessualDecision => resolverSituacionProcesal({ autorMayorEdad: true, gravedad: "DELITO LEVE", ...input });

@@ -1,0 +1,148 @@
+{
+  "id": "CONV-OP-022",
+  "modulo": "policia_administrativa",
+  "categoria": "policia_administrativa_convivencia",
+  "titulo": "Placas de calle y numeración tapadas, dañadas o retiradas",
+  "palabras_clave": [
+    "placa calle",
+    "número policía",
+    "numeración",
+    "rótulo",
+    "señalización"
+  ],
+  "que_comprobar": [
+    "Clase de placa",
+    "Conducta y responsable",
+    "Autorización para retirada"
+  ],
+  "resultado": "Completar las comprobaciones para determinar la salida aplicable.",
+  "norma": "Ordenanza de Convivencia de Torrent",
+  "articulo": "12.2 / 18 / 19",
+  "importe_fijo": 60.1,
+  "actuacion": [
+    "Documentar lugar, hora, conducta concreta y persona responsable.",
+    "Corregir el riesgo o la afección y formular denuncia municipal solo si se acredita la salida aplicable."
+  ],
+  "competencia_denuncia": "Policía Local de Torrent.",
+  "competencia_resuelve": "Ayuntamiento de Torrent.",
+  "advertencias": [],
+  "alerta_penal": false,
+  "fuentes": [
+    "OCC-TORRENT"
+  ],
+  "estado": "validado",
+  "datos_adicionales": {
+    "convivencia": {
+      "grupo": "Uso y seguridad del espacio público",
+      "orden": 220,
+      "tema": "espacio-publico",
+      "icono": "sign",
+      "condiciones": [
+        {
+          "id": "hecho",
+          "etiqueta": "¿Qué hecho se acredita?",
+          "opciones": [
+            {
+              "valor": "tapar",
+              "etiqueta": "Placa de calle o número tapada, tachada o rota"
+            },
+            {
+              "valor": "retirar",
+              "etiqueta": "Propietario impide colocación o visibilidad, o retira sin autorización"
+            },
+            {
+              "valor": "falta",
+              "etiqueta": "Inmueble sin su placa indicadora del número correspondiente"
+            },
+            {
+              "valor": "trafico",
+              "etiqueta": "Señal de circulación"
+            },
+            {
+              "valor": "penal",
+              "etiqueta": "Indicios de daño deliberado con relevancia penal"
+            },
+            {
+              "valor": "pendiente",
+              "etiqueta": "Hecho o responsable indeterminados"
+            },
+            {
+              "valor": "no",
+              "etiqueta": "Ninguna de esas conductas"
+            }
+          ]
+        }
+      ],
+      "salidas": [
+        {
+          "cuando": {
+            "hecho": "tapar"
+          },
+          "articulo": "12.2",
+          "resultado": "Placa de rotulación o numeración tapada, tachada o rota; comprobar responsable y relevancia penal.",
+          "sancion": {
+            "tipo": "fija",
+            "texto": "60,10 €"
+          }
+        },
+        {
+          "cuando": {
+            "hecho": "retirar"
+          },
+          "articulo": "18",
+          "resultado": "Incumplimiento comprobado por el propietario de colocación, visibilidad o retirada autorizada.",
+          "sancion": {
+            "tipo": "fija",
+            "texto": "60,10 €"
+          }
+        },
+        {
+          "cuando": {
+            "hecho": "falta"
+          },
+          "articulo": "19",
+          "resultado": "Falta de placa del número correspondiente al inmueble.",
+          "sancion": {
+            "tipo": "fija",
+            "texto": "30,05 €"
+          }
+        },
+        {
+          "cuando": {
+            "hecho": "trafico"
+          },
+          "pendiente": true,
+          "resultado": "Señal de circulación: aplicar regulación específica de movilidad; esta ficha no asigna sanción municipal de rotulación."
+        },
+        {
+          "cuando": {
+            "hecho": "penal"
+          },
+          "regulacionEspecifica": {
+            "nombre": "Seguridad Pública → Patrimonio",
+            "explicacion": "Hay indicios de daños deliberados. Completar autoría, cuantía y bien afectado en Patrimonio; no acumular automáticamente denuncia municipal y vía penal por los mismos hechos.",
+            "destino": {
+              "tipo": "categoria",
+              "categoryId": "seguridad_publica_patrimonio"
+            },
+            "etiquetaBoton": "Abrir módulo específico"
+          }
+        },
+        {
+          "cuando": {
+            "hecho": "pendiente"
+          },
+          "pendiente": true,
+          "resultado": "Precisar placa, titular, autorización y conducta."
+        },
+        {
+          "cuando": {
+            "hecho": "no"
+          },
+          "sinInfraccion": true,
+          "resultado": "No se acredita una de estas infracciones."
+        }
+      ]
+    }
+  }
+}

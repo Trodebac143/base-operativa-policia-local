@@ -1,7 +1,131 @@
 {
-  "id": "CONV-OP-008", "modulo": "policia_administrativa", "categoria": "policia_administrativa_convivencia", "titulo": "Carteles, adhesivos u octavillas sin autorización",
-  "palabras_clave": ["carteles", "adhesivos", "octavillas", "publicidad"], "que_comprobar": ["Qué se coloca o reparte", "Lugar", "Existencia de autorización"],
-  "resultado": "Infracción ordinaria de limpieza viaria.", "norma": "Ordenanza de Residuos Urbanos y Limpieza Viaria de Torrent", "articulo": "23", "calificacion": "LEVE", "rango_max": 600,
-  "actuacion": ["Formular denuncia municipal."], "competencia_denuncia": "Policía Local de Torrent.", "competencia_resuelve": "Ayuntamiento de Torrent.", "advertencias": [], "alerta_penal": false, "fuentes": ["ORL-TORRENT"], "estado": "validado",
-  "datos_adicionales": { "convivencia": { "grupo": "Limpieza y uso del espacio público", "orden": 80 } }
+  "id": "CONV-OP-008",
+  "modulo": "policia_administrativa",
+  "categoria": "policia_administrativa_convivencia",
+  "titulo": "Carteles, adhesivos u octavillas sin autorización",
+  "palabras_clave": [
+    "carteles",
+    "adhesivos",
+    "octavillas",
+    "publicidad"
+  ],
+  "que_comprobar": [
+    "Qué se coloca o reparte",
+    "Lugar",
+    "Existencia de autorización",
+    "Finalidad comercial y soporte: aplicar regulación específica cuando corresponda"
+  ],
+  "resultado": "Infracción ordinaria de limpieza viaria.",
+  "norma": "Ordenanza de Residuos Urbanos y Limpieza Viaria de Torrent",
+  "articulo": "23",
+  "calificacion": "LEVE",
+  "rango_max": 600,
+  "actuacion": [
+    "Formular denuncia municipal."
+  ],
+  "competencia_denuncia": "Policía Local de Torrent.",
+  "competencia_resuelve": "Ayuntamiento de Torrent.",
+  "advertencias": [],
+  "alerta_penal": false,
+  "fuentes": [
+    "ORL-TORRENT",
+    "OCC-TORRENT"
+  ],
+  "estado": "validado",
+  "datos_adicionales": {
+    "convivencia": {
+      "grupo": "Limpieza, ornato y publicidad",
+      "orden": 30,
+      "icono": "megaphone",
+      "tema": "limpieza",
+      "condiciones": [
+        {
+          "id": "tipo",
+          "etiqueta": "¿Qué material y colocación se han acreditado?",
+          "opciones": [
+            {
+              "valor": "comercial",
+              "etiqueta": "Reclamo comercial pegado o colocado en mobiliario urbano, árboles o plantas de espacios públicos"
+            },
+            {
+              "valor": "orl",
+              "etiqueta": "Cartel o adhesivo no autorizado dentro del supuesto de limpieza viaria, sin regulación publicitaria específica"
+            },
+            {
+              "valor": "especial",
+              "etiqueta": "Publicidad electoral, sindical, ONG o entidad sin ánimo de lucro"
+            },
+            {
+              "valor": "rotulo",
+              "etiqueta": "Rótulo, toldo o anuncio visible desde vía pública sujeto a autorización específica y SIN permiso comprobado"
+            },
+            {
+              "valor": "pendiente",
+              "etiqueta": "No se ha determinado"
+            }
+          ]
+        }
+      ],
+      "salidas": [
+        {
+          "cuando": {
+            "tipo": "comercial"
+          },
+          "articulo": "16.6",
+          "resultado": "Publicidad comercial colocada en mobiliario urbano, árboles o plantas de espacios públicos.",
+          "sancion": {
+            "tipo": "fija",
+            "texto": "350,00 €"
+          },
+          "norma": "Ordenanza de Convivencia de Torrent",
+          "fuentes": [
+            "OCC-TORRENT"
+          ]
+        },
+        {
+          "cuando": {
+            "tipo": "orl"
+          },
+          "articulo": "23",
+          "resultado": "Cartel o adhesivo no autorizado que encaja en la regulación de limpieza viaria.",
+          "sancion": {
+            "tipo": "maximo",
+            "texto": "Hasta 600,00 €"
+          },
+          "fuentes": [
+            "ORL-TORRENT"
+          ]
+        },
+        {
+          "cuando": {
+            "tipo": "especial"
+          },
+          "pendiente": true,
+          "resultado": "Consultar regulación específica: no aplicar automáticamente el régimen comercial."
+        },
+        {
+          "cuando": {
+            "tipo": "rotulo"
+          },
+          "articulo": "12.1",
+          "resultado": "Rótulo, toldo o anuncio visible desde la vía pública sin permiso comprobado.",
+          "sancion": {
+            "tipo": "fija",
+            "texto": "60,10 €"
+          },
+          "norma": "Ordenanza de Convivencia de Torrent",
+          "fuentes": [
+            "OCC-TORRENT"
+          ]
+        },
+        {
+          "cuando": {
+            "tipo": "pendiente"
+          },
+          "pendiente": true,
+          "resultado": "Determinar soporte, finalidad y autorización antes de asignar artículo o sanción."
+        }
+      ]
+    }
+  }
 }

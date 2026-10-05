@@ -1,0 +1,126 @@
+{
+  "id": "CONV-OP-018",
+  "modulo": "policia_administrativa",
+  "categoria": "policia_administrativa_convivencia",
+  "titulo": "Publicidad comercial en parabrisas de vehículos aparcados",
+  "palabras_clave": [
+    "parabrisas",
+    "publicidad",
+    "folleto",
+    "vehículo aparcado"
+  ],
+  "que_comprobar": [
+    "Publicidad comercial",
+    "Vehículo aparcado en vía pública",
+    "Colocación manual"
+  ],
+  "resultado": "Completar las comprobaciones para determinar la salida aplicable.",
+  "norma": "Ordenanza de Convivencia de Torrent",
+  "articulo": "16.6",
+  "importe_fijo": 350,
+  "actuacion": [
+    "Documentar lugar, hora, conducta concreta y persona responsable.",
+    "Corregir el riesgo o la afección y formular denuncia municipal solo si se acredita la salida aplicable."
+  ],
+  "competencia_denuncia": "Policía Local de Torrent.",
+  "competencia_resuelve": "Ayuntamiento de Torrent.",
+  "advertencias": [],
+  "alerta_penal": false,
+  "fuentes": [
+    "OCC-TORRENT"
+  ],
+  "estado": "validado",
+  "datos_adicionales": {
+    "convivencia": {
+      "grupo": "Limpieza, ornato y publicidad",
+      "orden": 180,
+      "tema": "limpieza",
+      "icono": "megaphone",
+      "condiciones": [
+        {
+          "id": "ambito",
+          "etiqueta": "¿Qué clase de publicidad es?",
+          "opciones": [
+            {
+              "valor": "comercial",
+              "etiqueta": "Publicidad comercial ordinaria"
+            },
+            {
+              "valor": "especial",
+              "etiqueta": "Electoral, convocatoria o manifestación autorizada, asociación sin ánimo de lucro, ONG o sindicato"
+            },
+            {
+              "valor": "pendiente",
+              "etiqueta": "No se ha determinado"
+            }
+          ]
+        },
+        {
+          "id": "hecho",
+          "etiqueta": "¿Se coloca manualmente publicidad en el parabrisas de vehículos aparcados en la vía pública?",
+          "opciones": [
+            {
+              "valor": "si",
+              "etiqueta": "Sí, consta comprobado"
+            },
+            {
+              "valor": "no",
+              "etiqueta": "No"
+            },
+            {
+              "valor": "pendiente",
+              "etiqueta": "No puede comprobarse todavía"
+            }
+          ],
+          "mostrarSi": [
+            {
+              "ambito": "comercial"
+            }
+          ]
+        }
+      ],
+      "salidas": [
+        {
+          "cuando": {
+            "ambito": "comercial",
+            "hecho": "si"
+          },
+          "articulo": "16.6",
+          "resultado": "Reparto manual de publicidad en parabrisas de vehículos aparcados en la vía pública.",
+          "sancion": {
+            "tipo": "fija",
+            "texto": "350,00 €"
+          }
+        },
+        {
+          "cuando": {
+            "hecho": "no"
+          },
+          "sinInfraccion": true,
+          "resultado": "No se acredita el supuesto."
+        },
+        {
+          "cuando": {
+            "hecho": "pendiente"
+          },
+          "pendiente": true,
+          "resultado": "Comprobar colocación, aparcamiento y lugar."
+        },
+        {
+          "cuando": {
+            "ambito": "especial"
+          },
+          "pendiente": true,
+          "resultado": "El art. 16.8 remite a normativa específica. No asignar automáticamente la sanción de publicidad comercial."
+        },
+        {
+          "cuando": {
+            "ambito": "pendiente"
+          },
+          "pendiente": true,
+          "resultado": "Determinar anunciante, finalidad y regulación aplicable."
+        }
+      ]
+    }
+  }
+}

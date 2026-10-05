@@ -14,6 +14,7 @@ import {
   type DriverType,
   type VehicleType,
 } from "@/data/alcoholemia";
+import { PenalDerivation } from "./derivacion-penal";
 import { resolveSourceReferences } from "@/data/sources";
 
 const euro = new Intl.NumberFormat("es-ES", { style: "currency", currency: "EUR" });
@@ -158,6 +159,7 @@ export function AlcoholemiaView({ onBack, initialVehicle = "motor_ciclomotor", b
                 <strong>{outcome.articulo_penal}</strong>
                 <p>{outcome.mensaje}</p>
                 <span>Vía penal preferente.</span>
+                <PenalDerivation key={outcome.kind} preceptId={outcome.kind === "penal_negativa" ? "CP-383" : "CP-379-2"} />
               </div>
             )}
             {outcome.influencia_nota && <p className="influence-note">{outcome.influencia_nota}</p>}

@@ -336,12 +336,13 @@ if (new Set(ventaNoSedentaria.map((item) => item.datos_adicionales?.venta_no_sed
 if (vnsRegimen?.rangos?.LEVE !== "Apercibimiento; multa de 75 a 200 €; o suspensión de la autorización hasta tres meses." || vnsRegimen?.rangos?.GRAVE !== "Multa de 201 a 400 €; o suspensión entre tres meses y un día y seis meses." || vnsRegimen?.rangos?.["MUY GRAVE"] !== "Multa de 401 a 700 €; suspensión entre seis meses y un día y un año; o revocación definitiva y cese.") errors.push("Venta no sedentaria: rangos sancionadores comunes incorrectos");
 
 const expectedConvivenciaIds = Array.from({ length: 10 }, (_, index) => `CONV-OP-${String(index + 1).padStart(3, "0")}`);
-if (convivencia.length !== 10) errors.push(`Convivencia: se esperaban 10 casos y hay ${convivencia.length}`);
-if (convivencia.map((item) => item.id).sort().join("|") !== expectedConvivenciaIds.join("|")) errors.push("Convivencia: IDs CONV-OP-001 a CONV-OP-010 incompletos o incorrectos");
-const expectedConvivenciaGroups = ["Convivencia y molestias", "Limpieza y uso del espacio público", "Riesgos / incidencias"];
+if (convivencia.length < 10) errors.push(`Convivencia: se esperaban al menos 10 casos y hay ${convivencia.length}`);
+if (expectedConvivenciaIds.some((id) => !convivencia.some((item) => item.id === id))) errors.push("Convivencia: deben conservarse los IDs CONV-OP-001 a CONV-OP-010");
+const expectedConvivenciaGroups = ["Convivencia, molestias y actividades", "Limpieza, ornato y publicidad", "Uso y seguridad del espacio público"];
 for (const item of convivencia) {
   const data = item.datos_adicionales?.convivencia;
   if (!data?.grupo || !Number.isFinite(data.orden)) errors.push(`${item.id}: falta grupo u orden operativo de Convivencia`);
+  if (!data?.icono || !data?.tema) errors.push(`${item.id}: falta icono o tema operativo de Convivencia`);
   if (item.modulo !== "policia_administrativa" || item.estado !== "validado") errors.push(`${item.id}: debe ser un caso validado de Policía Administrativa`);
   if (item.competencia_resuelve !== "Ayuntamiento de Torrent.") errors.push(`${item.id}: competencia sancionadora incorrecta`);
   if (!item.fuentes?.length || !item.fuentes.every((id) => ["OCC-TORRENT", "ORL-TORRENT", "AN-SRC-007", "SP-SRC-LO-4-2015"].includes(id))) errors.push(`${item.id}: fuente de Convivencia incorrecta`);

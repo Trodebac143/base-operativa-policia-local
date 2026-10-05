@@ -1,0 +1,135 @@
+{
+  "id": "CONV-OP-015",
+  "modulo": "policia_administrativa",
+  "categoria": "policia_administrativa_convivencia",
+  "titulo": "Daños en árboles, jardines, cultivos o plantaciones",
+  "palabras_clave": [
+    "vegetación",
+    "daño",
+    "deterioro"
+  ],
+  "que_comprobar": [
+    "Bien afectado",
+    "Daño y autoría",
+    "Intencionalidad y posible relevancia penal"
+  ],
+  "resultado": "Completar las comprobaciones para determinar la salida aplicable.",
+  "norma": "Ordenanza de Convivencia de Torrent",
+  "articulo": "7.d",
+  "importe_fijo": 90.15,
+  "actuacion": [
+    "Documentar lugar, hora, conducta concreta y persona responsable.",
+    "Corregir el riesgo o la afección y formular denuncia municipal solo si se acredita la salida aplicable."
+  ],
+  "competencia_denuncia": "Policía Local de Torrent.",
+  "competencia_resuelve": "Ayuntamiento de Torrent.",
+  "advertencias": [
+    "Pintadas: continuar en «Pintadas o grafitis». Residuos: «Abandono o depósito incorrecto de residuos». No duplicar sus soluciones."
+  ],
+  "alerta_penal": false,
+  "fuentes": [
+    "OCC-TORRENT"
+  ],
+  "estado": "validado",
+  "datos_adicionales": {
+    "convivencia": {
+      "grupo": "Limpieza, ornato y publicidad",
+      "orden": 150,
+      "tema": "limpieza",
+      "icono": "tree",
+      "condiciones": [
+        {
+          "id": "hecho",
+          "etiqueta": "¿Se acredita daño o deterioro de vegetación?",
+          "opciones": [
+            {
+              "valor": "si",
+              "etiqueta": "Sí, consta comprobado"
+            },
+            {
+              "valor": "no",
+              "etiqueta": "No"
+            },
+            {
+              "valor": "pendiente",
+              "etiqueta": "No puede comprobarse todavía"
+            }
+          ]
+        },
+        {
+          "id": "penal",
+          "etiqueta": "¿Existen indicios de daños deliberados u otra relevancia penal?",
+          "opciones": [
+            {
+              "valor": "si",
+              "etiqueta": "Sí, consta comprobado"
+            },
+            {
+              "valor": "no",
+              "etiqueta": "No"
+            },
+            {
+              "valor": "pendiente",
+              "etiqueta": "No puede comprobarse todavía"
+            }
+          ],
+          "mostrarSi": [
+            {
+              "hecho": "si"
+            }
+          ]
+        }
+      ],
+      "salidas": [
+        {
+          "cuando": {
+            "hecho": "si",
+            "penal": "si"
+          },
+          "regulacionEspecifica": {
+            "nombre": "Seguridad Pública → Patrimonio",
+            "explicacion": "Hay indicios de daños deliberados. Completar autoría, cuantía y bien afectado en Patrimonio; no acumular automáticamente denuncia municipal y vía penal por los mismos hechos.",
+            "destino": {
+              "tipo": "categoria",
+              "categoryId": "seguridad_publica_patrimonio"
+            },
+            "etiquetaBoton": "Abrir módulo específico"
+          }
+        },
+        {
+          "cuando": {
+            "hecho": "si",
+            "penal": "no"
+          },
+          "articulo": "7.d",
+          "resultado": "Afección municipal comprobada sin indicios de relevancia penal tras la comprobación.",
+          "sancion": {
+            "tipo": "fija",
+            "texto": "90,15 €"
+          }
+        },
+        {
+          "cuando": {
+            "hecho": "no"
+          },
+          "sinInfraccion": true,
+          "resultado": "No se acredita daño o deterioro."
+        },
+        {
+          "cuando": {
+            "hecho": "pendiente"
+          },
+          "pendiente": true,
+          "resultado": "Acreditar daño y autoría."
+        },
+        {
+          "cuando": {
+            "penal": "pendiente"
+          },
+          "pendiente": true,
+          "resultado": "Completar intencionalidad, cuantía y relevancia penal antes de elegir la vía."
+        }
+      ]
+    }
+  }
+}

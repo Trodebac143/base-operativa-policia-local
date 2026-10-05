@@ -1,0 +1,91 @@
+{
+  "id": "CONV-OP-020",
+  "modulo": "policia_administrativa",
+  "categoria": "policia_administrativa_convivencia",
+  "titulo": "Macetas u objetos exteriores sin asegurar con peligro de caída",
+  "palabras_clave": [
+    "maceta",
+    "balcón",
+    "caída",
+    "tiesto",
+    "ventana"
+  ],
+  "que_comprobar": [
+    "Ubicación exterior",
+    "Sujeción",
+    "Peligro de caída a vía pública"
+  ],
+  "resultado": "Completar las comprobaciones para determinar la salida aplicable.",
+  "norma": "Ordenanza de Convivencia de Torrent",
+  "articulo": "7.k",
+  "importe_fijo": 30.05,
+  "actuacion": [
+    "Documentar lugar, hora, conducta concreta y persona responsable.",
+    "Corregir el riesgo o la afección y formular denuncia municipal solo si se acredita la salida aplicable."
+  ],
+  "competencia_denuncia": "Policía Local de Torrent.",
+  "competencia_resuelve": "Ayuntamiento de Torrent.",
+  "advertencias": [
+    "Si deriva de un edificio o elemento constructivo inseguro, continuar en Urbanismo → Riesgo."
+  ],
+  "alerta_penal": false,
+  "fuentes": [
+    "OCC-TORRENT"
+  ],
+  "estado": "validado",
+  "datos_adicionales": {
+    "convivencia": {
+      "grupo": "Uso y seguridad del espacio público",
+      "orden": 200,
+      "tema": "espacio-publico",
+      "icono": "balcony",
+      "condiciones": [
+        {
+          "id": "hecho",
+          "etiqueta": "¿La maceta u objeto exterior está insuficientemente asegurado y puede caer a la vía pública?",
+          "opciones": [
+            {
+              "valor": "si",
+              "etiqueta": "Sí, consta comprobado"
+            },
+            {
+              "valor": "no",
+              "etiqueta": "No"
+            },
+            {
+              "valor": "pendiente",
+              "etiqueta": "No puede comprobarse todavía"
+            }
+          ]
+        }
+      ],
+      "salidas": [
+        {
+          "cuando": {
+            "hecho": "si"
+          },
+          "articulo": "7.k",
+          "resultado": "Objeto exterior sin sujeción suficiente y con peligro de caída a la vía pública.",
+          "sancion": {
+            "tipo": "fija",
+            "texto": "30,05 €"
+          }
+        },
+        {
+          "cuando": {
+            "hecho": "no"
+          },
+          "sinInfraccion": true,
+          "resultado": "No se acreditan conjuntamente falta de sujeción y peligro."
+        },
+        {
+          "cuando": {
+            "hecho": "pendiente"
+          },
+          "pendiente": true,
+          "resultado": "Asegurar la zona y comprobar sujeción y riesgo."
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,141 @@
+{
+  "id": "CONV-OP-011",
+  "modulo": "policia_administrativa",
+  "categoria": "policia_administrativa_convivencia",
+  "titulo": "Impedir festejos, procesiones o desfiles y molestar a sus asistentes",
+  "palabras_clave": [
+    "procesión",
+    "desfile",
+    "fiesta",
+    "festejo",
+    "asistentes"
+  ],
+  "que_comprobar": [
+    "Autorización del acto",
+    "Impedimento o molestia concreta",
+    "Indicios de delito"
+  ],
+  "resultado": "Completar las comprobaciones para determinar la salida aplicable.",
+  "norma": "Ordenanza de Convivencia de Torrent",
+  "articulo": "7.i",
+  "importe_fijo": 60.1,
+  "actuacion": [
+    "Documentar lugar, hora, conducta concreta y persona responsable.",
+    "Corregir el riesgo o la afección y formular denuncia municipal solo si se acredita la salida aplicable."
+  ],
+  "competencia_denuncia": "Policía Local de Torrent.",
+  "competencia_resuelve": "Ayuntamiento de Torrent.",
+  "advertencias": [],
+  "alerta_penal": false,
+  "fuentes": [
+    "OCC-TORRENT"
+  ],
+  "estado": "validado",
+  "datos_adicionales": {
+    "convivencia": {
+      "grupo": "Convivencia, molestias y actividades",
+      "orden": 110,
+      "tema": "convivencia",
+      "icono": "party",
+      "condiciones": [
+        {
+          "id": "autorizado",
+          "etiqueta": "¿El festejo, procesión o desfile está autorizado o permitido?",
+          "opciones": [
+            {
+              "valor": "si",
+              "etiqueta": "Sí, consta comprobado"
+            },
+            {
+              "valor": "no",
+              "etiqueta": "No"
+            },
+            {
+              "valor": "pendiente",
+              "etiqueta": "No puede comprobarse todavía"
+            }
+          ]
+        },
+        {
+          "id": "conducta",
+          "etiqueta": "¿Qué conducta se acredita?",
+          "opciones": [
+            {
+              "valor": "molestia",
+              "etiqueta": "Impide el acto o causa molestias a sus asistentes"
+            },
+            {
+              "valor": "penal",
+              "etiqueta": "Agresión, amenaza u otros indicios de delito"
+            },
+            {
+              "valor": "no",
+              "etiqueta": "Ninguna de esas conductas"
+            },
+            {
+              "valor": "pendiente",
+              "etiqueta": "Hechos todavía indeterminados"
+            }
+          ]
+        }
+      ],
+      "salidas": [
+        {
+          "cuando": {
+            "autorizado": "si",
+            "conducta": "molestia"
+          },
+          "articulo": "7.i",
+          "resultado": "Impedimento de un acto permitido o molestias concretas a sus asistentes.",
+          "sancion": {
+            "tipo": "fija",
+            "texto": "60,10 €"
+          }
+        },
+        {
+          "cuando": {
+            "conducta": "penal"
+          },
+          "regulacionEspecifica": {
+            "nombre": "Seguridad Pública → Personas",
+            "explicacion": "Proteger a los afectados y completar el hecho penal concreto.",
+            "destino": {
+              "tipo": "categoria",
+              "categoryId": "seguridad_publica_agresiones_lesiones"
+            },
+            "etiquetaBoton": "Abrir módulo específico"
+          }
+        },
+        {
+          "cuando": {
+            "conducta": "no"
+          },
+          "sinInfraccion": true,
+          "resultado": "No se acredita la conducta prohibida."
+        },
+        {
+          "cuando": {
+            "autorizado": "no",
+            "conducta": "molestia"
+          },
+          "pendiente": true,
+          "resultado": "El art. 7.i exige comprobar el carácter autorizado o permitido del acto."
+        },
+        {
+          "cuando": {
+            "autorizado": "pendiente"
+          },
+          "pendiente": true,
+          "resultado": "Comprobar la autorización del acto."
+        },
+        {
+          "cuando": {
+            "conducta": "pendiente"
+          },
+          "pendiente": true,
+          "resultado": "Precisar impedimento o molestia y sus circunstancias."
+        }
+      ]
+    }
+  }
+}

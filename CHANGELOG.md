@@ -1,5 +1,14 @@
 # Historial de versiones
 
+## 0.14.0 — 05/10/2026
+
+- Estabilización del motor penal y procesal: catálogo penal único, gravedad calculada y decisión procesal centralizada.
+- Seguridad Pública adaptada a la intervención inmediata: preguntas sobre hechos observables, sin exigir diagnósticos forenses o valoraciones periciales posteriores.
+- Respuesta policial y explicación procesal «ⓘ ¿Por qué?» cuando el subtipo exacto permanece pendiente y existen consecuencias jurídicas comunes seguras.
+- Pruebas de arquitectura e interfaz que protegen el circuito común frente a clasificaciones manuales y motores de detención paralelos.
+- Convivencia reorganizada en tres bloques y ampliada a 23 casos operativos, con navegación e iconografía coherentes.
+- Ayudas visuales de Terrazas optimizadas en una actualización gráfica separada.
+
 ## 0.13.0 — 28/09/2026
 
 - Primera biblioteca de seis ayudas gráficas vectoriales, opcionales y reutilizables, limitada al módulo de Terrazas.

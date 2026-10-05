@@ -111,7 +111,10 @@ export type SpecificRegulationReferral = {
 };
 export type ConvivenciaOutcome = {
   cuando: Record<string, string>;
+  pendiente?: boolean;
   resultado?: string;
+  norma?: string;
+  fuentes?: string[];
   articulo?: string;
   calificacion?: string;
   sancion?: string | SanctionPresentation;
