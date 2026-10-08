@@ -472,14 +472,16 @@
   },
   {
     "id": "TR-MOV-SRC-001",
-    "nombre": "Ordenanza Municipal de Movilidad y Circulación de Torrent — arts. 1, 72 y 73",
+    "nombre": "Ordenanza Municipal de Movilidad y Circulación de Torrent",
     "nombreCorto": "Ordenanza de movilidad de Torrent",
     "tipo": "Ordenanza municipal",
     "ambito": "Torrent",
     "organismo": "Ayuntamiento de Torrent",
     "grupoBiblioteca": "ordenanzas_municipales",
     "urlOficial": "https://torrent.es/wp-content/uploads/2022/12/Ordenanza-C-movilidad-circulacion-1.pdf",
-    "estado_vigencia_auditoria": "validado"
+    "estado_vigencia_auditoria": "validado",
+    "preceptos": ["1", "39 bis.2", "39 bis.3", "72", "73", "Anexo I"],
+    "uso": "Circulación VMP en vías y zonas peatonales de Torrent, junto a medidas locales compatibles. Contrastar los preceptos afectados por RD 518/2026."
   },
   {
     "id": "TR-VMP-SRC-001",
@@ -972,6 +974,51 @@
     "urlOficial": "https://torrent.es/tramites/licencia-de-obra-que-afecte-a-dominio-publico-canalizaciones-instalacion-de-tendidos-aereos-obras-en-via-publica/",
     "estado_vigencia_auditoria": "fuente oficial consultable",
     "uso": "Comprobación administrativa de obras en vía pública, canalizaciones, subsuelo y vuelo."
+  },
+  {
+    "id": "TR-VMP-SRC-RD518-2026",
+    "nombre": "Real Decreto 518/2026, de 24 de junio, de protección de usuarios vulnerables de la vía",
+    "nombreCorto": "RD 518/2026",
+    "tipo": "Real decreto",
+    "ambito": "Estatal",
+    "organismo": "Ministerio de la Presidencia, Justicia y Relaciones con las Cortes",
+    "grupoBiblioteca": "seguridad_vial",
+    "urlOficial": "https://www.boe.es/eli/es/rd/2026/06/24/518",
+    "estado_vigencia_auditoria": "vigente desde 01/10/2026",
+    "uso": "Modificación del Reglamento General de Circulación: arts. 38.4, 118.3 y 4, 151 a 155 y disposición transitoria tercera."
+  },
+  {
+    "id": "TR-VMP-SRC-SANC-2026-27",
+    "nombre": "Instrucción DGT SANC 2026/27 — RD 518/2026 y relación de infracciones",
+    "nombreCorto": "Instrucción SANC 2026/27",
+    "tipo": "Instrucción DGT",
+    "ambito": "Estatal",
+    "organismo": "Dirección General de Tráfico",
+    "grupoBiblioteca": "seguridad_vial",
+    "estado_vigencia_auditoria": "PDF original aportado; publicación pública no localizada",
+    "uso": "Anexo de altas y bajas ARCI para la reforma de usuarios vulnerables."
+  },
+  {
+    "id": "TR-VMP-SRC-SANC-2026-25",
+    "nombre": "Instrucción DGT SANC 2026/25 — calzado cerrado y guantes",
+    "nombreCorto": "Instrucción SANC 2026/25",
+    "tipo": "Instrucción DGT",
+    "ambito": "Estatal",
+    "organismo": "Dirección General de Tráfico",
+    "grupoBiblioteca": "seguridad_vial",
+    "estado_vigencia_auditoria": "PDF original aportado; publicación pública no localizada",
+    "uso": "Consulta documental de cambios sobre calzado cerrado y guantes."
+  },
+  {
+    "id": "TR-VMP-SRC-MOV-2026-28",
+    "nombre": "Instrucción DGT MOV 2026/28 — semáforos en pasos para peatones",
+    "nombreCorto": "Instrucción MOV 2026/28",
+    "tipo": "Instrucción DGT",
+    "ambito": "Estatal",
+    "organismo": "Dirección General de Tráfico",
+    "grupoBiblioteca": "seguridad_vial",
+    "estado_vigencia_auditoria": "PDF original aportado; publicación pública no localizada",
+    "uso": "Criterio sobre la coincidencia de luz amarilla intermitente para vehículos y luz verde no intermitente para peatones; posibles excepciones justificadas mediante informe técnico municipal."
   },
   {
     "id": "PA-URB-SRC-ZANJAS-CALAS-TORRENT",

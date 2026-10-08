@@ -14,11 +14,14 @@ import {
   vmpGuide,
   type VmpCategory,
   type VmpClassificationInput,
+  type VmpCirculationFacts,
+  type VmpCirculationResult,
   type VmpDocumentationResult,
   type VmpInfraction,
   type VmpOperationalOutput,
 } from "@/data/vmp";
 import { AlcoholemiaView } from "./alcoholemia";
+import { SourceLinks } from "./source-links";
 
 type BooleanValue = boolean | null;
 type AreaId = (typeof vmpGuide.areas)[number]["id"];
@@ -261,24 +264,49 @@ function TechnicalPanel({ classification }: { classification: ReturnType<typeof 
 
 function CirculationPanel() {
   const [asOf, setAsOf] = useState(vmpGuide.fecha_referencia);
-  const [selected, setSelected] = useState(vmpGuide.circulacion.infracciones[0]?.id ?? "");
-  const finding = resolveVmpCirculation(selected, asOf);
+  const [selected, setSelected] = useState("");
+  const [facts, setFacts] = useState<VmpCirculationFacts>({ road: "urbana_municipal" });
+  const update = <K extends keyof VmpCirculationFacts>(key: K, value: VmpCirculationFacts[K]) => setFacts((current) => ({ ...current, [key]: value }));
+  const finding = resolveVmpCirculation(selected, asOf, facts);
   return <section className="vmp-panel">
-    <PanelHeading icon={vmpAreaIcon("circulacion")} title="Normas de circulación" text="La fecha decide si los preceptos con vigencia futura resultan aplicables." />
-    <div className="vmp-form-grid"><label htmlFor="vmp-circulation-date"><span>Fecha de la intervención</span><input id="vmp-circulation-date" type="date" value={asOf} onChange={(event) => setAsOf(event.target.value)} /></label><label htmlFor="vmp-circulation-rule"><span>Hecho observado</span><select id="vmp-circulation-rule" value={selected} onChange={(event) => setSelected(event.target.value)}>{vmpGuide.circulacion.infracciones.map((item) => <option key={item.id} value={item.id}>{item.titulo}</option>)}</select></label></div>
-    {finding && <div className={`vmp-finding ${finding.active ? "vmp-finding-no_vmp" : "vmp-finding-pendiente"}`}><span>Resultado a fecha {formatDate(asOf)}</span><h4>{finding.active ? "Aplicable" : "Todavía no aplicable"}</h4><p>{finding.message}</p>{finding.active && <InfractionOutput item={finding} />}</div>}
+    <PanelHeading icon={vmpAreaIcon("circulacion")} title="Normas de circulación" text="Selecciona el hecho observado y completa las condiciones que determinan la denuncia." />
+    <div className="vmp-form-grid"><label htmlFor="vmp-circulation-date"><span>Fecha de la intervención</span><input id="vmp-circulation-date" type="date" value={asOf} onChange={(event) => setAsOf(event.target.value)} /></label><label htmlFor="vmp-circulation-rule"><span>Hecho observado</span><select id="vmp-circulation-rule" value={selected} onChange={(event) => { setSelected(event.target.value); setFacts({ road: "urbana_municipal" }); }}><option value="">Selecciona el hecho observado…</option>{vmpGuide.circulacion.infracciones.map((item) => <option key={item.id} value={item.id}>{item.titulo}</option>)}</select></label></div>
+    {selected && selected !== "lugar" && <label className="vmp-wide-control" htmlFor="vmp-road"><span>Tipo de vía de la intervención</span><select id="vmp-road" value={facts.road ?? ""} onChange={(event) => update("road", event.target.value as VmpCirculationFacts["road"])}><option value="urbana_municipal">Vía urbana de competencia municipal</option><option value="urbana_otra">Otra vía urbana: verificar competencia</option><option value="travesia">Travesía</option><option value="interurbana">Vía interurbana</option></select></label>}
+    {(selected === "visibilidad" || selected === "alumbrado") && <label className="vmp-wide-control" htmlFor="vmp-light-condition"><span>Condiciones observadas</span><select id="vmp-light-condition" value={facts.lightCondition ?? ""} onChange={(event) => update("lightCondition", event.target.value ? event.target.value as VmpCirculationFacts["lightCondition"] : undefined)}><option value="">Selecciona…</option><option value="dia">Día y visibilidad normal</option><option value="noche">Entre ocaso y salida del sol</option><option value="visibilidad_reducida">Visibilidad sensiblemente reducida</option></select></label>}
+    {selected === "visibilidad" && facts.lightCondition && facts.lightCondition !== "dia" && <BoolSelect id="vmp-element" label="¿Usaba al menos un elemento luminoso o reflectante conforme a EPI y visible a 150 m?" value={facts.elementCompliant ?? null} onChange={(value) => update("elementCompliant", value)} />}
+    {selected === "chaleco_profesional" && <BoolSelect id="vmp-professional" label="¿Desarrollaba actividad profesional usando el VMP?" value={facts.professional ?? null} onChange={(value) => update("professional", value)} />}
+    {selected === "lugar" && <><label className="vmp-wide-control" htmlFor="vmp-place"><span>Espacio por el que circulaba montado</span><select id="vmp-place" value={facts.place ?? ""} onChange={(event) => { const place = event.target.value ? event.target.value as VmpCirculationFacts["place"] : null; setFacts((current) => ({ road: place === "autopista_autovia" || place === "tunel_urbano" ? undefined : current.road, place })); }}><option value="">Selecciona…</option><option value="acera">Acera ordinaria</option><option value="zona_peatonal">Calle o zona peatonal de Torrent</option><option value="travesia">Travesía</option><option value="interurbana">Vía interurbana</option><option value="tunel_urbano">Túnel urbano</option><option value="autopista_autovia">Autopista o autovía</option></select></label>
+      {(facts.place === "autopista_autovia" || facts.place === "tunel_urbano") && <label className="vmp-wide-control" htmlFor="vmp-special-road"><span>Competencia de esta vía</span><select id="vmp-special-road" value={facts.road ?? ""} onChange={(event) => update("road", event.target.value ? event.target.value as VmpCirculationFacts["road"] : undefined)}><option value="">Pendiente de comprobar…</option><option value="urbana_municipal">Vía urbana de competencia municipal</option><option value="urbana_otra">Otra vía urbana</option><option value="interurbana">Vía interurbana</option></select></label>}
+      {facts.place === "zona_peatonal" && <div className="vmp-form-grid"><BoolSelect id="vmp-sign" label="¿Hay señal que prohíbe VMP?" value={facts.signProhibits ?? null} onChange={(value) => update("signProhibits", value)} /><BoolSelect id="vmp-width" label="¿Paso libre superior a 3 m?" value={facts.widthOverThree ?? null} onChange={(value) => update("widthOverThree", value)} /><BoolSelect id="vmp-ped-distance" label="¿1 m de peatones en cruces y adelantamientos?" value={facts.pedestrianSeparation ?? null} onChange={(value) => update("pedestrianSeparation", value)} /><BoolSelect id="vmp-building-distance" label="¿1 m de edificios colindantes?" value={facts.buildingSeparation ?? null} onChange={(value) => update("buildingSeparation", value)} /><BoolSelect id="vmp-priority" label="¿Se respeta la prioridad peatonal?" value={facts.pedestrianPriority ?? null} onChange={(value) => update("pedestrianPriority", value)} /><BoolSelect id="vmp-six" label="¿Circulaba a 6 km/h o menos?" value={facts.speedAtMostSix ?? null} onChange={(value) => update("speedAtMostSix", value)} /></div>}
+      {(facts.place === "interurbana" || facts.place === "tunel_urbano") && <div className="vmp-form-grid"><BoolSelect id="vmp-exception" label="¿Vía ciclista o vía cerrada a vehículos de motor?" value={facts.cyclewayOrMotorBan ?? null} onChange={(value) => update("cyclewayOrMotorBan", value)} /><BoolSelect id="vmp-exception-sign" label="¿Una señal prohíbe VMP?" value={facts.signProhibits ?? null} onChange={(value) => update("signProhibits", value)} /></div>}
+    </>}
+    <p className="vmp-notice">{vmpGuide.circulacion.maniobras.recordatorio} {vmpGuide.circulacion.maniobras.limite_codificacion}</p>
+    <SourceLinks sourceIds={vmpGuide.circulacion.maniobras.fuentes} />
+    {selected === "lugar" && <p className="vmp-notice">En las vías donde el municipio autoriza VMP, el art. 155.2 RGC remite a las reglas compartidas del art. 153.3 a 7: posición en el carril, separación de vehículos a motor y condiciones de adelantamiento y sentido de circulación.</p>}
+    {selected === "lugar" && facts.place === "zona_peatonal" && <p className="vmp-notice">Estas condiciones solo se aplican a calles y zonas peatonales autorizadas. Una acera ordinaria no queda autorizada por su anchura.</p>}
+    {finding && <TrafficDecisionOutput finding={finding} asOf={asOf} />}
   </section>;
 }
 
 function MinorsPanel({ onOpenAlcohol }: { onOpenAlcohol: () => void }) {
   const [asOf, setAsOf] = useState(vmpGuide.fecha_referencia);
-  const [age, setAge] = useState(14);
-  const finding = resolveVmpMinor(age, asOf);
+  const [age, setAge] = useState<number | null>(null);
+  const [road, setRoad] = useState<VmpCirculationFacts["road"]>("urbana_municipal");
+  const finding = age == null ? null : resolveVmpMinor(age, asOf, road);
   return <section className="vmp-panel">
     <PanelHeading icon={vmpAreaIcon("menores")} title="Menores de edad" text="Distingue la regla de edad por fecha de la tasa 0,0 de alcohol." />
-    <div className="vmp-form-grid"><label htmlFor="vmp-minor-date"><span>Fecha de la intervención</span><input id="vmp-minor-date" type="date" value={asOf} onChange={(event) => setAsOf(event.target.value)} /></label><label htmlFor="vmp-age"><span>Edad</span><input id="vmp-age" type="number" min="0" value={age} onChange={(event) => setAge(Number(event.target.value))} /></label></div>
-    <div className={`vmp-finding ${finding.prohibited ? "vmp-finding-no_vmp" : finding.active ? "vmp-finding-a" : "vmp-finding-pendiente"}`}><span>Resultado por edad</span><h4>{finding.prohibited ? "Circulación prohibida por edad" : finding.active ? "No se activa la prohibición" : "Regla todavía no vigente"}</h4><p>{finding.message}</p><p>{vmpGuide.menores.alcohol}</p><button className="vmp-primary-action" onClick={onOpenAlcohol}>Abrir Alcoholemia con VMP →</button></div>
+    <div className="vmp-form-grid"><label htmlFor="vmp-minor-date"><span>Fecha de la intervención</span><input id="vmp-minor-date" type="date" value={asOf} onChange={(event) => setAsOf(event.target.value)} /></label><label htmlFor="vmp-age"><span>Edad acreditada</span><input id="vmp-age" type="number" min="0" value={age ?? ""} onChange={(event) => setAge(event.target.value === "" ? null : Number(event.target.value))} /></label></div>
+    <label className="vmp-wide-control" htmlFor="vmp-minor-road"><span>Tipo de vía</span><select id="vmp-minor-road" value={road} onChange={(event) => setRoad(event.target.value as VmpCirculationFacts["road"])}><option value="urbana_municipal">Vía urbana de competencia municipal</option><option value="urbana_otra">Otra vía urbana: verificar competencia</option><option value="travesia">Travesía</option><option value="interurbana">Vía interurbana</option></select></label>
+    {finding ? <div className={`vmp-finding ${finding.prohibited ? "vmp-finding-no_vmp" : finding.active ? "vmp-finding-a" : "vmp-finding-pendiente"}`}><span>Resultado por edad</span><h4>{finding.prohibited ? "Circulación prohibida por edad" : finding.active ? "No se activa la prohibición" : "Regla todavía no vigente"}</h4><p>{finding.message}</p>{finding.infraction && <TrafficInfractionOutput item={finding.infraction} competence={finding.competence} />}<SourceLinks sourceIds={finding.sourceIds} /><p>{vmpGuide.menores.alcohol}</p><button className="vmp-primary-action" onClick={onOpenAlcohol}>Abrir Alcoholemia con VMP →</button></div> : <Pending text="Indica la edad acreditada del conductor para resolver la regla de 15 años." />}
   </section>;
+}
+
+function TrafficDecisionOutput({ finding, asOf }: { finding: VmpCirculationResult; asOf: string }) {
+  return <div className={`vmp-finding ${finding.decision === "denuncia" ? "vmp-finding-no_vmp" : finding.decision === "no" ? "vmp-finding-a" : "vmp-finding-pendiente"}`}><span>Resultado a fecha {formatDate(asOf)}</span><h4>{finding.decision === "denuncia" ? "DENUNCIA: SÍ" : finding.decision === "no" ? "DENUNCIA: NO" : "PENDIENTE DE COMPROBACIÓN"}</h4><p>{finding.message}</p>{finding.item && <TrafficInfractionOutput item={finding.item} competence={finding.competence} />}{finding.observation && <p><strong>Observación normativa:</strong> {finding.observation}</p>}<SourceLinks sourceIds={finding.sourceIds} /></div>;
+}
+
+function TrafficInfractionOutput({ item, competence }: { item: Omit<VmpInfraction, "id">; competence: string }) {
+  return <div className="vmp-output vmp-output-compact"><div className="vmp-output-title"><span>Precepto a utilizar</span><strong>{item.articulo ?? item.codigo}</strong></div><dl><div><dt>Código</dt><dd>{item.codigo}</dd></div><div><dt>Infracción</dt><dd>{item.titulo}</dd></div><div><dt>Sanción</dt><dd>{item.calificacion} · {euro.format(item.importe)} / {euro.format(item.reducido)} con reducción, cuando proceda</dd></div><div><dt>Puntos</dt><dd>{item.puntos ?? 0}</dd></div><div><dt>Responsable</dt><dd>{item.responsable ?? "Conductor"}</dd></div><div><dt>Competencia sancionadora</dt><dd>{competence}</dd></div></dl></div>;
 }
 
 function PracticalCases({ onOpen, onHome }: { onOpen: (id: string) => void; onHome: () => void }) {

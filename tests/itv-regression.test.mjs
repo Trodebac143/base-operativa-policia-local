@@ -138,7 +138,7 @@ test("biblioteca y actualización conservan el modo seguro", async () => {
 
 test("Biblioteca visible, consultable y sin controles de gestión", async () => {
   const { libraryDocuments } = await vite.ssrLoadModule("/data/documents.ts");
-  assert.equal(libraryDocuments.length, 8);
+  assert.equal(libraryDocuments.length, 11);
   assert.ok(libraryDocuments.some((document) => document.archivo === "Manual Intervención VMP.pdf"));
   for (const document of libraryDocuments) await access(new URL(`../public/documentos/${document.archivo}`, import.meta.url));
   const libraryView = await readFile(new URL("../app/library-view.tsx", import.meta.url), "utf8");

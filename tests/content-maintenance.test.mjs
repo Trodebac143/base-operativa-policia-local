@@ -35,7 +35,7 @@ test("los nombres físicos de PDF solo se relacionan desde la biblioteca", async
   const metadata = JSON.parse(await readFile(path.join(root, "contenido/biblioteca/metadatos.json"), "utf8"));
   const generated = JSON.parse(await readFile(path.join(root, "contenido/biblioteca/documentos.json"), "utf8"));
   assert.doesNotMatch(sourcesText, /documentoLocal/);
-  assert.equal(metadata.length, 8);
+  assert.equal(metadata.length, 11);
   assert.equal(new Set(metadata.map((document) => document.id)).size, metadata.length);
   assert.deepEqual(generated, metadata);
 });

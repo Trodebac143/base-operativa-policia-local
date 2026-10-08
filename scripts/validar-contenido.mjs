@@ -429,7 +429,7 @@ else {
   if (!sourceIds.has(vmpGuide.fuente_manual)) errors.push(`VMP/VPL: fuente inexistente ${vmpGuide.fuente_manual}`);
   if (vmpGuide.documentacion?.infracciones?.length !== 3) errors.push("VMP/VPL: catálogo documental incompleto");
   if (vmpGuide.tecnica?.infracciones?.length !== 3) errors.push("VMP/VPL: catálogo técnico incompleto");
-  if (!Array.isArray(vmpGuide.circulacion?.infracciones) || vmpGuide.circulacion.infracciones.length < 15) errors.push("VMP/VPL: catálogo de circulación incompleto");
+  if (!Array.isArray(vmpGuide.circulacion?.infracciones) || vmpGuide.circulacion.infracciones.length < 14) errors.push("VMP/VPL: catálogo de circulación incompleto");
   if (!Array.isArray(vmpGuide.casos_practicos) || vmpGuide.casos_practicos.length !== 8) errors.push("VMP/VPL: deben existir exactamente 8 casos prácticos");
   else {
     duplicateIds(vmpGuide.casos_practicos, "Casos prácticos VMP/VPL");

@@ -55,6 +55,33 @@ export type VmpInfraction = {
   importe: number;
   reducido: number;
   absorbe?: string[];
+  puntos?: number;
+  responsable?: string;
+  fuentes?: string[];
+};
+
+export type VmpCirculationFacts = {
+  road?: "urbana_municipal" | "urbana_otra" | "travesia" | "interurbana";
+  lightCondition?: "dia" | "noche" | "visibilidad_reducida";
+  elementCompliant?: boolean | null;
+  professional?: boolean | null;
+  place?: "acera" | "zona_peatonal" | "travesia" | "interurbana" | "tunel_urbano" | "autopista_autovia" | null;
+  signProhibits?: boolean | null;
+  widthOverThree?: boolean | null;
+  pedestrianSeparation?: boolean | null;
+  buildingSeparation?: boolean | null;
+  pedestrianPriority?: boolean | null;
+  speedAtMostSix?: boolean | null;
+  cyclewayOrMotorBan?: boolean | null;
+};
+
+export type VmpCirculationResult = {
+  decision: "denuncia" | "no" | "pendiente";
+  item: VmpInfraction | null;
+  message: string;
+  observation?: string;
+  competence: string;
+  sourceIds: string[];
 };
 
 export type VmpDocumentationResult = {
@@ -148,8 +175,11 @@ type GuideShape = {
     comprobaciones: string[];
     medidas: { acta: string; actuacion_base: string[]; "5D": TechnicalMeasure; "5E": TechnicalMeasure; "5F": TechnicalMeasure; NO_MATRICULABLE: TechnicalMeasure };
   };
-  circulacion: { infracciones: Array<VmpInfraction & { vigente_desde?: string }> };
-  menores: { edad_minima: number; vigente_desde: string; regla: string; datos_responsable: string; alcohol: string };
+  circulacion: {
+    maniobras: { recordatorio: string; limite_codificacion: string; fuentes: string[] };
+    infracciones: Array<VmpInfraction & { vigente_desde?: string }>;
+  };
+  menores: { edad_minima: number; vigente_desde: string; regla: string; datos_responsable: string; alcohol: string; infraccion: Omit<VmpInfraction, "id"> };
   casos_practicos: VmpPracticalCase[];
   incidencias: string[];
 };
@@ -289,23 +319,85 @@ export function resolveNonVmpRoute(route: "UE_168_2013" | "NO_MATRICULABLE" | nu
   return operationalOutput(vmpGuide.tecnica.no_vmp_no_matriculable, vmpGuide.tecnica.medidas.NO_MATRICULABLE);
 }
 
-export function resolveVmpCirculation(infractionId: string, asOf: string) {
+export function resolveVmpCirculation(infractionId: string, asOf: string, facts: VmpCirculationFacts = {}): VmpCirculationResult | null {
   const item = vmpGuide.circulacion.infracciones.find((candidate) => candidate.id === infractionId);
   if (!item) return null;
-  const active = !item.vigente_desde || asOf >= item.vigente_desde;
-  return { ...item, active, message: active ? "Precepto aplicable en la fecha indicada." : `Todavía no aplicable. Entrada en vigor: ${item.vigente_desde!.split("-").reverse().join("/")}.` };
+  const road = facts.place === "travesia" ? "travesia" : facts.place === "interurbana" ? "interurbana" : facts.place === "autopista_autovia" || facts.place === "tunel_urbano" ? facts.road ?? "urbana_otra" : facts.road ?? "urbana_municipal";
+  const competence = road === "urbana_municipal"
+    ? "Ayuntamiento de Torrent: infracción de circulación en vía urbana de su competencia (art. 84.4 LSV)."
+    : road === "travesia" || road === "interurbana"
+      ? "Jefatura de Tráfico: travesía o vía interurbana; verificar la titularidad y el expediente (art. 84.1 LSV)."
+      : "Verificar autoridad competente de esta vía urbana antes de tramitar (art. 84 LSV).";
+  const sourceIds = [...new Set([...(item.fuentes ?? (item.codigo.includes("O.O.M.M") ? ["TR-MOV-SRC-001"] : ["ALC-SRC-RGC"])), "TR-ITV-SRC-001"])];
+  const answer = (decision: VmpCirculationResult["decision"], message: string, sanction: VmpInfraction | null = decision === "denuncia" ? item : null, observation?: string): VmpCirculationResult => {
+    const uncertainCompetence = decision === "denuncia" && road === "urbana_otra";
+    return {
+      decision: uncertainCompetence ? "pendiente" : decision,
+      item: uncertainCompetence ? null : sanction,
+      message: uncertainCompetence ? `${message} La competencia de esta vía urbana no está acreditada: verificarla antes de denunciar.` : message,
+      observation,
+      competence,
+      sourceIds: [...new Set([...(sanction?.fuentes ?? sourceIds), "TR-ITV-SRC-001"])],
+    };
+  };
+  const amended = asOf >= "2026-10-01";
+  if (item.vigente_desde && !amended) {
+    if (infractionId === "casco") return answer("denuncia", "Antes de la reforma estatal se aplica la obligación municipal de casco.", { ...item, codigo: "Art. 39 bis.2.4 O.O.M.M.", articulo: "Art. 39 bis.2.4 Ordenanza de Torrent", fuentes: ["TR-MOV-SRC-001"] });
+    return answer("pendiente", "La reforma estatal todavía no estaba en vigor en la fecha indicada. Revisar la regulación aplicable entonces; sin denuncia automática con este codificado.");
+  }
+
+  if (infractionId === "casco") return answer("denuncia", "Comprobar casco homologado o certificado y correctamente abrochado. VMP: 0 puntos.", item, "La ordenanza (art. 39 bis.2.4) contiene la obligación de casco; utilizar el precepto estatal y ARCI actualizados para esta conducta.");
+  if (infractionId === "visibilidad") {
+    if (!facts.lightCondition) return answer("pendiente", "Indicar si es de día, de noche o hay visibilidad reducida.");
+    if (facts.lightCondition === "dia") return answer("no", "De día y con visibilidad normal no se exige este elemento personal por el art. 118.3 RGC.");
+    if (facts.elementCompliant == null) return answer("pendiente", "Comprobar al menos un elemento luminoso o reflectante conforme a EPI y visible a 150 m.");
+    if (facts.elementCompliant) return answer("no", "El elemento personal exigido cumple las condiciones indicadas.");
+    return answer("denuncia", "Entre ocaso y salida del sol, o con visibilidad sensiblemente reducida: elemento luminoso o reflectante conforme a EPI visible a 150 m. VMP: 0 puntos.", item, "La ordenanza (art. 39 bis.2.6) solo lo recomienda; la obligación estatal posterior prevalece. No confundir con el chaleco profesional.");
+  }
+  if (infractionId === "alumbrado") {
+    if (!facts.lightCondition) return answer("pendiente", "Indicar si circulaba de día, de noche o con visibilidad reducida.");
+    if (facts.lightCondition === "dia" && asOf < "2027-10-01") return answer("no", "El alumbrado diurno todavía no es exigible: disposición transitoria tercera del RD 518/2026. No generar CIR 155.5.5A.");
+    return answer("denuncia", "Alumbrado apagado cuando su uso ya es exigible. De noche rige desde el 01/10/2026; de día, desde el 01/10/2027. VMP: 0 puntos.", item, "La ordenanza (art. 39 bis.2.7) regula la dotación del alumbrado, pero no sustituye la regla estatal de uso ni su régimen transitorio.");
+  }
+  if (infractionId === "chaleco_profesional") {
+    if (facts.professional == null) return answer("pendiente", "Confirmar que el conductor desarrollaba actividad profesional utilizando el VMP.");
+    return facts.professional ? answer("denuncia", "Actividad profesional en VMP sin chaleco reflectante de alta visibilidad conforme a EPI. Exigible en todo tipo de vías; 0 puntos.", item, "Obligación distinta del elemento personal de visibilidad nocturna del art. 118.3 RGC.") : answer("no", "La obligación específica de chaleco profesional no se aplica si no desarrolla actividad profesional con el VMP.");
+  }
+  if (infractionId === "lugar") {
+    if (!facts.place) return answer("pendiente", "Seleccionar el tipo de espacio; una acera no es una calle peatonal.");
+    if (facts.place === "acera") return answer("denuncia", "Circular montado en VMP por acera está prohibido, cualquiera que sea su anchura.", { ...item, codigo: "CIR 152.1.5A", articulo: "Art. 152.1 RGC", titulo: "Circular con un VMP por la acera", calificacion: "Leve", importe: 100, reducido: 50, puntos: 0, responsable: "Conductor" }, "La ordenanza (art. 39 bis.3.2 y anexo I) prevé 200 € para el supuesto agregado; aplicar el precepto estatal específico y el ARCI vigente de 100 €.");
+    if (facts.place === "zona_peatonal") {
+      const checks = [facts.signProhibits === false, facts.widthOverThree, facts.pedestrianSeparation, facts.buildingSeparation, facts.pedestrianPriority, facts.speedAtMostSix];
+      if (checks.every((check) => check === true)) return answer("no", "La ordenanza de Torrent (art. 39 bis.3.3) permite circular: sin señal de prohibición, paso libre >3 m, separación de 1 m de peatones en cruces/adelantamientos y edificios, prioridad peatonal y velocidad ≤6 km/h.");
+      if (facts.signProhibits == null || checks.some((check) => check == null)) return answer("pendiente", "Completar las seis condiciones de la ordenanza antes de resolver la circulación en zona peatonal.");
+      return answer("denuncia", "La circulación en zona peatonal no reúne todas las condiciones del art. 39 bis.3.3 de Torrent; consignar cuál se incumplió.", { ...item, codigo: "Art. 39 bis O.O.M.M.", articulo: "Art. 39 bis.3.3 y anexo I Ordenanza de Torrent", titulo: "Circular por zona peatonal incumpliendo las condiciones municipales", calificacion: "Grave", importe: 200, reducido: 100, puntos: 0, responsable: "Conductor" }, "La excepción municipal es compatible con el art. 152.1 RGC. Este supuesto utiliza el código de la ordenanza, no un ARCI estatal específico.");
+    }
+    if (facts.place === "travesia" || facts.place === "autopista_autovia") return answer("denuncia", "La prohibición estatal no tiene excepción de vía ciclista para este tipo de vía.", { ...item, codigo: "CIR 038.4.5B", articulo: `Art. 38.4.${facts.place === "travesia" ? "b" : "a"} RGC`, titulo: "Circular con VMP por vía prohibida", calificacion: "Grave", importe: 200, reducido: 100, puntos: 0, responsable: "Conductor" });
+    if (facts.cyclewayOrMotorBan == null || facts.signProhibits == null) return answer("pendiente", "Comprobar si es vía ciclista o vía sin vehículos de motor y si existe señal que prohíba el VMP.");
+    if (facts.cyclewayOrMotorBan && !facts.signProhibits) return answer("no", "La excepción del art. 38.4.c RGC permite este itinerario sin señal prohibitiva.", null, "La prohibición general del art. 39 bis.3.4 municipal se opone a esta excepción estatal; aplicar el art. 38.4.c RGC. Confirmar la clase de vía y señalización.");
+    return answer("denuncia", "Fuera de la excepción estatal, la circulación de VMP en esta vía está prohibida.", { ...item, codigo: "CIR 038.4.5B", articulo: "Art. 38.4.c RGC", titulo: "Circular con VMP por vía interurbana o túnel urbano prohibido", calificacion: "Grave", importe: 200, reducido: 100, puntos: 0, responsable: "Conductor" }, "El art. 39 bis.3.4 municipal no refleja la excepción estatal; utilizar art. 38.4.c RGC y CIR 038.4.5B.");
+  }
+  return answer("denuncia", "Conducta seleccionada constatada. Comprobar los elementos de la infracción y el ámbito de la vía antes de tramitar.");
 }
 
-export function resolveVmpMinor(age: number, asOf: string) {
+export function resolveVmpMinor(age: number, asOf: string, road: VmpCirculationFacts["road"] = "urbana_municipal") {
   const active = asOf >= vmpGuide.menores.vigente_desde;
   const prohibited = active && age < vmpGuide.menores.edad_minima;
+  const competence = road === "urbana_municipal"
+    ? "Ayuntamiento de Torrent en vía urbana de su competencia (art. 84.4 LSV)."
+    : road === "travesia" || road === "interurbana"
+      ? "Jefatura de Tráfico en travesía o vía interurbana (art. 84.1 LSV)."
+      : "Competencia de la vía urbana pendiente de acreditar (art. 84 LSV).";
   return {
     active,
     prohibited,
+    infraction: prohibited && road !== "urbana_otra" ? vmpGuide.menores.infraccion : null,
+    competence,
+    sourceIds: vmpGuide.menores.infraccion.fuentes ?? [],
     message: !active
       ? "La prohibición por edad todavía no está vigente en la fecha indicada."
       : prohibited
-        ? `${vmpGuide.menores.regla} ${vmpGuide.menores.datos_responsable}`
+        ? `${vmpGuide.menores.regla} ${vmpGuide.menores.datos_responsable}${road === "urbana_otra" ? " Verificar la competencia de la vía antes de denunciar." : ""}`
         : "No se activa la prohibición por edad con los datos indicados.",
   };
 }

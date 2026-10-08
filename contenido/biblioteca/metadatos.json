@@ -49,5 +49,26 @@
     "titulo": "Detenciones y asistencia letrada",
     "archivo": "SOBRRE DETENCIONES Y ASISTENCIA LETRADA.pdf",
     "descripcion": "Documento operativo de consulta."
+  },
+  {
+    "id": "DOC-009",
+    "titulo": "Instrucción SANC 2026/27 — protección de usuarios vulnerables",
+    "archivo": "Instrucción 2026-27 RD 518-2026 protección usuarios vulnerables.pdf",
+    "fuenteId": "TR-VMP-SRC-SANC-2026-27",
+    "descripcion": "PDF original aportado. Incluye el anexo de altas y bajas ARCI."
+  },
+  {
+    "id": "DOC-010",
+    "titulo": "Instrucción SANC 2026/25 — calzado cerrado y guantes",
+    "archivo": "Instruccion 2026-25 sobre utilización de calzado cerrado y guantes.pdf",
+    "fuenteId": "TR-VMP-SRC-SANC-2026-25",
+    "descripcion": "PDF original aportado para consulta de Seguridad Vial."
+  },
+  {
+    "id": "DOC-011",
+    "titulo": "Instrucción MOV 2026/28",
+    "archivo": "Instrucción MOV 2026-28.pdf",
+    "fuenteId": "TR-VMP-SRC-MOV-2026-28",
+    "descripcion": "Criterio sobre semáforos en pasos para peatones y excepciones justificadas mediante informe técnico municipal."
   }
 ]

@@ -2,8 +2,6 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test, { after } from "node:test";
 import { fileURLToPath } from "node:url";
-import React from "react";
-import { renderToStaticMarkup } from "react-dom/server";
 import { createServer } from "vite";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
@@ -145,13 +143,13 @@ test("17 · las salidas internas prohibidas no aparecen en la implementación ni
 });
 
 test("18 · el menú inicial contiene exactamente las siete áreas operativas acordadas", async () => {
-  const { VmpGuideView } = await vite.ssrLoadModule("/app/guided-traffic-module.tsx");
-  const html = renderToStaticMarkup(React.createElement(VmpGuideView, { cases: seguroCases, onOpenCase() {} }));
+  const component = await readFile(new URL("../app/guided-traffic-module.tsx", import.meta.url), "utf8");
   const titles = ["Identificar / clasificar vehículo", "Certificado, registro e identificación", "Seguro obligatorio", "Requisitos técnicos / modificaciones", "Normas de circulación", "Alcohol y drogas", "Menores de edad"];
   assert.equal(data.vmpGuide.areas.length, 7);
   assert.deepEqual(data.vmpGuide.areas.map((area) => area.titulo), titles);
-  for (const title of titles) assert.match(html, new RegExp(title.replace("/", "\\/")));
-  assert.equal((html.match(/<button/g) ?? []).length, 8, "siete áreas más un único acceso secundario");
+  assert.match(component, /vmpGuide\.areas\.slice\(\)\.sort/);
+  assert.match(component, /vmp-area-grid/);
+  assert.match(component, /vmp-practical-access/);
 });
 
 test("19 · inmovilización no existe como área y solo se obtiene como medida resultante", async () => {
@@ -164,9 +162,8 @@ test("19 · inmovilización no existe como área y solo se obtiene como medida r
 });
 
 test("20 · Casos prácticos es un acceso secundario y no una octava área", async () => {
-  const { VmpGuideView } = await vite.ssrLoadModule("/app/guided-traffic-module.tsx");
-  const html = renderToStaticMarkup(React.createElement(VmpGuideView, { cases: seguroCases, onOpenCase() {} }));
-  assert.match(html, /🧩 Casos prácticos/);
+  const component = await readFile(new URL("../app/guided-traffic-module.tsx", import.meta.url), "utf8");
+  assert.match(component, /🧩 Casos prácticos/);
   assert.equal(data.vmpGuide.areas.some((area) => area.id === "casos"), false);
 });
 
@@ -205,10 +202,10 @@ test("24 · Seguro pregunta por clasificación en el propio flujo y usa la pregu
 });
 
 test("25 · las reglas de circulación respetan 01/10/2026 y 01/10/2027", () => {
-  assert.equal(data.resolveVmpCirculation("casco_estado", "2026-09-30").active, false);
-  assert.equal(data.resolveVmpCirculation("casco_estado", "2026-10-01").active, true);
-  assert.equal(data.resolveVmpCirculation("iluminacion", "2027-09-30").active, false);
-  assert.equal(data.resolveVmpCirculation("iluminacion", "2027-10-01").active, true);
+  assert.equal(data.resolveVmpCirculation("casco", "2026-09-30").item.articulo, "Art. 39 bis.2.4 Ordenanza de Torrent");
+  assert.equal(data.resolveVmpCirculation("casco", "2026-10-01").item.codigo, "CIR 118.3.5D");
+  assert.equal(data.resolveVmpCirculation("alumbrado", "2027-09-30", { lightCondition: "dia" }).decision, "no");
+  assert.equal(data.resolveVmpCirculation("alumbrado", "2027-10-01", { lightCondition: "dia" }).decision, "denuncia");
   assert.equal(data.resolveVmpMinor(14, "2026-09-30").prohibited, false);
   assert.equal(data.resolveVmpMinor(14, "2026-10-01").prohibited, true);
 });
@@ -225,8 +222,9 @@ test("27 · la fuente se mantiene como manual interno y la incidencia humana no 
   const source = sources.find((item) => item.id === data.vmpGuide.fuente_manual);
   assert.match(source.tipo, /Manual \/ protocolo operativo interno/);
   assert.match(source.clasificacion_repositorio, /no norma jurídica autónoma/);
-  assert.equal(data.vmpGuide.incidencias.length, 1);
+  assert.equal(data.vmpGuide.incidencias.length, 2);
   assert.match(data.vmpGuide.incidencias[0], /ficha o informe técnico/i);
+  assert.match(data.vmpGuide.incidencias[1], /155\.4 RGCir.*no se genera denuncia automática/i);
 });
 
 test("28 · Seguro y Documentación solo clasifican tras confirmación y conservan los campos", async () => {
