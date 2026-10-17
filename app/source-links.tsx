@@ -2,7 +2,7 @@ import { documentForSource } from "@/data/documents";
 import { resolveCaseSources } from "@/data/sources";
 import { publicPath } from "@/lib/public-path";
 
-export function SourceLinks({ sourceIds, className = "case-sources" }: { sourceIds: string[]; className?: string }) {
+export function SourceLinks({ sourceIds, className = "case-sources", showPendingNotes = true }: { sourceIds: string[]; className?: string; showPendingNotes?: boolean }) {
   const sources = resolveCaseSources(sourceIds);
   const links = sources.flatMap((source) => {
     const localDocument = documentForSource(source.id);
@@ -22,7 +22,7 @@ export function SourceLinks({ sourceIds, className = "case-sources" }: { sourceI
     return entries;
   });
 
-  const pending = sources.filter((source) => source.consultaPendiente);
+  const pending = showPendingNotes ? sources.filter((source) => source.consultaPendiente) : [];
   if (!links.length && !pending.length) return null;
   return <section className={className} aria-label="Fuentes jurídicas">
     <strong>Fuentes jurídicas ({sources.length})</strong>

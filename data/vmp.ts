@@ -249,10 +249,10 @@ export function resolveVmpDocumentation(input: VmpDocumentInput): VmpDocumentati
   if (input.category === "INCOMPLETA") return { applicable: false, transitional, certificateRequired, complaints: [], message: "Completa primero las características de fábrica." };
 
   const byId = new Map(vmpGuide.documentacion.infracciones.map((item) => [item.id, item]));
-  if (certificateRequired && !input.hasCertificate) return { applicable: true, transitional, certificateRequired, complaints: [byId.get("5A")!], message: "Denunciar 5A. Absorbe 5B y 5C." };
-  if (!input.registered) return { applicable: true, transitional, certificateRequired, complaints: [byId.get("5B")!], message: "Denunciar 5B. Absorbe 5C." };
+  if (certificateRequired && !input.hasCertificate) return { applicable: true, transitional, certificateRequired, complaints: [byId.get("5A")!], message: "Falta el certificado de circulación exigible. La denuncia por esta falta comprende también las carencias posteriores de inscripción o identificación." };
+  if (!input.registered) return { applicable: true, transitional, certificateRequired, complaints: [byId.get("5B")!], message: "El VMP no consta inscrito en la DGT. La falta de etiqueta queda comprendida en esta denuncia documental." };
   const missingIdentification = !input.hasIdentificationLabel || (input.hasCertificate && !input.hasMarkingPlate);
-  if (missingIdentification) return { applicable: true, transitional, certificateRequired, complaints: [byId.get("5C")!], message: "Denunciar 5C por la identificación exigible ausente." };
+  if (missingIdentification) return { applicable: true, transitional, certificateRequired, complaints: [byId.get("5C")!], message: !input.hasIdentificationLabel ? "Falta la etiqueta identificativa exigible de la DGT." : "Falta la placa de marcaje exigible en este VMP certificado." };
   return {
     applicable: true,
     transitional,
@@ -268,16 +268,19 @@ export function resolveVmpInsurance(input: VmpInsuranceInput): VmpInsuranceResul
   if (input.category === "INCOMPLETA") return { regime: "NINGUNO", complaint: null, caseId: null, message: "Introduce MOM, velocidad máxima de fabricación y los demás datos definitorios." };
   if (input.category === "NO_VMP") {
     if (input.documentedMotorClass == null) return { regime: "NINGUNO", complaint: null, caseId: null, message: vmpGuide.seguro.no_vmp };
-    if (input.documentedMotorClass === "OTHER") return { regime: "NINGUNO", complaint: false, caseId: null, message: "La documentación aportada no permite aplicar automáticamente el régimen SOA; continuar por la clase real acreditada." };
+    if (input.documentedMotorClass === "OTHER") return { regime: "NINGUNO", complaint: null, caseId: null, message: "La clase acreditada no permite resolver aquí el seguro. Comprueba el régimen que le corresponde antes de decidir si procede denuncia." };
     if (input.insured) return { regime: "SOA", complaint: false, caseId: null, message: "Seguro en vigor: sin infracción por aseguramiento." };
     return { regime: "SOA", complaint: true, caseId: input.circulating ? "TR-SOA-OP-001" : "TR-SOA-OP-002", message: "Aplicar el caso común de Seguro correspondiente a la clase real acreditada." };
   }
   if (input.insured) return { regime: input.category === "A" ? "SDA" : "SOA", complaint: false, caseId: null, message: "Seguro en vigor: sin infracción por aseguramiento." };
   if (input.category === "A") {
-    const requirementsKnown = input.certificateRequired != null && input.hasCertificate != null && input.registered != null && input.hasIdentificationLabel != null;
-    if (!requirementsKnown) return { regime: "NINGUNO", complaint: null, caseId: null, message: "Completa certificado, inscripción y etiqueta para resolver el régimen SDA." };
-    const prerequisites = (!input.certificateRequired || input.hasCertificate) && input.registered && input.hasIdentificationLabel;
-    if (!prerequisites) return { regime: "NINGUNO", complaint: false, caseId: null, message: vmpGuide.seguro.sin_denuncia };
+    const requirementsKnown = input.hasCertificate != null && input.registered != null && input.hasIdentificationLabel != null;
+    if (!requirementsKnown) return { regime: "NINGUNO", complaint: null, caseId: null, message: "Comprueba si tiene certificado de circulación, inscripción y etiqueta identificativa antes de resolver el seguro específico del VPL." };
+    if (!input.hasCertificate) return { regime: "NINGUNO", complaint: false, caseId: null, message: input.certificateRequired === false
+      ? "No procede denuncia por el seguro específico VPL: circula durante el período transitorio sin certificado de circulación, pero ese certificado sigue siendo requisito previo para esta infracción. Comprueba inscripción y etiqueta por separado."
+      : "No procede denuncia por el seguro específico VPL porque falta el certificado de circulación. Comprueba la infracción documental que corresponda." };
+    if (!input.registered) return { regime: "NINGUNO", complaint: false, caseId: null, message: "No procede denuncia por el seguro específico VPL porque no consta su inscripción en la DGT. Valora la infracción documental por falta de inscripción." };
+    if (!input.hasIdentificationLabel) return { regime: "NINGUNO", complaint: false, caseId: null, message: "No procede denuncia por el seguro específico VPL porque falta la etiqueta identificativa. Valora la infracción documental por identificación." };
     return { regime: "SDA", complaint: true, caseId: input.circulating ? vmpGuide.seguro.categoria_a_casos.circulando : vmpGuide.seguro.categoria_a_casos.carecer, message: "Aplicar la rama SDA común para VPL con los requisitos previos cumplidos." };
   }
   return { regime: "SOA", complaint: true, caseId: input.circulating ? vmpGuide.seguro.categoria_b_casos.circulando : vmpGuide.seguro.categoria_b_casos.carecer, message: "Aplicar SOA con independencia del certificado, inscripción o etiqueta VMP." };

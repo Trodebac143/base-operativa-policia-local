@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo, useState, type ReactNode } from "react";
+import { useMemo, useState, useSyncExternalStore, type ReactNode } from "react";
+import Image from "next/image";
 import type { OperationalCase } from "@/data/types";
 import {
   classifyVmp,
@@ -18,10 +19,12 @@ import {
   type VmpCirculationResult,
   type VmpDocumentationResult,
   type VmpInfraction,
+  type VmpInsuranceResult,
   type VmpOperationalOutput,
 } from "@/data/vmp";
 import { AlcoholemiaView } from "./alcoholemia";
 import { SourceLinks } from "./source-links";
+import { publicPath } from "@/lib/public-path";
 
 type BooleanValue = boolean | null;
 type AreaId = (typeof vmpGuide.areas)[number]["id"];
@@ -30,22 +33,31 @@ type VmpGuideViewProps = { onOpenCase: (item: OperationalCase) => void; cases: O
 const vmpAreaIcon = (id: AreaId) => vmpGuide.areas.find((area) => area.id === id)?.icono ?? "🛴";
 
 const euro = new Intl.NumberFormat("es-ES", { style: "currency", currency: "EUR", maximumFractionDigits: 0 });
+const noDateSubscription = () => () => {};
 const initialFacts: VmpClassificationInput = {
-  electric: true,
-  seats: 1,
-  hasSeat: false,
-  selfBalancing: true,
+  electric: null,
+  seats: null,
+  hasSeat: null,
+  selfBalancing: null,
   factoryMaxSpeed: null,
   mass: null,
-  meetsOtherRequirements: true,
+  meetsOtherRequirements: null,
   modified: false,
   observedMaxSpeed: null,
 };
+
+function localToday(): string {
+  const today = new Date();
+  return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+}
 
 export function VmpGuideView({ onOpenCase, cases }: VmpGuideViewProps) {
   const [view, setView] = useState<ViewId | null>(null);
   const [practicalCaseId, setPracticalCaseId] = useState<string | null>(null);
   const [facts, setFacts] = useState<VmpClassificationInput>(initialFacts);
+  const deviceToday = useSyncExternalStore(noDateSubscription, localToday, () => "");
+  const [selectedDate, setAsOf] = useState<string | null>(null);
+  const asOf = selectedDate ?? deviceToday;
 
   const openCaseId = (caseId: string | null) => {
     const item = cases.find((candidate) => candidate.id === caseId);
@@ -86,11 +98,11 @@ export function VmpGuideView({ onOpenCase, cases }: VmpGuideViewProps) {
         <div className="vmp-area-view">
           <button className="vmp-area-back" onClick={() => setView(null)}>← Volver a las 7 áreas</button>
           {view === "clasificacion" && <ClassificationPanel facts={facts} setFacts={setFacts} />}
-          {view === "documentacion" && <DocumentationPanel facts={facts} setFacts={setFacts} />}
-          {view === "seguro" && <InsurancePanel facts={facts} setFacts={setFacts} cases={cases} onOpenCase={openCaseId} />}
+          {view === "documentacion" && <DocumentationPanel facts={facts} setFacts={setFacts} asOf={asOf} setAsOf={setAsOf} />}
+          {view === "seguro" && <InsurancePanel facts={facts} setFacts={setFacts} asOf={asOf} setAsOf={setAsOf} cases={cases} onOpenCase={openCaseId} />}
           {view === "tecnica" && <TechnicalPanel classification={classifyVmp(facts)} />}
-          {view === "circulacion" && <CirculationPanel />}
-          {view === "menores" && <MinorsPanel onOpenAlcohol={() => setView("alcohol")} />}
+          {view === "circulacion" && <CirculationPanel asOf={asOf} setAsOf={setAsOf} />}
+          {view === "menores" && <MinorsPanel asOf={asOf} setAsOf={setAsOf} onOpenAlcohol={() => setView("alcohol")} />}
         </div>
       )}
     </section>
@@ -101,8 +113,8 @@ function PanelHeading({ icon, title, text }: { icon: string; title: string; text
   return <div className="vmp-panel-heading"><span aria-hidden="true">{icon}</span><div><h3>{title}</h3><p>{text}</p></div></div>;
 }
 
-function BoolSelect({ id, label, value, onChange }: { id: string; label: string; value: BooleanValue; onChange: (value: BooleanValue) => void }) {
-  return <label htmlFor={id}><span>{label}</span><select id={id} value={value == null ? "" : String(value)} onChange={(event) => onChange(event.target.value === "" ? null : event.target.value === "true")}><option value="">Selecciona…</option><option value="true">Sí</option><option value="false">No</option></select></label>;
+function BoolSelect({ id, label, value, onChange, unknownLabel, disabled = false }: { id: string; label: string; value: BooleanValue; onChange: (value: BooleanValue) => void; unknownLabel?: string; disabled?: boolean }) {
+  return <label htmlFor={id}><span>{label}</span><select id={id} value={value == null ? "" : String(value)} disabled={disabled} onChange={(event) => onChange(event.target.value === "" ? null : event.target.value === "true")}><option value="">{unknownLabel ?? "Selecciona…"}</option><option value="true">Sí</option><option value="false">No</option></select></label>;
 }
 
 function ClassificationFields({ facts, setFacts, prefix }: { facts: VmpClassificationInput; setFacts: (value: VmpClassificationInput) => void; prefix: string }) {
@@ -114,7 +126,7 @@ function ClassificationFields({ facts, setFacts, prefix }: { facts: VmpClassific
     {facts.hasSeat && <BoolSelect id={`${prefix}-balance`} label="¿El asiento está vinculado al autoequilibrado?" value={facts.selfBalancing} onChange={(value) => update("selfBalancing", value)} />}
     <label htmlFor={`${prefix}-mass`}><span>Masa en orden de marcha (kg)</span><input id={`${prefix}-mass`} type="number" min="0" step="0.01" inputMode="decimal" value={facts.mass ?? ""} onChange={(event) => update("mass", event.target.value ? Number(event.target.value) : null)} /></label>
     <label htmlFor={`${prefix}-factory-speed`}><span>Velocidad máxima de fabricación (km/h)</span><input id={`${prefix}-factory-speed`} type="number" min="0" step="0.1" inputMode="decimal" value={facts.factoryMaxSpeed ?? ""} onChange={(event) => update("factoryMaxSpeed", event.target.value ? Number(event.target.value) : null)} /></label>
-    <BoolSelect id={`${prefix}-other`} label="¿Cumple los demás requisitos definitorios VMP?" value={facts.meetsOtherRequirements} onChange={(value) => update("meetsOtherRequirements", value)} />
+    <div className="vmp-question-with-help"><BoolSelect id={`${prefix}-other`} label="¿El vehículo cumple las restantes condiciones para ser considerado VMP?" value={facts.meetsOtherRequirements} unknownLabel="No puedo determinarlo" onChange={(value) => update("meetsOtherRequirements", value)} /><details><summary>¿Qué debo comprobar?</summary><p>Comprueba que no sea de competición o uso exclusivo fuera de vías públicas, bicicleta de pedaleo asistido, vehículo para personas con movilidad reducida o de uso exclusivo de las Fuerzas Armadas. Verifica tensión de trabajo no superior a 100 VCC o 240 VCA y que no esté incluido en el Reglamento (UE) 168/2013. Para transporte personal, el anexo XXI también fija límites de masa, potencia y dimensiones; para mercancías, exige al menos tres ruedas y límites técnicos propios. Si no puedes acreditar lo necesario, deja la respuesta sin determinar.</p></details></div>
     <label className="vmp-checkbox"><input type="checkbox" checked={facts.modified} onChange={(event) => update("modified", event.target.checked)} /><span>Se aprecian indicios de manipulación posterior</span></label>
     {facts.modified && <label htmlFor={`${prefix}-observed-speed`}><span>Velocidad observada tras la modificación (km/h)</span><input id={`${prefix}-observed-speed`} type="number" min="0" step="0.1" inputMode="decimal" value={facts.observedMaxSpeed ?? ""} onChange={(event) => update("observedMaxSpeed", event.target.value ? Number(event.target.value) : null)} /></label>}
   </div>;
@@ -134,6 +146,19 @@ function classificationInputIsValid(facts: VmpClassificationInput) {
     && Number.isFinite(facts.factoryMaxSpeed)
     && facts.factoryMaxSpeed >= 0
     && facts.meetsOtherRequirements != null;
+}
+
+function missingClassificationChecks(facts: VmpClassificationInput): string {
+  const missing = [
+    facts.electric == null && "la propulsión eléctrica",
+    (facts.seats == null || facts.seats < 1) && "el número de plazas",
+    facts.hasSeat == null && "la presencia de asiento",
+    facts.hasSeat && facts.selfBalancing == null && "el autoequilibrado del asiento",
+    (facts.mass == null || !Number.isFinite(facts.mass)) && "la masa técnica",
+    (facts.factoryMaxSpeed == null || !Number.isFinite(facts.factoryMaxSpeed)) && "la velocidad máxima de fabricación",
+    facts.meetsOtherRequirements == null && "las restantes condiciones VMP",
+  ].filter(Boolean);
+  return missing.length ? `Falta comprobar ${missing.join(", ")}.` : "Revisa los valores introducidos.";
 }
 
 function useExplicitClassification(facts: VmpClassificationInput, setFacts: (value: VmpClassificationInput) => void) {
@@ -163,7 +188,7 @@ function EmbeddedClassification({ facts, setFacts, prefix, intro, finding, canCl
     <ClassificationFields facts={facts} setFacts={setFacts} prefix={prefix} />
     <div className="vmp-classification-action">
       <button type="button" className="vmp-primary-action" disabled={!canClassify} onClick={onClassify}>Clasificar vehículo</button>
-      {!canClassify && <p>Completa MOM, velocidad y los demás datos de clasificación para continuar.</p>}
+      {!canClassify && <p>{missingClassificationChecks(facts)}</p>}
     </div>
     {finding && <p className="vmp-context" aria-live="polite">Clasificación obtenida: <strong>{categoryLabel(finding.category)}</strong></p>}
   </>;
@@ -175,43 +200,61 @@ function ClassificationPanel({ facts, setFacts }: { facts: VmpClassificationInpu
     <PanelHeading icon={vmpAreaIcon("clasificacion")} title="Identificar / clasificar vehículo" text={vmpGuide.clasificacion.aviso} />
     <ClassificationFields facts={facts} setFacts={setFacts} prefix="vmp-class" />
     {finding.category === "INCOMPLETA"
-      ? <Pending text={finding.detail} />
+      ? <Pending text={missingClassificationChecks(facts)} />
       : <div className={`vmp-finding vmp-finding-${finding.category.toLowerCase()}`} aria-live="polite"><span>Resultado</span><h4>{finding.title}</h4><p>{finding.detail}</p>{finding.forbidsVmpDocumentSanctions && <strong>No aplicar 5A, 5B ni 5C.</strong>}{finding.technicalViolationId && <strong>La modificación conduce a 5D y a sus medidas resultantes; no reclasificar automáticamente como ciclomotor.</strong>}</div>}
-    <Checklist title="Datos mínimos para el boletín" items={vmpGuide.clasificacion.datos_minimos} />
+    <BoletinChecklist category={finding.category} modified={facts.modified} />
+    <div className="vmp-document-sources"><SourceLinks sourceIds={["TR-SOA-SRC-005"]} /></div>
   </section>;
 }
 
-function DocumentationPanel({ facts, setFacts }: { facts: VmpClassificationInput; setFacts: (value: VmpClassificationInput) => void }) {
+type DateProps = { asOf: string; setAsOf: (value: string) => void };
+
+type DocumentQuestionsProps = DateProps & {
+  prefix: string;
+  marketedBefore: BooleanValue; setMarketedBefore: (value: BooleanValue) => void;
+  certificate: BooleanValue; setCertificate: (value: BooleanValue) => void;
+  registered: BooleanValue; setRegistered: (value: BooleanValue) => void;
+  label: BooleanValue; setLabel: (value: BooleanValue) => void;
+  plate: BooleanValue; setPlate: (value: BooleanValue) => void;
+};
+
+function DocumentQuestions({ prefix, asOf, setAsOf, marketedBefore, setMarketedBefore, certificate, setCertificate, registered, setRegistered, label, setLabel, plate, setPlate }: DocumentQuestionsProps) {
+  const plateApplies = certificate === true;
+  return <>
+    <div className="vmp-form-grid">
+      <label htmlFor={`${prefix}-date`}><span>Fecha de la intervención</span><input id={`${prefix}-date`} type="date" value={asOf} onChange={(event) => setAsOf(event.target.value)} /></label>
+      <div className="vmp-question-with-help"><BoolSelect id={`${prefix}-before`} label="¿Se acredita que fue comercializado antes del 22/01/2024?" value={marketedBefore} onChange={setMarketedBefore} /><small>Comprueba factura u otra prueba de comercialización. La fecha de fabricación o la apariencia, por sí solas, no la acreditan.</small></div>
+      <div className="vmp-question-with-help"><BoolSelect id={`${prefix}-certificate`} label="¿El VMP dispone de certificado de circulación?" value={certificate} onChange={setCertificate} /><small>Los comercializados desde el 22/01/2024 lo necesitan. Los anteriores pueden circular sin él hasta el 22/01/2027 inclusive; desde el 23/01/2027 termina esa posibilidad. Certifica el modelo; es distinto del certificado de inscripción expedido por la DGT.</small><details><summary>¿Cómo comprobarlo?</summary><p>Contrasta fabricante y modelo con la relación oficial de VMP certificados de la DGT y, si existe, el número de certificado de la placa de marcaje del fabricante.</p></details></div>
+      <BoolSelect id={`${prefix}-registered`} label="¿Está inscrito en el Registro Nacional de Vehículos?" value={registered} onChange={setRegistered} />
+      <div className="vmp-question-with-help"><BoolSelect id={`${prefix}-label`} label="¿Lleva la etiqueta identificativa de la DGT (matrícula)?" value={label} onChange={setLabel} /><small>Distintivo de inscripción con formato M + cuatro cifras + tres letras (ejemplo: M 0088 CCC). En un VMP antiguo no certificado, el certificado de inscripción puede mostrar <strong>Z000 como número de certificación</strong>; la etiqueta sigue llevando la identificación M. No confundas ambos números.</small><Image src={publicPath("/imagenes/vmp/etiqueta-identificativa.webp")} width={608} height={733} unoptimized alt="Ejemplo oficial de etiqueta identificativa DGT con número de inscripción de un VMP" loading="lazy" /></div>
+      <div className="vmp-question-with-help"><BoolSelect id={`${prefix}-plate`} label="¿Lleva la placa de marcaje del fabricante?" value={plate} onChange={setPlate} disabled={!plateApplies} /><small>Placa fijada de fábrica con datos técnicos y de certificación; es distinta de la matrícula DGT. {plateApplies ? "Compruébala en este vehículo certificado." : "No se exige aquí si el VMP circula sin certificado durante el período transitorio."}</small><Image src={publicPath("/imagenes/vmp/placa-marcaje.webp")} width={1645} height={630} unoptimized alt="Ejemplo oficial de placa de marcaje del fabricante con datos técnicos de un VMP" loading="lazy" /></div>
+    </div>
+    <div className="vmp-document-sources"><small>Fuente de las imágenes: <a href="https://www.boe.es/buscar/doc.php?id=BOE-A-2026-2140" target="_blank" rel="noopener noreferrer">Agencia Estatal Boletín Oficial del Estado</a>.</small><SourceLinks sourceIds={["TR-SOA-SRC-005", "TR-SOA-SRC-007", "TR-SOA-SRC-006"]} showPendingNotes={false} /></div>
+  </>;
+}
+
+function DocumentationPanel({ facts, setFacts, asOf, setAsOf }: { facts: VmpClassificationInput; setFacts: (value: VmpClassificationInput) => void } & DateProps) {
   const classification = useExplicitClassification(facts, setFacts);
   const category: VmpCategory = classification.finding?.category ?? "INCOMPLETA";
-  const [asOf, setAsOf] = useState(vmpGuide.fecha_referencia);
   const [marketedBefore, setMarketedBefore] = useState<BooleanValue>(null);
   const [certificate, setCertificate] = useState<BooleanValue>(null);
   const [registered, setRegistered] = useState<BooleanValue>(null);
   const [label, setLabel] = useState<BooleanValue>(null);
   const [plate, setPlate] = useState<BooleanValue>(null);
-  const ready = category !== "INCOMPLETA" && marketedBefore != null && certificate != null && registered != null && label != null && (!certificate || plate != null);
+  const ready = Boolean(asOf) && category !== "INCOMPLETA" && marketedBefore != null && certificate != null && registered != null && label != null && (!certificate || plate != null);
   const finding = ready ? resolveVmpDocumentation({ category, marketedBeforeCutoff: marketedBefore!, asOf, hasCertificate: certificate!, registered: registered!, hasIdentificationLabel: label!, hasMarkingPlate: plate ?? false }) : null;
   return <section className="vmp-panel">
-    <PanelHeading icon={vmpAreaIcon("documentacion")} title="Certificado, registro e identificación" text="Cada requisito se comprueba por separado y el motor aplica la absorción 5A → 5B → 5C." />
+    <PanelHeading icon={vmpAreaIcon("documentacion")} title="Certificado, registro e identificación" text="Comprueba cada elemento. El resultado indica si corresponde una denuncia documental y evita duplicarla." />
     <EmbeddedClassification facts={facts} setFacts={classification.updateFacts} prefix="vmp-doc-class" intro="Primero, identifica el vehículo con hechos observables." finding={classification.finding} canClassify={classification.canClassify} onClassify={classification.classify} />
-    <div className="vmp-form-grid">
-      <label htmlFor="vmp-doc-date"><span>Fecha de la intervención</span><input id="vmp-doc-date" type="date" value={asOf} onChange={(event) => setAsOf(event.target.value)} /></label>
-      <BoolSelect id="vmp-before" label="¿Fue comercializado antes del 22/01/2024?" value={marketedBefore} onChange={setMarketedBefore} />
-      <BoolSelect id="vmp-certificate" label="¿Dispone del certificado de circulación exigible?" value={certificate} onChange={setCertificate} />
-      <BoolSelect id="vmp-registered" label="¿Está inscrito en el RNV/RVPL?" value={registered} onChange={setRegistered} />
-      <BoolSelect id="vmp-label" label="¿Porta la etiqueta identificativa exigible?" value={label} onChange={setLabel} />
-      {certificate && <BoolSelect id="vmp-plate" label="¿Dispone de placa de marcaje cuando corresponde?" value={plate} onChange={setPlate} />}
-    </div>
-    {!ready || !finding ? <Pending text="Completa la clasificación y las comprobaciones documentales aplicables." /> : <DocumentationOutput result={finding} />}
+    <DocumentQuestions prefix="vmp-doc" asOf={asOf} setAsOf={setAsOf} marketedBefore={marketedBefore} setMarketedBefore={setMarketedBefore} certificate={certificate} setCertificate={setCertificate} registered={registered} setRegistered={setRegistered} label={label} setLabel={setLabel} plate={plate} setPlate={setPlate} />
+    {!ready || !finding ? <Pending text={!asOf ? "Selecciona la fecha de la intervención." : marketedBefore == null ? "Acredita cuándo se comercializó el vehículo; no basta la fecha de fabricación ni su apariencia." : "Completa la clasificación y las comprobaciones documentales aplicables."} /> : <DocumentationOutput result={finding} />}
     <p className="vmp-notice">{vmpGuide.documentacion.aviso_transitorio}</p>
   </section>;
 }
 
-function InsurancePanel({ facts, setFacts, cases, onOpenCase }: { facts: VmpClassificationInput; setFacts: (value: VmpClassificationInput) => void; cases: OperationalCase[]; onOpenCase: (caseId: string | null) => void }) {
+function InsurancePanel({ facts, setFacts, asOf, setAsOf, cases, onOpenCase }: { facts: VmpClassificationInput; setFacts: (value: VmpClassificationInput) => void; cases: OperationalCase[]; onOpenCase: (caseId: string | null) => void } & DateProps) {
   const classification = useExplicitClassification(facts, setFacts);
   const category: VmpCategory = classification.finding?.category ?? "INCOMPLETA";
-  const [asOf, setAsOf] = useState(vmpGuide.fecha_referencia);
   const [marketedBefore, setMarketedBefore] = useState<BooleanValue>(null);
   const [certificate, setCertificate] = useState<BooleanValue>(null);
   const [registered, setRegistered] = useState<BooleanValue>(null);
@@ -221,29 +264,22 @@ function InsurancePanel({ facts, setFacts, cases, onOpenCase }: { facts: VmpClas
   const [circulating, setCirculating] = useState<BooleanValue>(null);
   const [motorClass, setMotorClass] = useState<"MOTOR" | "OTHER" | null>(null);
 
-  const documentReady = category === "A" && marketedBefore != null && certificate != null && registered != null && label != null && (!certificate || plate != null);
+  const documentReady = Boolean(asOf) && category === "A" && marketedBefore != null && certificate != null && registered != null && label != null && (!certificate || plate != null);
   const documentation = documentReady ? resolveVmpDocumentation({ category, marketedBeforeCutoff: marketedBefore!, asOf, hasCertificate: certificate!, registered: registered!, hasIdentificationLabel: label!, hasMarkingPlate: plate ?? false }) : null;
-  const ready = category !== "INCOMPLETA" && insured != null && circulating != null && (category !== "A" || documentReady) && (category !== "NO_VMP" || motorClass != null);
+  const ready = Boolean(asOf) && category !== "INCOMPLETA" && insured != null && circulating != null && (category !== "A" || documentReady) && (category !== "NO_VMP" || motorClass != null);
   const finding = ready ? resolveVmpInsurance({ category, insured: insured!, circulating: circulating!, certificateRequired: documentation?.certificateRequired, hasCertificate: certificate, registered, hasIdentificationLabel: label, documentedMotorClass: motorClass }) : null;
   const sharedCase = finding?.caseId ? cases.find((item) => item.id === finding.caseId) ?? null : null;
 
   return <section className="vmp-panel">
-    <PanelHeading icon={vmpAreaIcon("seguro")} title="Seguro obligatorio" text="Clasifica aquí el vehículo y reutiliza los casos comunes SDA/SOA, sin un segundo cálculo jurídico." />
+    <PanelHeading icon={vmpAreaIcon("seguro")} title="Seguro obligatorio" text="Clasifica el vehículo y comprueba si procede denuncia por falta de seguro en esta intervención." />
     <EmbeddedClassification facts={facts} setFacts={classification.updateFacts} prefix="vmp-ins-class" intro="Introduce los datos de clasificación sin salir de Seguro." finding={classification.finding} canClassify={classification.canClassify} onClassify={classification.classify} />
-    {category === "A" && <div className="vmp-subflow"><h4>Requisitos previos SDA y control documental</h4><div className="vmp-form-grid">
-      <label htmlFor="vmp-ins-date"><span>Fecha de la intervención</span><input id="vmp-ins-date" type="date" value={asOf} onChange={(event) => setAsOf(event.target.value)} /></label>
-      <BoolSelect id="vmp-ins-before" label="¿Fue comercializado antes del 22/01/2024?" value={marketedBefore} onChange={setMarketedBefore} />
-      <BoolSelect id="vmp-ins-certificate" label="¿Dispone del certificado de circulación exigible?" value={certificate} onChange={setCertificate} />
-      <BoolSelect id="vmp-ins-registered" label="¿Está inscrito en el RNV/RVPL?" value={registered} onChange={setRegistered} />
-      <BoolSelect id="vmp-ins-label" label="¿Porta la etiqueta identificativa exigible?" value={label} onChange={setLabel} />
-      {certificate && <BoolSelect id="vmp-ins-plate" label="¿Dispone de placa de marcaje cuando corresponde?" value={plate} onChange={setPlate} />}
-    </div></div>}
+    {category === "A" && <div className="vmp-subflow"><h4>Certificado, inscripción e identificación</h4><DocumentQuestions prefix="vmp-ins" asOf={asOf} setAsOf={setAsOf} marketedBefore={marketedBefore} setMarketedBefore={setMarketedBefore} certificate={certificate} setCertificate={setCertificate} registered={registered} setRegistered={setRegistered} label={label} setLabel={setLabel} plate={plate} setPlate={setPlate} /></div>}
     {category === "NO_VMP" && <label className="vmp-wide-control" htmlFor="vmp-ins-real-class"><span>¿Qué clase figura en la ficha técnica o informe?</span><select id="vmp-ins-real-class" value={motorClass ?? ""} onChange={(event) => setMotorClass(event.target.value ? event.target.value as typeof motorClass : null)}><option value="">Selecciona la clase documentada…</option><option value="MOTOR">Vehículo a motor / ciclomotor</option><option value="OTHER">Otra clase acreditada</option></select></label>}
     <div className="vmp-form-grid">
       <BoolSelect id="vmp-insured" label="¿Tiene seguro en vigor?" value={insured} onChange={setInsured} />
       <BoolSelect id="vmp-circulating" label="¿El vehículo circulaba?" value={circulating} onChange={setCirculating} />
     </div>
-    {!ready || !finding ? <Pending text="Responde a las preguntas visibles para obtener la actuación." /> : <div className={`vmp-finding ${finding.complaint ? "vmp-finding-no_vmp" : "vmp-finding-a"}`}><span>Resultado de seguro</span><h4>{finding.complaint ? `${finding.regime} · DENUNCIA POR SEGURO: SÍ` : "DENUNCIA POR SEGURO: NO"}</h4><p>{finding.message}</p>{sharedCase && <><SharedCaseOutput item={sharedCase} /><button className="vmp-primary-action" onClick={() => onOpenCase(finding.caseId)}>Abrir ficha común de Seguro →</button></>}</div>}
+    {!ready || !finding ? <Pending text={!asOf ? "Selecciona la fecha de la intervención." : category === "A" && marketedBefore == null ? "Acredita la fecha de comercialización para resolver las obligaciones documentales y el seguro." : "Responde a las preguntas visibles para obtener la actuación."} /> : <InsuranceOutcome finding={finding} insured={insured!} category={category} certificate={certificate} registered={registered} label={label} documentation={documentation} sharedCase={sharedCase} onOpenCase={onOpenCase} />}
     {documentation && documentation.complaints.length > 0 && <div className="vmp-linked-result"><h4>Infracción documental resultante</h4><DocumentationOutput result={documentation} /></div>}
   </section>;
 }
@@ -262,8 +298,7 @@ function TechnicalPanel({ classification }: { classification: ReturnType<typeof 
   </section>;
 }
 
-function CirculationPanel() {
-  const [asOf, setAsOf] = useState(vmpGuide.fecha_referencia);
+function CirculationPanel({ asOf, setAsOf }: DateProps) {
   const [selected, setSelected] = useState("");
   const [facts, setFacts] = useState<VmpCirculationFacts>({ road: "urbana_municipal" });
   const update = <K extends keyof VmpCirculationFacts>(key: K, value: VmpCirculationFacts[K]) => setFacts((current) => ({ ...current, [key]: value }));
@@ -288,8 +323,7 @@ function CirculationPanel() {
   </section>;
 }
 
-function MinorsPanel({ onOpenAlcohol }: { onOpenAlcohol: () => void }) {
-  const [asOf, setAsOf] = useState(vmpGuide.fecha_referencia);
+function MinorsPanel({ asOf, setAsOf, onOpenAlcohol }: DateProps & { onOpenAlcohol: () => void }) {
   const [age, setAge] = useState<number | null>(null);
   const [road, setRoad] = useState<VmpCirculationFacts["road"]>("urbana_municipal");
   const finding = age == null ? null : resolveVmpMinor(age, asOf, road);
@@ -325,6 +359,21 @@ function DocumentationOutput({ result }: { result: VmpDocumentationResult }) {
   return <div className={`vmp-finding ${result.complaints.length ? "vmp-finding-no_vmp" : "vmp-finding-a"}`}><span>Salida documental</span><h4>DENUNCIA DOCUMENTAL: {result.complaints.length ? "SÍ" : "NO"}</h4><p>{result.message}</p>{result.complaints.map((item) => <InfractionOutput key={item.id} item={item} />)}</div>;
 }
 
+function InsuranceOutcome({ finding, insured, category, certificate, registered, label, documentation, sharedCase, onOpenCase }: {
+  finding: VmpInsuranceResult; insured: boolean; category: VmpCategory; certificate: BooleanValue; registered: BooleanValue; label: BooleanValue;
+  documentation: VmpDocumentationResult | null; sharedCase: OperationalCase | null; onOpenCase: (caseId: string | null) => void;
+}) {
+  const missing = category === "A" && !insured && finding.complaint === false
+    ? documentation?.certificateRequired && !certificate ? "Falta el certificado de circulación exigible." : !registered ? "No consta la inscripción exigible en la DGT." : !label ? "Falta la etiqueta identificativa exigible." : finding.message
+    : null;
+  const title = finding.complaint == null ? "DATOS INSUFICIENTES PARA RESOLVER" : finding.complaint ? "PROCEDE DENUNCIA POR FALTA DE SEGURO" : insured ? "SEGURO ACREDITADO EN VIGOR" : "NO PROCEDE DENUNCIA POR SEGURO VPL";
+  const transitionalWithoutCertificate = Boolean(missing && !certificate && documentation?.transitional);
+  const reason = insured ? "Se ha acreditado un seguro en vigor para este vehículo." : transitionalWithoutCertificate && registered && label ? "El VMP está inscrito y lleva etiqueta, pero carece de certificado de circulación y no consta seguro. Puede circular sin ese certificado durante el período transitorio; la Instrucción SANC 2026/13 exige tenerlo para denunciar por el seguro específico VPL." : transitionalWithoutCertificate ? "No consta certificado de circulación ni seguro. Aunque este VMP antiguo puede circular durante el período transitorio sin certificado, la instrucción sancionadora lo exige para denunciar por el seguro específico VPL." : missing ?? (finding.complaint ? "No consta seguro en vigor y se cumplen las condiciones para aplicar esta infracción." : finding.message);
+  const next = finding.complaint == null ? "Acredita la clase real y el régimen de seguro aplicable antes de resolver." : transitionalWithoutCertificate && registered && label ? "Documenta la fecha de comercialización, la inscripción y la etiqueta. La falta de certificado no genera denuncia documental durante el período transitorio." : transitionalWithoutCertificate ? "Comprueba inscripción y etiqueta y valora la infracción documental que resulte. La falta de certificado no genera denuncia documental durante el período transitorio." : missing ? "Comprueba el documento o distintivo indicado y valora la infracción documental que resulte; se muestra abajo si procede." : finding.complaint ? "Recoge la identificación y comprueba la vigencia del seguro antes de formular la denuncia." : "Conserva la acreditación consultada en la intervención.";
+  const sourceIds = category === "B" || category === "NO_VMP" ? ["TR-SOA-SRC-001", "TR-SOA-SRC-002"] : ["TR-SOA-SRC-002", "TR-SOA-SRC-006"];
+  return <div className={`vmp-finding ${finding.complaint ? "vmp-finding-no_vmp" : finding.complaint == null ? "vmp-finding-pendiente" : "vmp-finding-a"}`}><span>Resultado de seguro</span><h4>{title}</h4><p><strong>Motivo:</strong> {reason}</p><p><strong>Qué corresponde comprobar:</strong> {next}</p><p><strong>Fundamento:</strong> {category === "B" || category === "NO_VMP" ? "Artículos 1 bis, 2 y 3 del RDL 8/2004." : "Disposición adicional primera de la Ley 5/2025."}</p><SourceLinks sourceIds={sourceIds} showPendingNotes={false} />{sharedCase && <><SharedCaseOutput item={sharedCase} /><button className="vmp-primary-action" onClick={() => onOpenCase(finding.caseId)}>Abrir ficha común de Seguro →</button></>}</div>;
+}
+
 function InfractionOutput({ item }: { item: VmpInfraction }) {
   return <div className="vmp-output vmp-output-compact"><div className="vmp-output-title"><span>Salida operativa</span><strong>DENUNCIA: SÍ</strong></div><dl><div><dt>Código / artículo</dt><dd>{item.codigo}</dd></div><div><dt>Descripción</dt><dd>{item.titulo}</dd></div><div><dt>Importe</dt><dd>{euro.format(item.importe)} · reducido {euro.format(item.reducido)}</dd></div><div><dt>Inmovilización</dt><dd>No por esta infracción documental</dd></div><div><dt>Depósito</dt><dd>No por esta infracción documental</dd></div></dl></div>;
 }
@@ -349,6 +398,16 @@ function CaseSection({ title, children }: { title: string; children: ReactNode }
 
 function Checklist({ title, items }: { title: string; items: string[] }) {
   return <div className="vmp-checklist"><h4>{title}</h4><List items={items} /></div>;
+}
+
+function BoletinChecklist({ category, modified }: { category: VmpCategory; modified: boolean }) {
+  if (category === "INCOMPLETA") return null;
+  return <div className="vmp-checklist"><h4>Datos para el boletín, según lo acreditado</h4>
+    <strong>Identificación</strong><List items={["Identificación DGT o matrícula, si existe; número de serie; marca y modelo."]} />
+    {(category === "A" || category === "B") && <><strong>Certificación</strong><List items={["Número de certificado y datos de la placa de marcaje, cuando existan y correspondan a este vehículo."]} /></>}
+    <strong>Características técnicas</strong><List items={["Masa técnica relevante y velocidad máxima de fabricación, con la fuente usada para comprobarlas.", "La velocidad observada circulando no equivale a la velocidad máxima de fabricación. Una pesada informal puede no acreditar la magnitud técnica exigida."]} />
+    <strong>Pruebas</strong><List items={["Fotografías del vehículo y de las identificaciones que existan.", ...(modified ? ["Modificaciones o irregularidades observadas y su acreditación."] : [])]} />
+  </div>;
 }
 
 function List({ items }: { items: string[] }) {

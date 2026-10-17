@@ -33,6 +33,10 @@ test("2 · MOM 25,01 kg y Vmax 14 km/h resuelve VPL", () => {
   assert.equal(result.reason, "categoria_a_pesado_lento");
 });
 
+test("2b · el límite de 25 km/h con 25,01 kg mantiene la rama de seguro de vehículo a motor", () => {
+  assert.equal(data.classifyVmp({ ...base, mass: 25.01, factoryMaxSpeed: 25 }).category, "B");
+});
+
 test("3 · MOM 25,01 kg y Vmax 15 km/h resuelve vehículo a motor a efectos del seguro", () => {
   const result = data.classifyVmp({ ...base, mass: 25.01, factoryMaxSpeed: 15 });
   assert.equal(result.category, "B");
@@ -121,7 +125,7 @@ test("15 · VPL sin un requisito previo no es denunciable por seguro y conserva 
   const result = data.resolveVmpInsurance({ category: "A", certificateRequired: true, hasCertificate: true, registered: false, hasIdentificationLabel: false, insured: false, circulating: true });
   assert.equal(result.complaint, false);
   assert.equal(result.regime, "NINGUNO");
-  assert.match(result.message, /NO DENUNCIABLE POR SEGURO/);
+  assert.match(result.message, /No procede denuncia por el seguro específico/i);
   assert.doesNotMatch(result.message, /exento/i);
   assert.deepEqual(documents.complaints.map((item) => item.id), ["5B"]);
 });
@@ -132,6 +136,29 @@ test("16 · VMP pesado sin seguro circulando aplica SOA 5N aunque falten documen
   const shared = seguroCases.find((item) => item.id === result.caseId);
   assert.match(shared.codificado, /SOA.*5N/i);
   assert.equal(shared.importe_fijo, 800);
+});
+
+test("16b · sin requisitos definitorios acreditados no hay clasificación ni denuncia de seguro", () => {
+  const category = data.classifyVmp({ ...base, mass: 15, factoryMaxSpeed: 25, meetsOtherRequirements: null }).category;
+  assert.equal(category, "INCOMPLETA");
+  assert.equal(data.resolveVmpInsurance({ category, insured: false, circulating: true }).complaint, null);
+});
+
+test("16c · VPL transitorio inscrito y etiquetado sin certificado no recibe denuncia por seguro específico", () => {
+  const documents = data.resolveVmpDocumentation(doc({ marketedBeforeCutoff: true, hasCertificate: false, hasMarkingPlate: false }));
+  assert.equal(documents.certificateRequired, false);
+  assert.deepEqual(documents.complaints, []);
+  const insurance = data.resolveVmpInsurance({ category: "A", certificateRequired: false, hasCertificate: false, registered: true, hasIdentificationLabel: true, insured: false, circulating: true });
+  assert.equal(insurance.complaint, false);
+  assert.equal(insurance.caseId, null);
+  assert.match(insurance.message, /período transitorio sin certificado/i);
+});
+
+test("16d · el certificado presente mantiene el seguro específico y la clase ajena sin régimen acreditado queda pendiente", () => {
+  const insuredVpl = data.resolveVmpInsurance({ category: "A", certificateRequired: false, hasCertificate: true, registered: true, hasIdentificationLabel: true, insured: false, circulating: true });
+  assert.equal(insuredVpl.caseId, "TR-SOA-OP-005");
+  const unknownRegime = data.resolveVmpInsurance({ category: "NO_VMP", documentedMotorClass: "OTHER", insured: false, circulating: true });
+  assert.equal(unknownRegime.complaint, null);
 });
 
 test("17 · las salidas internas prohibidas no aparecen en la implementación ni en el HTML inicial", async () => {
@@ -192,7 +219,22 @@ test("22 · los casos prácticos reutilizan el motor y no almacenan sanciones ni
 test("23 · certificado, inscripción, etiqueta y placa son preguntas independientes", async () => {
   const source = await readFile(new URL("../app/guided-traffic-module.tsx", import.meta.url), "utf8");
   assert.doesNotMatch(source, /¿Constan certificado e inscripción\?/);
-  for (const question of ["¿Dispone del certificado de circulación exigible?", "¿Está inscrito en el RNV/RVPL?", "¿Porta la etiqueta identificativa exigible?", "¿Dispone de placa de marcaje cuando corresponde?"]) assert.match(source, new RegExp(question.replace(/[?]/g, "\\?")));
+  for (const question of ["¿El VMP dispone de certificado de circulación?", "¿Está inscrito en el Registro Nacional de Vehículos?", "¿Lleva la etiqueta identificativa de la DGT (matrícula)?", "¿Lleva la placa de marcaje del fabricante?"]) assert.ok(source.includes(question));
+  assert.match(source, /function DocumentQuestions/);
+  assert.doesNotMatch(source, /\{certificate && <BoolSelect/);
+});
+
+test("23b · fecha local compartida y respuestas iniciales sin acreditar", async () => {
+  const source = await readFile(new URL("../app/guided-traffic-module.tsx", import.meta.url), "utf8");
+  assert.match(source, /today\.getFullYear\(\)/);
+  assert.match(source, /today\.getMonth\(\) \+ 1/);
+  assert.match(source, /today\.getDate\(\)/);
+  assert.doesNotMatch(source, /toISOString\(\)/);
+  assert.match(source, /useSyncExternalStore\(noDateSubscription, localToday/);
+  assert.match(source, /const asOf = selectedDate \?\? deviceToday/);
+  for (const field of ["electric", "seats", "hasSeat", "selfBalancing", "meetsOtherRequirements"]) assert.match(source, new RegExp(`${field}: null`));
+  assert.match(source, /<DocumentQuestions prefix="vmp-doc" asOf=\{asOf\}/);
+  assert.match(source, /<DocumentQuestions prefix="vmp-ins" asOf=\{asOf\}/);
 });
 
 test("24 · Seguro pregunta por clasificación en el propio flujo y usa la pregunta exacta de circulación", async () => {
