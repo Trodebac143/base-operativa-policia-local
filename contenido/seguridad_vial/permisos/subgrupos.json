@@ -21,8 +21,7 @@
     "orden": 13,
     "ayudas": ["TR-PERM-HELP-ART21"],
     "enlaces_operativos": [
-      {"etiqueta": "CONSULTAR PAÍSES CON CONVENIO — DGT", "url": "https://www.dgt.es/nuestros-servicios/permisos-de-conducir/permisos-extranjeros-y-de-fuerzas-y-cuerpos-de-seguridad/canjes-de-permisos/paises-con-convenio-de-canjes/", "principal": true},
-      {"etiqueta": "DGT — PERMISOS EXTRANJEROS", "url": "https://www.dgt.es/nuestros-servicios/permisos-de-conducir/permisos-extranjeros-y-de-fuerzas-y-cuerpos-de-seguridad/", "principal": false}
+      {"etiqueta": "CONSULTAR PAÍSES CON CONVENIO — DGT", "url": "https://www.dgt.es/nuestros-servicios/permisos-de-conducir/permisos-extranjeros-y-de-fuerzas-y-cuerpos-de-seguridad/canjes-de-permisos/paises-con-convenio-de-canjes/", "principal": true}
     ]
   }
 ]

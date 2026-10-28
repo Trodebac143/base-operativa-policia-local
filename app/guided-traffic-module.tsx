@@ -85,10 +85,10 @@ export function VmpGuideView({ onOpenCase, cases }: VmpGuideViewProps) {
             ))}
           </div>
           <section className="vmp-practical-access" aria-label="Consulta y formación">
-            <div><span>CONSULTA Y FORMACIÓN</span><h3>🧩 Casos prácticos</h3><p>Ocho situaciones resueltas por el mismo motor de reglas del módulo.</p></div>
+            <div><span>CONSULTA Y FORMACIÓN</span><h3>🧩 Casos prácticos</h3><p>Ocho situaciones explicadas para consultar cómo actuar en cada supuesto.</p></div>
             <button onClick={() => { setPracticalCaseId(null); setView("casos"); }}>Abrir casos <b aria-hidden="true">›</b></button>
           </section>
-          <p className="vmp-source-note">Fuente de apoyo: manual/protocolo operativo interno. Verificar la normativa aplicable y las circunstancias concretas.</p>
+          <p className="vmp-source-note">Fuente de apoyo: protocolo operativo. Verifica la normativa aplicable y las circunstancias concretas.</p>
         </>
       ) : view === "casos" ? (
         practicalCaseId
@@ -371,7 +371,7 @@ function InsuranceOutcome({ finding, insured, category, certificate, registered,
   const reason = insured ? "Se ha acreditado un seguro en vigor para este vehículo." : transitionalWithoutCertificate && registered && label ? "El VMP está inscrito y lleva etiqueta, pero carece de certificado de circulación y no consta seguro. Puede circular sin ese certificado durante el período transitorio; la Instrucción SANC 2026/13 exige tenerlo para denunciar por el seguro específico VPL." : transitionalWithoutCertificate ? "No consta certificado de circulación ni seguro. Aunque este VMP antiguo puede circular durante el período transitorio sin certificado, la instrucción sancionadora lo exige para denunciar por el seguro específico VPL." : missing ?? (finding.complaint ? "No consta seguro en vigor y se cumplen las condiciones para aplicar esta infracción." : finding.message);
   const next = finding.complaint == null ? "Acredita la clase real y el régimen de seguro aplicable antes de resolver." : transitionalWithoutCertificate && registered && label ? "Documenta la fecha de comercialización, la inscripción y la etiqueta. La falta de certificado no genera denuncia documental durante el período transitorio." : transitionalWithoutCertificate ? "Comprueba inscripción y etiqueta y valora la infracción documental que resulte. La falta de certificado no genera denuncia documental durante el período transitorio." : missing ? "Comprueba el documento o distintivo indicado y valora la infracción documental que resulte; se muestra abajo si procede." : finding.complaint ? "Recoge la identificación y comprueba la vigencia del seguro antes de formular la denuncia." : "Conserva la acreditación consultada en la intervención.";
   const sourceIds = category === "B" || category === "NO_VMP" ? ["TR-SOA-SRC-001", "TR-SOA-SRC-002"] : ["TR-SOA-SRC-002", "TR-SOA-SRC-006"];
-  return <div className={`vmp-finding ${finding.complaint ? "vmp-finding-no_vmp" : finding.complaint == null ? "vmp-finding-pendiente" : "vmp-finding-a"}`}><span>Resultado de seguro</span><h4>{title}</h4><p><strong>Motivo:</strong> {reason}</p><p><strong>Qué corresponde comprobar:</strong> {next}</p><p><strong>Fundamento:</strong> {category === "B" || category === "NO_VMP" ? "Artículos 1 bis, 2 y 3 del RDL 8/2004." : "Disposición adicional primera de la Ley 5/2025."}</p><SourceLinks sourceIds={sourceIds} showPendingNotes={false} />{sharedCase && <><SharedCaseOutput item={sharedCase} /><button className="vmp-primary-action" onClick={() => onOpenCase(finding.caseId)}>Abrir ficha común de Seguro →</button></>}</div>;
+  return <div className={`vmp-finding ${finding.complaint ? "vmp-finding-no_vmp" : finding.complaint == null ? "vmp-finding-pendiente" : "vmp-finding-a"}`}><span>Resultado de seguro</span><h4>{title}</h4><p><strong>Motivo:</strong> {reason}</p><p><strong>Qué corresponde comprobar:</strong> {next}</p><p><strong>Fundamento:</strong> {category === "B" || category === "NO_VMP" ? "Artículos 1 bis, 2 y 3 del RDL 8/2004." : "Disposición adicional primera de la Ley 5/2025."}</p><SourceLinks sourceIds={sourceIds} showPendingNotes={false} />{sharedCase && <><SharedCaseOutput item={sharedCase} /><button className="vmp-primary-action" onClick={() => onOpenCase(finding.caseId)}>Abrir ficha de Seguro →</button></>}</div>;
 }
 
 function InfractionOutput({ item }: { item: VmpInfraction }) {
@@ -385,7 +385,7 @@ function OperationalOutput({ item }: { item: VmpOperationalOutput }) {
 function SharedCaseOutput({ item }: { item: OperationalCase }) {
   const immobilization = item.medida_operativa?.inmovilizacion.estado ?? item.inmovilizacion ?? "NO";
   const deposit = item.medida_operativa?.traslado_deposito?.estado ?? "NO";
-  return <div className="vmp-output vmp-output-compact"><div className="vmp-output-title"><span>Regla común de Seguro</span><strong>DENUNCIA: SÍ</strong></div><dl><div><dt>Código</dt><dd>{item.codificado ?? item.articulo}</dd></div><div><dt>Artículo</dt><dd>{item.articulo}</dd></div><div><dt>Descripción</dt><dd>{item.textoDenuncia ?? item.resultado}</dd></div><div><dt>Importe</dt><dd>{item.importe_fijo == null ? "Ver ficha común" : `${euro.format(item.importe_fijo)} · reducido ${euro.format(item.importe_reducido ?? 0)}`}</dd></div><div><dt>Inmovilización</dt><dd>{immobilization}</dd></div><div><dt>Depósito</dt><dd>{deposit}</dd></div></dl></div>;
+  return <div className="vmp-output vmp-output-compact"><div className="vmp-output-title"><span>Denuncia por seguro</span><strong>DENUNCIA: SÍ</strong></div><dl><div><dt>Código</dt><dd>{item.codificado ?? item.articulo}</dd></div><div><dt>Artículo</dt><dd>{item.articulo}</dd></div><div><dt>Descripción</dt><dd>{item.textoDenuncia ?? item.resultado}</dd></div><div><dt>Importe</dt><dd>{item.importe_fijo == null ? "Consultar ficha de Seguro" : `${euro.format(item.importe_fijo)} · reducido ${euro.format(item.importe_reducido ?? 0)}`}</dd></div><div><dt>Inmovilización</dt><dd>{immobilization}</dd></div><div><dt>Depósito</dt><dd>{deposit}</dd></div></dl></div>;
 }
 
 function NoComplaint({ text }: { text: string }) {

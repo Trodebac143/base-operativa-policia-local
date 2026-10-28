@@ -149,15 +149,14 @@ export function AlcoholemiaView({ onBack, initialVehicle = "motor_ciclomotor", b
               <span>Vehículo: <strong>{selectedVehicle?.label}</strong></span>
               <span>Tasa aplicable: <strong>{outcome.limite_mg_l ? `${formatMg(outcome.limite_mg_l)} mg/L` : "pendiente de clasificación"}</strong></span>
             </div>
+            <OutcomeSummary outcome={outcome} calculation={calculation} />
             {calculation && !negative && outcome.calculo_operativo && (
               <OperationalCalculation presentation={outcome.calculo_operativo} />
             )}
-            <p className="calculation-message">{outcome.mensaje}</p>
             {outcome.administracion && <AdministrativeFinding finding={outcome.administracion} suspended={outcome.kind === "penal_tasa"} />}
             {outcome.articulo_penal && (
               <div className="penal-finding">
                 <strong>{outcome.articulo_penal}</strong>
-                <p>{outcome.mensaje}</p>
                 <span>Vía penal preferente.</span>
                 <PenalDerivation key={outcome.kind} preceptId={outcome.kind === "penal_negativa" ? "CP-383" : "CP-379-2"} />
               </div>
@@ -211,12 +210,12 @@ function CorrectionSection() {
     <>
       <div className="quick-table-wrap">
         <table className="quick-table">
-          <thead><tr><th>Ticket</th><th>Cálculo EMP</th><th>Zona</th><th>Uso práctico</th></tr></thead>
+          <thead><tr><th>Lectura del ticket</th><th>Tras aplicar el EMP</th><th>Situación</th><th>Qué significa</th></tr></thead>
           <tbody>
             {alcoholemia.tabla_rapida_servicio_periodica.map((entry) => (
               <tr key={entry.lectura}>
                 <td><strong>{formatMg(entry.lectura)}</strong></td>
-                <td><strong>Penal: {formatMg(entry.tasa_penal_2_dec)}</strong><small>Interno exacto: {formatMg(entry.corregido_interno)}</small></td>
+                <td><strong>{formatMg(entry.corregido_interno)}</strong><small>Para el umbral penal: {formatMg(entry.tasa_penal_2_dec)}</small></td>
                 <td><span className={`status-pill status-${entry.color}`}>{entry.zona}</span></td>
                 <td>{entry.uso}</td>
               </tr>
@@ -237,7 +236,7 @@ function PracticeSection() {
         <InfoBlock title="Derechos" items={alcoholemia.practica_pruebas.derechos} />
         <InfoBlock title="Vehículo · art. 25 RGC" items={alcoholemia.medidas_vehiculo.especifica_rgc_25} />
       </div>
-      <p className="cross-reference">La medida sobre el vehículo se documenta junto con la intervención y se rige por las reglas comunes vigentes.</p>
+      <p className="cross-reference">Documenta la medida sobre el vehículo junto con la intervención y valora las circunstancias concretas del art. 25 RGC.</p>
     </>
   );
 }
@@ -305,6 +304,33 @@ export function OperationalCalculation({ presentation }: {
   );
 }
 
+function OutcomeSummary({ outcome, calculation }: {
+  outcome: ReturnType<typeof resolveAlcoholemiaOutcome>;
+  calculation: ReturnType<typeof calculateAlcoholemia> | null;
+}) {
+  const decisionRate = outcome.kind === "penal_negativa"
+    ? "La negativa al requerimiento legalmente formulado."
+    : outcome.kind === "clasificacion_pendiente"
+      ? "La clasificación jurídica del vehículo todavía no está determinada."
+      : outcome.kind === "sin_lectura" || !calculation
+        ? "Hace falta una lectura válida del etilómetro."
+        : outcome.kind === "penal_tasa"
+          ? `La tasa para el umbral penal: ${formatMg(calculation.tasa_penal_operativa)} mg/L, tras aplicar el EMP y expresar el resultado con dos decimales.`
+          : `La tasa tras aplicar el EMP: ${formatMg(calculation.corregido_interno_exacto)} mg/L, comparada con el límite aplicable.`;
+  const action = outcome.kind === "sin_superacion"
+    ? "No formular denuncia por tasa. Si existen signos de influencia, documentarlos y valorar la vía penal por influencia."
+    : outcome.kind === "administrativa"
+      ? "Formular la denuncia administrativa que se muestra; consignar la lectura del ticket."
+      : outcome.kind === "penal_tasa"
+        ? "Priorizar la vía penal y tramitar la denuncia administrativa asociada como suspendida."
+        : outcome.kind === "penal_negativa"
+          ? "Priorizar la vía penal por negativa a las pruebas."
+          : outcome.kind === "clasificacion_pendiente"
+            ? "Comprobar primero la clase del vehículo antes de resolver la actuación."
+            : "Introduce la lectura y vuelve a comprobar el resultado.";
+  return <div className="outcome-summary"><p><span>PARA DECIDIR</span><strong>{decisionRate}</strong></p><p><span>ACTUACIÓN</span><strong>{action}</strong></p><p className="outcome-summary-reason"><span>MOTIVO</span>{outcome.mensaje}</p></div>;
+}
+
 function InfoBlock({ title, items }: { title: string; items: string[] }) {
   return <div className="info-block"><h4>{title}</h4><ul>{items.map((item) => <li key={item}>{item}</li>)}</ul></div>;
 }
@@ -314,7 +340,7 @@ function AdministrativeFinding({ finding, suspended }: { finding: NonNullable<Re
     <section className="admin-finding">
       <div className="admin-finding-title">
         <h3>{suspended ? "DENUNCIA ADMINISTRATIVA ASOCIADA — QUEDA SUSPENDIDA" : "DENUNCIA ADMINISTRATIVA"}</h3>
-        <span>Salida cerrada</span>
+        <span>Datos de la denuncia</span>
       </div>
       <div className="admin-fields">
         <p><span>Precepto infringido</span><strong>{finding.precepto}</strong></p>

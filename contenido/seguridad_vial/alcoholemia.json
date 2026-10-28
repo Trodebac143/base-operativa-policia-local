@@ -55,7 +55,7 @@
       ],
       "menor": {
         "regla": "No inferir puntos automáticamente para todos los positivos de menores. Aplicar el codificado ARCI vigente según tramo y condición; el tramo específico de tasa 0,00 puede tener 0 puntos.",
-        "implementacion_v1": "Mostrar tasa 0,00 y resultado administrativo. No automatizar puntos de menores salvo que el dataset ARCI actual del proyecto ya contenga el codificado validado."
+        "implementacion_v1": "Mostrar tasa 0,00 y resultado administrativo. No automatizar puntos de menores salvo que el codificado ARCI vigente ya incorporado en la aplicación lo permita."
       }
     }
   },
@@ -97,13 +97,13 @@
     { "lectura": "0.65", "corregido_interno": "0.60125", "tasa_penal_2_dec": "0.60", "zona": "En 0,60 penal", "color": "rojo_suave", "uso": "No supera el umbral penal objetivo por tasa" },
     { "lectura": "0.66", "corregido_interno": "0.6105", "tasa_penal_2_dec": "0.61", "zona": ">0,60 penal", "color": "rojo", "uso": "Supera el umbral penal objetivo por tasa" }
   ],
-  "nota_correccion_tabla_visual": "La decisión administrativa se toma con el valor corregido exacto, pero la tasa consignada y la graduación de sanción y puntos usan la lectura del ticket. Solo para el umbral penal objetivo se expresa el corregido con dos decimales mediante redondeo ordinario.",
+  "nota_correccion_tabla_visual": "Para comprobar si se supera el límite administrativo se aplica el EMP a la lectura. Si procede denuncia, se consigna la lectura del ticket y con ella se determina el tramo de multa y puntos. Solo para valorar la tasa objetiva penal se expresa el resultado tras EMP con dos decimales mediante redondeo ordinario.",
   "resultado_operativo_agrupado": [
     {
       "id": "ALC-RES-001",
       "titulo": "Sin superación de tasa",
       "color": "verde",
-      "regla": "El valor corregido no supera el límite aplicable.",
+      "regla": "La tasa tras aplicar el EMP no supera el límite aplicable.",
       "advertencia": "Una tasa por debajo del límite no excluye por sí sola un posible delito por conducción bajo la influencia si existen elementos probatorios suficientes."
     },
     {
@@ -113,7 +113,7 @@
       "regla": "El valor corregido exacto supera el límite aplicable y no concurren elementos de delito. En la denuncia se consigna la tasa del ticket.",
       "actuacion": [
         "Aplicar la infracción administrativa correspondiente.",
-        "Mostrar cuantía/puntos solo cuando estén determinados por reglas validadas del dataset.",
+        "Mostrar cuantía y puntos solo cuando estén determinados por los codificados validados aplicables.",
         "Aplicar medidas sobre el vehículo conforme a RGC art. 25 y a la regla transversal del proyecto, sin duplicar lógica."
       ]
     },
@@ -187,14 +187,14 @@
       { "id": "vmp", "label": "VMP", "icono": "🛴", "orden": 3, "visible": true, "descripcion": "VMP que realmente encaja en la definición reglamentaria." },
       { "id": "clasificacion_pendiente", "label": "Eléctrico no VMP / clasificación dudosa", "icono": "⚠️", "orden": 4, "visible": true, "descripcion": "No resolver la vía penal hasta clasificar técnicamente el aparato." }
     ],
-    "advertencia_vmp": "No clasificar por apariencia. Si un supuesto patinete no es realmente VMP y resulta vehículo a motor/ciclomotor, seleccionar la rama vehículo a motor/ciclomotor."
+    "advertencia_vmp": "No clasificar por apariencia. Si un supuesto patinete no es realmente VMP y resulta vehículo a motor o ciclomotor, selecciona esa clase de vehículo antes de resolver."
   },
   "presentacion": {
     "calculo_operativo": {
-      "subtitulo_calculadora": "Aplicación exacta del error máximo permitido",
-      "ayuda_entrada": "Admite coma o punto decimal. El cálculo interno conserva todos los decimales; el redondeo a dos decimales se aplica únicamente a la tasa penal operativa.",
-      "etiqueta_resultado_emp": "RESULTADO TRAS APLICAR EMP",
-      "ayuda_resultado_emp": "Valor corregido utilizado para determinar la situación administrativa, sin aplicar el redondeo penal.",
+      "subtitulo_calculadora": "Aplicación del error máximo permitido",
+      "ayuda_entrada": "Admite coma o punto decimal. La aplicación conserva todos los decimales y solo muestra dos decimales para valorar la tasa objetiva penal.",
+      "etiqueta_resultado_emp": "TASA TRAS APLICAR EL EMP",
+      "ayuda_resultado_emp": "Se utiliza para comprobar si se supera el límite administrativo. No sustituye la lectura del ticket que se consigna en la denuncia.",
       "etiqueta_ticket": "TASA DEL TICKET",
       "ayuda_ticket": "Tasa medida que figura en el ticket del etilómetro.",
       "ayuda_ticket_penal": "Tasa medida por el etilómetro y que debe constar en las diligencias.",
@@ -204,14 +204,14 @@
       "ayuda_penal": "Resultado tras aplicar el EMP y el criterio de redondeo a dos decimales del Tribunal Supremo.",
       "como_se_ha_calculado": "Cómo se ha calculado",
       "etiqueta_emp": "EMP aplicado",
-      "etiqueta_operacion_exacta": "Operación exacta interna",
-      "etiqueta_criterio": "Criterio aplicado",
+      "etiqueta_operacion_exacta": "Cálculo del EMP",
+      "etiqueta_criterio": "Cómo se usa cada tasa",
       "etiqueta_resultado": "Resultado operativo",
-      "criterio_administrativo": "Instrucción DGT 14/S-134: el EMP decide si procede denunciar; si procede, se consigna y se gradúa con la tasa del ticket.",
-      "criterio_penal": "SSTS 788/2023 y 789/2023, de 25 de octubre: redondeo ordinario a dos decimales del valor corregido exacto para el umbral penal objetivo.",
-      "conclusion_penal_supera": "Sí supera POR TASA el umbral objetivo superior a 0,60 mg/L del art. 379.2 CP.",
-      "conclusion_penal_no_supera": "No supera POR TASA el umbral objetivo superior a 0,60 mg/L del art. 379.2 CP.",
-      "nota_tabla_correccion": "La columna interna conserva todos los decimales. La tasa penal a dos decimales no se usa para decidir ni graduar la denuncia administrativa."
+      "criterio_administrativo": "Para comprobar si se supera el límite permitido se aplica el EMP. Si se supera, la denuncia se formula con la lectura del ticket; esa misma lectura fija el tramo de multa y puntos, sin descontar el EMP para cambiar de tramo. Por ello, una lectura general superior a 0,50 mg/L corresponde al tramo administrativo superior aunque no alcance por tasa objetiva la vía penal. Criterio de la Instrucción DGT 14/S-134.",
+      "criterio_penal": "Para la tasa objetiva del art. 379.2 CP se aplica el EMP y el resultado se expresa con dos decimales mediante redondeo ordinario, conforme a la jurisprudencia incorporada. Es distinto de la conducción bajo la influencia, que exige valorar signos y los demás elementos probatorios.",
+      "conclusion_penal_supera": "Supera por tasa el umbral objetivo superior a 0,60 mg/L del art. 379.2 CP.",
+      "conclusion_penal_no_supera": "No supera por tasa el umbral objetivo superior a 0,60 mg/L del art. 379.2 CP.",
+      "nota_tabla_correccion": "La tasa tras EMP conserva todos los decimales. La tasa mostrada a dos decimales sirve únicamente para valorar el umbral penal objetivo; no se usa para decidir ni graduar la denuncia administrativa."
     },
     "secciones_secundarias": [
       { "id": "tasas", "titulo": "Tasas en aire espirado", "icono": "📊", "orden": 1, "abierto_por_defecto": false, "visible": true },

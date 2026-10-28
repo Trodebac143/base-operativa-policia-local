@@ -281,7 +281,7 @@ export function resolveVmpInsurance(input: VmpInsuranceInput): VmpInsuranceResul
       : "No procede denuncia por el seguro específico VPL porque falta el certificado de circulación. Comprueba la infracción documental que corresponda." };
     if (!input.registered) return { regime: "NINGUNO", complaint: false, caseId: null, message: "No procede denuncia por el seguro específico VPL porque no consta su inscripción en la DGT. Valora la infracción documental por falta de inscripción." };
     if (!input.hasIdentificationLabel) return { regime: "NINGUNO", complaint: false, caseId: null, message: "No procede denuncia por el seguro específico VPL porque falta la etiqueta identificativa. Valora la infracción documental por identificación." };
-    return { regime: "SDA", complaint: true, caseId: input.circulating ? vmpGuide.seguro.categoria_a_casos.circulando : vmpGuide.seguro.categoria_a_casos.carecer, message: "Aplicar la rama SDA común para VPL con los requisitos previos cumplidos." };
+    return { regime: "SDA", complaint: true, caseId: input.circulating ? vmpGuide.seguro.categoria_a_casos.circulando : vmpGuide.seguro.categoria_a_casos.carecer, message: "Procede la denuncia de seguro del VPL porque se han acreditado los requisitos previos." };
   }
   return { regime: "SOA", complaint: true, caseId: input.circulating ? vmpGuide.seguro.categoria_b_casos.circulando : vmpGuide.seguro.categoria_b_casos.carecer, message: "Aplicar SOA con independencia del certificado, inscripción o etiqueta VMP." };
 }

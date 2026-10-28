@@ -29,13 +29,16 @@ test("aplica los rótulos solicitados a los casos 5 a 11", async () => {
   ]);
 });
 
-test("sitúa los enlaces y la ayuda común únicamente en Permisos extranjeros", async () => {
+test("mantiene un único enlace destacado y una ayuda clara en Permisos extranjeros", async () => {
   const { permisosCases, permisosGroups } = await vite.ssrLoadModule("/data/permisos.ts");
   const { PermitGroupView } = await vite.ssrLoadModule("/app/permit-navigation.tsx");
   const group = permisosGroups.find((item) => item.id === "permisos_extranjeros");
   const html = renderToStaticMarkup(React.createElement(PermitGroupView, { group, cases: permisosCases, onOpenCase() {} }));
   assert.match(html, /CONSULTAR PAÍSES CON CONVENIO — DGT/);
+  assert.equal((html.match(/CONSULTAR PAÍSES CON CONVENIO — DGT/g) ?? []).length, 1);
+  assert.doesNotMatch(html, /DGT — PERMISOS EXTRANJEROS/);
   assert.match(html, /VER REQUISITOS ART\. 21/);
+  assert.match(html, /no acredita por sí solo la validez del permiso ni que proceda el canje/);
   assert.match(html, /Permiso UE\/EEE válido y en vigor/);
   assert.equal(permisosCases.filter((item) => item.subgrupo === group.id).length, 6);
   assert.ok(permisosCases.filter((item) => item.subgrupo === group.id).every((item) => !item.ayudas && !item.enlaces_operativos));

@@ -11,7 +11,7 @@
     { "id": "seguro", "icono": "🛡️", "titulo": "Seguro obligatorio", "descripcion": "Determina si procede denuncia según el vehículo y sus documentos", "orden": 30 },
     { "id": "tecnica", "icono": "⚙", "titulo": "Requisitos técnicos / modificaciones", "descripcion": "Manipulación, defectos y vehículos fuera de la definición VMP", "orden": 40 },
     { "id": "circulacion", "icono": "🚦", "titulo": "Normas de circulación", "descripcion": "Hechos observables, precepto aplicable y competencia", "orden": 50 },
-    { "id": "alcohol", "icono": "🧪", "titulo": "Alcohol y drogas", "descripcion": "Abre la calculadora común con la rama VMP preseleccionada", "orden": 60 },
+    { "id": "alcohol", "icono": "🧪", "titulo": "Alcohol y drogas", "descripcion": "Abre la calculadora de alcoholemia con VMP ya seleccionado", "orden": 60 },
     { "id": "menores", "icono": "🧒", "titulo": "Menores de edad", "descripcion": "Tasa 0,0 y regla de edad desde el 01/10/2026", "orden": 70 }
   ],
   "clasificacion": {

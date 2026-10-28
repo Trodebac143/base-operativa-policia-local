@@ -167,6 +167,7 @@ test("17 · las salidas internas prohibidas no aparecen en la implementación ni
   const guide = await readFile(new URL("../contenido/seguridad_vial/vmp/guia.json", import.meta.url), "utf8");
   const joined = `${component}\n${engine}\n${guide}`;
   assert.doesNotMatch(joined, /(?:>|\")COMPROBAR(?:<|\")|Clasificación pendiente|Denuncia:\s*pendiente/);
+  assert.doesNotMatch(joined, /motor de reglas|ficha común|regla común/i);
 });
 
 test("18 · el menú inicial contiene exactamente las siete áreas operativas acordadas", async () => {
