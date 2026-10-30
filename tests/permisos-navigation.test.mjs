@@ -43,3 +43,19 @@ test("mantiene un único enlace destacado y una ayuda clara en Permisos extranje
   assert.equal(permisosCases.filter((item) => item.subgrupo === group.id).length, 6);
   assert.ok(permisosCases.filter((item) => item.subgrupo === group.id).every((item) => !item.ayudas && !item.enlaces_operativos));
 });
+
+test("D01 · la ficha de recurso no convierte un efecto pendiente en una denuncia de 500 euros", async () => {
+  const { permisosCases } = await vite.ssrLoadModule("/data/permisos.ts");
+  const { PermitCaseSheet } = await vite.ssrLoadModule("/app/permit-case-sheet.tsx");
+  const item = permisosCases.find((entry) => entry.id === "TR-PERM-OP-007");
+  const html = renderToStaticMarkup(React.createElement(PermitCaseSheet, { item, copied: false, onCopy() {} }));
+  assert.match(html, /COMPROBACIÓN PENDIENTE/);
+  assert.match(html, /recurso contencioso/);
+  assert.doesNotMatch(html, /DENUNCIA ADMINISTRATIVA|CALIFICACIÓN E IMPORTE|CON 1\.1 5A/);
+  assert.equal(item.codificado, undefined);
+  assert.equal(item.importe_fijo, undefined);
+  assert.ok(item.fuentes.includes("TR-PERM-SRC-FGE-10-2011"));
+  const edictal = permisosCases.find((entry) => entry.id === "TR-PERM-OP-006");
+  assert.equal(edictal.importe_fijo, 500, "se conserva el importe del supuesto con carencia ejecutiva comprobada");
+  assert.match(edictal.situacion, /válida y ejecutiva/);
+});

@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { checkedPatrimony, checkedNoRisks } from "./helpers/checked-facts.mjs";
 import test, { after } from "node:test";
 import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
@@ -31,8 +32,9 @@ test("falta de respeto, identificación y escalas de autoridad conservan la fron
   const respect = seguridadPublicaConceptos.find((item) => item.id === "respeto");
   const identification = seguridadPublicaConceptos.find((item) => item.id === "identificacion");
   assert.equal(respect.norma, "LO 4/2015 · art. 37.4");
-  assert.match(respect.frontera, /556\.2.*falta de respeto y consideración debida a la autoridad; no menciona a sus agentes/i);
-  assert.match(identification.frontera, /no constituye una detención penal/i);
+  assert.match(respect.frontera, /556\.2 CP.*autoridad.*no.*agentes/i);
+  assert.match(respect.frontera, /ejerciendo funciones de protección de la seguridad/i);
+  assert.match(identification.frontera, /no constituye (?:una )?detención penal/i);
   assert.equal(resolveAuthorityOutcome("desobediencia", "admin").norma, "LO 4/2015 · art. 36.6");
   assert.deepEqual([resolveAuthorityOutcome("desobediencia", "penal").norma, resolveAuthorityOutcome("desobediencia", "penal").clasificacion], ["Código Penal · art. 556.1", "DELITO MENOS GRAVE"]);
   assert.equal(resolveAuthorityOutcome("resistencia", "admin").norma, "LO 4/2015 · art. 36.6");
@@ -42,7 +44,7 @@ test("falta de respeto, identificación y escalas de autoridad conservan la fron
 
 test("amenazas y atentado resuelven clasificación y detención conforme a los supuestos trabajados", async () => {
   const { resolveAuthorityOutcome } = await vite.ssrLoadModule("/data/seguridad-publica.ts");
-  const leve = resolveAuthorityOutcome("amenazas", "leve", { autorMayorEdad: true, denunciaOQuerella: true });
+  const leve = resolveAuthorityOutcome("amenazas", "leve", { autorMayorEdad: true, denunciaOQuerella: true, domicilioConocido: true });
   const art169 = resolveAuthorityOutcome("amenazas", "art169", { autorMayorEdad: true, flagrante: true, condicionAmenaza: false });
   const atentado = resolveAuthorityOutcome("amenazas", "atentado", { autorMayorEdad: true, victimaAtentado: "agente", armaUsada551: false, violenciaPeligrosa551: false, vehiculoMotor551: false, incidentePenitenciario551: false, flagrante: true });
   assert.deepEqual([leve.norma, leve.clasificacion, leve.detencion, leve.situacion], ["Código Penal · art. 171.7", "DELITO LEVE", "NO", "INVESTIGADO NO DETENIDO"]);
@@ -72,7 +74,7 @@ test("la salida penal pide primero hechos objetivos y no anticipa una detención
   assert.match(pending, /Fundamento jurídico/);
   assert.doesNotMatch(pending, /Ver derechos del detenido|Ver diligencias de la detención|Registro \/ comprobación|¿procede detener\?/i);
   const { resolveAuthorityOutcome } = await vite.ssrLoadModule("/data/seguridad-publica.ts");
-  const investigated = resolveAuthorityOutcome("amenazas", "leve", { autorMayorEdad: true, denunciaOQuerella: true });
+  const investigated = resolveAuthorityOutcome("amenazas", "leve", { autorMayorEdad: true, denunciaOQuerella: true, domicilioConocido: true });
   assert.equal(investigated.situacion, "INVESTIGADO NO DETENIDO");
   assert.equal(investigated.detencion, "NO");
 });
@@ -155,7 +157,7 @@ test("los nuevos bloques resuelven las situaciones policiales obligatorias y con
   includesNorm(vgIncident, /153\.1/);
   assert.ok(vgIncident.conexiones.some((item) => item.conceptId === "agresiones_lesiones"));
   assert.match(vgIncident.resultados.map((item) => item.texto).join(" | "), /No es necesaria.*actuar de oficio/i);
-  const vgNotFlagrant = resolvePublicSafetyOutcome("violencia_relacional", { ...viogenRelationship, hechosRelacion: ["agresion"] }, { autorMayorEdad: true, flagrante: false, indiciosHechoSuficientes: true, indiciosParticipacionSuficientes: true, intentoFugaElusion: false });
+  const vgNotFlagrant = resolvePublicSafetyOutcome("violencia_relacional", { ...viogenRelationship, hechosRelacion: ["agresion"] }, { autorMayorEdad: true, flagrante: false, indiciosHechoSuficientes: true, indiciosParticipacionSuficientes: true, ...checkedNoRisks, intentoFugaElusion: false });
   assert.deepEqual([vgNotFlagrant.procesal?.situacion, vgNotFlagrant.procesal?.detencion], ["INVESTIGADO NO DETENIDO", "NO"]);
   const sexualVg = resolvePublicSafetyOutcome("agresiones_sexuales", { ...sexualFacts, ...viogenRelationship, actoSexualNoConsentido: true, menorDieciseis: false, noDeseaDenunciar: true });
   assert.match(sexualVg.resultados.map((item) => item.norma).join(" | "), /180\.1\.4/);
@@ -176,7 +178,7 @@ test("cada flujo de incidentes comienza por el hecho que puede cambiar su siguie
   assert.match(relational, /¿Existe o existió relación de pareja o análoga de afectividad\?/);
   assert.match(relational, /No puede determinarse todavía/);
   assert.match(injuries, /¿Ha existido golpe o agresión física\?/);
-  assert.match(sexual, /¿Se refiere un acto de contenido sexual no consentido\?/);
+  assert.match(sexual, /¿Se refiere una conducta de contenido sexual\?/);
   assert.match(fights, /¿Cómo se desarrolla el enfrentamiento\?/);
   assert.match(threats, /¿Qué está haciendo la persona\?/);
   for (const html of [injuries, sexual, fights, threats]) {
@@ -201,9 +203,10 @@ test("la auditoría procesal muestra fronteras completas y aplica el régimen de
   const byId = (id) => seguridadPublicaConceptos.find((item) => item.id === id);
   const respect = byId("respeto");
   const identification = byId("identificacion");
-  assert.match(respect.frontera, /insultos.*gestos ofensivos.*agresión o acometimiento.*desobediencia o resistencia grave.*anuncio serio/i);
-  assert.match(respect.frontera, /556\.2 CP tipifica.*autoridad; no menciona a sus agentes/i);
-  assert.match(identification.frontera, /orden expresa, concreta y terminante.*conocimiento efectivo.*negativa consciente.*tenaz, persistente o contumaz.*traslado.*no constituye una detención penal/i);
+  assert.match(respect.frontera, /agresión o acometimiento.*desobediencia o resistencia grave.*anuncio de un mal/i);
+  assert.match(respect.frontera, /Fuera de esas funciones no se aplica.*solo motivo relacionado con el servicio/i);
+  assert.match(respect.frontera, /556\.2 CP.*autoridad.*no.*agentes/i);
+  assert.match(identification.frontera, /orden legítima, concreta y conocida.*negativa consciente.*gravedad suficiente.*traslado.*no constituye (?:una )?detención penal/i);
 
   const disobedienceAdmin = resolveAuthorityOutcome("desobediencia", "admin");
   const disobedienceFlagrant = resolveAuthorityOutcome("desobediencia", "penal", { autorMayorEdad: true, flagrante: true });
@@ -217,9 +220,9 @@ test("la auditoría procesal muestra fronteras completas y aplica el régimen de
   assert.deepEqual([resistanceFlagrant.clasificacion, resistanceFlagrant.detencion], ["DELITO MENOS GRAVE", "SÍ"]);
   assert.deepEqual([atentadoFlagrant.clasificacion, atentadoFlagrant.detencion], ["DELITO MENOS GRAVE", "SÍ"]);
 
-  const leve = resolveAuthorityOutcome("amenazas", "leve", { autorMayorEdad: true, denunciaOQuerella: true });
+  const leve = resolveAuthorityOutcome("amenazas", "leve", { autorMayorEdad: true, denunciaOQuerella: true, domicilioConocido: true });
   const threatFlagrant = resolveAuthorityOutcome("amenazas", "art169", { autorMayorEdad: true, flagrante: true, condicionAmenaza: false });
-  const threatLater = resolveAuthorityOutcome("amenazas", "art169", { autorMayorEdad: true, flagrante: false, indiciosHechoSuficientes: true, indiciosParticipacionSuficientes: true, intentoFugaElusion: false, condicionAmenaza: false, denunciaOQuerella: true });
+  const threatLater = resolveAuthorityOutcome("amenazas", "art169", { autorMayorEdad: true, flagrante: false, indiciosHechoSuficientes: true, indiciosParticipacionSuficientes: true, ...checkedNoRisks, intentoFugaElusion: false, condicionAmenaza: false, denunciaOQuerella: true });
   assert.deepEqual([leve.clasificacion, leve.detencion, leve.situacion], ["DELITO LEVE", "NO", "INVESTIGADO NO DETENIDO"]);
   assert.match(leve.fundamentoDetencion, /495 LECrim/i);
   assert.deepEqual([threatFlagrant.clasificacion, threatFlagrant.detencion], ["DELITO MENOS GRAVE", "SÍ"]);
@@ -228,7 +231,7 @@ test("la auditoría procesal muestra fronteras completas y aplica el régimen de
 
   const administrativeDrugs = resolveDrugOutcome({ ventaObservada: false, indiciosSuficientes: false, sustancia: "resto" });
   const drugFlagrant = resolveDrugOutcome({ ventaObservada: true, indiciosSuficientes: true, sustancia: "grave_dano", autorMayorEdad: true, flagrante: true });
-  const drugLater = resolveDrugOutcome({ ventaObservada: true, indiciosSuficientes: true, sustancia: "resto", autorMayorEdad: true, flagrante: false, indiciosHechoSuficientes: true, indiciosParticipacionSuficientes: true, intentoFugaElusion: false });
+  const drugLater = resolveDrugOutcome({ ventaObservada: true, indiciosSuficientes: true, sustancia: "resto", autorMayorEdad: true, flagrante: false, indiciosHechoSuficientes: true, indiciosParticipacionSuficientes: true, ...checkedNoRisks, intentoFugaElusion: false });
   assert.deepEqual([administrativeDrugs.situacion, administrativeDrugs.detencion], ["SIN ATRIBUCIÓN SUFICIENTE", "NO"]);
   assert.deepEqual([drugFlagrant.clasificacion, drugFlagrant.detencion], ["DELITO GRAVE", "SÍ"]);
   assert.deepEqual([drugLater.clasificacion, drugLater.situacion, drugLater.detencion], ["DELITO MENOS GRAVE", "INVESTIGADO NO DETENIDO", "NO"]);
@@ -237,7 +240,7 @@ test("la auditoría procesal muestra fronteras completas y aplica el régimen de
   const files = ["contenido/seguridad_publica/operativa.json", "data/seguridad-publica.ts", "app/seguridad-publica.tsx"];
   const visibleText = files.map((file) => fs.readFileSync(new URL(`../${file}`, import.meta.url), "utf8")).join("\n");
   for (const forbidden of ["esos elementos", "elementos indicados", "valorar detención", "según procedencia y necesidad", "detención condicionada"]) assert.doesNotMatch(visibleText, new RegExp(forbidden, "i"));
-  assert.match(seguridadPublica.comunes.investigado.texto, /Coordina la continuación.*CNP/i);
+  assert.match(seguridadPublica.comunes.investigado.texto, /Coordina la continuación.*competente/i);
 });
 
 test("Armas blancas separa clasificación y conducta sin perder rutas violentas", async () => {
@@ -448,7 +451,7 @@ test("cada referencia LECrim ejecutada tiene explicación central, aplicación, 
     resolvePenalProcessualDecision({ flagrante: true }),
     resolvePenalProcessualDecision({ flagrante: false, indiciosHechoSuficientes: false }),
     resolvePenalProcessualDecision({ flagrante: false, indiciosHechoSuficientes: true, indiciosParticipacionSuficientes: false }),
-    resolvePenalProcessualDecision({ flagrante: false, indiciosHechoSuficientes: true, indiciosParticipacionSuficientes: true }),
+    resolvePenalProcessualDecision({ flagrante: false, indiciosHechoSuficientes: true, indiciosParticipacionSuficientes: true, ...checkedNoRisks }),
     resolvePenalProcessualDecision({ flagrante: false, indiciosHechoSuficientes: true, indiciosParticipacionSuficientes: true, intentoFugaElusion: true }),
     resolveMinorOffenceProcessualDecision({ domicilioConocido: true }),
     resolveMinorOffenceProcessualDecision({ domicilioConocido: false, fianzaBastante: false }),
@@ -474,7 +477,7 @@ test("la ayuda jurídica es optativa, responsive y no muta la decisión procesal
   const { resolvePenalProcessualDecision } = await vite.ssrLoadModule("/data/procesal-penal.ts");
   const fs = await import("node:fs");
   const css = fs.readFileSync(new URL("../app/seguridad-publica.css", import.meta.url), "utf8");
-  const input = { flagrante: false, indiciosHechoSuficientes: true, indiciosParticipacionSuficientes: true };
+  const input = { flagrante: false, indiciosHechoSuficientes: true, indiciosParticipacionSuficientes: true, ...checkedNoRisks };
   const before = resolvePenalProcessualDecision(input);
   const snapshot = structuredClone(before);
   assert.equal(renderToStaticMarkup(React.createElement(ContextualProcessualHelp, {})), "");
@@ -500,7 +503,7 @@ test("Seguridad Pública y patrimonio reutilizan la misma decisión sin cambiar 
   const injury = resolvePublicSafetyOutcome("agresiones_lesiones", { ...relationship, agresionFisica: true, lesion: true, resultadoAsistencial: "tratamiento_posterior" }, { autorMayorEdad: true, flagrante: true });
   assert.equal(injury.resultados.find((item) => item.norma.includes("147.1"))?.clasificacion, "DELITO MENOS GRAVE");
   assert.deepEqual(processTuple(injury.procesal), ["DETENIDO", "SÍ", "FLAGRANCIA", ["lecrim-490-2", "lecrim-492-1"]]);
-  const theftFacts = { hechoPrincipal: "apoderamiento", titularidad: "ajena", gradoEjecucion: "consumado", intencionApropiacionBeneficio: true, sinConsentimiento: true, violenciaFisica: false, intimidacion: false, fuerza: "ninguna", cuantiaAcreditada: true };
+  const theftFacts = { ...checkedPatrimony, hechoPrincipal: "apoderamiento", titularidad: "ajena", gradoEjecucion: "consumado", intencionApropiacionBeneficio: true, sinConsentimiento: true, violenciaFisica: false, intimidacion: false, fuerza: "ninguna", cuantiaAcreditada: true };
   const minorTheft = resolvePatrimonyOutcome({ ...theftFacts, cuantia: 400 }, { autorMayorEdad: true, domicilioConocido: true });
   assert.equal(minorTheft.gravedad, "DELITO LEVE");
   assert.deepEqual(processTuple(minorTheft.procesal), ["INVESTIGADO NO DETENIDO", "NO", "DELITO LEVE", ["lecrim-495"]]);
@@ -516,9 +519,9 @@ test("la matriz procesal conserva decisiones y referencias mientras explica hech
     [{ flagrante: true }, ["DETENIDO", "SÍ", "FLAGRANCIA", ["lecrim-490-2", "lecrim-492-1"]]],
     [{ flagrante: false, indiciosHechoSuficientes: false }, ["NO DETENER TODAVÍA — INVESTIGAR", "NO", "INDICIOS INSUFICIENTES", ["lecrim-492-4"]]],
     [{ flagrante: false, indiciosHechoSuficientes: true, indiciosParticipacionSuficientes: false }, ["NO DETENER TODAVÍA — INVESTIGAR", "NO", "INDICIOS INSUFICIENTES", ["lecrim-492-4"]]],
-    [{ flagrante: false, indiciosHechoSuficientes: true, indiciosParticipacionSuficientes: true }, ["INVESTIGADO NO DETENIDO", "NO", "NO FLAGRANTE", ["lecrim-492-4", "lecrim-493"]]],
+    [{ flagrante: false, indiciosHechoSuficientes: true, indiciosParticipacionSuficientes: true, ...checkedNoRisks }, ["INVESTIGADO NO DETENIDO", "NO", "NO FLAGRANTE", ["lecrim-492-4", "lecrim-493"]]],
     [{ flagrante: false, indiciosHechoSuficientes: true, indiciosParticipacionSuficientes: true, intentoFugaElusion: true }, ["DETENIDO", "SÍ", "NO FLAGRANTE", ["lecrim-492-4"]]],
-    [{ autorMayorEdad: false }, ["RUTA DE RESPONSABILIDAD PENAL DE MENORES", "NO APLICAR MOTOR ADULTO", "AUTOR MENOR", []]],
+    [{ edadAutor: "de_14_a_17" }, ["RUTA DE RESPONSABILIDAD PENAL DE MENORES", "NO APLICAR MOTOR ADULTO", "AUTOR MENOR", []]],
   ];
   for (const [input, expected] of cases) {
     const decision = resolvePenalProcessualDecision(input);
@@ -530,11 +533,11 @@ test("la matriz procesal conserva decisiones y referencias mientras explica hech
   }
   assert.deepEqual(tuple(resolveMinorOffenceProcessualDecision({ domicilioConocido: false, fianzaBastante: false })), ["DETENIDO", "SÍ", "DELITO LEVE", ["lecrim-495"]]);
   assert.deepEqual(tuple(resolveMinorOffenceProcessualDecision({ domicilioConocido: true })), ["INVESTIGADO NO DETENIDO", "NO", "DELITO LEVE", ["lecrim-495"]]);
-  assert.deepEqual(tuple(resolveMinorOffenceProcessualDecision({})), ["INVESTIGADO NO DETENIDO", "NO", "DELITO LEVE", ["lecrim-495"]]);
+  assert.deepEqual(tuple(resolveMinorOffenceProcessualDecision({})), ["NO DETENER TODAVÍA — INVESTIGAR", "NO", "DELITO LEVE", ["lecrim-495"]]);
   const flagrancy = resolvePenalProcessualDecision({ flagrante: true }).fundamentoDetencion;
   assert.match(flagrancy, /art\. 490\.2 LECrim/);
   assert.match(flagrancy, /art\. 492\.1 LECrim/);
-  const noDetention = resolvePenalProcessualDecision({ flagrante: false, indiciosHechoSuficientes: true, indiciosParticipacionSuficientes: true }).fundamentoDetencion;
+  const noDetention = resolvePenalProcessualDecision({ flagrante: false, indiciosHechoSuficientes: true, indiciosParticipacionSuficientes: true, ...checkedNoRisks }).fundamentoDetencion;
   assert.match(noDetention, /art\. 492\.4/);
   assert.match(noDetention, /art\. 493 LECrim/);
 });
@@ -549,9 +552,9 @@ test("el razonamiento solo verbaliza circunstancias confirmadas y distingue fals
   assert.deepEqual(unknownParticipation.hechosDeterminantes, ["Constan indicios suficientes del hecho."]);
   assert.match(unknownParticipation.fundamentoDetencion, /participación.*todavía no está confirmada/i);
   const unknownRisks = resolvePenalProcessualDecision({ flagrante: false, indiciosHechoSuficientes: true, indiciosParticipacionSuficientes: true });
-  assert.match(unknownRisks.fundamentoDetencion, /no se ha confirmado todavía ninguna circunstancia concreta adicional/i);
+  assert.match(unknownRisks.fundamentoDetencion, /Faltan comprobaciones/i);
   assert.doesNotMatch(unknownRisks.fundamentoDetencion, /han podido verificarse|no consta (?:un intento|riesgo)/i);
-  const confirmedAbsences = resolvePenalProcessualDecision({ flagrante: false, indiciosHechoSuficientes: true, indiciosParticipacionSuficientes: true, intentoFugaElusion: false, identidadODomicilioNoVerificables: false, riesgoOcultacionPruebas: false, riesgoConcretoVictimaTestigos: false });
+  const confirmedAbsences = resolvePenalProcessualDecision({ flagrante: false, indiciosHechoSuficientes: true, indiciosParticipacionSuficientes: true, ...checkedNoRisks, intentoFugaElusion: false, identidadODomicilioNoVerificables: false, riesgoOcultacionPruebas: false, riesgoConcretoVictimaTestigos: false });
   for (const fact of ["no consta un intento de fuga", "identidad o el domicilio han podido verificarse", "no consta riesgo concreto de ocultación", "no consta riesgo concreto y actual para la víctima"]) assert.match(confirmedAbsences.fundamentoDetencion, new RegExp(fact, "i"));
   const risk = resolvePenalProcessualDecision({ flagrante: false, indiciosHechoSuficientes: true, indiciosParticipacionSuficientes: true, riesgoConcretoVictimaTestigos: true });
   assert.match(risk.fundamentoDetencion, /riesgo concreto y actual para la víctima o los testigos/i);

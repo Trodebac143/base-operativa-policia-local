@@ -27,12 +27,13 @@ const driverOptions: Array<{ id: DriverType; label: string }> = [
 const alcoholemiaSources = resolveSourceReferences(alcoholemia.fuentes_v3);
 
 export function AlcoholemiaView({ onBack, initialVehicle = "motor_ciclomotor", backLabel = "← Volver a Seguridad Vial" }: { onBack: () => void; initialVehicle?: VehicleType; backLabel?: string }) {
-  const [reading, setReading] = useState("0,65");
+  const [reading, setReading] = useState("");
   const [mode, setMode] = useState<AlcoholemiaMode>(alcoholemia.emp.modo_por_defecto);
   const [vehicle, setVehicle] = useState<VehicleType>(initialVehicle);
   const [driver, setDriver] = useState<DriverType>("general");
   const [previousSanction, setPreviousSanction] = useState(false);
   const [negative, setNegative] = useState(false);
+  const [confirmed, setConfirmed] = useState(false);
   const calculation = useMemo(() => {
     if (!reading.trim()) return null;
     try {
@@ -76,22 +77,22 @@ export function AlcoholemiaView({ onBack, initialVehicle = "motor_ciclomotor", b
         </div>
         <div className="calculator-layout">
           <div className="calculator-inputs">
-            <label htmlFor="alcohol-reading">Lectura del etilómetro <span>(mg/L)</span></label>
+            <label htmlFor="alcohol-reading">Una lectura aislada del etilómetro <span>(mg/L)</span></label>
             <div className="reading-input">
               <input
                 id="alcohol-reading"
                 inputMode="decimal"
                 value={reading}
-                onChange={(event) => setReading(event.target.value)}
+                onChange={(event) => { setReading(event.target.value); setConfirmed(false); }}
                 placeholder="Ej.: 0,65"
                 aria-describedby="alcohol-input-help"
               />
               <span>mg/L</span>
             </div>
-            <p id="alcohol-input-help" className="field-help">{alcoholemia.presentacion.calculo_operativo.ayuda_entrada}</p>
+            <p id="alcohol-input-help" className="field-help">{alcoholemia.presentacion.calculo_operativo.ayuda_entrada} Este cálculo no acredita por sí solo el procedimiento completo de dos mediciones ni sus garantías.</p>
 
             <label htmlFor="alcohol-driver">Tipo de conductor</label>
-            <select id="alcohol-driver" value={driver} onChange={(event) => setDriver(event.target.value as DriverType)}>
+            <select id="alcohol-driver" value={driver} onChange={(event) => { setDriver(event.target.value as DriverType); setConfirmed(false); }}>
               {driverOptions.map((option) => <option key={option.id} value={option.id}>{option.label}</option>)}
             </select>
 
@@ -111,6 +112,7 @@ export function AlcoholemiaView({ onBack, initialVehicle = "motor_ciclomotor", b
                       checked={vehicle === option.id}
                       onChange={() => {
                         setVehicle(option.id);
+                        setConfirmed(false);
                         if (option.id === "clasificacion_pendiente") setNegative(false);
                       }}
                     />
@@ -127,23 +129,24 @@ export function AlcoholemiaView({ onBack, initialVehicle = "motor_ciclomotor", b
             )}
 
             <label htmlFor="alcohol-mode">Situación metrológica</label>
-            <select id="alcohol-mode" value={mode} onChange={(event) => setMode(event.target.value as AlcoholemiaMode)}>
+            <select id="alcohol-mode" value={mode} onChange={(event) => { setMode(event.target.value as AlcoholemiaMode); setConfirmed(false); }}>
               {Object.entries(alcoholemia.emp.modos).map(([key, value]) => <option key={key} value={key}>{value.etiqueta}</option>)}
             </select>
 
             <label className="checkbox-row">
-              <input type="checkbox" checked={negative} onChange={(event) => setNegative(event.target.checked)} />
+              <input type="checkbox" checked={negative} onChange={(event) => { setNegative(event.target.checked); setConfirmed(false); }} />
               <span>Negativa a las pruebas</span>
             </label>
             {needsPreviousSanction && (
               <label className="checkbox-row">
-                <input type="checkbox" checked={previousSanction} onChange={(event) => setPreviousSanction(event.target.checked)} />
+                <input type="checkbox" checked={previousSanction} onChange={(event) => { setPreviousSanction(event.target.checked); setConfirmed(false); }} />
                 <span>{alcoholemia.regla_antecedente.pregunta}</span>
               </label>
             )}
+            <label className="checkbox-row"><input type="checkbox" checked={confirmed} disabled={!calculation && !negative} onChange={(event) => setConfirmed(event.target.checked)} /><span>Confirmo el vehículo, conductor, situación metrológica y las respuestas sobre negativa y sanción previa indicadas para este supuesto.</span></label>
           </div>
 
-          <div className={`calculation-result result-${outcome.tono}`}>
+          {!confirmed || (!calculation && !negative) ? <div className="calculation-result"><strong>DATOS PENDIENTES</strong><p>{reading.trim() && !calculation && !negative ? "Lectura no válida. Introduce una cantidad numérica válida en mg/L." : "Introduce la lectura o indica la negativa, revisa los datos y confirma el supuesto para obtener una orientación."}</p><p>Las opciones iniciales todavía no describen una intervención confirmada. El cálculo aislado no acredita dos mediciones, intervalo, contraste ni el procedimiento completo.</p></div> : <div className={`calculation-result result-${outcome.tono}`}>
             <div className="calculation-result-header"><span>{outcome.titulo}</span><strong>{outcome.via}</strong></div>
             <div className="selected-context">
               <span>Vehículo: <strong>{selectedVehicle?.label}</strong></span>
@@ -162,7 +165,7 @@ export function AlcoholemiaView({ onBack, initialVehicle = "motor_ciclomotor", b
               </div>
             )}
             {outcome.influencia_nota && <p className="influence-note">{outcome.influencia_nota}</p>}
-          </div>
+          </div>}
         </div>
         <p className="alcohol-note">{alcoholemia.emp.aviso}</p>
       </section>

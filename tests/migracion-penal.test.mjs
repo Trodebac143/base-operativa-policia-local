@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { checkedPatrimony } from "./helpers/checked-facts.mjs";
 import test, { after } from "node:test";
 import { createServer } from "vite";
 import { fileURLToPath } from "node:url";
@@ -66,7 +67,7 @@ test("un supuesto de oficio continúa aunque concurra otro pendiente de denuncia
     indiciosParticipacionSuficientes: true,
     intentoFugaElusion: false,
     identidadODomicilioNoVerificables: false,
-    riesgoOcultacionPruebas: false,
+    riesgoConcretoIncomparecencia: false, riesgoOcultacionPruebas: false,
     riesgoConcretoVictimaTestigos: false,
     supuestosConcurrentes: [
       { gravedad: "DELITO MENOS GRAVE", procedibilidad: "oficio" }, // art. 153
@@ -138,7 +139,7 @@ test("edad desconocida deja el proceso pendiente; la edad acreditada separa adul
   const facts = { gravedad: "DELITO MENOS GRAVE", flagrante: true, indiciosHechoSuficientes: true, indiciosParticipacionSuficientes: true };
   const unknown = resolverSituacionProcesal(facts);
   const adult = resolverSituacionProcesal({ ...facts, autorMayorEdad: true });
-  const minor = resolverSituacionProcesal({ ...facts, autorMayorEdad: false });
+  const minor = resolverSituacionProcesal({ ...facts, edadAutor: "de_14_a_17" });
   assert.deepEqual([unknown.escenarioProcesal, unknown.situacion, unknown.detencion], ["EDAD PENDIENTE", "DILIGENCIAS DE PREVENCIÓN", "NO"]);
   assert.deepEqual([adult.escenarioProcesal, adult.situacion, adult.detencion], ["FLAGRANCIA", "DETENIDO", "SÍ"]);
   assert.deepEqual([minor.escenarioProcesal, minor.situacion, minor.detencion], ["AUTOR MENOR", "RUTA DE RESPONSABILIDAD PENAL DE MENORES", "NO APLICAR MOTOR ADULTO"]);
@@ -173,7 +174,7 @@ test("lesiones de persona vulnerable conviviente aplican el subtipo protegido fu
 
 test("266.3 exige la entidad del daño militar y la afección del servicio, no solo su titularidad",async()=>{
   const {resolvePatrimonyOutcome}=await vite.ssrLoadModule("/data/patrimonio.ts");
-  const facts={hechoPrincipal:"danos",titularidad:"ajena",intencionalidadDano:"deliberado",danoInformatico:false,cuantiaAcreditada:true,cuantia:2000,medioDestructivoOPeligroPersonas:true,medioDano:"explosion",peligroVidaIntegridad:false,bienEspecial266:"militar_265"};
+  const facts={...checkedPatrimony,hechoPrincipal:"danos",titularidad:"ajena",intencionalidadDano:"deliberado",danoInformatico:false,cuantiaAcreditada:true,cuantia:2000,medioDestructivoOPeligroPersonas:true,medioDano:"explosion",peligroVidaIntegridad:false,bienEspecial266:"militar_265"};
   assert.equal(resolvePatrimonyOutcome(facts).estado,"pendiente");
   assert.equal(resolvePatrimonyOutcome({...facts,danoGraveOInutilizacionMilitar:true}).supuestoPenalId,"266.3");
   assert.equal(resolvePatrimonyOutcome({...facts,cuantia:1000,danoGraveOInutilizacionMilitar:true}).supuestoPenalId,"266.1");

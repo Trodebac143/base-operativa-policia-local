@@ -10,10 +10,14 @@ export type ProcessualInput = {
   indiciosParticipacionSuficientes?: boolean;
   intentoFugaElusion?: boolean;
   identidadODomicilioNoVerificables?: boolean;
+  /** Hechos individualizados que permiten valorar la incomparecencia; no se infiere de una verificación pendiente. */
+  riesgoConcretoIncomparecencia?: boolean;
   riesgoOcultacionPruebas?: boolean;
   riesgoConcretoVictimaTestigos?: boolean;
   domicilioConocido?: boolean;
   fianzaBastante?: boolean;
+  /** Tramo comprobado. `autorMayorEdad` se conserva para llamadas anteriores. */
+  edadAutor?: "menor_de_14" | "de_14_a_17" | "mayor_de_18" | "desconocida";
   autorMayorEdad?: boolean;
   gravedad?: GravedadPenal;
   procedibilidad?: ProcedibilidadPenal;
@@ -36,10 +40,10 @@ export const redactarRazonamientoProcesal = (razonamiento: RazonamientoProcesal)
 ].filter(Boolean).join(" ");
 
 export type ProcessualDecision = {
-  situacion: "DETENIDO" | "INVESTIGADO NO DETENIDO" | "NO DETENER TODAVÍA — INVESTIGAR" | "RUTA DE RESPONSABILIDAD PENAL DE MENORES" | "DILIGENCIAS DE PREVENCIÓN" | "SIN ATRIBUCIÓN SUFICIENTE";
+  situacion: "DETENIDO" | "INVESTIGADO NO DETENIDO" | "NO DETENER TODAVÍA — INVESTIGAR" | "RUTA DE RESPONSABILIDAD PENAL DE MENORES" | "RUTA DE PROTECCIÓN DE MENORES" | "DILIGENCIAS DE PREVENCIÓN" | "SIN ATRIBUCIÓN SUFICIENTE";
   detencion: "SÍ" | "NO" | "NO APLICAR MOTOR ADULTO";
   fundamentoDetencion: string;
-  escenarioProcesal: "FLAGRANCIA" | "NO FLAGRANTE" | "DELITO LEVE" | "INDICIOS INSUFICIENTES" | "AUTOR MENOR" | "EDAD PENDIENTE" | "PROCEDIBILIDAD PENDIENTE" | "GRAVEDAD PENDIENTE";
+  escenarioProcesal: "FLAGRANCIA" | "NO FLAGRANTE" | "DELITO LEVE" | "INDICIOS INSUFICIENTES" | "AUTOR MENOR" | "MENOR DE 14" | "EDAD PENDIENTE" | "PROCEDIBILIDAD PENDIENTE" | "GRAVEDAD PENDIENTE";
   hechosDeterminantes?: string[];
   referenciasProcesales?: UsoReferenciaProcesal[];
   razonamientoProcesal: RazonamientoProcesal;
@@ -52,7 +56,7 @@ const decisionConRazonamiento = (decision: Omit<ProcessualDecision, "fundamentoD
 
 const concreteDetentionFacts = (input: ProcessualInput) => [
   input.intentoFugaElusion && "Consta un intento actual de fuga o elusión de la actuación.",
-  input.identidadODomicilioNoVerificables && "No han podido verificarse la identidad o el domicilio y existe un riesgo objetivo de incomparecencia.",
+  input.riesgoConcretoIncomparecencia && "Constan hechos concretos que permiten valorar riesgo de incomparecencia.",
   input.riesgoOcultacionPruebas && "Concurre un riesgo concreto de ocultación, alteración o destrucción de pruebas.",
   input.riesgoConcretoVictimaTestigos && "Concurre un riesgo concreto y actual para la víctima o los testigos.",
 ].filter((item): item is string => Boolean(item));
@@ -68,6 +72,7 @@ const enumerar = (elementos: string[]) => elementos.length < 2
 const circunstanciasQueDescartanDetencion = (input: ProcessualInput) => [
   input.intentoFugaElusion === false && "no consta un intento de fuga o elusión de la actuación",
   input.identidadODomicilioNoVerificables === false && "la identidad o el domicilio han podido verificarse",
+  input.riesgoConcretoIncomparecencia === false && "no constan hechos concretos de riesgo de incomparecencia",
   input.riesgoOcultacionPruebas === false && "no consta riesgo concreto de ocultación, alteración o destrucción de pruebas",
   input.riesgoConcretoVictimaTestigos === false && "no consta riesgo concreto y actual para la víctima o los testigos",
 ].filter((item): item is string => Boolean(item));
@@ -117,6 +122,15 @@ const nonFlagrancyDecision = (input: ProcessualInput): ProcessualDecision => {
   });
   const concreteFacts = concreteDetentionFacts(input);
   const confirmedNoDetentionFacts = circunstanciasQueDescartanDetencion(input);
+  if (concreteFacts.length === 0 && [input.intentoFugaElusion, input.riesgoConcretoIncomparecencia, input.riesgoOcultacionPruebas, input.riesgoConcretoVictimaTestigos].some((value) => value === undefined)) return decisionConRazonamiento({
+    situacion: "NO DETENER TODAVÍA — INVESTIGAR", detencion: "NO", escenarioProcesal: "NO FLAGRANTE",
+    razonamientoProcesal: {
+      hechosConfirmados: ["Constan indicios del hecho y de participación.", ...confirmedNoDetentionFacts],
+      encajeLegal: "Faltan comprobaciones de las circunstancias individualizadas relevantes para valorar la habilitación del art. 492 LECrim; la identidad o domicilio sin verificar no acreditan por sí solos incomparecencia.",
+      consecuencia: "Completar y documentar la valoración, proteger y preservar indicios; esta salida pendiente no descarta otras habilitaciones legales acreditadas.",
+    },
+    referenciasProcesales: [{ id: "lecrim-492-4", aplicacionAlCaso: "Hay indicios, pero quedan circunstancias sin comprobar.", conclusion: "No convertir los datos desconocidos en riesgos afirmados ni descartados." }],
+  });
   if (concreteFacts.length === 0) return decisionConRazonamiento({
     situacion: "INVESTIGADO NO DETENIDO",
     detencion: "NO",
@@ -146,21 +160,56 @@ const nonFlagrancyDecision = (input: ProcessualInput): ProcessualDecision => {
   });
 };
 
-const adultDecision = (input: ProcessualInput = {}): ProcessualDecision => {
-  if (input.autorMayorEdad === false) return decisionConRazonamiento({
+/** La entrada antigua afirmativa acredita mayoría de edad; `false` no permite
+ * distinguir menores de 14 del tramo 14–17 y mantiene la edad pendiente. */
+export const ageBand = (input: ProcessualInput) => input.edadAutor ?? (input.autorMayorEdad === true ? "mayor_de_18" : undefined);
+
+const minorAgeDecision = (input: ProcessualInput): ProcessualDecision | undefined => {
+  const age = ageBand(input);
+  if (age === "menor_de_14") return decisionConRazonamiento({
+    situacion: "RUTA DE PROTECCIÓN DE MENORES",
+    detencion: "NO APLICAR MOTOR ADULTO",
+    escenarioProcesal: "MENOR DE 14",
+    razonamientoProcesal: {
+      hechosConfirmados: ["El presunto autor tiene menos de 14 años."],
+      encajeLegal: "Arts. 1 y 3 LO 5/2000: antes de los 14 años no se exige responsabilidad conforme a esta ley.",
+      consecuencia: "Proteger al menor y comunicar los hechos a Fiscalía para la remisión a la entidad pública de protección cuando proceda; no aplicar la detención penal del régimen adulto.",
+    },
+  });
+  if (age === "de_14_a_17") return decisionConRazonamiento({
     situacion: "RUTA DE RESPONSABILIDAD PENAL DE MENORES",
     detencion: "NO APLICAR MOTOR ADULTO",
     escenarioProcesal: "AUTOR MENOR",
     razonamientoProcesal: {
-      hechosConfirmados: ["El presunto autor es menor de 18 años."],
-      encajeLegal: "No resulta aplicable directamente el régimen de detención de adultos de la LECrim.",
-      consecuencia: "Debe activarse la ruta específica de responsabilidad penal de menores.",
+      hechosConfirmados: ["El presunto autor tiene entre 14 y 17 años."],
+      encajeLegal: "Resulta aplicable la ruta específica de responsabilidad penal de menores, no el régimen adulto de la LECrim.",
+      consecuencia: "Art. 17 LO 5/2000: si existe detención legalmente justificada, informar inmediatamente en lenguaje comprensible de hechos, razones y derechos; notificar a representantes y Fiscalía, garantizar asistencia letrada y la presencia legalmente prevista en declaración, custodia separada de adultos y cuidados adecuados. Durará solo lo estrictamente necesario y, en todo caso, un máximo policial de 24 horas para libertad o puesta a disposición de Fiscalía. Este tramo de edad no ordena detener por sí solo.",
     },
   });
+  return undefined;
+};
+
+const adultDecision = (input: ProcessualInput = {}): ProcessualDecision => {
+  const minor = minorAgeDecision(input);
+  if (minor) return minor;
   return input.flagrante === true ? flagrancyDecision() : nonFlagrancyDecision(input);
 };
 
 const minorOffenceDecision = (input: ProcessualInput = {}): ProcessualDecision => {
+  const missingDomicile = input.domicilioConocido === undefined;
+  const missingBail = input.domicilioConocido === false && input.fianzaBastante === undefined;
+  if (missingDomicile || missingBail) return decisionConRazonamiento({
+    situacion: "NO DETENER TODAVÍA — INVESTIGAR",
+    detencion: "NO",
+    escenarioProcesal: "DELITO LEVE",
+    hechosDeterminantes: ["El hecho está clasificado como delito leve."],
+    razonamientoProcesal: {
+      hechosConfirmados: ["El hecho está clasificado como delito leve."],
+      encajeLegal: missingDomicile ? "Falta comprobar si existe domicilio conocido antes de aplicar la excepción del art. 495 LECrim." : "Consta que no hay domicilio conocido, pero falta valorar si se presta fianza bastante a juicio de la autoridad o agente.",
+      consecuencia: "No convertir el dato pendiente en una detención ni en una conclusión de investigado no detenido; completar la comprobación documentada.",
+    },
+    referenciasProcesales: [{ id: "lecrim-495", aplicacionAlCaso: missingDomicile ? "No se ha comprobado todavía el domicilio conocido." : "No consta domicilio conocido, pero falta el dato de fianza bastante.", conclusion: "El art. 495 exige valorar conjuntamente ambos extremos antes de resolver la excepción." }],
+  });
   const exceptionalDetention = input.domicilioConocido === false && input.fianzaBastante === false;
   return exceptionalDetention ? decisionConRazonamiento({
     situacion: "DETENIDO",
@@ -223,7 +272,8 @@ export function resolverSituacionProcesal(input: ProcessualInput = {}): Processu
       },
     });
   }
-  if (input.autorMayorEdad === false) return adultDecision(input);
+  const age = ageBand(input);
+  if (age === "menor_de_14" || age === "de_14_a_17") return adultDecision(input);
   if (input.atribucionPendiente) return decisionConRazonamiento({
     situacion: "SIN ATRIBUCIÓN SUFICIENTE", detencion: "NO", escenarioProcesal: "INDICIOS INSUFICIENTES",
     razonamientoProcesal: { hechosConfirmados: ["La atribución individualizada del hecho no está determinada."], encajeLegal: "No pueden darse por cumplidos los presupuestos del art. 492.4 LECrim.", consecuencia: "Practicar comprobaciones y asegurar indicios sin atribuir una detención a esta persona." },
@@ -239,9 +289,9 @@ export function resolverSituacionProcesal(input: ProcessualInput = {}): Processu
     razonamientoProcesal: { hechosConfirmados: ["Los datos disponibles no permiten concretar todavía el régimen penal aplicable."], encajeLegal: "Falta información necesaria para justificar una detención por este hecho.", consecuencia: "Proteger, prestar asistencia, identificar a las personas y preservar indicios, testigos y cámaras. Coordinar la investigación y valorar separadamente otros hechos confirmados." },
   });
   if (input.indiciosHechoSuficientes === false || input.indiciosParticipacionSuficientes === false) return nonFlagrancyDecision(input);
-  if (input.autorMayorEdad === undefined) return decisionConRazonamiento({
+  if (!age || age === "desconocida") return decisionConRazonamiento({
     situacion: "DILIGENCIAS DE PREVENCIÓN", detencion: "NO", escenarioProcesal: "EDAD PENDIENTE",
-    razonamientoProcesal: { hechosConfirmados: ["No consta aún si el presunto autor es mayor de edad."], encajeLegal: "Es necesario distinguir el régimen adulto del específico de menores antes de resolver la situación procesal.", consecuencia: "Comprobar edad, proteger y preservar indicios; no presumir aplicación del régimen adulto." },
+    razonamientoProcesal: { hechosConfirmados: ["No consta todavía el tramo de edad del presunto autor."], encajeLegal: "Es necesario distinguir si es menor de 14 años, tiene entre 14 y 17 años o es adulto antes de resolver la situación procesal.", consecuencia: "Comprobar edad, proteger y preservar indicios; no presumir aplicación del régimen adulto." },
   });
   return input.gravedad === "DELITO LEVE" ? minorOffenceDecision(input) : adultDecision(input);
 }

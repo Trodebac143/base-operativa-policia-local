@@ -119,7 +119,7 @@ export function resolveDrugOutcome(input: { ventaObservada: boolean; indiciosSuf
       ...processForSelection("368.pendiente", input, ["368.grave", "368.resto"]),
       porQue: "Constan actos de entrega o indicios objetivos de tráfico; la naturaleza de la sustancia está pendiente de confirmación.",
       incertidumbre: "El análisis de la sustancia determinará el subtipo y su pena. No se presume su composición ni su gravedad penal.",
-      actuacion: ["Documentar los actos de tráfico y su atribución individual.", "Aprehender la sustancia, preservar la cadena de custodia y solicitar análisis.", "Asegurar efectos, testigos y comunicaciones obtenidas legítimamente; coordinar con CNP."],
+      actuacion: ["Documentar los actos de tráfico y su atribución individual.", "Aprehender la sustancia, preservar la cadena de custodia y solicitar análisis.", "Asegurar efectos, testigos y comunicaciones obtenidas legítimamente; coordinar por el cauce territorial y funcional competente."],
     };
     const grave = ["grave_dano", "cocaina", "heroina", "mdma", "anfetamina", "lsd"].includes(input.sustancia);
     const id = grave ? "368.grave" : "368.resto";
@@ -129,14 +129,14 @@ export function resolveDrugOutcome(input: { ventaObservada: boolean; indiciosSuf
       ...penalSelection(id), ...processual,
       porQue: input.ventaObservada ? "Se observa venta, entrega o suministro a tercero." : "Existen indicios objetivos suficientes de tráfico valorados conjuntamente.",
       actuacion: processual.situacion === "DETENIDO"
-        ? ["Documentar venta e indicios, asegurar pruebas y efectos objetivamente vinculados.", "Presentar al detenido, actuaciones y efectos en CNP."]
-        : ["Documentar venta e indicios, asegurar pruebas y efectos objetivamente vinculados.", "Informar de hechos y derechos; coordinar continuación y citación con CNP."],
+        ? ["Documentar venta e indicios, asegurar pruebas y efectos objetivamente vinculados.", "Presentar al detenido, actuaciones y efectos ante el órgano o unidad competente."]
+        : ["Documentar venta e indicios, asegurar pruebas y efectos objetivamente vinculados.", "Informar de hechos y derechos; coordinar continuación y citación por el cauce competente."],
     };
   }
   return {
-    ...penalSelection("368.pendiente"), kind: "indicios_no_concluyentes", titulo: "INDICIOS DE POSIBLE TRÁFICO, NO CONCLUYENTES", norma: "Coordinación con CNP", ...resolverSituacionProcesal({ ...input, atribucionPendiente: true }),
+    ...penalSelection("368.pendiente"), kind: "indicios_no_concluyentes", titulo: "INDICIOS DE POSIBLE TRÁFICO, NO CONCLUYENTES", norma: "Coordinación por cauce competente", ...resolverSituacionProcesal({ ...input, atribucionPendiente: true }),
     porQue: "Hay elementos que generan duda, pero no se ha cerrado una atribución individualizada suficiente de tráfico.",
-    actuacion: ["Identificar y documentar los indicios concretos presentes.", "Asegurar pruebas, efectos y datos de testigos cuando proceda.", "Comunicar o comparecer ante CNP para continuación."],
+    actuacion: ["Identificar y documentar los indicios concretos presentes.", "Asegurar pruebas, efectos y datos de testigos cuando proceda.", "Comunicar o comparecer ante el órgano o unidad competente para continuación."],
   };
 }
 
@@ -147,9 +147,18 @@ function penalAuthorityOutcome(base: Omit<AuthorityOutcome, "situacion" | "deten
 export type AuthorityFacts = ProcessualInput & {
   conductaObservada?: "insulto" | "negativa" | "oposicion" | "forcejeo" | "ataque" | "amenaza_concreta" | "expresion_intimidatoria";
   ordenConcretaComprendida?: boolean;
+  ordenLegitimaDentroCompetencia?: boolean;
+  requerimientoAplicable?: boolean;
+  conductaOposicionConcreta?: boolean;
+  actuacionLegitima?: boolean;
+  oposicionPersistente?: boolean;
   negativaPersistente?: boolean;
   servicioImpedido?: boolean;
+  /** Compatibilidad de los formularios anteriores; no sustituye los dos hechos separados de alcance. */
   enFunciones?: boolean;
+  enEjercicioFunciones?: boolean;
+  agenteProteccionSeguridad?: boolean;
+  porRazonServicio?: boolean;
   victimaAtentado?: "agente" | "funcionario" | "docente_sanitario" | "autoridad" | "autoridad_5503";
   armaUsada551?: boolean;
   violenciaPeligrosa551?: boolean;
@@ -157,6 +166,11 @@ export type AuthorityFacts = ProcessualInput & {
   incidentePenitenciario551?: boolean;
   condicionAmenaza?: boolean;
   propositoConseguido?: boolean;
+  amenazaContenidoDocumentado?: boolean;
+  amenazaSeriedadFirmeza?: boolean;
+  amenazaMediosConcretos?: boolean;
+  amenazaProximidad?: boolean;
+  amenazaReiteracion?: boolean;
 };
 const atentadoId = (facts: AuthorityFacts): SupuestoPenalId => {
   const circunstancias = [facts.armaUsada551, facts.violenciaPeligrosa551, facts.vehiculoMotor551, facts.incidentePenitenciario551];
@@ -176,20 +190,42 @@ const atentadoAlternatives = (facts: AuthorityFacts): SupuestoPenalId[] => {
 };
 /** Encaje de autoridad desde conductas; la interfaz no elige artículos ni gravedad. */
 export function resolveAuthorityFromFacts(conceptId: string, facts: AuthorityFacts): AuthorityOutcome | null {
-  if (!facts.conductaObservada || facts.enFunciones !== true) return null;
+  if (!facts.conductaObservada) return null;
+  const enEjercicio = facts.enEjercicioFunciones ?? facts.enFunciones;
+  const alcancePenal = enEjercicio === true || facts.porRazonServicio === true;
+  const pendiente = (titulo: string, porQue: string, actuacion = ["Recoger el dato pendiente y documentar literalmente la conducta, el contexto y los requerimientos."]): AuthorityOutcome => ({ titulo, norma: "Comprobación operativa pendiente", porQue, frontera: "La ausencia de datos o de requisitos confirmados no permite convertir el hecho automáticamente en infracción administrativa o delito.", actuacion });
+  if (enEjercicio === undefined && facts.porRazonServicio === undefined) return null;
+  if (!alcancePenal && !["amenaza_concreta", "expresion_intimidatoria"].includes(facts.conductaObservada)) return pendiente("FUERA DEL ALCANCE CONFIRMADO", "No consta que la actuación se dirigiera contra una persona en el ejercicio de sus funciones ni por razón de estas. No se asigna por ello una infracción de este bloque.");
+  if (["negativa", "oposicion", "forcejeo"].includes(facts.conductaObservada) && enEjercicio !== true) return pendiente("EJERCICIO DE FUNCIONES PENDIENTE", "Para los arts. 556.1 CP y 36.6 LO 4/2015 debe comprobarse el ejercicio de funciones en la actuación. El mero motivo relacionado con un servicio anterior no lo acredita.");
   let level: string;
   let rama = conceptId;
   switch (facts.conductaObservada) {
     case "ataque": level = "atentado"; rama = "resistencia"; break;
-    case "amenaza_concreta": level = "art169"; rama = "amenazas"; break;
-    case "expresion_intimidatoria": level = "leve"; rama = "amenazas"; break;
-    case "insulto": level = "admin"; rama = "amenazas"; break;
+    case "amenaza_concreta": {
+      const threatFacts = [facts.amenazaContenidoDocumentado, facts.amenazaSeriedadFirmeza, facts.amenazaMediosConcretos, facts.amenazaProximidad, facts.amenazaReiteracion];
+      if (threatFacts.some((value) => value === undefined)) return pendiente("AMENAZA: CONTEXTO PENDIENTE", "Antes de proponer una calificación, concreta el contenido, seriedad o firmeza, medios, proximidad y reiteración. La reacción o miedo efectivo de la persona no es un requisito universal de esta pantalla.");
+      if (facts.amenazaContenidoDocumentado !== true || facts.amenazaSeriedadFirmeza !== true) return pendiente("AMENAZA: NO ENCAJA TODAVÍA", "Con los datos marcados no consta a la vez un anuncio concreto de mal y entidad suficiente. Conserva las expresiones y valora la vía que corresponda sin formular una denuncia automática.");
+      level = "art169"; rama = "amenazas"; break;
+    }
+    case "expresion_intimidatoria":
+      return pendiente("EXPRESIÓN: CONTENIDO Y CONTEXTO PENDIENTES", "Una expresión aislada no prueba una amenaza leve ni una falta de respeto. Recoger su contenido y contexto; continuar en Amenazas, coacciones y acoso si se acredita un anuncio de mal.");
+    case "insulto":
+      if (enEjercicio !== true || facts.agenteProteccionSeguridad !== true) return pendiente("FALTA DE RESPETO: ÁMBITO ADMINISTRATIVO NO CONFIRMADO", "El art. 37.4 LO 4/2015 exige un miembro de las Fuerzas y Cuerpos de Seguridad en funciones de protección de la seguridad. El motivo relacionado con el servicio no basta. Si la víctima es autoridad, valorar separadamente el art. 556.2 CP.");
+      level = "admin"; rama = "amenazas"; break;
     case "negativa":
-      if ([facts.ordenConcretaComprendida, facts.negativaPersistente, facts.servicioImpedido].some((value) => value === undefined)) return null;
-      if (!facts.ordenConcretaComprendida) return null;
+      if ([facts.ordenLegitimaDentroCompetencia, facts.ordenConcretaComprendida, facts.negativaPersistente, facts.servicioImpedido].some((value) => value === undefined)) return pendiente("DESOBEDIENCIA: REQUISITOS PENDIENTES", "Falta comprobar la legalidad y competencia de la orden, su comunicación y conocimiento, así como la respuesta y sus efectos.");
+      if (!facts.ordenLegitimaDentroCompetencia || !facts.ordenConcretaComprendida) return pendiente("DESOBEDIENCIA: NO ENCAJA TODAVÍA", "No consta una orden legítima dentro de competencia que haya sido comunicada y comprendida. No se formula automáticamente una infracción por este bloque.");
       level = facts.negativaPersistente && facts.servicioImpedido ? "penal" : "admin"; rama = "desobediencia"; break;
-    case "forcejeo": level = "penal"; rama = "resistencia"; break;
-    case "oposicion": level = "admin"; rama = "resistencia"; break;
+    case "forcejeo":
+    case "oposicion":
+      if (facts.conductaOposicionConcreta !== true) return pendiente("OPOSICIÓN: HECHO CONCRETO PENDIENTE", "Describe qué hizo la persona y qué efecto produjo antes de usar una etiqueta jurídica.");
+      if (facts.actuacionLegitima !== true) return pendiente("OPOSICIÓN: ACTUACIÓN NO ACREDITADA", "Falta acreditar que la actuación a la que se opone la persona era legítima y dentro de competencia; no se deduce del mero ejercicio de funciones.");
+      if (facts.requerimientoAplicable === undefined) return pendiente("OPOSICIÓN: REQUERIMIENTO PENDIENTE", "Indica si para esa actuación procedía una orden o requerimiento concreto.");
+      if (facts.requerimientoAplicable === true && [facts.ordenLegitimaDentroCompetencia, facts.ordenConcretaComprendida].some((value) => value === undefined)) return pendiente("OPOSICIÓN: ORDEN PENDIENTE", "Falta comprobar que el requerimiento era legítimo, estaba dentro de competencia y fue comunicado y comprendido.");
+      if (facts.requerimientoAplicable === true && (!facts.ordenLegitimaDentroCompetencia || !facts.ordenConcretaComprendida)) return pendiente("OPOSICIÓN: NO ENCAJA TODAVÍA", "No consta un requerimiento legítimo, conocido y aplicable. No se convierte este dato por sí solo en denuncia administrativa.");
+      if (facts.oposicionPersistente === undefined || facts.servicioImpedido === undefined) return pendiente("OPOSICIÓN: ENTIDAD PENDIENTE", "Describir duración, persistencia y efecto de la oposición; una dificultad menor no demuestra resistencia sancionable.");
+      if (!facts.oposicionPersistente && !facts.servicioImpedido) return pendiente("OPOSICIÓN: SIN RESISTENCIA ACREDITADA", "Solo se describe una dificultad momentánea, sin persistencia ni impedimento acreditado. No se formula denuncia automática; documentar y valorar otros hechos si existen.");
+      level = facts.oposicionPersistente && facts.servicioImpedido ? "penal" : "admin"; rama = "resistencia"; break;
   }
   return resolveAuthorityOutcome(rama, level, facts);
 }
@@ -198,42 +234,42 @@ export function resolveAuthorityOutcome(conceptId: string, level: string, input:
   if (conceptId === "desobediencia") return level === "penal" ? penalAuthorityOutcome({
     titulo: "POSIBLE DELITO", norma: "Código Penal · art. 556.1", ...penalSelection("556.1"),
     porQue: "Constan orden legítima, expresa, concreta y terminante, dirigida al interesado y conocida o comprendida; negativa consciente, oposición persistente o contumaz y gravedad penal suficiente.",
-    frontera: "Permanece en el art. 36.6 LO 4/2015 cuando falta una orden expresa, concreta y terminante dentro de las competencias legales del agente, su comunicación y conocimiento efectivo, una negativa consciente y tenaz o gravedad penal suficiente atendiendo a la trascendencia de la orden, las consecuencias del incumplimiento y el conjunto de circunstancias.",
-    actuacion: ["Documentar literalmente la orden, su competencia, comunicación y conocimiento, la negativa y persistencia.", "Aplicar el régimen procesal mostrado y coordinar con CNP cuando no proceda la detención."],
-  }, input) : admin("INFRACCIÓN ADMINISTRATIVA", "LO 4/2015 · art. 36.6", "No concurren conjuntamente los requisitos de una desobediencia grave del art. 556.1 CP.", "Permanece en el art. 36.6 LO 4/2015 cuando no existe una orden expresa, concreta y terminante dentro de las competencias legales del agente, no consta su conocimiento efectivo, falta negativa consciente y persistente o no alcanza gravedad penal suficiente.");
+    frontera: "Criterio: el art. 36.6 exige sus propios presupuestos de desobediencia. La falta de orden legítima, comunicación o conocimiento no constituye por sí misma una infracción administrativa. La gravedad se valora por la persistencia, trascendencia y efectos acreditados, sin un automatismo numérico.",
+      actuacion: ["Documentar literalmente la orden, su competencia, comunicación y conocimiento, la negativa y persistencia.", "Aplicar el régimen procesal mostrado y coordinar por el cauce territorial y funcional competente cuando no proceda la detención."],
+  }, input) : admin("INFRACCIÓN ADMINISTRATIVA", "LO 4/2015 · art. 36.6", "Se ha indicado negativa a una orden legítima, concreta, comunicada, comprendida y posible de cumplir, sin hechos suficientes para la modalidad grave penal.", "El incumplimiento acreditado es el fundamento; la mera falta de gravedad penal no basta. Revisar la trascendencia y las consecuencias, sin automatismo.");
   if (conceptId === "resistencia") {
     if (level === "atentado") return penalAuthorityOutcome({
       titulo: "POSIBLE DELITO", norma: "Código Penal · art. 550", ...penalSelection(atentadoId(input), atentadoId(input).endsWith("pendiente") ? atentadoAlternatives(input) : []),
       porQue: "Existe agresión, acometimiento o resistencia grave mediante violencia o intimidación grave.",
-      frontera: "La resistencia pasiva grave o activa de entidad penal que no incluya agresión, acometimiento ni resistencia grave mediante violencia o intimidación grave se encuadra en el art. 556.1 CP. La resistencia pasiva leve, la oposición de escasa entidad y la dificultad menor se mantienen en el art. 36.6 LO 4/2015.",
-      actuacion: ["Documentar violencia, intimidación, lesiones, medios y testigos.", "Presentar al detenido y actuaciones en CNP."],
+      frontera: "El art. 556.1 exige resistencia grave en el ejercicio de funciones. Para el art. 36.6 deben acreditarse separadamente actuación legítima, resistencia efectiva y, cuando proceda, requerimiento conocido. Una dificultad menor no demuestra por sí sola ninguna de esas infracciones.",
+      actuacion: ["Documentar violencia, intimidación, lesiones, medios y testigos.", "Presentar al detenido y actuaciones ante el órgano o unidad competente."],
     }, input);
     if (level === "penal") return penalAuthorityOutcome({
       titulo: "POSIBLE DELITO", norma: "Código Penal · art. 556.1", ...penalSelection("556.1"),
       porQue: "Hay resistencia pasiva grave o resistencia activa de intensidad inferior a atentado, con entidad penal suficiente.",
-      frontera: "La resistencia pasiva leve, la oposición de escasa entidad y la dificultad menor se mantienen en el art. 36.6 LO 4/2015. La agresión, el acometimiento o la resistencia grave mediante violencia o intimidación grave abren la rama del art. 550 CP.",
-      actuacion: ["Documentar la intensidad y secuencia de la oposición física.", "Aplicar el régimen procesal mostrado y coordinar con CNP cuando no proceda la detención."],
+      frontera: "La agresión, el acometimiento o la resistencia grave mediante violencia o intimidación grave requieren valorar el art. 550 CP. Descartar ese tipo no acredita por sí solo los presupuestos del art. 36.6 LO 4/2015.",
+      actuacion: ["Documentar la intensidad y secuencia de la oposición física.", "Aplicar el régimen procesal mostrado y coordinar por el cauce territorial y funcional competente cuando no proceda la detención."],
     }, input);
-    return admin("INFRACCIÓN ADMINISTRATIVA", "LO 4/2015 · art. 36.6", "Oposición de escasa entidad, resistencia pasiva leve o dificultad menor.", "Permanece en el art. 36.6 LO 4/2015 mientras la oposición sea pasiva leve, de escasa entidad o una dificultad menor. La resistencia pasiva grave o activa con entidad penal abre el art. 556.1 CP; la agresión, acometimiento o resistencia grave mediante violencia o intimidación grave abren el art. 550 CP.");
+    return admin("INFRACCIÓN ADMINISTRATIVA", "LO 4/2015 · art. 36.6", "Se ha descrito oposición efectiva a una actuación legítima en funciones y, cuando era necesario, un requerimiento legítimo conocido. Consta persistencia o impedimento, sin elementos suficientes para la modalidad penal grave.", "Criterio: documentar la resistencia concreta. La simple inmovilidad, apartarse o una dificultad menor no acreditan por sí solas el tipo. La resistencia grave y el acometimiento requieren valoración penal diferenciada.");
   }
   if (conceptId === "amenazas") {
     if (level === "leve") return {
       titulo: "POSIBLE DELITO", norma: "Código Penal · art. 171.7", ...penalSelection("171.7.general"), ...processForSelection("171.7.general", input),
       porQue: "Amenaza de carácter leve fuera de los restantes supuestos.",
       frontera: "Una frase airada sin anuncio serio de mal penalmente relevante permanece en el art. 37.4 LO 4/2015. Una amenaza de mal futuro con entidad suficiente abre la rama del art. 169 CP; la intimidación grave integrada en resistencia grave o inicio inmediato de ataque abre la rama del art. 550 CP.",
-      actuacion: ["Identificar y documentar literalmente las expresiones y el contexto.", "Informar de hechos y derechos; coordinar continuación y citación con CNP."],
+      actuacion: ["Identificar y documentar literalmente las expresiones y el contexto.", "Informar de hechos y derechos; coordinar continuación y citación por el cauce competente."],
     };
     if (level === "art169") return penalAuthorityOutcome({
       titulo: "POSIBLE DELITO", norma: "Código Penal · art. 169", ...penalSelection(threatId(input), threatId(input).endsWith("pendiente") ? threatAlternatives : []),
-      porQue: "Amenaza de causar los males trabajados en el art. 169 CP, con entidad apreciada por el contenido, seriedad, firmeza, medios, proximidad, reiteración y conducta acompañante.",
+      porQue: `Constan un contenido de mal concreto y seriedad o firmeza. ${[input.amenazaMediosConcretos && "Se describen medios concretos.", input.amenazaProximidad && "Consta proximidad temporal o ejecutiva.", input.amenazaReiteracion && "Consta reiteración."].filter(Boolean).join(" ") || "No se añade como hecho ningún medio, proximidad o reiteración no confirmado."} La apreciación es provisional y no depende de acreditar un miedo efectivo universal.`,
       frontera: "No es atentado cuando se anuncia un mal futuro sin resistencia grave ni inicio inmediato de ataque. La intimidación grave integrada en resistencia grave o inicio inmediato de ataque se encuadra en el art. 550 CP.",
-      actuacion: ["Documentar expresiones, seriedad, medios, proximidad, reiteración y conducta acompañante.", "Aplicar el régimen procesal mostrado y coordinar con CNP cuando no proceda la detención."],
+      actuacion: ["Documentar literalmente las expresiones y los datos de seriedad, medios, proximidad, reiteración y conducta acompañante que consten.", "Aplicar el régimen procesal mostrado y coordinar por el cauce territorial y de servicio competente cuando no proceda la detención."],
     }, input);
     if (level === "atentado") return penalAuthorityOutcome({
       titulo: "POSIBLE DELITO", norma: "Código Penal · art. 550", ...penalSelection(atentadoId(input), atentadoId(input).endsWith("pendiente") ? atentadoAlternatives(input) : []),
       porQue: "La intimidación grave se integra en resistencia grave o inicio inmediato de ataque.",
       frontera: "La amenaza de un mal futuro sin resistencia grave ni inicio inmediato de ataque se encuadra en amenazas.",
-      actuacion: ["Documentar el medio empleado, disposición inmediata de ataque y finalidad de impedir la actuación.", "Presentar al detenido y actuaciones en CNP."],
+      actuacion: ["Documentar el medio empleado, disposición inmediata de ataque y finalidad de impedir la actuación.", "Presentar al detenido y actuaciones ante el órgano o unidad competente."],
     }, input);
     return { titulo: "INFRACCIÓN ADMINISTRATIVA", norma: "LO 4/2015 · art. 37.4", porQue: "Insulto, expresión despectiva o frase airada sin anuncio serio de mal penalmente relevante.", frontera: "Permanece en el art. 37.4 LO 4/2015 cuando no hay anuncio serio de un mal penalmente relevante, agresión, acometimiento, resistencia grave mediante violencia o intimidación grave.", actuacion: ["Documentar literalmente conducta y contexto.", "Formular denuncia administrativa."] };
   }
@@ -298,6 +334,8 @@ export type PublicSafetyFacts = {
   tipoRina?: "una_agrede" | "reciproca" | "grupal_confusa" | "grupal_individualizable";
   lesionIndividualizable?: boolean;
   victimaAgente?: boolean;
+  /** Existencia de conducta sexual referida, independiente de la valoración del consentimiento. */
+  conductaSexualReferida?: boolean;
   actoSexualNoConsentido?: boolean;
   penetracion?: boolean;
   violenciaIntimidacion?: boolean;
@@ -403,7 +441,7 @@ export function resolvePublicSafetyOutcome(conceptId: string, facts: PublicSafet
       sexual
         ? "No paraliza la protección ni las primeras diligencias. Para proceder: denuncia de la víctima o querella del Ministerio Fiscal."
         : "No es necesaria para continuar. Informar a la víctima y actuar de oficio.",
-      ["Documentar su manifestación e informar de sus derechos.", sexual ? "Mantener protección, asistencia, actuaciones urgentes, preservación de indicios y coordinación con CNP/unidad especializada/Ministerio Fiscal." : "Continuar la actuación policial."],
+      ["Documentar su manifestación e informar de sus derechos.", sexual ? "Mantener protección, asistencia, actuaciones urgentes, preservación de indicios y coordinación con la unidad especializada, Ministerio Fiscal u órgano competente cuando proceda." : "Continuar la actuación policial."],
       undefined,
       "danger",
     ), referenciasProcesales: [{
@@ -420,7 +458,7 @@ export function resolvePublicSafetyOutcome(conceptId: string, facts: PublicSafet
   if (conceptId === "violencia_relacional") {
     if (relation === "pendiente") return pending("Completa los hechos mínimos sobre pareja o expareja, relación familiar o convivencia antes de orientar los hechos.");
     const relationFacts = facts.hechosRelacion ?? [];
-    results.push(incidentResult(relation === "vg" ? "ÁMBITO DE VIOLENCIA DE GÉNERO" : relation === "domestica" ? "ÁMBITO DE VIOLENCIA DOMÉSTICA" : "SIN RELACIÓN PROTEGIDA", relation === "vg" ? "LO 1/2004 · art. 1" : "Código Penal · art. 173.2", relation === "vg" ? "Hombre frente a esposa, exesposa o mujer ligada o anteriormente ligada por relación análoga de afectividad, aun sin convivencia." : relation === "domestica" ? "Persona incluida en el círculo familiar o de convivencia del art. 173.2. Una mera convivencia de piso no basta." : "Derivar cada hecho a los bloques generales correspondientes.", relation === "vg" ? ["Coordinar continuación y valoración de riesgo mediante CNP / Sistema VioGén conforme al protocolo operativo aplicable."] : basicIncidentAction, undefined, relation === "ninguna" ? "neutral" : "warning"));
+    results.push(incidentResult(relation === "vg" ? "ÁMBITO DE VIOLENCIA DE GÉNERO" : relation === "domestica" ? "ÁMBITO DE VIOLENCIA DOMÉSTICA" : "SIN RELACIÓN PROTEGIDA", relation === "vg" ? "LO 1/2004 · art. 1" : "Código Penal · art. 173.2", relation === "vg" ? "Hombre frente a esposa, exesposa o mujer ligada o anteriormente ligada por relación análoga de afectividad, aun sin convivencia." : relation === "domestica" ? "Persona incluida en el círculo familiar o de convivencia del art. 173.2. Una mera convivencia de piso no basta." : "Derivar cada hecho a los bloques generales correspondientes.", relation === "vg" ? ["Coordinar continuación y valoración de riesgo por el protocolo territorial y de servicio aplicable; usar Sistema VioGén cuando proceda."] : basicIncidentAction, undefined, relation === "ninguna" ? "neutral" : "warning"));
     for (const fact of relationFacts) {
       const target = fact === "agresion" ? "agresiones_lesiones" : fact === "sexual" ? "agresiones_sexuales" : "amenazas_coacciones";
       if (["amenazas", "coacciones", "acoso", "sexual"].includes(fact)) {
@@ -464,7 +502,7 @@ export function resolvePublicSafetyOutcome(conceptId: string, facts: PublicSafet
       // aparente de función o un riesgo vital no acreditan por sí solos secuelas.
       const perdidaVisible = facts.signosLesion === "perdida_traumatica";
       const alternativas: SupuestoPenalId[] = perdidaVisible ? ["149.1", "150"] : facts.resultadoAsistencial === "tratamiento_posterior" ? ["147.1", "148.1", "149.1", "150"] : [];
-      results.push({ ...penalIncident("149-150.pendiente", "POSIBLE LESIÓN DE ESPECIAL GRAVEDAD", "Arts. 149–150 CP", "Consta agresión física y lesión con signos de alarma. Con los hechos disponibles puede apreciarse una posible lesión de especial gravedad.", ["Priorizar asistencia sanitaria urgente y protección de la víctima.", "Documentar signos visibles, manifestaciones y mecanismo de la agresión; preservar indicios, testigos y cámaras.", "Identificar al presunto autor y coordinar las diligencias con CNP."], "danger", alternativas),
+      results.push({ ...penalIncident("149-150.pendiente", "POSIBLE LESIÓN DE ESPECIAL GRAVEDAD", "Arts. 149–150 CP", "Consta agresión física y lesión con signos de alarma. Con los hechos disponibles puede apreciarse una posible lesión de especial gravedad.", ["Priorizar asistencia sanitaria urgente y protección de la víctima.", "Documentar signos visibles, manifestaciones y mecanismo de la agresión; preservar indicios, testigos y cámaras.", "Identificar al presunto autor y coordinar las diligencias por el cauce territorial y funcional competente."], "danger", alternativas),
         incertidumbre: "La determinación definitiva del subtipo dependerá de la valoración médica/forense y judicial posterior." + (perdidaVisible ? " La pérdida traumática visible permite una orientación común a los arts. 149–150, sin decidir cuál corresponde." : " La función aparentemente perdida, la deformidad inicial o el riesgo vital no acreditan por sí solos una secuela permanente; pueden seguir siendo aplicables otras modalidades de lesiones."),
       });
     } else if (!facts.lesion || facts.resultadoAsistencial === "primera_asistencia") {
@@ -494,17 +532,25 @@ export function resolvePublicSafetyOutcome(conceptId: string, facts: PublicSafet
     );
     const sexualPending = (text: string): PublicSafetyOutcome => {
       const pendingOutcome = pending(text);
+      pendingOutcome.resultados[0].actuacion = [...basicIncidentAction, "Priorizar asistencia sanitaria/forense y preservar indicios, mensajes y cadena de custodia; evitar repetir innecesariamente el relato."];
       return { ...pendingOutcome, resultados: [sexualScopeResult, ...pendingOutcome.resultados], contextoRelacional };
     };
-    if (facts.actoSexualNoConsentido === undefined) return sexualPending("Indica si se refiere un acto de contenido sexual no consentido.");
-    if (!facts.actoSexualNoConsentido) return { resultados: [incidentResult("SIN ACTO SEXUAL NO CONSENTIDO REFERIDO", "Datos de la intervención", "Valora otros bloques si existen lesiones, amenazas o coacciones.", basicIncidentAction, undefined, "neutral")], conexiones: [], contextoRelacional };
+    const conductaReferida = facts.conductaSexualReferida ?? (facts.conductaSexual ? true : facts.actoSexualNoConsentido === true ? true : undefined);
+    if (conductaReferida === undefined) return sexualPending("Indica primero si se refiere una conducta de contenido sexual.");
+    if (!conductaReferida) return { resultados: [incidentResult("SIN CONDUCTA SEXUAL REFERIDA", "Datos de la intervención", "Valora otros bloques si existen lesiones, amenazas o coacciones.", basicIncidentAction, undefined, "neutral")], conexiones: [], contextoRelacional };
     if (facts.menorDieciseis === undefined) return sexualPending("Indica si la víctima es menor de 16 años antes de seleccionar la rama penal.");
     if (facts.menorDieciseis && facts.conductaSexual === undefined) return sexualPending("Distingue acto sexual físico, hacer presenciar actos sexuales o contacto mediante TIC.");
     const selectedConduct = facts.conductaSexual ?? "acto_fisico";
+    if (!facts.menorDieciseis && selectedConduct !== "acto_fisico") return sexualPending("Los arts. 182 y 183 requieren víctima menor de 16 años. Esta conducta en persona de 16 años o más necesita valoración específica; no se trasladan esos tipos automáticamente.");
+    // `actoSexualNoConsentido` era la entrada de versiones anteriores. Una afirmación
+    // expresa conserva su significado; una omisión no se convierte en consentimiento.
+    const estadoConsentimiento = facts.estadoConsentimiento ?? (facts.actoSexualNoConsentido === true ? "ausencia_manifestada" : undefined);
+    if (!facts.menorDieciseis && (estadoConsentimiento === undefined || estadoConsentimiento === "informacion_insuficiente")) return sexualPending("En persona de 16 años o más, recoge qué consta sobre consentimiento antes de seleccionar una rama penal.");
+    if (!facts.menorDieciseis && estadoConsentimiento === "actos_claros_consentimiento") return { resultados: [sexualScopeResult, incidentResult("SIN AUSENCIA DE CONSENTIMIENTO CONFIRMADA", "Datos de la intervención", "La conducta sexual referida no permite por ahora afirmar una agresión sexual de persona de 16 años o más. Conserva el relato y valora otros hechos autónomos.", basicIncidentAction, undefined, "neutral")], conexiones: [], contextoRelacional };
     if (selectedConduct === "acto_fisico" && facts.penetracion === undefined) return sexualPending("Indica los hechos sobre acceso carnal o introducción antes de distinguir los arts. 178, 179 o 181.4.");
     if (selectedConduct === "acto_fisico" && (facts.violenciaIntimidacion === undefined || facts.voluntadAnulada === undefined)) return sexualPending("Completa los hechos sobre violencia, intimidación y voluntad anulada antes de cerrar la modalidad típica.");
-    const sexualActions = ["Proteger y separar víctima y presunto autor.", "Obtener únicamente el relato inicial mínimo necesario; evitar repeticiones innecesarias.", "Priorizar asistencia sanitaria/forense cuando proceda; el tiempo transcurrido no excluye automáticamente la valoración.", "Preservar indicios y cadena de custodia conforme al protocolo aplicable.", "Identificar o localizar al presunto autor y posibles testigos, cámaras, mensajes u otros indicios.", "Coordinar con CNP, unidad especializada, servicios sanitarios/forenses y Ministerio Fiscal cuando corresponda."];
-    const coercive = facts.violenciaIntimidacion || facts.voluntadAnulada || facts.estadoConsentimiento === "violencia_intimidacion" || facts.estadoConsentimiento === "voluntad_anulada";
+    const sexualActions = ["Proteger y separar víctima y presunto autor.", "Obtener únicamente el relato inicial mínimo necesario; evitar repeticiones innecesarias.", "Priorizar asistencia sanitaria/forense cuando proceda; el tiempo transcurrido no excluye automáticamente la valoración.", "Preservar indicios y cadena de custodia conforme al protocolo aplicable.", "Identificar o localizar al presunto autor y posibles testigos, cámaras, mensajes u otros indicios.", "Coordinar por el cauce territorial y funcional competente con unidad especializada, servicios sanitarios/forenses y Ministerio Fiscal cuando corresponda."];
+    const coercive = facts.violenciaIntimidacion || facts.voluntadAnulada || estadoConsentimiento === "violencia_intimidacion" || estadoConsentimiento === "voluntad_anulada";
     const modalidadMenor1782 = coercive || facts.abusoSuperioridad === "si";
     const conduct = selectedConduct;
     const aggravations: string[] = [];
@@ -519,14 +565,14 @@ export function resolvePublicSafetyOutcome(conceptId: string, facts: PublicSafet
     results.push(sexualScopeResult);
     if (contextoRelacional.femaleSexualOffenceVSMJurisdiction) results.push(incidentResult("COMPETENCIA JUDICIAL DIFERENCIADA", "LO 1/2025 · competencia de la Sección de Violencia sobre la Mujer", "Víctima mujer en delito del Título VIII: conservar esta capa separada de VioGén LO 1/2004.", [], undefined, "neutral"));
 
-    if (conduct === "hacer_presenciar") {
+    if (facts.menorDieciseis && facts.posibleExcepcion183Bis && !modalidadMenor1782) {
+      results.push(penalIncident("183bis.pendiente", "REQUIERE VALORACIÓN JURÍDICA ESPECÍFICA", "Código Penal · art. 183 bis", "Comprobar consentimiento libre, proximidad de edad y desarrollo o madurez física y psicológica. No hay diferencia numérica automática ni exención acordada por esta herramienta. Descartar circunstancias del art. 178.2.", sexualActions, "warning"));
+    } else if (conduct === "hacer_presenciar") {
       if (facts.actosPresenciadosDelictivos === undefined) return sexualPending("Recoger el relato sobre los actos presenciados y si la persona afectada refiere fuerza, amenazas o que fueron contra su voluntad.");
       results.push(penalIncident(facts.actosPresenciadosDelictivos ? "182.2" : "182.1", "HACER PRESENCIAR ACTOS SEXUALES A MENOR DE 16", "Código Penal · art. 182", "Rama diferenciada de una agresión sexual física consumada; conservar finalidad sexual y actos que se hicieron presenciar.", sexualActions, "warning"));
     } else if (conduct === "contacto_tic") {
       if (facts.propuestaEncuentroYAcercamiento !== true && facts.embaucarMaterialPornografico !== true) return sexualPending("El mero contacto por TIC no basta: concretar propuesta de encuentro y actos de acercamiento, o actos para embaucar y obtener material pornográfico.");
       results.push(penalIncident(facts.propuestaEncuentroYAcercamiento ? "183.1" : "183.2", "CONTACTO SEXUAL MEDIANTE TIC CON MENOR DE 16", "Código Penal · art. 183", "Rama diferenciada de una agresión sexual física consumada. Conservar los mensajes y actos materiales del subtipo.", sexualActions, "warning"));
-    } else if (facts.menorDieciseis && facts.posibleExcepcion183Bis && !modalidadMenor1782) {
-      results.push(penalIncident("183bis.pendiente", "REQUIERE VALORACIÓN JURÍDICA ESPECÍFICA", "Código Penal · art. 183 bis", "No existe una diferencia numérica automática de edad. Deben valorarse proximidad de edad, desarrollo, madurez física y psicológica y consentimiento libre; la excepción no opera con circunstancias del art. 178.2.", sexualActions, "danger"));
     } else if (facts.menorDieciseis) {
       const minorId: SupuestoPenalId = facts.penetracion ? modalidadMenor1782 ? "181.4.coerciva" : "181.4.base" : modalidadMenor1782 ? "181.2" : "181.1";
       const minorNorm = facts.penetracion ? "Código Penal · art. 181.4" : modalidadMenor1782 ? "Código Penal · art. 181.2" : "Código Penal · art. 181.1";
@@ -550,6 +596,9 @@ export function resolvePublicSafetyOutcome(conceptId: string, facts: PublicSafet
       ? { estado: "PENDIENTE / COORDINAR" as const, fundamento: "Art. 191 CP: falta por ahora denuncia de la persona agraviada o representante, o querella/actuación del Ministerio Fiscal. Esto no elimina el delito ni paraliza protección, asistencia o diligencias urgentes." }
       : { estado: "CUMPLIDA" as const, fundamento: "Art. 191 CP: consta la vía de procedibilidad indicada. La denuncia puede ser oral y documentarse conforme al procedimiento legal." };
     addComplaintNotice(true);
+    if (conduct === "acto_fisico" && [facts.variasPersonas, facts.violenciaExtremaDegradante, facts.vulnerabilidadEspecial, facts.prevalimientoRelacion, facts.medioPeligroso, facts.sustanciasAdministradas].some((value) => value === undefined)) {
+      for (const result of results.filter((item) => item.supuestoPenalId)) result.incertidumbre = "Calificación provisional sobre los hechos afirmados. Hay circunstancias específicas sin comprobar: no se descartan agravaciones ni se afirma una pena definitiva. Completar las preguntas y documentar cada dato antes de cerrar el subtipo.";
+    }
     const outcome = withIncidentProcessual({ resultados: results, conexiones: connections, contextoRelacional, procedibilidad }, { ...input, denunciaOQuerella: !procedurePending, autorMayorEdad: facts.autorMayorEdad ?? input.autorMayorEdad });
     return outcome;
   }
@@ -703,7 +752,7 @@ export function resolveWeaponOutcome(object: WeaponObjectInput, context: WeaponC
     conducta,
     porQue: `${clasificacionObjeto}. Se ha indicado ${object.circunstanciaTenencia === "reparacion" ? "reparación" : object.circunstanciaTenencia === "transmision" ? "simple transmisión a otra persona" : "mera contemplación o examen"}.`,
     frontera: "No se aplica una rama automática basada únicamente en la duración de la tenencia.",
-    actuacion: ["Conservar los datos objetivos de la situación y coordinar la continuación con CNP."],
+    actuacion: ["Conservar los datos objetivos de la situación y coordinar la continuación por el cauce territorial y funcional competente."],
   };
 
   const clear563 = prohibited && (directReferral || intimidating || relatedExhibition || relatedCrime);
@@ -723,7 +772,7 @@ export function resolveWeaponOutcome(object: WeaponObjectInput, context: WeaponC
       hechosRelevantes: facts,
       derivaOtroDelito: derivesAnotherOffence,
       dependenciaFutura: futureReferral,
-      actuacion: processual.situacion === "DETENIDO" ? ["Intervenir, ocupar y custodiar el arma como efecto o instrumento del delito.", "Presentar a la persona, actuaciones y efectos en CNP."] : ["Intervenir, ocupar y custodiar el arma como efecto o instrumento del delito.", "Informar de hechos y derechos; coordinar continuación y citación con CNP."],
+      actuacion: processual.situacion === "DETENIDO" ? ["Intervenir, ocupar y custodiar el arma como efecto o instrumento del delito.", "Presentar a la persona, actuaciones y efectos ante el órgano o unidad competente."] : ["Intervenir, ocupar y custodiar el arma como efecto o instrumento del delito.", "Informar de hechos y derechos; coordinar continuación y citación por el cauce competente."],
     };
   }
   if (possible563) return {
@@ -738,7 +787,7 @@ export function resolveWeaponOutcome(object: WeaponObjectInput, context: WeaponC
     hechosRelevantes: facts,
     derivaOtroDelito: derivesAnotherOffence,
     dependenciaFutura: futureReferral,
-    actuacion: ["Intervenir, ocupar y custodiar el arma.", "Asegurar los datos objetivos de la disponibilidad, comportamiento y contexto.", "Comunicar o comparecer ante CNP para continuación."],
+    actuacion: ["Intervenir, ocupar y custodiar el arma.", "Asegurar los datos objetivos de la disponibilidad, comportamiento y contexto.", "Comunicar o comparecer ante el órgano o unidad competente para continuación."],
   };
 
   if (prohibited) return {
@@ -766,7 +815,7 @@ export function resolveWeaponOutcome(object: WeaponObjectInput, context: WeaponC
     hechosRelevantes: facts,
     derivaOtroDelito: true,
     dependenciaFutura: futureReferral,
-    actuacion: ["Proteger, identificar, asegurar el objeto y los datos inmediatos de la conducta.", "Derivar al análisis penal correspondiente y coordinar la continuación con CNP."],
+    actuacion: ["Proteger, identificar, asegurar el objeto y los datos inmediatos de la conducta.", "Derivar al análisis penal correspondiente y coordinar la continuación por el cauce territorial y funcional competente."],
   };
 
   if (intimidating || relatedExhibition || relevantManipulation || relatedCrime) {
@@ -786,7 +835,7 @@ export function resolveWeaponOutcome(object: WeaponObjectInput, context: WeaponC
       salidaSubsidiaria: ordinaryObject && intimidating
         ? "Si los hechos no alcanzan delito ni infracción grave: LO 4/2015 · art. 37.2, por exhibición de objetos peligrosos para la vida e integridad física con ánimo intimidatorio."
         : !ordinaryObject ? "Si los hechos no constituyen delito, puede continuar el análisis del art. 36.10 LO 4/2015; la necesidad, ocasión, lugar y circunstancias del porte se desarrollarán en una rama posterior." : undefined,
-      actuacion: ["Asegurar el objeto y los datos inmediatos de la conducta.", "Derivar al análisis penal correspondiente y coordinar la continuación con CNP."],
+      actuacion: ["Asegurar el objeto y los datos inmediatos de la conducta.", "Derivar al análisis penal correspondiente y coordinar la continuación por el cauce territorial y funcional competente."],
     };
   }
 

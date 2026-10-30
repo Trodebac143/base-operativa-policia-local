@@ -4,38 +4,39 @@
   "categoria": "seguridad_vial_permisos",
   "subgrupo": "permisos_perdida_vigencia",
   "titulo": "En periodo de recurso",
-  "situacion": "La resolución no permite todavía imputación penal por recurso, plazo de recurso o suspensión de ejecutividad.",
+  "situacion": "Se refiere un recurso, plazo de recurso o suspensión respecto de la pérdida de vigencia; todavía debe comprobarse su efecto concreto.",
   "palabras_clave": [
     "recurso",
     "ejecutividad",
     "puntos"
   ],
   "que_comprobar": [
-    "Firmeza, ejecutividad y efectos del recurso o suspensión."
+    "Resolución íntegra, fecha de notificación y prueba del conocimiento efectivo.",
+    "Si está abierto el plazo de alzada, hay alzada pendiente o se agotó la vía administrativa.",
+    "Distinguir recurso contencioso de suspensión efectivamente acordada; comprobar vigencia y ejecutividad actuales con Tráfico."
   ],
-  "resultado": "VÍA ADMINISTRATIVA. No imputar el artículo 384 CP mientras falte firmeza o ejecutividad exigible.",
-  "via": "Administrativa",
-  "norma": "Reglamento General de Conductores",
-  "textoDenuncia": "CONDUCIR EL VEHÍCULO RESEÑADO CARECIENDO DE AUTORIZACIÓN ADMINISTRATIVA PARA CONDUCIR POR PÉRDIDA DE VIGENCIA POR AGOTAMIENTO DEL CRÉDITO TOTAL DE PUNTOS.",
-  "articulo": "1.1",
-  "codificado": "CON 1.1 5A",
-  "calificacion": "muy grave",
-  "importe_fijo": 500,
-  "importe_reducido": 250,
+  "resultado": "COMPROBACIÓN PENDIENTE. La existencia de un recurso no determina por sí sola una denuncia administrativa ni excluye el art. 384 CP. La Circular FGE 10/2011 distingue el agotamiento de la vía administrativa del recurso contencioso, que por sí solo no impide la acción penal. Verificar una eventual suspensión y los restantes presupuestos antes de resolver. Solo valorar denuncia administrativa si se acredita una carencia de autorización sancionable.",
+  "via": "Pendiente de comprobar",
+  "norma": "Código Penal y Reglamento General de Conductores",
+  "articulo": "384 CP; 1.1 y 37 RGConductores, según presupuesto comprobado",
   "responsable": "Conductor",
   "actuacion": [
-    "Documentar el estado registral y formular la denuncia administrativa que proceda.",
+    "Obtener y documentar resolución, notificaciones, recurso y eventual suspensión; confirmar el efecto vigente con la Jefatura de Tráfico.",
+    "Conservar los hechos e indicios y coordinar su valoración por el cauce competente, sin asignar automáticamente sanción o vía penal.",
     "Detener la conducción cuando la autorización no sea válida y permitir conductor sustituto habilitado."
   ],
   "competencia_denuncia": "Policía Local de Torrent",
   "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
   "advertencias": [
-    "Verificar el efecto real del recurso; su mera presentación no siempre suspende el procedimiento."
+    "Verificar el efecto real del recurso; su mera presentación no equivale a suspensión.",
+    "La orientación sobre el art. 384 procede del apartado X y conclusión 13 de la Circular FGE 10/2011, no de un cotejo íntegro de la Instrucción DGT 12/C-105, todavía pendiente."
   ],
   "alerta_penal": false,
   "fuentes": [
     "TR-PERM-SRC-001",
     "TR-PERM-SRC-004",
+    "TR-PERM-SRC-FGE-10-2011",
+    "AN-SRC-007",
     "TR-ITV-SRC-007"
   ],
   "fichas_juridicas": [

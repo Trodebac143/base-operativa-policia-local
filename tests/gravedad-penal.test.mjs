@@ -102,10 +102,10 @@ test("regresión activa: art. 368, prisión y multa proporcional", () => {
   assert.equal(resolveDrugOutcome({ ventaObservada: true, indiciosSuficientes: true, sustancia: "resto" }).clasificacion, M);
 });
 test("regresión activa: art. 254, subtipos y art. 267 mantienen gravedad y régimen procesal", () => {
-  const facts = { hechoPrincipal: "recepcion", titularidad: "ajena", posesionPrevia: "tercero", viaApropiacionFuera253: true, gradoEjecucion: "consumado", cuantiaAcreditada: true };
+  const facts = { hechoPrincipal: "recepcion", titularidad: "ajena", relacionArt268: "ninguna", posesionPrevia: "tercero", viaApropiacionFuera253: true, valorArtisticoHistoricoCulturalCientifico: false, gradoEjecucion: "consumado", cuantiaAcreditada: true };
   for (const cuantia of [400, 401]) assert.equal(resolvePatrimonyOutcome({ ...facts, cuantia }).gravedad, L);
   assert.equal(resolvePatrimonyOutcome({ ...facts, cuantia: 100, valorArtisticoHistoricoCulturalCientifico: true }).gravedad, M);
-  const imprudent = { hechoPrincipal: "danos", titularidad: "ajena", intencionalidadDano: "imprudente_accidental", imprudenciaGrave: true, cuantiaAcreditada: true };
+  const imprudent = { hechoPrincipal: "danos", titularidad: "ajena", relacionArt268: "ninguna", intencionalidadDano: "imprudente_accidental", imprudenciaGrave: true, cuantiaAcreditada: true };
   assert.equal(resolvePatrimonyOutcome({ ...imprudent, cuantia: 80000 }).gravedad, undefined);
   const o = resolvePatrimonyOutcome({ ...imprudent, cuantia: 80001, denunciaOQuerella: true }, { autorMayorEdad: true });
   assert.equal(o.gravedad, L);

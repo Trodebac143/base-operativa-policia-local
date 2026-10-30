@@ -3,20 +3,24 @@ import { resolverSituacionProcesal, type ProcessualDecision, type ProcessualInpu
 import type { GravedadPenal } from "./gravedad-penal";
 import { seleccionarSupuestoPenal, type SupuestoPenalId, type ProcedibilidadPenal } from "./catalogo-penal";
 import type { RegimenPenas } from "./gravedad-penal";
+import { patrimonyPendingQualifications } from "./patrimony-review";
 
 export type PatrimonyMainEvent = "apoderamiento" | "recepcion" | "danos" | "no_claro";
 export type PatrimonyOwnership = "ajena" | "propia" | "compartida" | "no_determinada";
 export type PriorPossession = "victima_titular" | "autor_entrega_legitima" | "autor_acceso_material" | "autor_facultades_administracion" | "tercero" | "no_determinada";
 export type ExecutionDegree = "consumado" | "tentativa" | "no_determinado";
-export type PriorConvictionsState = "no_consta_verificacion" | "antecedentes_no_judicialmente_verificados" | "condenas_ejecutorias_verificadas";
+export type PriorConvictionsState = "no_consta_verificacion" | "antecedentes_no_judicialmente_verificados" | "sin_condenas_computables_verificado" | "condenas_ejecutorias_verificadas";
 export type ForceFact = "ninguna" | "escalamiento" | "rotura_acceso" | "fractura_contenedor" | "cerradura_claves" | "llave_falsa" | "alarma_acceso_salida" | "llave_entregada_legitima" | "escalamiento_dudoso" | "no_determinada";
 export type ViolenceMoment = "apoderamiento" | "conservar" | "huida" | "auxiliador" | "perseguidor" | "otro" | "no_determinado";
 export type PlaceKind = "morada" | "local_abierto" | "local_fuera_horario" | "dependencia" | "otro" | "no_determinado";
 export type DamageIntent = "deliberado" | "imprudente_accidental" | "no_determinado";
+export type PatrimonyDate = "antes_2026_04_10" | "desde_2026_04_10" | "continuado" | "desconocida";
 export type Family268Kind = "conyuge" | "ascendiente" | "descendiente" | "hermano" | "afin_primer_grado" | "otro" | "no_determinado";
 
 export type PatrimonyFacts = {
   hechoPrincipal?: PatrimonyMainEvent;
+  /** Fecha necesaria cuando una consecuencia puede depender de la LO 1/2026. */
+  fechaHecho?: PatrimonyDate;
   relacionArt268?: "conyuge" | "familiar" | "ninguna" | "no_determinada";
   titularidad?: PatrimonyOwnership;
   posesionPrevia?: PriorPossession;
@@ -118,10 +122,26 @@ export type PatrimonyOutcome = {
 
 const pending = (falta: string, context: RelationalContext, connections: PatrimonyConnection[] = []): PatrimonyOutcome => ({
   estado: "pendiente", resultado: "COMPROBACIONES Y PROTECCIÓN DE BIENES", hecho: "Con los datos disponibles aún no puede concretarse el encaje penal.", falta,
-  avisos: [], porQue: [`Falta determinar ${falta}.`], actuacion: ["Identificar a las personas implicadas y proteger a las víctimas.", "Documentar titularidad, relato y valor conocido sin dar por cero la cuantía desconocida.", "Preservar efectos, testigos y cámaras; coordinar la investigación con CNP."], conexiones: connections, contextoRelacional: context,
+  avisos: [], porQue: [`Falta determinar ${falta}.`], actuacion: ["Identificar a las personas implicadas y proteger a las víctimas.", "Documentar titularidad, relato y valor conocido sin dar por cero la cuantía desconocida.", "Preservar efectos, testigos y cámaras; coordinar la investigación por el cauce territorial y funcional competente."], conexiones: connections, contextoRelacional: context,
 });
 
 const commonActions = ["Identificar a autor, víctima y testigos.", "Describir y asegurar los efectos, instrumentos e indicios.", "Documentar titularidad, posesión, cuantía acreditada y secuencia temporal."];
+
+/**
+ * Solo se detiene la salida por consecuencias que este motor toma de la LO
+ * 1/2026: multirreincidencia, el supuesto agrario modificado, el nuevo
+ * numeral de dispositivos y la agravación genérica del art. 250, que esta
+ * interfaz aún no desglosa por numeral. Otras agravaciones ya existentes no
+ * se convierten artificialmente en una cuestión temporal.
+ */
+const usesReformSensitiveConsequence = (facts: PatrimonyFacts) => Boolean(
+  convictionVerified(facts) ||
+  facts.productoAgrarioGanaderoEnExplotacion && (facts.cuantia ?? 0) > 400 ||
+  facts.telefonoODispositivo235 && facts.existenciaComercialVentaAlmacenExposicion === false ||
+  facts.agravacion250Acreditada === true
+);
+
+const needsReformComparison = (facts: PatrimonyFacts) => usesReformSensitiveConsequence(facts) && facts.fechaHecho !== "desde_2026_04_10";
 
 function connectionsFor(facts: PatrimonyFacts, context: RelationalContext): PatrimonyConnection[] {
   const result: PatrimonyConnection[] = [];
@@ -134,9 +154,9 @@ function connectionsFor(facts: PatrimonyFacts, context: RelationalContext): Patr
 
 function art268(facts: PatrimonyFacts) {
   const spouse = facts.relacionArt268 === "conyuge" && facts.separacionConyugal === false && facts.procesoSeparacionDivorcioNulidad === false;
-  const family = ["ascendiente", "descendiente", "hermano"].includes(facts.vinculoFamiliar268 ?? "") || facts.vinculoFamiliar268 === "afin_primer_grado" && facts.afinPrimerGradoConvive === true;
+  const family = facts.relacionArt268 === "familiar" && (["ascendiente", "descendiente", "hermano"].includes(facts.vinculoFamiliar268 ?? "") || facts.vinculoFamiliar268 === "afin_primer_grado" && facts.afinPrimerGradoConvive === true);
   const covered = spouse || family;
-  const excluded = facts.violenciaFisica === true || facts.intimidacion === true || facts.abusoVulnerabilidadEdadDiscapacidad === true;
+  const excluded = facts.violenciaFisica === true || facts.intimidacion === true || facts.abusoVulnerabilidadEdadDiscapacidad !== false;
   if (!covered || excluded) return undefined;
   return {
     titulo: "POSIBLE EXCUSA ABSOLUTORIA · ART. 268 CP",
@@ -150,8 +170,10 @@ const convictionVerified = (facts: PatrimonyFacts) => facts.estadoCondenasPrevia
 
 function convictionNotice(facts: PatrimonyFacts, activated: boolean) {
   if (activated) return "Constan condenas ejecutorias computables que pueden modificar la calificación. Incorporar su documentación.";
+  if (facts.estadoCondenasPrevias === "sin_condenas_computables_verificado") return "COMPROBACIÓN JUDICIAL REALIZADA: no constan condenas computables para esta agravación.";
+  if (facts.estadoCondenasPrevias === "condenas_ejecutorias_verificadas" && facts.requisitosCondenasCompletos === true) return "Los datos judiciales documentados no reúnen los requisitos de la agravación por multirreincidencia.";
   if (facts.estadoCondenasPrevias === "condenas_ejecutorias_verificadas") return "CONDENAS VERIFICADAS, REQUISITOS INCOMPLETOS. No se aplica agravación hasta comprobar positivamente todos los requisitos legales.";
-  return "MULTIRREINCIDENCIA NO VERIFICADA. No modifica la actuación actual. Denuncias, detenciones y antecedentes policiales no son condenas ejecutorias computables.";
+  return "MULTIRREINCIDENCIA NO VERIFICADA. No permite aplicar ni descartar la agravación. Denuncias, detenciones y antecedentes policiales no son condenas ejecutorias computables.";
 }
 
 function continuedNotice(facts: PatrimonyFacts) {
@@ -167,6 +189,7 @@ function resolved(base: Omit<PatrimonyOutcome, "estado" | "contextoRelacional" |
   const exencion = art268(facts);
   const continued = continuedNotice(facts);
   const supuesto = base.supuestoPenalId ? seleccionarSupuestoPenal(base.supuestoPenalId) : undefined;
+  const missing = base.estado === "derivacion" ? [] : patrimonyPendingQualifications(facts);
   return {
     ...base,
     estado: base.estado ?? "resuelto",
@@ -174,8 +197,9 @@ function resolved(base: Omit<PatrimonyOutcome, "estado" | "contextoRelacional" |
     marcoPenas: supuesto?.penas,
     procedibilidadPenal: supuesto?.penas.tipo === "pendiente" ? undefined : supuesto?.procedibilidad,
     exencion: base.exencion ?? exencion,
-    avisos: [...base.avisos, ...(continued ? [continued] : [])],
-    procesal: allowProcess && !exencion && supuesto ? resolverSituacionProcesal({ ...process, gravedad: supuesto.gravedad, procedibilidad: supuesto.penas.tipo === "pendiente" ? undefined : supuesto.procedibilidad, denunciaOQuerella: facts.denunciaOQuerella ?? process.denunciaOQuerella }) : undefined,
+    avisos: [...base.avisos, ...(continued ? [continued] : []), `Fecha del hecho: ${facts.fechaHecho === "desde_2026_04_10" ? "desde el 10/04/2026" : facts.fechaHecho === "antes_2026_04_10" ? "hasta el 09/04/2026" : facts.fechaHecho === "continuado" ? "abarca ambos períodos; comparación normativa pendiente" : "no comprobada"}.`],
+    procesal: allowProcess && !missing.length && !exencion && supuesto ? resolverSituacionProcesal({ ...process, gravedad: supuesto.gravedad, procedibilidad: supuesto.penas.tipo === "pendiente" ? undefined : supuesto.procedibilidad, denunciaOQuerella: facts.denunciaOQuerella ?? process.denunciaOQuerella }) : undefined,
+    ...(missing.length ? { estado: "pendiente" as const, resultado: `${base.resultado} · ENCAJE PROVISIONAL`, falta: `No se han comprobado: ${missing.join("; ")}. No se descartan circunstancias por falta de respuesta; completar antes de cerrar el subtipo y su consecuencia procesal.`, supuestoPenalId: undefined, gravedad: undefined, marcoPenas: undefined } : {}),
     conexiones,
     contextoRelacional,
   };
@@ -184,6 +208,7 @@ function resolved(base: Omit<PatrimonyOutcome, "estado" | "contextoRelacional" |
 function theft(facts: PatrimonyFacts, process: ProcessualInput, relationalFacts: PublicSafetyFacts): PatrimonyOutcome {
   const context = deriveRelationalContext(relationalFacts);
   if (facts.cuantiaAcreditada !== true || facts.cuantia === undefined) return pending("la cuantía acreditada del bien; no puede tratarse como cero", context, connectionsFor(facts, context));
+  if (facts.telefonoODispositivo235 === true && facts.existenciaComercialVentaAlmacenExposicion === undefined) return pending("si el dispositivo se encontraba a la venta, almacenamiento o exposición comercial; el dato pendiente no equivale a la excepción ni a la agravación del art. 235.1.10", context, connectionsFor(facts, context));
   const verified = convictionVerified(facts);
   const multi234 = verified && facts.algunaCondenaLeve === true;
   const multi235 = verified && facts.todasCondenasMenosGravesOGraves === true;
@@ -223,9 +248,16 @@ function robberyWithViolence(facts: PatrimonyFacts, process: ProcessualInput, re
   const context = deriveRelationalContext(relationalFacts);
   if (!facts.momentoViolencia || facts.momentoViolencia === "no_determinado") return pending("el momento y destinatario de la violencia o intimidación", context, connectionsFor(facts, context));
   if (facts.conexionViolenciaApoderamiento === undefined) return pending("si la violencia o intimidación sirvió para obtener o conservar el objeto, huir, o vencer a quien auxiliaba o perseguía", context, connectionsFor(facts, context));
-  if (!facts.conexionViolenciaApoderamiento) return theft(facts, process, relationalFacts);
+  if (!facts.conexionViolenciaApoderamiento) {
+    const takingFacts = { ...facts, violenciaFisica: false, intimidacion: false };
+    if (!facts.fuerza) return pending("si hubo fuerza material para acceder o abandonar el lugar; la violencia no conectada debe valorarse separadamente", context, connectionsFor(facts, context));
+    return facts.fuerza === "ninguna" ? theft(takingFacts, process, relationalFacts) : robberyWithForce(takingFacts, process, relationalFacts);
+  }
+  if (!facts.tipoLugar || facts.tipoLugar === "no_determinado") return pending("el lugar de los hechos para diferenciar, en su caso, el art. 242.2", context, connectionsFor(facts, context));
+  if (facts.armaPresente === undefined) return pending("si existió arma o medio peligroso; la falta de dato no equivale a ausencia", context, connectionsFor(facts, context));
+  if (facts.armaPresente === true && facts.armaUsada === undefined) return pending("si el arma o medio peligroso se usó efectivamente; su mera presencia no activa el art. 242.3", context, connectionsFor(facts, context));
   const inProtectedPlace = ["morada", "local_abierto", "dependencia"].includes(facts.tipoLugar ?? "");
-  const armed = facts.armaUsada === true;
+  const armed = facts.armaPresente === true && facts.armaUsada === true;
   return resolved({
     resultado: "ROBO CON VIOLENCIA O INTIMIDACIÓN", hecho: `Violencia o intimidación conectada con ${facts.momentoViolencia === "huida" ? "la huida" : "el apoderamiento o su conservación"}.`, tipoPenal: "Robo con violencia o intimidación",
     norma: `Código Penal · arts. 237 y ${inProtectedPlace ? "242.2" : "242.1"}${armed ? " · 242.3" : ""}`, supuestoPenalId: armed ? inProtectedPlace ? "242.3.lugar" : "242.3.general" : inProtectedPlace ? "242.2" : "242.1", grado: facts.gradoEjecucion === "tentativa" ? "TENTATIVA · art. 62 CP" : "CONSUMADO",
@@ -239,9 +271,9 @@ function robberyWithForce(facts: PatrimonyFacts, process: ProcessualInput, relat
   if (facts.fuerza === "llave_entregada_legitima") return pending("el título de entrega y el alcance de la autorización de uso de la llave; no es llave falsa automáticamente", context, connectionsFor(facts, context));
   if (facts.fuerza === "escalamiento_dudoso" || facts.fuerza === "no_determinada") return pending("el hecho material de acceso que permitiría afirmar escalamiento o fuerza típica", context, connectionsFor(facts, context));
   if (!facts.tipoLugar || facts.tipoLugar === "no_determinado") return pending("si el lugar es morada, local abierto, local fuera de horario, dependencia u otro lugar", context, connectionsFor(facts, context));
-  const aggravations235 = facts.valorArtisticoHistoricoCulturalCientifico || facts.primeraNecesidadConDesabastecimiento || facts.infraestructuraConQuebrantoGrave || facts.especialGravedadValorPerjuicio || facts.graveSituacionEconomicaOAbusoCircunstancias || facts.usaMenorDieciseis || facts.miembroOrganizacionGrupoCriminal || facts.telefonoODispositivo235 && facts.existenciaComercialVentaAlmacenExposicion === false;
+  const aggravations235 = facts.valorArtisticoHistoricoCulturalCientifico || facts.primeraNecesidadConDesabastecimiento || facts.infraestructuraConQuebrantoGrave || facts.productoAgrarioGanaderoEnExplotacion && (facts.cuantia ?? 0) > 400 || convictionVerified(facts) && facts.todasCondenasMenosGravesOGraves === true || facts.especialGravedadValorPerjuicio || facts.graveSituacionEconomicaOAbusoCircunstancias || facts.usaMenorDieciseis || facts.miembroOrganizacionGrupoCriminal || facts.telefonoODispositivo235 && facts.existenciaComercialVentaAlmacenExposicion === false;
   const houseOrLocal = ["morada", "local_abierto", "local_fuera_horario", "dependencia"].includes(facts.tipoLugar);
-  const art2414 = facts.especialGravedad2414 === true || houseOrLocal && aggravations235;
+  const art2414 = houseOrLocal && (facts.especialGravedad2414 === true || aggravations235);
   const norm = art2414 ? "237, 238 y 241.4" : houseOrLocal ? "237, 238 y 241.1" : aggravations235 ? "237, 238 y 240.2" : "237, 238 y 240.1";
   return resolved({
     resultado: "ROBO CON FUERZA", hecho: "Apoderamiento con fuerza típica para acceder o abandonar el lugar.", tipoPenal: "Robo con fuerza", norma: `Código Penal · arts. ${norm}`,
@@ -308,6 +340,8 @@ export function resolvePatrimonyOutcome(facts: PatrimonyFacts, process: Processu
   if (facts.cuantia !== undefined && (!Number.isFinite(facts.cuantia) || facts.cuantia < 0)) return pending("una cuantía válida acreditada", context, connections);
   if (!facts.hechoPrincipal || facts.hechoPrincipal === "no_claro") return pending("qué ocurrió principalmente: apoderamiento, recepción legítima seguida de apropiación o daño", context, connections);
   if (facts.titularidad === undefined || facts.titularidad === "no_determinada" || facts.titularidad === "compartida") return pending("la titularidad y ajenidad del bien", context, connections);
+  if (facts.telefonoODispositivo235 === true && facts.existenciaComercialVentaAlmacenExposicion === undefined) return pending("si el dispositivo se encontraba a la venta, almacenamiento o exposición comercial; el dato pendiente no equivale a la excepción ni a la agravación del art. 235.1.10", context, connections);
+  if (needsReformComparison(facts)) return pending("la fecha del hecho y la comparación normativa favorable aplicable a la LO 1/2026; no se aplica automáticamente una consecuencia desfavorable de la reforma a hechos anteriores, continuados o de fecha no comprobada", context, connections);
   if (facts.hechoPrincipal === "danos") return damages(facts, process, relationalFacts);
   if (facts.gradoEjecucion === undefined || facts.gradoEjecucion === "no_determinado") return pending("el grado de ejecución a partir de cuándo se inició, tomó o llegó a disponer del objeto; recuperarlo después no equivale a tentativa", context, connections);
   if (facts.hechoPrincipal === "recepcion") return appropriation(facts, process, relationalFacts);

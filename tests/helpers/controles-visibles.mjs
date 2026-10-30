@@ -200,14 +200,24 @@ export function auditVisibleControls(source, fileName = "control.tsx") {
   const sourceFile = ts.createSourceFile(fileName, source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
   const findings = [];
   for (const control of findingsForFile(sourceFile)) {
+    // E10 permite transcribir resoluciones verificadas en este bloque explícito.
+    // No exime campos forenses ni controles judiciales fuera de él.
+    let parent = control.node;
+    let documentary = false;
+    while (parent) {
+      if (ts.isJsxElement(parent) && elementName(parent) === "fieldset" && property(parent.openingElement, "data-documentary-convictions")) documentary = true;
+      parent = parent.parent;
+    }
     const allText = [...new Set(control.texts)].join(" ").replace(/\s+/g, " ").trim();
     const hits = [];
     const explanatoryHeader = ["fieldset", "legend"].includes(control.kind) && !/[¿?]/.test(allText) && /\b(?:hechos para|queda pendiente|se determinar[aá]|valoraci[oó]n posterior|corresponder[aá])\b/i.test(allText);
     for (const [rule, pattern] of RULES) {
+      if (documentary && rule === "C_JUDICIAL") continue;
       if (explanatoryHeader && rule !== "HARD_FIELD") continue;
       if (pattern.test(allText)) hits.push({ rule, matched: allText.match(pattern)?.[0] });
     }
     for (const field of control.fields) {
+      if (documentary && ["estadoCondenasPrevias", "numeroCondenasEjecutorias", "condenasMismaNaturaleza", "algunaCondenaLeve", "todasCondenasMenosGravesOGraves", "condenasCanceladasOCancelables", "requisitosCondenasCompletos"].includes(field)) continue;
       const hard = HARD_FIELDS.get(field);
       if (hard) hits.push({ rule: "HARD_FIELD", field, matched: hard });
     }

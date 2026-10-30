@@ -118,7 +118,7 @@ function SourceLibraryCard({ source, group }: { source: Source; group?: ReturnTy
       )}
       <dl className="source-library-meta">
         {source.ambito && <div><dt>Ámbito</dt><dd>{source.ambito}</dd></div>}
-        {source.estado_vigencia_auditoria && <div><dt>Estado</dt><dd>{source.estado_vigencia_auditoria}</dd></div>}
+        {source.estado_vigencia_auditoria && <div><dt>Estado documental/editorial</dt><dd>{source.estado_vigencia_auditoria}</dd></div>}
       </dl>
       {!!usage.length && (
         <div className="source-library-usage">
@@ -134,6 +134,7 @@ function SourceLibraryCard({ source, group }: { source: Source; group?: ReturnTy
         </div>
       )}
       {source.consultaPendiente && <p role="status"><strong>{localDocument ? "Publicación oficial pendiente de localizar." : "Documento pendiente de localizar."}</strong> {source.consultaPendiente}</p>}
+      {source.verificacionDocumental && <p><strong>Comprobación documental:</strong> {source.verificacionDocumental.documento}{source.verificacionDocumental.versionOFecha ? ` · ${source.verificacionDocumental.versionOFecha}` : ""}. {source.verificacionDocumental.alcance}</p>}
     </article>
   );
 }
@@ -145,7 +146,7 @@ export function LibraryView({ onBack }: { onBack: () => void }) {
       <div className="sectionhead">
         <span className="kicker">CONSULTA DOCUMENTAL Y TRAZABILIDAD</span>
         <h2>Biblioteca</h2>
-        <p>{libraryDocuments.length} documentos locales · {sources.length} fuentes centrales. Los documentos solo se cargan al abrirlos.</p>
+        <p>{libraryDocuments.length} documentos locales · {sources.length} fuentes centrales. Los documentos solo se cargan al abrirlos. Los estados son de trazabilidad documental/editorial, no certificaciones jurídicas.</p>
       </div>
       <div className="library-tabs" role="tablist" aria-label="Secciones de la Biblioteca">
         <button id="library-documents-tab" type="button" role="tab" aria-selected={section === "documents"} onClick={() => setSection("documents")}>📄 Documentos</button>

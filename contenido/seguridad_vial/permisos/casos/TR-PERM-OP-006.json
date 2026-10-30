@@ -4,7 +4,7 @@
   "categoria": "seguridad_vial_permisos",
   "subgrupo": "permisos_perdida_vigencia",
   "titulo": "Por pérdida total de puntos (edictal)",
-  "situacion": "La pérdida de vigencia consta notificada edictalmente, sin conocimiento personal previo acreditado.",
+  "situacion": "Consta resolución válida y ejecutiva de pérdida de vigencia, notificada edictalmente, sin prueba de conocimiento efectivo previo por otro medio.",
   "palabras_clave": [
     "puntos",
     "edictal",
@@ -13,10 +13,10 @@
   ],
   "que_comprobar": [
     "Resolución y forma de notificación.",
-    "Ausencia de conocimiento personal previo.",
+    "Buscar prueba de conocimiento efectivo previo por cualquier medio: firma, manifestación, recurso u otras actuaciones; no basta comprobar que no hubo entrega personal.",
     "Si la persona lleva el permiso de conducir consigo."
   ],
-  "resultado": "VÍA ADMINISTRATIVA EN ESTA PRIMERA INTERVENCIÓN. No imputar el artículo 384 CP; denunciar, informar personalmente y documentar la notificación.",
+  "resultado": "Con los presupuestos descritos, la sola notificación edictal no acredita el conocimiento exigido por el art. 384 CP. Si se confirma la carencia de autorización válida y ejecutiva, tramitar la vía administrativa, informar y documentar; si aparece otra prueba de conocimiento, valorar separadamente la vía penal.",
   "via": "Administrativa",
   "norma": "Reglamento General de Conductores",
   "articulo": "1.1",
@@ -29,19 +29,21 @@
   "actuacion": [
     "Detener la conducción y formular denuncia 5A.",
     "Hacer constar: Consta declaración de pérdida de vigencia dictada por el Jefe Provincial de Tráfico de [provincia], que implica la prohibición de conducir. Se informa personalmente al interesado de dicha circunstancia en este acto.",
-    "Cumplimentar acta (Bilioteca-Acta de notificación de pérdida de vigencia), entregar copia y retirar físicamente el permiso si lo porta, conforme al artículo 37.2 RD 818/2009, dejando constancia.",
+    "Documentar la comunicación mediante el acta disponible en Biblioteca y entregar copia. Si consta orden de retirada de la Jefatura de Tráfico, retirar el permiso conforme al artículo 37.2 RD 818/2009 y dejar constancia; su mero porte no sustituye esa comprobación.",
     "Remitir a la Jefatura Provincial de Tráfico de Valencia e identificar la Jefatura que dictó la resolución.",
     "Permitir conductor sustituto habilitado si no concurre otra causa."
   ],
   "competencia_denuncia": "Policía Local de Torrent",
   "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
   "advertencias": [
-    "Una conducción posterior, ya acreditado el conocimiento personal, se valorará separadamente."
+    "Una conducción posterior, ya acreditado el conocimiento efectivo, se valorará separadamente.",
+    "La prueba del conocimiento se contrasta con el apartado X y la conclusión 13 de la Circular FGE 10/2011. El texto íntegro de la Instrucción DGT 12/C-105 sigue pendiente de cotejo."
   ],
   "alerta_penal": false,
   "fuentes": [
     "TR-PERM-SRC-001",
     "TR-PERM-SRC-004",
+    "TR-PERM-SRC-FGE-10-2011",
     "TR-ITV-SRC-007"
   ],
   "fichas_juridicas": [

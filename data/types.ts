@@ -15,6 +15,15 @@ export type Source = {
   enlacesAdicionales?: { titulo: string; url: string }[];
   /** Motivo explícito cuando la auditoría no ha localizado el documento primario. */
   consultaPendiente?: string;
+  /** Resultado trazable de la comprobación documental, distinto de una validación jurídica del contenido. */
+  verificacionDocumental?: {
+    documento: string;
+    versionOFecha?: string;
+    procedencia: string;
+    acceso: "verificado" | "publicacion_oficial_pendiente" | "acceso_restringido" | "referencia_oficial_parcial";
+    alcance: string;
+    respuestasAfectadas: string[];
+  };
   referencias?: string[];
   preceptos?: string[];
   uso?: string;
@@ -111,6 +120,8 @@ export type SpecificRegulationReferral = {
 };
 export type ConvivenciaOutcome = {
   cuando: Record<string, string>;
+  /** Distingue una ausencia comprobada de infracción de un dato o tipificación pendiente. */
+  estadoSalida?: "sin_infraccion" | "pendiente_comprobacion" | "regulacion_especifica" | "tipificacion_no_verificada";
   pendiente?: boolean;
   resultado?: string;
   norma?: string;

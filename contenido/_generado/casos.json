@@ -2248,7 +2248,7 @@
     "categoria": "seguridad_vial_permisos",
     "subgrupo": "permisos_perdida_vigencia",
     "titulo": "Por pérdida total de puntos (edictal)",
-    "situacion": "La pérdida de vigencia consta notificada edictalmente, sin conocimiento personal previo acreditado.",
+    "situacion": "Consta resolución válida y ejecutiva de pérdida de vigencia, notificada edictalmente, sin prueba de conocimiento efectivo previo por otro medio.",
     "palabras_clave": [
       "puntos",
       "edictal",
@@ -2257,10 +2257,10 @@
     ],
     "que_comprobar": [
       "Resolución y forma de notificación.",
-      "Ausencia de conocimiento personal previo.",
+      "Buscar prueba de conocimiento efectivo previo por cualquier medio: firma, manifestación, recurso u otras actuaciones; no basta comprobar que no hubo entrega personal.",
       "Si la persona lleva el permiso de conducir consigo."
     ],
-    "resultado": "VÍA ADMINISTRATIVA EN ESTA PRIMERA INTERVENCIÓN. No imputar el artículo 384 CP; denunciar, informar personalmente y documentar la notificación.",
+    "resultado": "Con los presupuestos descritos, la sola notificación edictal no acredita el conocimiento exigido por el art. 384 CP. Si se confirma la carencia de autorización válida y ejecutiva, tramitar la vía administrativa, informar y documentar; si aparece otra prueba de conocimiento, valorar separadamente la vía penal.",
     "via": "Administrativa",
     "norma": "Reglamento General de Conductores",
     "articulo": "1.1",
@@ -2273,19 +2273,21 @@
     "actuacion": [
       "Detener la conducción y formular denuncia 5A.",
       "Hacer constar: Consta declaración de pérdida de vigencia dictada por el Jefe Provincial de Tráfico de [provincia], que implica la prohibición de conducir. Se informa personalmente al interesado de dicha circunstancia en este acto.",
-      "Cumplimentar acta (Bilioteca-Acta de notificación de pérdida de vigencia), entregar copia y retirar físicamente el permiso si lo porta, conforme al artículo 37.2 RD 818/2009, dejando constancia.",
+      "Documentar la comunicación mediante el acta disponible en Biblioteca y entregar copia. Si consta orden de retirada de la Jefatura de Tráfico, retirar el permiso conforme al artículo 37.2 RD 818/2009 y dejar constancia; su mero porte no sustituye esa comprobación.",
       "Remitir a la Jefatura Provincial de Tráfico de Valencia e identificar la Jefatura que dictó la resolución.",
       "Permitir conductor sustituto habilitado si no concurre otra causa."
     ],
     "competencia_denuncia": "Policía Local de Torrent",
     "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
     "advertencias": [
-      "Una conducción posterior, ya acreditado el conocimiento personal, se valorará separadamente."
+      "Una conducción posterior, ya acreditado el conocimiento efectivo, se valorará separadamente.",
+      "La prueba del conocimiento se contrasta con el apartado X y la conclusión 13 de la Circular FGE 10/2011. El texto íntegro de la Instrucción DGT 12/C-105 sigue pendiente de cotejo."
     ],
     "alerta_penal": false,
     "fuentes": [
       "TR-PERM-SRC-001",
       "TR-PERM-SRC-004",
+      "TR-PERM-SRC-FGE-10-2011",
       "TR-ITV-SRC-007"
     ],
     "fichas_juridicas": [
@@ -2299,38 +2301,39 @@
     "categoria": "seguridad_vial_permisos",
     "subgrupo": "permisos_perdida_vigencia",
     "titulo": "En periodo de recurso",
-    "situacion": "La resolución no permite todavía imputación penal por recurso, plazo de recurso o suspensión de ejecutividad.",
+    "situacion": "Se refiere un recurso, plazo de recurso o suspensión respecto de la pérdida de vigencia; todavía debe comprobarse su efecto concreto.",
     "palabras_clave": [
       "recurso",
       "ejecutividad",
       "puntos"
     ],
     "que_comprobar": [
-      "Firmeza, ejecutividad y efectos del recurso o suspensión."
+      "Resolución íntegra, fecha de notificación y prueba del conocimiento efectivo.",
+      "Si está abierto el plazo de alzada, hay alzada pendiente o se agotó la vía administrativa.",
+      "Distinguir recurso contencioso de suspensión efectivamente acordada; comprobar vigencia y ejecutividad actuales con Tráfico."
     ],
-    "resultado": "VÍA ADMINISTRATIVA. No imputar el artículo 384 CP mientras falte firmeza o ejecutividad exigible.",
-    "via": "Administrativa",
-    "norma": "Reglamento General de Conductores",
-    "textoDenuncia": "CONDUCIR EL VEHÍCULO RESEÑADO CARECIENDO DE AUTORIZACIÓN ADMINISTRATIVA PARA CONDUCIR POR PÉRDIDA DE VIGENCIA POR AGOTAMIENTO DEL CRÉDITO TOTAL DE PUNTOS.",
-    "articulo": "1.1",
-    "codificado": "CON 1.1 5A",
-    "calificacion": "muy grave",
-    "importe_fijo": 500,
-    "importe_reducido": 250,
+    "resultado": "COMPROBACIÓN PENDIENTE. La existencia de un recurso no determina por sí sola una denuncia administrativa ni excluye el art. 384 CP. La Circular FGE 10/2011 distingue el agotamiento de la vía administrativa del recurso contencioso, que por sí solo no impide la acción penal. Verificar una eventual suspensión y los restantes presupuestos antes de resolver. Solo valorar denuncia administrativa si se acredita una carencia de autorización sancionable.",
+    "via": "Pendiente de comprobar",
+    "norma": "Código Penal y Reglamento General de Conductores",
+    "articulo": "384 CP; 1.1 y 37 RGConductores, según presupuesto comprobado",
     "responsable": "Conductor",
     "actuacion": [
-      "Documentar el estado registral y formular la denuncia administrativa que proceda.",
+      "Obtener y documentar resolución, notificaciones, recurso y eventual suspensión; confirmar el efecto vigente con la Jefatura de Tráfico.",
+      "Conservar los hechos e indicios y coordinar su valoración por el cauce competente, sin asignar automáticamente sanción o vía penal.",
       "Detener la conducción cuando la autorización no sea válida y permitir conductor sustituto habilitado."
     ],
     "competencia_denuncia": "Policía Local de Torrent",
     "competencia_resuelve": "Jefatura Provincial de Tráfico de Valencia",
     "advertencias": [
-      "Verificar el efecto real del recurso; su mera presentación no siempre suspende el procedimiento."
+      "Verificar el efecto real del recurso; su mera presentación no equivale a suspensión.",
+      "La orientación sobre el art. 384 procede del apartado X y conclusión 13 de la Circular FGE 10/2011, no de un cotejo íntegro de la Instrucción DGT 12/C-105, todavía pendiente."
     ],
     "alerta_penal": false,
     "fuentes": [
       "TR-PERM-SRC-001",
       "TR-PERM-SRC-004",
+      "TR-PERM-SRC-FGE-10-2011",
+      "AN-SRC-007",
       "TR-ITV-SRC-007"
     ],
     "fichas_juridicas": [
@@ -4456,7 +4459,7 @@
               "vinculo": "ninguno",
               "tipo": "indeterminado"
             },
-            "sinInfraccion": true,
+            "estadoSalida": "pendiente_comprobacion",
             "resultado": "Datos insuficientes para determinar la clasificación aplicable."
           },
           {
@@ -4465,7 +4468,7 @@
               "tipo": "poda",
               "clase_poda": "indeterminado"
             },
-            "sinInfraccion": true,
+            "estadoSalida": "pendiente_comprobacion",
             "resultado": "No se debe tratar automáticamente la poda como abandono. Identificar el tipo de resto y las condiciones del art. 11."
           },
           {
@@ -4475,7 +4478,7 @@
               "clase_poda": "ramas",
               "limite_poda": "si"
             },
-            "sinInfraccion": true,
+            "estadoSalida": "tipificacion_no_verificada",
             "resultado": "Cantidad fuera del régimen ordinario de residuo urbano previsto por esta Ordenanza. La superación de 1.000 litros o 25 kg no asigna por sí sola una infracción concreta."
           },
           {
@@ -4485,7 +4488,7 @@
               "clase_poda": "cesped",
               "limite_poda": "si"
             },
-            "sinInfraccion": true,
+            "estadoSalida": "tipificacion_no_verificada",
             "resultado": "Cantidad fuera del régimen ordinario de residuo urbano previsto por esta Ordenanza. La superación de 1.000 litros o 25 kg no asigna por sí sola una infracción concreta."
           },
           {
@@ -4495,7 +4498,7 @@
               "clase_poda": "ramas",
               "ramas_contenedor": "no"
             },
-            "sinInfraccion": true,
+            "estadoSalida": "tipificacion_no_verificada",
             "resultado": "Depósito de restos de poda fuera de las condiciones del art. 11. Continuar la valoración administrativa sin calificación automática."
           },
           {
@@ -4505,7 +4508,7 @@
               "clase_poda": "ramas",
               "ramas_troceado": "no"
             },
-            "sinInfraccion": true,
+            "estadoSalida": "tipificacion_no_verificada",
             "resultado": "Depósito de restos de poda fuera de las condiciones del art. 11. Continuar la valoración administrativa sin calificación automática."
           },
           {
@@ -4515,7 +4518,7 @@
               "clase_poda": "ramas",
               "ramas_hatillos": "no"
             },
-            "sinInfraccion": true,
+            "estadoSalida": "tipificacion_no_verificada",
             "resultado": "Depósito de restos de poda fuera de las condiciones del art. 11. Continuar la valoración administrativa sin calificación automática."
           },
           {
@@ -4525,7 +4528,7 @@
               "clase_poda": "ramas",
               "ramas_longitud": "no"
             },
-            "sinInfraccion": true,
+            "estadoSalida": "tipificacion_no_verificada",
             "resultado": "Depósito de restos de poda fuera de las condiciones del art. 11: los hatillos superan 1 metro. Continuar la valoración administrativa sin calificación automática."
           },
           {
@@ -4535,7 +4538,7 @@
               "clase_poda": "ramas",
               "ramas_diametro": "no"
             },
-            "sinInfraccion": true,
+            "estadoSalida": "tipificacion_no_verificada",
             "resultado": "Depósito de restos de poda fuera de las condiciones del art. 11: el diámetro no es inferior a 50 cm. Continuar la valoración administrativa sin calificación automática."
           },
           {
@@ -4545,7 +4548,7 @@
               "clase_poda": "ramas",
               "ramas_cantidad": "no"
             },
-            "sinInfraccion": true,
+            "estadoSalida": "tipificacion_no_verificada",
             "resultado": "Depósito de restos de poda fuera de las condiciones del art. 11: supera dos hatillos por vivienda y día. Continuar la valoración administrativa sin calificación automática."
           },
           {
@@ -4561,7 +4564,7 @@
               "ramas_cantidad": "si",
               "limite_poda": "no"
             },
-            "sinInfraccion": true,
+            "estadoSalida": "sin_infraccion",
             "resultado": "Entrega admitida por el servicio ordinario conforme al art. 11. No infracción por este hecho."
           },
           {
@@ -4577,8 +4580,8 @@
               "ramas_cantidad": "si",
               "limite_poda": "indeterminado"
             },
-            "sinInfraccion": true,
-            "resultado": "Las condiciones ordinarias de entrega de ramas y poda leñosa se cumplen. No infracción por este hecho."
+            "estadoSalida": "pendiente_comprobacion",
+            "resultado": "Las condiciones de preparación indicadas se cumplen, pero falta comprobar el límite de entrega antes de descartar un incumplimiento."
           },
           {
             "cuando": {
@@ -4587,7 +4590,7 @@
               "clase_poda": "cesped",
               "cesped_bolsas": "no"
             },
-            "sinInfraccion": true,
+            "estadoSalida": "tipificacion_no_verificada",
             "resultado": "Depósito de siega, césped o arbustos fuera de las condiciones del art. 11. Continuar la valoración administrativa sin calificación automática."
           },
           {
@@ -4597,7 +4600,7 @@
               "clase_poda": "cesped",
               "cesped_contenedor": "no"
             },
-            "sinInfraccion": true,
+            "estadoSalida": "tipificacion_no_verificada",
             "resultado": "Depósito de siega, césped o arbustos fuera de las condiciones del art. 11. Continuar la valoración administrativa sin calificación automática."
           },
           {
@@ -4607,7 +4610,7 @@
               "clase_poda": "cesped",
               "cesped_volumen": "no"
             },
-            "sinInfraccion": true,
+            "estadoSalida": "tipificacion_no_verificada",
             "resultado": "Depósito de siega, césped o arbustos fuera de las condiciones del art. 11: la bolsa supera 50 litros. Continuar la valoración administrativa sin calificación automática."
           },
           {
@@ -4617,7 +4620,7 @@
               "clase_poda": "cesped",
               "cesped_cantidad": "no"
             },
-            "sinInfraccion": true,
+            "estadoSalida": "tipificacion_no_verificada",
             "resultado": "Depósito de siega, césped o arbustos fuera de las condiciones del art. 11: supera dos bolsas por vivienda y día. Continuar la valoración administrativa sin calificación automática."
           },
           {
@@ -4631,7 +4634,7 @@
               "cesped_cantidad": "si",
               "limite_poda": "no"
             },
-            "sinInfraccion": true,
+            "estadoSalida": "sin_infraccion",
             "resultado": "Entrega admitida por el servicio ordinario conforme al art. 11. No infracción por este hecho."
           },
           {
@@ -4645,8 +4648,8 @@
               "cesped_cantidad": "si",
               "limite_poda": "indeterminado"
             },
-            "sinInfraccion": true,
-            "resultado": "Las condiciones ordinarias de entrega de siega, césped o arbustos se cumplen. No infracción por este hecho."
+            "estadoSalida": "pendiente_comprobacion",
+            "resultado": "Las condiciones de preparación indicadas se cumplen, pero falta comprobar el límite de entrega antes de descartar un incumplimiento."
           },
           {
             "cuando": {
@@ -4815,7 +4818,7 @@
               "tipo": "peligroso",
               "riesgo": "no"
             },
-            "sinInfraccion": true,
+            "estadoSalida": "pendiente_comprobacion",
             "resultado": "Se ha identificado un residuo potencialmente peligroso, pero faltan datos para determinar una clasificación aplicable."
           },
           {
@@ -4823,7 +4826,7 @@
               "vinculo": "ninguno",
               "lugar": "indeterminado"
             },
-            "sinInfraccion": true,
+            "estadoSalida": "pendiente_comprobacion",
             "resultado": "Datos insuficientes para determinar la clasificación aplicable."
           },
           {
@@ -4831,7 +4834,7 @@
               "vinculo": "ninguno",
               "cantidad": "indeterminado"
             },
-            "sinInfraccion": true,
+            "estadoSalida": "pendiente_comprobacion",
             "resultado": "Datos insuficientes para determinar la clasificación aplicable."
           },
           {
@@ -4839,7 +4842,7 @@
               "vinculo": "ninguno",
               "riesgo": "indeterminado"
             },
-            "sinInfraccion": true,
+            "estadoSalida": "pendiente_comprobacion",
             "resultado": "Datos insuficientes para determinar la clasificación aplicable."
           }
         ]

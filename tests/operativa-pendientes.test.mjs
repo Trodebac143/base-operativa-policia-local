@@ -67,7 +67,7 @@ test("E · riesgo vital o función aparentemente perdida no equivalen a secuelas
 });
 
 test("F · no flagrante con 149/150 pendiente aplica la misma base independiente", () => {
-  const input = { ...adultoFlagrante, flagrante: false, intentoFugaElusion: false, identidadODomicilioNoVerificables: false, riesgoOcultacionPruebas: false, riesgoConcretoVictimaTestigos: false };
+  const input = { ...adultoFlagrante, flagrante: false, intentoFugaElusion: false, identidadODomicilioNoVerificables: false, riesgoConcretoIncomparecencia: false, riesgoOcultacionPruebas: false, riesgoConcretoVictimaTestigos: false };
   const libre = resolvePublicSafetyOutcome("agresiones_lesiones", lesionVisible, input);
   const riesgo = resolvePublicSafetyOutcome("agresiones_lesiones", lesionVisible, { ...input, riesgoConcretoVictimaTestigos: true });
   assert.equal(libre.procesal.situacion, "INVESTIGADO NO DETENIDO");

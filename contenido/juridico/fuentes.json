@@ -126,7 +126,15 @@
     "organismo": "Generalitat Valenciana",
     "grupoBiblioteca": "animales",
     "estado_vigencia_auditoria": "pendiente: el ELI anterior devuelve un error y no se ha localizado un PDF oficial público directo de esta orden",
-    "consultaPendiente": "Localizar el documento oficial directo de la Orden de 25/09/1996 del DOGV; no usar el ELI defectuoso como enlace documental."
+    "consultaPendiente": "Localizar el documento oficial directo de la Orden de 25/09/1996 del DOGV; no usar el ELI defectuoso como enlace documental.",
+    "verificacionDocumental": {
+      "documento": "Orden de 25/09/1996, sistema de identificación de animales de compañía",
+      "versionOFecha": "25/09/1996; comprobación 30/10/2026",
+      "procedencia": "DOGV: referencia indirecta en legislación consolidada; no se obtuvo el texto oficial de la orden",
+      "acceso": "publicacion_oficial_pendiente",
+      "alcance": "Texto íntegro pendiente. La obligación y la infracción relativas a la identificación del perro se apoyan además en la Ley 2/2023 CV; no se atribuyen a esta orden requisitos técnicos no cotejados.",
+      "respuestasAfectadas": ["AN-OP-001"]
+    }
   },
   {
     "id": "AN-SRC-026",
@@ -393,15 +401,24 @@
   },
   {
     "id": "TR-ITV-SRC-007",
-    "nombre": "Guía codificada de infracciones DGT (ARCI), vigente desde 6 de julio de 2026",
+    "nombre": "Guía codificada de infracciones DGT (ARCI), versión de 7 de octubre de 2026",
     "nombreCorto": "Guía ARCI DGT",
     "tipo": "Codificado oficial",
     "ambito": "Estatal",
     "organismo": "Dirección General de Tráfico",
     "grupoBiblioteca": "seguridad_vial",
-    "estado_vigencia_auditoria": "página oficial DGT verificada; la guía ARCI se ofrece dentro del acceso de administraciones y no se ha localizado públicamente un fichero directo",
-    "consultaPendiente": "Obtener mediante el acceso de administraciones la versión documental directa de la Guía codificada ARCI vigente desde 06/07/2026.",
-    "uso": "Opciones CIR 020.1, CIR 021.1 y LSV 014.1 validadas en V3."
+    "estado_vigencia_auditoria": "fichero XLS íntegro descargado del enlace público DGT el 30/10/2026; hoja ARCI_20261007, encabezada Madrid, 7 de octubre del 2026",
+    "uso": "Cotejo documental de códigos e importes existentes de ITV, permisos, seguro y alcohol; no equivale a validar cada supuesto jurídico.",
+    "urlOficial": "https://sede.dgt.gob.es/export/sites/dgt/.galleries/multas/ARCI/Guia-codificada-de-infracciones-actualizada-01-10-2026.xls",
+    "enlacesAdicionales": [{ "titulo": "Página oficial de descarga ARCI", "url": "https://www.dgt.es/nuestros-servicios/para-ayuntamientos-y-otras-administraciones/intermediacion-de-datos-y-descarga-de-ficheros/descarga-de-ficheros-move-padron-y-arci/index.html" }],
+    "verificacionDocumental": {
+      "documento": "Fichero XLS de la guía ARCI, hoja ARCI_20261007",
+      "versionOFecha": "07/10/2026; descarga y cotejo 30/10/2026",
+      "procedencia": "Enlace público de descarga de la página oficial DGT, sin autenticación",
+      "acceso": "verificado",
+      "alcance": "Fichero íntegro de 975 filas obtenido. Cotejados códigos e importes fijos de 20 fichas y las opciones de alcohol. El informe de corrección detalla filas, huella y límites del cotejo; no certifica jurídicamente todos los usos.",
+      "respuestasAfectadas": ["Herramienta de alcoholemia", "TR-ITV-OP-001 a TR-ITV-OP-007", "TR-PERM-OP-001 a TR-PERM-OP-012, TR-PERM-OP-015 y TR-PERM-OP-016", "TR-SOA-OP-001 y TR-SOA-OP-002"]
+    }
   },
   {
     "id": "TR-SOA-SRC-001",
@@ -526,7 +543,34 @@
     "organismo": "Dirección General de Tráfico",
     "grupoBiblioteca": "seguridad_vial",
     "estado_vigencia_auditoria": "pendiente: no se ha localizado una URL pública oficial DGT directa de la Instrucción 12/C-105",
-    "consultaPendiente": "Localizar la publicación oficial directa de la Instrucción DGT 12/C-105; no hay PDF DGT público verificable identificado."
+    "consultaPendiente": "Localizar la publicación oficial directa de la Instrucción DGT 12/C-105; no hay PDF DGT público verificable identificado.",
+    "verificacionDocumental": {
+      "documento": "Instrucción DGT 12/C-105 sobre pérdida de vigencia notificada edictalmente",
+      "versionOFecha": "comprobación 30/10/2026",
+      "procedencia": "Registro de fuentes del proyecto; búsqueda de publicación oficial DGT sin resultado documental directo",
+      "acceso": "publicacion_oficial_pendiente",
+      "alcance": "Texto íntegro pendiente. El conocimiento efectivo y el agotamiento de la vía administrativa se contrastan separadamente con la Circular FGE 10/2011 (apartado X y conclusión 13). La ficha de recurso conserva una salida pendiente y no una denuncia automática.",
+      "respuestasAfectadas": ["TR-PERM-OP-006", "TR-PERM-OP-007"]
+    }
+  },
+  {
+    "id": "TR-PERM-SRC-FGE-10-2011",
+    "nombre": "Circular FGE 10/2011, criterios de actuación especializada en Seguridad Vial",
+    "nombreCorto": "Circular FGE 10/2011 · apartado X y conclusión 13",
+    "tipo": "Criterio interpretativo oficial",
+    "ambito": "Estatal",
+    "organismo": "Fiscalía General del Estado",
+    "grupoBiblioteca": "seguridad_vial",
+    "urlOficial": "https://www.boe.es/buscar/doc.php?id=FIS-C-2011-00010",
+    "uso": "Solo apartado X y conclusión 13: prueba del conocimiento de la pérdida de vigencia, vía administrativa y recurso contencioso. Sus referencias administrativas históricas no sustituyen la legislación vigente.",
+    "verificacionDocumental": {
+      "documento": "Circular FGE 10/2011, de 17 de noviembre",
+      "versionOFecha": "17/11/2011; cotejo del apartado X y conclusión 13 el 30/10/2026",
+      "procedencia": "Base oficial de doctrina de Fiscalía publicada por BOE",
+      "acceso": "verificado",
+      "alcance": "Criterio interpretativo sobre el art. 384 CP. No es el texto de la Instrucción DGT 12/C-105 ni una validación del resto de la circular.",
+      "respuestasAfectadas": ["TR-PERM-OP-006", "TR-PERM-OP-007", "TR-PERM-FJ-004", "TR-PERM-R-005"]
+    }
   },
   {
     "id": "TR-PERM-SRC-005",
@@ -672,9 +716,10 @@
     "urlOficial": "https://www.boe.es/eli/es/lo/2026/04/08/1",
     "estado_vigencia_auditoria": "vigente",
     "preceptos": [
-      "Modificación de los arts. 234 y 235 CP"
+      "Modificación de los arts. 234, 235, 248 y 250 CP",
+      "Disposición transitoria"
     ],
-    "uso": "Redacción vigente de las reglas de multirreincidencia patrimonial y del art. 235.1.10 CP.",
+    "uso": "Redacción vigente de reglas de multirreincidencia patrimonial, art. 235.1.10 CP y límite temporal de la reforma para hechos anteriores o continuados.",
     "referencias": [
       "LO 1/2026",
       "multirreincidencia"
@@ -698,13 +743,22 @@
   },
   {
     "id": "SP-SRC-SES-10-2025",
-    "nombre": "Instrucción de la Secretaría de Estado de Seguridad 10/2025",
+    "nombre": "Instrucción SES 10/2025, actualización del procedimiento integral de la detención policial",
     "nombreCorto": "Instrucción SES 10/2025",
     "tipo": "Instrucción",
     "ambito": "Estatal",
     "organismo": "Secretaría de Estado de Seguridad",
     "grupoBiblioteca": "seguridad_publica",
-    "consultaPendiente": "Pendiente de localizar el documento oficial de la Instrucción SES 10/2025; la página general de instrucciones no permite consultar directamente su texto.",
+    "urlOficial": "https://www.interior.gob.es/opencms/documentacion/Portal-de-Transparencia/ResolucionesDenegatorias_2025/4T/001-108163.pdf",
+    "consultaPendiente": "Interior confirma la Instrucción SES 10/2025, de 15/09/2025, sobre detención policial. La resolución enlazada no contiene el texto íntegro de la instrucción.",
+    "verificacionDocumental": {
+      "documento": "Referencia oficial a la Instrucción SES 10/2025 en resolución de transparencia 001-108163",
+      "versionOFecha": "Instrucción de 15/09/2025; referencia cotejada 30/10/2026",
+      "procedencia": "Ministerio del Interior, resolución de la Dirección General de la Policía",
+      "acceso": "referencia_oficial_parcial",
+      "alcance": "Confirma denominación y objeto sobre detención policial, no su articulado. Los derechos mostrados se apoyan en LECrim y LO 5/2000; no se atribuyen requisitos adicionales ni el protocolo VioGén a este documento.",
+      "respuestasAfectadas": ["Contenido transversal de Seguridad Pública: garantías de detención"]
+    },
     "referencias": [
       "Instrucción SES 10/2025"
     ]
@@ -879,8 +933,17 @@
     "ambito": "Estatal",
     "organismo": "Fiscalía General del Estado",
     "grupoBiblioteca": "seguridad_vial",
-    "consultaPendiente": "El enlace anterior corresponde a una nota de prensa sobre el Dictamen 2/2021 y puede redirigir a identificación. Pendiente de localizar el texto íntegro oficial del dictamen.",
-    "uso": "Los arts. 379 y siguientes CP no se cometen con un VMP reglamentario."
+    "consultaPendiente": "La memoria oficial enlazada confirma el Dictamen 2/2021, pero no reproduce su texto íntegro. El enlace anterior a la nota redirige a autenticación; continúa pendiente el dictamen completo.",
+    "urlOficial": "https://www.fiscal.es/memorias/memoria2022/FISCALIA_SITE/capitulo_III/cap_III_5_2.html",
+    "uso": "Referencia interpretativa contextual sobre VMP; no sustituye la clasificación técnica ni el texto normativo aplicable.",
+    "verificacionDocumental": {
+      "documento": "Memoria FGE 2022, capítulo III, apartado 5.2: referencia al Dictamen 2/2021",
+      "versionOFecha": "Memoria 2022; comprobación 30/10/2026",
+      "procedencia": "Fiscalía General del Estado",
+      "acceso": "referencia_oficial_parcial",
+      "alcance": "La memoria confirma existencia y objeto del dictamen; no contiene su texto íntegro. El enlace anterior a la nota de prensa redirige a autenticación y no se ofrece como acceso documental abierto.",
+      "respuestasAfectadas": ["Herramienta de alcoholemia", "Guía VMP"]
+    }
   },
   {
     "id": "ALC-SRC-DGT-VMP-2019",
@@ -1031,5 +1094,19 @@
     "urlOficial": "https://torrent.es/normativas/ordenanza-de-zanjas-y-calas-via-publica/",
     "estado_vigencia_auditoria": "fuente oficial consultable",
     "uso": "Condiciones municipales aplicables a zanjas, calas y obras que afectan al dominio público."
+  },
+  {
+    "id": "SP-SRC-LO-5-2000",
+    "nombre": "Ley Orgánica 5/2000, de 12 de enero, reguladora de la responsabilidad penal de los menores",
+    "nombreCorto": "Ley de responsabilidad penal de los menores",
+    "tipo": "Ley orgánica",
+    "ambito": "Estatal",
+    "organismo": "Jefatura del Estado",
+    "grupoBiblioteca": "seguridad_publica",
+    "urlOficial": "https://www.boe.es/eli/es/lo/2000/01/12/5/con",
+    "estado_vigencia_auditoria": "vigente",
+    "preceptos": ["1", "3", "17"],
+    "uso": "Tramos de edad, protección de menores de 14 años y garantías de la detención de 14 a 17 años.",
+    "referencias": ["LO 5/2000", "responsabilidad penal de los menores"]
   }
 ]

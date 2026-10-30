@@ -27,6 +27,7 @@ export function SourceLinks({ sourceIds, className = "case-sources", showPending
   return <section className={className} aria-label="Fuentes jurídicas">
     <strong>Fuentes jurídicas ({sources.length})</strong>
     <div>{links.map((link) => <a key={link.key} href={link.href} target="_blank" rel="noopener noreferrer">{link.label} <span aria-hidden="true">↗</span></a>)}</div>
+    {sources.filter((source) => source.verificacionDocumental).map((source) => <p key={`${source.id}-documental`}><strong>Comprobación documental:</strong> {source.verificacionDocumental?.alcance} ({source.verificacionDocumental?.acceso.replaceAll("_", " ")}).</p>)}
     {pending.map((source) => <p key={source.id}>{source.nombre}: {documentForSource(source.id) ? "publicación oficial" : "documento"} pendiente de localizar. {source.consultaPendiente}</p>)}
   </section>;
 }
