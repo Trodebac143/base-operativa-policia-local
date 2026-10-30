@@ -1,6 +1,6 @@
 # Mapa de entradas y controles · corrección integral
 
-Fecha: 30/10/2026. Se inventarían los 168 campos declarados en `PatrimonyFacts` (77), `PublicSafetyFacts` (71) y `ProcessualInput` (20). El enlace de cada fila localiza el enlace del control o su descriptor en el formulario; los controles repetidos por `map` comparten línea. Esta correspondencia de código se complementa con las comprobaciones reales de navegador descritas en el [informe](informe-correccion-integral-2026-10-30.md).
+Fecha: 30/10/2026. Se enumeran los 168 campos declarados en `PatrimonyFacts` (77), `PublicSafetyFacts` (71) y `ProcessualInput` (20). El enlace de cada fila localiza el enlace del control o su descriptor en el formulario; los controles repetidos por `map` comparten línea. Esta correspondencia de código se complementa con las comprobaciones reales de navegador descritas en el [informe](informe-correccion-integral-2026-10-30.md).
 
 Los campos de compatibilidad se identifican expresamente. Los nueve campos sin lectura funcional se conservan para no romper contratos anteriores y no participan en la decisión: no se crea una pregunta para una entrada sin efecto. `soportes` documenta el relato y la copia, pero no cambia por sí solo el tipo penal. La existencia de un control no certifica la corrección jurídica de todo resultado.
 

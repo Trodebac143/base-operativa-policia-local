@@ -2,7 +2,7 @@
 
 La aplicación incorpora las correcciones funcionales E01–E16 y el tratamiento documental D01–D02. Se conservan materias, diseño general y cambios anteriores de la rama. La validación técnica pasa; cinco referencias documentales siguen pendientes de localización íntegra o publicación oficial directa y se muestran como tales. Este informe no constituye una certificación jurídica integral.
 
-Rama: `codex/correccion-integral-verificada-20261029`. Base revisada: `4ca6f99ce918c5c65bfcf680fe0cba25328a171f`. La autorización posterior del usuario incluye actualizar GitHub, publicar Pages, comprobar su funcionamiento y apagar el equipo después de esa comprobación. El resultado remoto del despliegue se registra en la PR única, después de su ejecución.
+Rama: `codex/correccion-integral-verificada-20261029`. Base revisada: `4ca6f99ce918c5c65bfcf680fe0cba25328a171f`. La autorización posterior del usuario incluye actualizar GitHub, publicar Pages, comprobar su funcionamiento y apagar el equipo después de esa comprobación. Ante la falta de permiso del conector para crear la PR y de una sesión de navegador, el usuario autorizó expresamente publicar directamente en `main` con Git. El resultado remoto se registra en el chat después de comprobarlo.
 
 ## Incidencias y resultado
 
@@ -111,4 +111,4 @@ Se consultaron fuentes institucionales para las condiciones de las ramas modific
 
 ## Publicación y cierre
 
-La rama se entrega mediante una única PR con este informe y el mapa de entradas. La instrucción posterior del usuario autoriza su integración y publicación. El cierre exige: commit enviado, PR integrada, flujo de Pages terminado correctamente y comprobación de la URL pública con carga de recursos y funcionamiento de búsqueda y controles. Solo después se solicita el apagado normal del sistema, sin forzar el cierre de aplicaciones con datos pendientes. Los identificadores y resultados remotos finales se incorporan a la descripción de la PR.
+El usuario sustituyó el requisito de PR por la autorización expresa de publicación directa en `main`. Se usa el envío normal de Git, sin extraer credenciales, sin forzar el envío y conservando el historial. El cierre exige: commits enviados, flujo de Pages terminado correctamente y comprobación de la URL pública con carga de recursos y funcionamiento de búsqueda y controles. Solo después se solicita el apagado normal del sistema, sin forzar el cierre de aplicaciones con datos pendientes. Los identificadores y resultados remotos finales se incorporan al chat de entrega.
