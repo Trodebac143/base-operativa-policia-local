@@ -85,6 +85,37 @@ select {
 }
 
 /* Biblioteca de fuentes agrupada por materia. */
+.library-private-access {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 14px;
+  padding: 18px;
+  border: 1px solid #abc0cf;
+  border-left: 4px solid var(--gold);
+  border-radius: 12px;
+  background: #f4f8fb;
+  box-shadow: 0 4px 15px rgba(15, 47, 82, .05);
+}
+.library-private-icon { font-size: 26px; }
+.library-private-copy { flex: 1; min-width: 0; }
+.library-private-copy h3 { margin: 0 0 4px; color: var(--navy); font-size: 17px; }
+.library-private-copy p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.45; }
+.library-private-access a {
+  flex: 0 0 auto;
+  padding: 10px 13px;
+  border-radius: 7px;
+  color: #fff;
+  background: var(--navy);
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+}
+.library-private-access a:hover { background: var(--blue); }
+@media (max-width: 700px) {
+  .library-private-access { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px; }
+  .library-private-access a { grid-column: 1 / -1; }
+}
 .source-library-groups {
   display: grid;
   gap: 10px;

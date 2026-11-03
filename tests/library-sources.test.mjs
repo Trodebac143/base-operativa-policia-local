@@ -24,6 +24,15 @@ test("1 · Biblioteca diferencia 📄 Documentos y 🔗 Fuentes", () => {
   assert.match(html, /🔗 Fuentes/);
 });
 
+test("Biblioteca muestra un acceso claro al repositorio de archivos privados", () => {
+  const html = render(library.LibraryDocumentsPanel);
+  assert.match(html, /Archivos privados/);
+  assert.match(html, /Abrir archivos privados/);
+  assert.match(html, /href="https:\/\/github\.com\/Trodebac143\/base-operativa-documentacion-privada"/);
+  assert.match(html, /cuentas autorizadas/);
+  assert.match(html, /target="_blank" rel="noopener noreferrer"/);
+});
+
 test("2 · Fuentes consume el registro jurídico central", async () => {
   const central = JSON.parse(await readFile(new URL("../contenido/juridico/fuentes.json", import.meta.url), "utf8"));
   assert.equal(sourceData.sources.length, central.length);

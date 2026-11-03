@@ -27,6 +27,14 @@ export function LibraryDocumentsPanel() {
 
   return (
     <div className="library-panel" aria-labelledby="library-documents-tab">
+      <aside className="library-private-access" aria-labelledby="library-private-title">
+        <span className="library-private-icon" aria-hidden="true">🔒</span>
+        <div className="library-private-copy">
+          <h3 id="library-private-title">Archivos privados</h3>
+          <p>Documentación interna disponible en GitHub para las cuentas autorizadas. Si es necesario, GitHub te pedirá iniciar sesión.</p>
+        </div>
+        <a href="https://github.com/Trodebac143/base-operativa-documentacion-privada" target="_blank" rel="noopener noreferrer">Abrir archivos privados <span aria-hidden="true">↗</span></a>
+      </aside>
       <div className="library-search">
         <label htmlFor="document-search">Buscar documentos</label>
         <input id="document-search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Buscar por título o nombre de archivo…" autoComplete="off" />
