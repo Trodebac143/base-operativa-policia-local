@@ -510,7 +510,15 @@
     "grupoBiblioteca": "seguridad_vial",
     "clasificacion_repositorio": "fuente operativa interna; no norma jurídica autónoma",
     "estado_vigencia_auditoria": "contenido facilitado y validado externamente",
-    "criterio_incorporacion": "Fuente de apoyo operativo. Las contradicciones detectadas se conservan como incidencias y se resuelven mediante criterios ya validados o correcciones expresas del encargo."
+    "criterio_incorporacion": "Fuente de apoyo operativo. Las contradicciones detectadas se conservan como incidencias y se resuelven mediante criterios ya validados o correcciones expresas del encargo.",
+    "verificacionDocumental": {
+      "documento": "Manual de Intervención VMP, versión 1.0",
+      "versionOFecha": "28/07/2026",
+      "procedencia": "PDF original conservado en repositorio privado de GitHub",
+      "acceso": "acceso_restringido",
+      "alcance": "Manual interno de apoyo operativo. El original se consulta solo mediante cuentas GitHub autorizadas; las reglas VMP/VPL publicadas se conservan.",
+      "respuestasAfectadas": []
+    }
   },
   {
     "id": "TR-PERM-SRC-001",

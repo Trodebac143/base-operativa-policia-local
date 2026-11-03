@@ -200,6 +200,10 @@ for (const source of sources) {
   if (source.consultaPendiente !== undefined && (typeof source.consultaPendiente !== "string" || !source.consultaPendiente.trim())) {
     errors.push(`FUENTE ${source.id}: consultaPendiente debe contener el motivo de la falta del documento primario.`);
   }
+  if (source.verificacionDocumental?.acceso === "acceso_restringido" &&
+      (!source.verificacionDocumental.documento?.trim() || !source.verificacionDocumental.alcance?.trim())) {
+    errors.push(`FUENTE ${source.id}: el documento de acceso restringido debe identificar el original y explicar su alcance.`);
+  }
   if (source.enlacesAdicionales !== undefined) {
     if (!Array.isArray(source.enlacesAdicionales)) errors.push(`Fuente ${source.id}: enlacesAdicionales debe ser una lista`);
     else for (const link of source.enlacesAdicionales) {
@@ -208,8 +212,8 @@ for (const source of sources) {
       } catch { errors.push(`Fuente ${source.id}: enlace adicional sin título o URL HTTP(S) válida`); }
     }
   }
-  if ((sourceReferenceUsage.get(source.id) ?? 0) > 0 && !source.urlOficial && !documentsBySource.has(source.id) && !(typeof source.consultaPendiente === "string" && source.consultaPendiente.trim())) {
-    errors.push(`FUENTE ${source.id}\n  Problema: está utilizada, pero no tiene URL oficial ni PDF vinculado.\n  Qué hacer: añade urlOficial a la fuente o fuenteId al documento en contenido/biblioteca/metadatos.json.`);
+  if ((sourceReferenceUsage.get(source.id) ?? 0) > 0 && !source.urlOficial && !documentsBySource.has(source.id) && !(typeof source.consultaPendiente === "string" && source.consultaPendiente.trim()) && source.verificacionDocumental?.acceso !== "acceso_restringido") {
+    errors.push(`FUENTE ${source.id}\n  Problema: está utilizada, pero no tiene URL oficial, PDF público vinculado ni constancia de acceso restringido.\n  Qué hacer: añade urlOficial, vincula un PDF público o documenta el acceso restringido.`);
   }
 }
 

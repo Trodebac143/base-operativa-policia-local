@@ -23,7 +23,7 @@ export function SourceLinks({ sourceIds, className = "case-sources", showPending
   });
 
   const pending = showPendingNotes ? sources.filter((source) => source.consultaPendiente) : [];
-  if (!links.length && !pending.length) return null;
+  if (!links.length && !pending.length && !sources.some((source) => source.verificacionDocumental)) return null;
   return <section className={className} aria-label="Fuentes jurídicas">
     <strong>Fuentes jurídicas ({sources.length})</strong>
     <div>{links.map((link) => <a key={link.key} href={link.href} target="_blank" rel="noopener noreferrer">{link.label} <span aria-hidden="true">↗</span></a>)}</div>

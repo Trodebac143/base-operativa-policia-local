@@ -36,7 +36,7 @@ test("ARCI, importes, responsable y competencia son los validados", async () => 
 
 test("el formato común de tráfico separa obligación, tipificación, literal y medida principal", async () => {
   const { itvCases } = await vite.ssrLoadModule("/data/itv.ts");
-  const { CaseSheet } = await vite.ssrLoadModule("/app/page.tsx");
+  const { CaseSheet } = await vite.ssrLoadModule("/app/case-sheet.tsx");
   const sanctionable = itvCases.filter((item) => item.es_infraccion_autonoma !== false);
   for (const item of sanctionable) {
     assert.equal(item.norma_infringida, "Reglamento General de Vehículos");
@@ -61,7 +61,7 @@ test("el formato común de tráfico separa obligación, tipificación, literal y
 
 test("Seguro Obligatorio integra seis casos y las doce variantes ARCI validadas", async () => {
   const { seguroCases, seguroDecisionTree } = await vite.ssrLoadModule("/data/seguro.ts");
-  const { CaseSheet } = await vite.ssrLoadModule("/app/page.tsx");
+  const { CaseSheet } = await vite.ssrLoadModule("/app/case-sheet.tsx");
   assert.equal(seguroCases.length, 6);
   const codes = seguroCases.flatMap((item) => (item.datos_adicionales?.variantes_arci ?? item.datos_adicionales?.encaje_condicional)?.map((entry) => entry.codificado) ?? [item.codificado]);
   assert.deepEqual(codes, ["SOA 2.1 5F", "SOA 2.1 5G", "SOA 2.1 5H", "SOA 2.1 5I", "SOA 2.1 5J", "SOA 2.1 5K", "SOA 2.1 5L", "SOA 2.1 5M", "SOA 2.1 5N", "SOA 2.1 5O", "SDA DA1 5A", "SDA DA1 5B"]);
@@ -105,7 +105,7 @@ test("medidas y riesgo grave conservan presupuestos separados", async () => {
 
 test("cada ficha muestra solo sus fuentes y oculta identificadores internos", async () => {
   const { itvCases } = await vite.ssrLoadModule("/data/itv.ts");
-  const { CaseSheet } = await vite.ssrLoadModule("/app/page.tsx");
+  const { CaseSheet } = await vite.ssrLoadModule("/app/case-sheet.tsx");
   for (const item of itvCases) {
     const html = renderToStaticMarkup(React.createElement(CaseSheet, { item, copied: false, onCopy() {} }));
     assert.match(html, new RegExp(`Fuentes jurídicas \\(${item.fuentes.length}\\)`));
@@ -138,8 +138,8 @@ test("biblioteca y actualización conservan el modo seguro", async () => {
 
 test("Biblioteca visible, consultable y sin controles de gestión", async () => {
   const { libraryDocuments } = await vite.ssrLoadModule("/data/documents.ts");
-  assert.equal(libraryDocuments.length, 11);
-  assert.ok(libraryDocuments.some((document) => document.archivo === "Manual Intervención VMP.pdf"));
+  assert.equal(libraryDocuments.length, 9);
+  assert.ok(!libraryDocuments.some((document) => document.archivo === "Manual Intervención VMP.pdf"));
   for (const document of libraryDocuments) await access(new URL(`../public/documentos/${document.archivo}`, import.meta.url));
   const libraryView = await readFile(new URL("../app/library-view.tsx", import.meta.url), "utf8");
   assert.match(libraryView, /<h2>Biblioteca<\/h2>/); assert.match(libraryView, /Buscar por título o nombre de archivo/); assert.match(libraryView, /Abrir documento/);
@@ -149,7 +149,7 @@ test("Biblioteca visible, consultable y sin controles de gestión", async () => 
 test("la carencia comprobada de seguro resuelve circulación prohibida, inmovilización y depósito", async () => {
   const { seguroCases } = await vite.ssrLoadModule("/data/seguro.ts");
   const { itvCases } = await vite.ssrLoadModule("/data/itv.ts");
-  const { CaseSheet } = await vite.ssrLoadModule("/app/page.tsx");
+  const { CaseSheet } = await vite.ssrLoadModule("/app/case-sheet.tsx");
   const seguro = renderToStaticMarkup(React.createElement(CaseSheet, { item: seguroCases[0], copied: false, onCopy() {} }));
   const caducada = renderToStaticMarkup(React.createElement(CaseSheet, { item: itvCases[0], copied: false, onCopy() {} }));
   const negativa = renderToStaticMarkup(React.createElement(CaseSheet, { item: itvCases[4], copied: false, onCopy() {} }));
@@ -166,7 +166,7 @@ test("la carencia comprobada de seguro resuelve circulación prohibida, inmovili
 test("las siete salidas de control contienen la conclusión operativa exigida", async () => {
   const { itvCases } = await vite.ssrLoadModule("/data/itv.ts");
   const { seguroCases } = await vite.ssrLoadModule("/data/seguro.ts");
-  const { CaseSheet } = await vite.ssrLoadModule("/app/page.tsx");
+  const { CaseSheet } = await vite.ssrLoadModule("/app/case-sheet.tsx");
   const render = (item) => renderToStaticMarkup(React.createElement(CaseSheet, { item, copied: false, onCopy() {} }));
   const outputs = [
     render(itvCases.find((item) => item.id === "TR-ITV-OP-001")),

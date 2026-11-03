@@ -29,7 +29,7 @@ const expected = {
 
 test("los dos casos convencionales conservan sus ocho ARCI y textos finales exactos", async () => {
   const { seguroCases, insuranceBulletinText } = await vite.ssrLoadModule("/data/seguro.ts");
-  const { CaseSheet } = await vite.ssrLoadModule("/app/page.tsx");
+  const { CaseSheet } = await vite.ssrLoadModule("/app/case-sheet.tsx");
   for (const [id, snapshot] of Object.entries(expected)) {
     const item = seguroCases.find((entry) => entry.id === id);
     const variants = item.datos_adicionales.variantes_arci;

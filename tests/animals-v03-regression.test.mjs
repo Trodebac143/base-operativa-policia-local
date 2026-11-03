@@ -81,7 +81,7 @@ test("audita caso por caso que las fuentes coinciden y se resuelven sin fallback
 
 test("AN-OP-006 renderiza exactamente sus tres fuentes y ninguna OTA", async () => {
   const { cases } = await vite.ssrLoadModule("/data/cases.ts");
-  const { CaseSheet } = await vite.ssrLoadModule("/app/page.tsx");
+  const { CaseSheet } = await vite.ssrLoadModule("/app/case-sheet.tsx");
   const item = cases.find((candidate) => candidate.id === "AN-OP-006");
   const html = renderToStaticMarkup(React.createElement(CaseSheet, { item, copied: false, onCopy() {} }));
   assert.match(html, /Fuentes jurídicas \(3\)/);
@@ -94,7 +94,7 @@ test("AN-OP-006 renderiza exactamente sus tres fuentes y ninguna OTA", async () 
 
 test("las fichas muestran advertencias operativas visibles y ocultan metadatos internos", async () => {
   const { cases } = await vite.ssrLoadModule("/data/cases.ts");
-  const { CaseSheet } = await vite.ssrLoadModule("/app/page.tsx");
+  const { CaseSheet } = await vite.ssrLoadModule("/app/case-sheet.tsx");
   const { visibleOperationalWarnings } = await vite.ssrLoadModule("/data/warnings.ts");
   for (const item of cases) {
     const html = renderToStaticMarkup(React.createElement(CaseSheet, { item, copied: false, onCopy() {} }));
@@ -105,7 +105,7 @@ test("las fichas muestran advertencias operativas visibles y ocultan metadatos i
 
 test("cumple las comprobaciones operativas obligatorias V0.3.1", async () => {
   const { cases } = await vite.ssrLoadModule("/data/cases.ts");
-  const { CaseSheet } = await vite.ssrLoadModule("/app/page.tsx");
+  const { CaseSheet } = await vite.ssrLoadModule("/app/case-sheet.tsx");
   const render = (id) => renderToStaticMarkup(React.createElement(CaseSheet, { item: cases.find((item) => item.id === id), copied: false, onCopy() {} }));
 
   assert.match(render("AN-OP-006"), /Comprueba también la correa: debe ser no extensible y de menos de 2 metros/);
@@ -121,7 +121,7 @@ test("renderiza los bloques condicionales de forma genérica y sin duplicarlos e
   const pageSource = await readFile(path.join(root, "app/page.tsx"), "utf8");
   assert.doesNotMatch(pageSource, /AN-OP-012|AN-OP-018/);
   const { cases } = await vite.ssrLoadModule("/data/cases.ts");
-  const { CaseSheet } = await vite.ssrLoadModule("/app/page.tsx");
+  const { CaseSheet } = await vite.ssrLoadModule("/app/case-sheet.tsx");
   for (const id of ["AN-OP-012", "AN-OP-018"]) {
     const html = renderToStaticMarkup(React.createElement(CaseSheet, { item: cases.find((item) => item.id === id), copied: false, onCopy() {} }));
     const warningsBlock = html.match(/<section class="infosection"><h3><span>7<\/span>Advertencias<\/h3>[\s\S]*?<\/section>/)?.[0] ?? "";
@@ -149,7 +149,7 @@ test("mantiene Animales y añade los bloques validados de Seguridad Vial", async
 
 test("AN-OP-016 conserva el encaje administrativo y no activa relevancia penal en el supuesto base", async () => {
   const { cases } = await vite.ssrLoadModule("/data/cases.ts");
-  const { CaseSheet } = await vite.ssrLoadModule("/app/page.tsx");
+  const { CaseSheet } = await vite.ssrLoadModule("/app/case-sheet.tsx");
   const item = cases.find((candidate) => candidate.id === "AN-OP-016");
   const html = renderToStaticMarkup(React.createElement(CaseSheet, { item, copied: false, onCopy() {} }));
   assert.equal(item.alerta_penal, false);
@@ -212,7 +212,7 @@ test("las dos ramas penales activadas muestran el bloque completo en el orden ob
   const { cases } = await vite.ssrLoadModule("/data/cases.ts");
   const { rules } = await vite.ssrLoadModule("/data/rules.ts");
   const { resolveValidatedPenalPrecept } = await vite.ssrLoadModule("/data/penal.ts");
-  const { ConditionalPenalActivation } = await vite.ssrLoadModule("/app/page.tsx");
+  const { ConditionalPenalActivation } = await vite.ssrLoadModule("/app/case-sheet.tsx");
   const nonBis = rules.find((rule) => rule.id === "GEN-JUR-001");
   for (const [id, article] of [["AN-OP-012", "340 ter"], ["AN-OP-016", "340 bis"]]) {
     const item = cases.find((candidate) => candidate.id === id);
@@ -231,7 +231,7 @@ test("la presentación penal es genérica y no expone IDs internos", async () =>
   const pageSource = await readFile(path.join(root, "app/page.tsx"), "utf8");
   assert.doesNotMatch(pageSource, /AN-OP-012|AN-OP-016/);
   const { cases } = await vite.ssrLoadModule("/data/cases.ts");
-  const { CaseSheet } = await vite.ssrLoadModule("/app/page.tsx");
+  const { CaseSheet } = await vite.ssrLoadModule("/app/case-sheet.tsx");
   for (const item of cases) {
     const html = renderToStaticMarkup(React.createElement(CaseSheet, { item, copied: false, onCopy() {} }));
     assert.doesNotMatch(html, /AN-(?:OP|JUR|SRC)-|GEN-(?:JUR|PEN|OP)-|CP-[A-Z0-9-]+/i);
@@ -255,7 +255,7 @@ test("la rama penal de insalubridad muestra exclusivamente la actuación operati
   const { cases } = await vite.ssrLoadModule("/data/cases.ts");
   const { rules } = await vite.ssrLoadModule("/data/rules.ts");
   const { resolveValidatedPenalPrecept } = await vite.ssrLoadModule("/data/penal.ts");
-  const { ConditionalPenalActivation } = await vite.ssrLoadModule("/app/page.tsx");
+  const { ConditionalPenalActivation } = await vite.ssrLoadModule("/app/case-sheet.tsx");
   const item = cases.find((candidate) => candidate.id === "AN-OP-016");
   const relevance = item.datos_adicionales.relevancia_penal_condicional;
   const html = renderToStaticMarkup(React.createElement(ConditionalPenalActivation, {

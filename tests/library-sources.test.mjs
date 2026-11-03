@@ -37,7 +37,7 @@ test("3 · una fuente con URL muestra Consultar fuente oficial", () => {
 });
 
 test("4 · una fuente con documento local muestra Abrir documento", () => {
-  const html = render(library.LibrarySourcesPanel, { initialQuery: "Manual de Intervención VMP" });
+  const html = render(library.LibrarySourcesPanel, { initialQuery: "Nota DGT de 3 de noviembre de 2021" });
   assert.match(html, />Abrir documento /);
 });
 
@@ -72,10 +72,18 @@ test("9 · todos los documentos vinculados a fuentes existen", async () => {
   for (const document of linkedDocuments) await access(path.join(root, "public", "documentos", document.archivo));
 });
 
-test("10 · el Manual VMP sigue disponible en Documentos y Fuentes", () => {
-  assert.ok(documentsData.libraryDocuments.some((document) => document.archivo === "Manual Intervención VMP.pdf"));
+test("10 · los dos PDF privados desaparecen de Documentos y la fuente VMP sigue trazable", async () => {
+  for (const name of ["ACTA NOTIFICACION PERDIDA DE VIGENCIA.pdf", "Manual Intervención VMP.pdf"]) {
+    assert.ok(!documentsData.libraryDocuments.some((document) => document.archivo === name));
+    await assert.rejects(access(path.join(root, "public", "documentos", name)));
+  }
   const source = sourceData.sources.find((item) => item.id === "TR-VMP-SRC-001");
-  assert.equal(documentsData.documentForSource(source.id)?.archivo, "Manual Intervención VMP.pdf");
+  assert.equal(documentsData.documentForSource(source.id), undefined);
+  assert.equal(source.verificacionDocumental?.acceso, "acceso_restringido");
+  for (const html of [render(library.LibrarySourcesPanel, { initialQuery: source.nombreCorto }), render(sourceLinks.SourceLinks, { sourceIds: [source.id] })]) {
+    assert.match(html, /acceso restringido/i);
+    assert.doesNotMatch(html, /\/documentos\/Manual/);
+  }
 });
 
 test("11 · los enlaces externos abren otra pestaña con aislamiento", () => {
@@ -172,11 +180,17 @@ test("19 · toda fuente utilizada ofrece consulta o comunica expresamente el doc
   for (const reference of usageData.allSourceReferences()) {
     const source = sourceData.resolveSourceReference(reference);
     const document = documentsData.documentForSource(source.id);
-    assert.ok(source.urlOficial || document || source.consultaPendiente?.trim(), `${source.id} carece de consulta o motivo visible`);
+    const restricted = source.verificacionDocumental?.acceso === "acceso_restringido";
+    assert.ok(source.urlOficial || document || source.consultaPendiente?.trim() || restricted, `${source.id} carece de consulta o motivo visible`);
     if (!source.urlOficial && !document) {
       const html = render(library.LibrarySourcesPanel, { initialQuery: source.nombre });
-      assert.match(html, /Documento pendiente de localizar/);
-      assert.match(render(sourceLinks.SourceLinks, { sourceIds: [source.id] }), /documento pendiente de localizar/);
+      if (restricted) {
+        assert.match(html, /acceso restringido/i);
+        assert.match(render(sourceLinks.SourceLinks, { sourceIds: [source.id] }), /acceso restringido/i);
+      } else {
+        assert.match(html, /Documento pendiente de localizar/);
+        assert.match(render(sourceLinks.SourceLinks, { sourceIds: [source.id] }), /documento pendiente de localizar/);
+      }
     }
   }
 });

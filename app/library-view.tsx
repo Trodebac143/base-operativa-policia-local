@@ -134,7 +134,7 @@ function SourceLibraryCard({ source, group }: { source: Source; group?: ReturnTy
         </div>
       )}
       {source.consultaPendiente && <p role="status"><strong>{localDocument ? "Publicación oficial pendiente de localizar." : "Documento pendiente de localizar."}</strong> {source.consultaPendiente}</p>}
-      {source.verificacionDocumental && <p><strong>Comprobación documental:</strong> {source.verificacionDocumental.documento}{source.verificacionDocumental.versionOFecha ? ` · ${source.verificacionDocumental.versionOFecha}` : ""}. {source.verificacionDocumental.alcance}</p>}
+      {source.verificacionDocumental && <p><strong>Comprobación documental:</strong> {source.verificacionDocumental.documento}{source.verificacionDocumental.versionOFecha ? ` · ${source.verificacionDocumental.versionOFecha}` : ""}. {source.verificacionDocumental.acceso === "acceso_restringido" && <strong>Acceso restringido. </strong>}{source.verificacionDocumental.alcance}</p>}
     </article>
   );
 }

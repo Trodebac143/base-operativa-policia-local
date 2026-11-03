@@ -1,11 +1,5 @@
 [
   {
-    "id": "DOC-001",
-    "titulo": "Acta de notificación de pérdida de vigencia",
-    "archivo": "ACTA NOTIFICACION PERDIDA DE VIGENCIA.pdf",
-    "descripcion": "Modelo de la DGT a adjuntar con la denuncia."
-  },
-  {
     "id": "DOC-002",
     "titulo": "Consulta: inmovilización por presencia de drogas",
     "archivo": "CONSULTA INMOVILIZACION POR PRESENCIA DE DROGAS EN EL ORGANISMO.pdf",
@@ -30,13 +24,6 @@
     "archivo": "Instrucción_SANC_2026_13_Vehículos_de_Movilidad_Personal.pdf",
     "fuenteId": "TR-SOA-SRC-006",
     "descripcion": "Instrucción de consulta."
-  },
-  {
-    "id": "DOC-006",
-    "titulo": "Manual Intervención VMP",
-    "archivo": "Manual Intervención VMP.pdf",
-    "fuenteId": "TR-VMP-SRC-001",
-    "descripcion": "Manual operativo de intervención con vehículos de movilidad personal (28/07/2026)"
   },
   {
     "id": "DOC-007",
